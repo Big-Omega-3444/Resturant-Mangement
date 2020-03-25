@@ -12,13 +12,25 @@ public class Player : MonoBehaviour
     public GameObject leaderUI;
     public GameObject inputUI;
 
+    public Joystick touch;
+    bool touchControls = false;
+
     private float mouseX = 0f;
     public float moveSpeed = 10f;
 
     // Start is called before the first frame update
     void Update()
     {
-        mouseX = Input.GetAxisRaw("Mouse X");
+        if (Input.touches.Length > 0 && !touchControls)
+        {
+            touchControls = true;
+        }
+        
+
+        if(!touchControls)
+            mouseX = Input.GetAxisRaw("Mouse X");
+        else
+            mouseX = touch.Horizontal;
     }
 
     // Update is called once per frame

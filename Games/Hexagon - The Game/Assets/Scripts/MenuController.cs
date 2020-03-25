@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
     private Canvas canvas;
-    public bool paused = false;
-
+    bool paused = false;
+    bool touchControls = false;
     public Transform LeaderUI;
+    public Joystick joystick;
+    
 
     private void Start()
     {
@@ -29,8 +31,13 @@ public class MenuController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.touches.Length > 0 && !touchControls)
+        {
+            touchControls = true;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
 
-        if(SceneManager.GetActiveScene().buildIndex == 1)
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             if (Input.GetButtonDown("Cancel") && !LeaderUI.gameObject.activeSelf)
             {
@@ -55,14 +62,20 @@ public class MenuController : MonoBehaviour
     private void Pause()
     {
         Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        if(!touchControls)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
     private void Resume()
     {
         Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if(!touchControls)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     public void PlayGame()
@@ -82,6 +95,9 @@ public class MenuController : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         LeaderUI.gameObject.SetActive(!LeaderUI.gameObject.activeSelf);
+
+        if(SceneManager.GetActiveScene().buildIndex == 1)
+            joystick.gameObject.SetActive(!joystick.gameObject.activeSelf);
     }
 
     public void ClearScoreboard()
