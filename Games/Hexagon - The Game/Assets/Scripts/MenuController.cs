@@ -63,6 +63,18 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void ToggleScoreboard()
+    {
+        Transform LeaderUI = transform.Find("LeaderboardUI");
+        LeaderUI.gameObject.SetActive(!LeaderUI.gameObject.activeSelf);
+    }
+
+    public void ClearScoreboard()
+    {
+        PlayerPrefs.DeleteKey("LeaderboardTable");
+        ToggleScoreboard();
+    }
+
     public void ExitGame()
     {
         PlayerPrefs.DeleteAll();
