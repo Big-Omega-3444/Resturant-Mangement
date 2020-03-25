@@ -1,6 +1,6 @@
-FROM digitalocean.com/alpine:latest
+FROM alpine:latest
 
-LABEL MAINTAINER="John Long <jl0844@unt.edu>"
+LABEL MAINTAINER="John Long jl0844@unt.edu"
 
 RUN apk --update add nginx && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
