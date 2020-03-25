@@ -4359,6 +4359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
+  LeaderUI: {fileID: 1362083532}
 --- !u!114 &1753654130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4511,6 +4512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreboard: {fileID: 909182129}
   lc: {fileID: 1362083533}
+  mc: {fileID: 1753654129}
   leaderUI: {fileID: 1362083531}
   inputUI: {fileID: 528799533}
   moveSpeed: 300
@@ -4607,7 +4609,7 @@ GameObject:
   - component: {fileID: 1906362621}
   - component: {fileID: 1906362620}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: InputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

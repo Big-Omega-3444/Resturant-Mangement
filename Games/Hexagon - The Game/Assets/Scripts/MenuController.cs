@@ -7,13 +7,23 @@ public class MenuController : MonoBehaviour
 {
     private Canvas canvas;
     public bool paused = false;
+
+    public Transform LeaderUI;
+
     private void Start()
     {
-        if(SceneManager.GetActiveScene().buildIndex == 1)
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             paused = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             canvas = GetComponent<Canvas>();
             canvas.enabled = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
@@ -22,7 +32,7 @@ public class MenuController : MonoBehaviour
 
         if(SceneManager.GetActiveScene().buildIndex == 1)
         {
-            if (Input.GetButtonDown("Cancel"))
+            if (Input.GetButtonDown("Cancel") && !LeaderUI.gameObject.activeSelf)
             {
                 paused = !paused;
 
@@ -45,10 +55,14 @@ public class MenuController : MonoBehaviour
     private void Pause()
     {
         Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     private void Resume()
     {
         Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void PlayGame()
@@ -65,7 +79,8 @@ public class MenuController : MonoBehaviour
 
     public void ToggleScoreboard()
     {
-        Transform LeaderUI = transform.Find("LeaderboardUI");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         LeaderUI.gameObject.SetActive(!LeaderUI.gameObject.activeSelf);
     }
 

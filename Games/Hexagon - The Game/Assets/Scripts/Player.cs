@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using TMPro;
 
@@ -7,6 +8,7 @@ public class Player : MonoBehaviour
 {
     public Scoreboard scoreboard;
     public leaderboardController lc;
+    public MenuController mc;
     public GameObject leaderUI;
     public GameObject inputUI;
 
@@ -28,16 +30,19 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Time.timeScale = 0f; // pause the game
-        if(lc.DidIPlace(scoreboard.score))
+        if (lc.DidIPlace(scoreboard.score))
+        {
             inputUI.gameObject.SetActive(true);
+            inputUI.transform.GetComponentInChildren<TMP_InputField>().OnPointerClick(new PointerEventData(EventSystem.current));
+        }
         else
-            leaderUI.GetComponent<Canvas>().gameObject.SetActive(true);
+            mc.ToggleScoreboard();
     }
 
     public void SubmitScore()
     {
         lc.AddHighScoreEntry(scoreboard.score, inputUI.GetComponentInChildren<TMP_InputField>().text);
-        leaderUI.GetComponent<Canvas>().gameObject.SetActive(true);
+        mc.ToggleScoreboard();
         inputUI.gameObject.SetActive(false);
     }
 }
