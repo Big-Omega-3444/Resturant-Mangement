@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_pymongo import PyMongo
 
 
@@ -16,6 +16,10 @@ def index():
         status=True,
         message='Welcome to the Dockerized Flask MongoDB app!'
     )
+
+@application.route('/about')
+def about():
+    return render_template('about.html')
 
 # Code stolen from elsewhere
 @application.route('/todo')
