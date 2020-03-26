@@ -7,9 +7,9 @@ ENV GROUP_ID=1000 \
 
 WORKDIR /var/www/
 
-ADD ./requirements.txt /var/www/requirements.txt
+COPY ./requirements.txt /var/www/requirements.txt
 RUN pip install -r requirements.txt
-ADD . /var/www/
+COPY . /var/www/
 RUN pip install gunicorn
 
 RUN addgroup -g $GROUP_ID www
