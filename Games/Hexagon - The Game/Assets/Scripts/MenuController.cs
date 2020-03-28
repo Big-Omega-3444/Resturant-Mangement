@@ -10,7 +10,6 @@ public class MenuController : MonoBehaviour
     bool touchControls = false;
     public Transform LeaderUI;
     public Joystick joystick;
-    
 
     private void Start()
     {
@@ -31,7 +30,7 @@ public class MenuController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.touches.Length > 0 && !touchControls)
+        if (Input.touchCount > 0 && !touchControls)
         {
             touchControls = true;
             Cursor.lockState = CursorLockMode.Confined;
@@ -39,20 +38,18 @@ public class MenuController : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            if (Input.GetButtonDown("Cancel") && !LeaderUI.gameObject.activeSelf)
+            if (Input.GetButtonDown("Cancel") && !LeaderUI.gameObject.activeSelf || Input.touchCount == 2 && !paused)
             {
+                joystick.gameObject.SetActive(!joystick.gameObject.activeSelf);
                 paused = !paused;
 
                 if (!paused)
                 {
-                    canvas.enabled = false;
                     Resume();
                 }
 
-
                 if (paused)
                 {
-                    canvas.enabled = true;
                     Pause();
                 }
             }
@@ -61,6 +58,8 @@ public class MenuController : MonoBehaviour
 
     private void Pause()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+            canvas.enabled = true;
         Time.timeScale = 0f;
         if(!touchControls)
         {
@@ -70,6 +69,8 @@ public class MenuController : MonoBehaviour
     }
     private void Resume()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+            canvas.enabled = false;
         Time.timeScale = 1f;
         if(!touchControls)
         {
