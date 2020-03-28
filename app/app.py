@@ -26,6 +26,10 @@ def contact():
 @application.route('/management')
 def management():
     return render_template('management.html')
+	
+@application.route('/termsOfUse')
+def termsOfUse():
+    return render_template('termsOfUse.html')
 
 @application.route('/TestList')
 def TestList():
