@@ -57,7 +57,7 @@
 										<label for="inputPassword">PIN</label>
 									  </div>
 
-									  <a href="" data-dismiss="modal" onclick="javascript:window.location='management.html'"><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button></a>
+									  <a href="" data-dismiss="modal" onclick="javascript:window.location='management'"><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button></a>
 									  <hr class="my-4">
 									</form>
 								  </div>
@@ -1600,11 +1600,11 @@
 				<div class="col-lg-6 h-100 text-center text-lg-left my-auto">
 					<ul class="list-inline mb-2">
 						<li class="list-inline-item">
-							<a href="about.html">About</a>
+							<a href="about">About</a>
 						</li>
 						<li class="list-inline-item">&sdot;</li>
 						<li class="list-inline-item">
-							<a href="contact.html">Contact</a>
+							<a href="contact">Contact</a>
 						</li>
 						<li class="list-inline-item">&sdot;</li>
 						<li class="list-inline-item">
@@ -1622,8 +1622,8 @@
 	</footer>
 	
 	<!-- Bootstrap core JavaScript -->
-	<script src="bootstrap/jquery/jquery.min.js"></script>
-	<script src="bootstrap/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
 </body>
 </html>
