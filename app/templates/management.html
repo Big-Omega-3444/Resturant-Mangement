@@ -13,16 +13,16 @@
 		<!-- Custom Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 		<!-- Custom styles for this template -->
-		<link href="css/styles.css" rel="stylesheet">
+		<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
 		<!-- Custom Javascript Functions -->
-		<script src="javascript/jsFunctions.js"></script>
+		<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
 		<!-- Include the PayPal JavaScript SDK -->
 			<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
 		<!-- Bootstrap core JavaScript -->
-		<script src="vendor/jquery/jquery.min.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 		<!-- Custom Javascript Functions -->
-		<script src="javascript/jsFunctions.js"></script>
+		<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
 	</head>
 
 	<body>
