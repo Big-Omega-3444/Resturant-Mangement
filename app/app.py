@@ -12,14 +12,24 @@ db = mongo.db
 
 @application.route('/')
 def index():
-    return jsonify(
-        status=True,
-        message='Welcome to the Dockerized Flask MongoDB app!'
-    )
+    return render_template('index.html')
 
 @application.route('/about')
 def about():
     return render_template('about.html')
+
+@application.route('/contact')
+def contact():
+    return render_template('contact.html')
+    
+
+@application.route('/management')
+def management():
+    return render_template('management.html')
+
+@application.route('/TestList')
+def TestList():
+    return render_template('TestList.html')
 
 # Code stolen from elsewhere
 @application.route('/todo')
