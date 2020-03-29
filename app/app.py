@@ -30,6 +30,10 @@ def management():
 @application.route('/termsOfUse')
 def termsOfUse():
     return render_template('termsOfUse.html')
+	
+@application.route('/privacyPolicy')
+def privacypolicy():
+    return render_template('privacypolicy.html')
 
 @application.route('/TestList')
 def TestList():
