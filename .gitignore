@@ -3,3 +3,6 @@
 /.vscode/*
 # Ignore pycharm files
 /.idea/*
+# Ignore __pycache__
+/app/__pycache__
+/app/__pycache__/*
