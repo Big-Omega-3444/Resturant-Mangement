@@ -5,7 +5,7 @@ services:
       context: app
       dockerfile: Dockerfile
     container_name: flask
-    image: digitalocean.com/flask-python:3.6
+    image: alpine-flask
     restart: unless-stopped
     environment:
       APP_ENV: "prod"
