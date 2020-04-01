@@ -1,18 +1,20 @@
 import os
 from flask import Flask, request, jsonify, render_template
 from flask_pymongo import PyMongo
+from config import Config
+from forms import LoginForm
 
 
 application = Flask(__name__)
-
-application.config["MONGO_URI"] = 'mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE']
+application.config.from_object(Config)
 
 mongo = PyMongo(application)
 db = mongo.db
 
 @application.route('/')
 def index():
-    return render_template('index.html')
+    form = LoginForm()
+    return render_template('index.html', form = form)
 
 @application.route('/about')
 def about():
