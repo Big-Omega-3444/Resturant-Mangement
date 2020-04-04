@@ -43,6 +43,7 @@ def about():
 
 @application.route('/contact')
 def contact():
+  
     contact = ContactUs(prefix="Contact") # contact form
 
     if contact.validate(): # if we get valid input
@@ -51,6 +52,17 @@ def contact():
 
     return render_template('contact.html',
                            contact = contact)
+    
+    
+@application.route('/waitstaff')
+def waitstaff():
+    return render_template('waitstaff.html')
+	
+@application.route('/kitchen')
+def kitchen():
+    return render_template('kitchen.html')
+	
+    
 
 @application.route('/management')
 def management():
