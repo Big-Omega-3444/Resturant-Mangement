@@ -19,6 +19,11 @@ def index():
     if empLogin.validate(): # if the emplogin input is valid
         # SELECT against employee database
         # if valid
+            # if waitStaff
+                # return redirect(url_for('waitStaff'))
+            # if kitchenStaff
+                # return redirect(url_for('kitchenStaff'))
+        # if management
         return redirect(url_for('management')) # send them to the management window
 #    elif loySignup.validate():
         # SELECT against loyalty database
@@ -46,7 +51,6 @@ def contact():
 
     return render_template('contact.html',
                            contact = contact)
-    
 
 @application.route('/management')
 def management():
@@ -60,11 +64,11 @@ def management():
 
     return render_template('management.html',
                            empRegister = empRegister)
-	
+
 @application.route('/termsOfUse')
 def termsOfUse():
     return render_template('termsOfUse.html')
-	
+
 @application.route('/privacyPolicy')
 def privacypolicy():
     return render_template('privacypolicy.html')

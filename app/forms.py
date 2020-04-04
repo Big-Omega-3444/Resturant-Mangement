@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FloatField, FormField, IntegerField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, FloatField, FormField, IntegerField, TextAreaField, SelectField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, Length, Optional
 
@@ -17,6 +17,8 @@ class EmpLogin(FlaskForm):
 class EmpRegister(FlaskForm):
     first = StringField('First Name', [DataRequired()])
     last = StringField('Last Name', [DataRequired()])
+
+    classifier = SelectField('Role', choices=[('manage','Management'),('wait','WaitStaff'),('kitchen','KitchenStaff')])
 
     user = StringField('Employee ID', [DataRequired("Please Enter a username")])
     password = PasswordField('Password', [DataRequired("Please Enter a password")])
