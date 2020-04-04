@@ -1,15 +1,30 @@
 import os
-from flask import Flask, request, jsonify, render_template
-from flask_pymongo import PyMongo
+import logging
+from flask import Flask, request, jsonify, render_template, current_app
+from flask_restful import Api
 from config import Config
 from forms import LoginForm
 
+from models.UserModel import UserResource, UserResourceList
+from database import Database as db
+
+
 
 application = Flask(__name__)
+api = Api(application)
 application.config.from_object(Config)
+# Route the user api
+api.add_resource(UserResourceList, '/users')
+api.add_resource(UserResource, '/users/<id>')
+application.logger.setLevel(logging.INFO)
 
-mongo = PyMongo(application)
-db = mongo.db
+
+with application.app_context():
+    db.init()
+
+
+
+
 
 @application.route('/')
 def index():
@@ -24,7 +39,6 @@ def about():
 def contact():
     return render_template('contact.html')
     
-
 @application.route('/management')
 def management():
     return render_template('management.html')
@@ -40,40 +54,6 @@ def privacypolicy():
 @application.route('/TestList')
 def TestList():
     return render_template('TestList.html')
-
-# Code stolen from elsewhere
-@application.route('/todo')
-def todo():
-    _todos = db.todo.find()
-
-    item = {}
-    data = []
-    for todo in _todos:
-        item = {
-            'id': str(todo['_id']),
-            'todo': todo['todo']
-        }
-        data.append(item)
-
-    return jsonify(
-        status=True,
-        data=data
-    )
-
-
-@application.route('/todo', methods=['POST'])
-def createTodo():
-    data = request.get_json(force=True)
-    item = {
-        'todo': data['todo']
-    }
-    db.todo.insert_one(item)
-
-    return jsonify(
-        status=True,
-        message='To-do saved successfully!'
-    ), 201
-
 
 if __name__ == "__main__":
     ENVIRONMENT_DEBUG = os.environ.get("APP_DEBUG", True)
