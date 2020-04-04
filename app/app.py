@@ -24,7 +24,14 @@ def about():
 def contact():
     return render_template('contact.html')
     
-
+@application.route('/waitstaff')
+def waitstaff():
+    return render_template('waitstaff.html')
+	
+@application.route('/kitchen')
+def kitchen():
+    return render_template('kitchen.html')
+	
 @application.route('/management')
 def management():
     return render_template('management.html')
