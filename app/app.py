@@ -1,10 +1,10 @@
 import os
 import logging
-from flask import Flask, request, jsonify, render_template, current_app
+from flask import Flask, request, jsonify, render_template, current_app, redirect, url_for
 from flask_restful import Api
 from config import Config
 from forms import LoginForm
-
+from forms import EmpLogin, LoySignup, LoyLogin, EmpRegister, ContactUs
 from models.UserModel import UserResource, UserResourceList
 from database import Database as db
 
@@ -28,8 +28,30 @@ with application.app_context():
 
 @application.route('/')
 def index():
-    form = LoginForm()
-    return render_template('index.html', form = form)
+    empLogin = EmpLogin(prefix="EmpLog")    # employee login form
+    loySignup = LoySignup(prefix="LoySign") # loyalty signup form
+    loyLogin = LoyLogin(prefix="LoyLog")    # loyalty sign in form
+
+    if empLogin.validate(): # if the emplogin input is valid
+        # SELECT against employee database
+        # if valid
+            # if waitStaff
+                # return redirect(url_for('waitStaff'))
+            # if kitchenStaff
+                # return redirect(url_for('kitchenStaff'))
+        # if management
+        return redirect(url_for('management')) # send them to the management window
+#    elif loySignup.validate():
+        # SELECT against loyalty database
+        # if invalid (user doesn't exist)
+        # INSERT into database
+#    elif loyLogin.validate():
+        # SELECT against loyalty database
+        # if valid
+        # redirect to loyalty index.html?
+
+    return render_template('index.html',
+                           empLogin = empLogin, loyLogin = loyLogin, loySignup = loySignup)
 
 @application.route('/about')
 def about():
@@ -37,16 +59,44 @@ def about():
 
 @application.route('/contact')
 def contact():
-    return render_template('contact.html')
+  
+    contact = ContactUs(prefix="Contact") # contact form
+
+    if contact.validate(): # if we get valid input
+        # send to a database?
+        return redirect(url_for('index')) # redirect to home
+
+    return render_template('contact.html',
+                           contact = contact)
     
+    
+@application.route('/waitstaff')
+def waitstaff():
+    return render_template('waitstaff.html')
+	
+@application.route('/kitchen')
+def kitchen():
+    return render_template('kitchen.html')
+	
+    
+
 @application.route('/management')
 def management():
-    return render_template('management.html')
-	
+    empRegister = EmpRegister(prefix="EmpReg") # employee register form
+
+    # if empRegister.validate():
+    # SELECT against employee database
+    # if invalid (user doesn't exist)
+    # INSERT into database
+    # redirect to management probably?
+
+    return render_template('management.html',
+                           empRegister = empRegister)
+
 @application.route('/termsOfUse')
 def termsOfUse():
     return render_template('termsOfUse.html')
-	
+
 @application.route('/privacyPolicy')
 def privacypolicy():
     return render_template('privacypolicy.html')
