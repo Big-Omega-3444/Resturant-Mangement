@@ -13,8 +13,8 @@ application = Flask(__name__)
 api = Api(application)
 application.config.from_object(Config)
 # Route the user api
-api.add_resource(UserResourceList, '/users')
-api.add_resource(UserResource, '/users/<id>')
+api.add_resource(UserResourceList, '/api/users')
+api.add_resource(UserResource, '/api/users/<id>')
 application.logger.setLevel(logging.INFO)
 
 

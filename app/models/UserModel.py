@@ -66,7 +66,8 @@ class UserResource(Resource):
 class UserResourceList(Resource):
     def get(self):
         # TODO add query support
-        return json.loads(UserModel.objects.to_json())
+        query = request.args.to_dict()
+        return json.loads(UserModel.objects(**query).to_json())
 
     def post(self):
 
