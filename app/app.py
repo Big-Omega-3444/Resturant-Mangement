@@ -3,7 +3,6 @@ import logging
 from flask import Flask, request, jsonify, render_template, current_app, redirect, url_for
 from flask_restful import Api
 from config import Config
-from forms import LoginForm
 from forms import EmpLogin, LoySignup, LoyLogin, EmpRegister, ContactUs
 from models.UserModel import UserResource, UserResourceList
 from database import Database as db
