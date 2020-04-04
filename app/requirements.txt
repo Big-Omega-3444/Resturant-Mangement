@@ -1,5 +1,16 @@
+<<<<<<< HEAD
 Flask
 Flask-PyMongo
 requests
 Flask-WTF
 WTForms
+=======
+Flask==1.0.2
+Flask-PyMongo==2.2.0
+MongoEngine
+flask-restful
+requests==2.20.1
+Flask-WTF==0.14.3
+WTForms==2.2.1
+Jsons
+>>>>>>> 5711e28e204ab8e0501298cca95df80f0612ae65
