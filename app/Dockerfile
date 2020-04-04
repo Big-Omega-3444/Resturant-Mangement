@@ -19,4 +19,5 @@ USER www
 
 EXPOSE 5000
 
+# Run gunicorn with 4 workers and bound to port 5000, wsgi is the app
 CMD [ "gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "wsgi"]
