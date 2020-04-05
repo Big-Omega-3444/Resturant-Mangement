@@ -5,6 +5,7 @@ from flask_restful import Api
 from config import Config
 from forms import EmpLogin, LoySignup, LoyLogin, EmpRegister, ContactUs
 from models.UserModel import UserResource, UserResourceList
+from models.EmployeeModel import EmployeeResource, EmployeeResourceList
 from database import Database as db
 
 
@@ -15,6 +16,10 @@ application.config.from_object(Config)
 # Route the user api
 api.add_resource(UserResourceList, '/api/users')
 api.add_resource(UserResource, '/api/users/<id>')
+
+api.add_resource(EmployeeResourceList, '/api/employees')
+api.add_resource(EmployeeResource, '/api/employees/<id>')
+
 application.logger.setLevel(logging.INFO)
 
 
