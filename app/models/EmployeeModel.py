@@ -10,7 +10,6 @@ from models.UserModel import UserModel, UserResource, UserResourceList
 class EmployeeModel(UserModel):
     address_city = StringField(required=True)
     address_number = StringField()
-    address_city = StringField(required=True)
     address_state = StringField(required=True)
     address_zip = IntField(required=True)
     assignment = StringField(required=True, choices=['Manager', 'Waitstaff', 'Kitchen'])
