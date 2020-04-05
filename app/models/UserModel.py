@@ -47,11 +47,15 @@ class UserResource(Resource):
         abort_if_user_doesnt_exist(id)
 
         if not request.is_json:
-            return {'ok': False, 'message': "Request must include json"}, 400
+            # Convert form request into dict
+            data = request.form.to_dict()
+            # return {'ok': False, 'message': "Request must include json"}, 400
+        else:
+            data = request.get_json()
 
         try:
             user = UserModel.objects.get(id=id)
-            user.modify(**request.get_json())
+            user.modify(**data)
             user.save()
         except ValidationError as err:
             current_app.logger.info("Validation error")
@@ -74,10 +78,14 @@ class UserResourceList(Resource):
     def post(self):
 
         if not request.is_json:
-            return {'ok': False, 'message': "Request must include json"}, 400
+            # Convert form request into dict
+            data = request.form.to_dict()
+            # return {'ok': False, 'message': "Request must include json"}, 400
+        else:
+            data = request.get_json()
 
         try:
-            new_user = UserModel(**request.get_json())
+            new_user = UserModel(**data)
             new_user.save()
         except ValidationError as err:
             current_app.logger.info("Validation error")
