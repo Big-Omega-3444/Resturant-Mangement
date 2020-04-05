@@ -3,6 +3,4 @@ Flask-PyMongo==2.2.0
 MongoEngine
 flask-restful
 requests==2.20.1
-Flask-WTF==0.14.3
-WTForms==2.2.1
 Jsons
