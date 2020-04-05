@@ -112,29 +112,29 @@
 				</div>
 				<div class="modal-body">
 					<div class="Acontainer">
-						<form class="addEmployee" method="POST" action="/">
+						<form class="addEmployee" method="POST" action="/api/employees">
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="firstname" placeholder="First name" required>
+									<input type="text" class="form-control" id="firstnameTxtBox" name="firstname" placeholder="First name" required>
 								</div>
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="lastname" placeholder="Last name" required>
+									<input type="text" class="form-control" id="lastnameTxtBox" name="lastname" placeholder="Last name" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="address_number" placeholder="Address">
+									<input type="text" class="form-control" id="address_streetTxtBox" name="address_street" placeholder="Address">
 								</div>
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="address_number" placeholder="Apartment, studio, or floor">
+									<input type="text" class="form-control" id="address_numberTxtBox" name="address_number" placeholder="Apartment, studio, or floor">
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="address_city" placeholder="City">
+									<input type="text" class="form-control" id="address_cityTxtBox" name="address_city" placeholder="City">
 								</div>
 								<div class="form-group col-md-2 mb-3">
-									<select class="form-control" id="address_state">
+									<select class="form-control" id="address_stateDropDown" name="address_state">
 										<option selected>State</option>
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
@@ -190,31 +190,31 @@
 									</select>
 								</div>
 								<div class="form-group col-md-2">
-									<input type="text" class="form-control" id="address_zip" placeholder="Zip Code" required>
+									<input type="text" class="form-control" id="address_zipTxtBox" name="address_zip" placeholder="Zip Code" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-									<input id="telNo" type="tel" class="form-control" id="phone_number" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
+									<input id="telNo" type="tel" class="form-control" id="phone_numberTxtBox" name="phone_number" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
 								</div>
 								<div class="form-group col-md-3 mb-3">
-									<input type="email" class="form-control" id="email" placeholder="student@my.unt.edu" minlength="6" required>
+									<input type="email" class="form-control" id="emailTxtBox" name="email" placeholder="student@my.unt.edu" minlength="6" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2 mb-3">
-									<select class="form-control" id="assignment" required>
+									<select class="form-control" id="assignmentDropDown" name="assignment" required>
 										<option selected>Assignment</option>
-										<option value="management">Manager</option>
+										<option value="manager">Manager</option>
 										<option value="waitstaff">Waitstaff</option>
 										<option value="kitchen">Kitchen</option>
 									</select>
 								</div>
 								<div class="form-group col-md-2">
-									<input type="text" class="form-control" id="username" placeholder="User Name" required>
+									<input type="text" class="form-control" id="usernameTxtBox" name="username" placeholder="User Name" required>
 								</div>
 								<div class="form-group col-md-2">
-									<input type="text" class="form-control" id="pin" placeholder="PIN" required>
+									<input type="text" class="form-control" id="pinTxtBox" name="pin" placeholder="PIN" required>
 								</div>
 							</div>	
 							<button class="btn btn-primary" type="submit">Submit</button>

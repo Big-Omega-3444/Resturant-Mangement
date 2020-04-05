@@ -8,11 +8,12 @@ import logging
 from models.UserModel import UserModel, UserResource, UserResourceList
 
 class EmployeeModel(UserModel):
+    address_street = StringField(required=True)
     address_city = StringField(required=True)
     address_number = StringField()
     address_state = StringField(required=True)
     address_zip = IntField(required=True)
-    assignment = StringField(required=True, choices=['Manager', 'Waitstaff', 'Kitchen'])
+    assignment = StringField(required=True, choices=['manager', 'waitstaff', 'kitchen'])
     pin = IntField(required=True)
     phone_number = StringField(required=True)
 
@@ -44,11 +45,15 @@ class EmployeeResource(UserResource):
         abort_if_Employee_doesnt_exist(id)
 
         if not request.is_json:
-            return {'ok': False, 'message': "Request must include json"}, 400
+            # Convert form request into dict
+            data = request.form.to_dict()
+            # return {'ok': False, 'message': "Request must include json"}, 400
+        else:
+            data = request.get_json()
 
         try:
             Employee = EmployeeModel.objects.get(id=id)
-            Employee.modify(**request.get_json())
+            Employee.modify(**data)
             Employee.save()
         except ValidationError as err:
             current_app.logger.info("Validation error")
@@ -69,10 +74,16 @@ class EmployeeResourceList(UserResourceList):
     def post(self):
 
         if not request.is_json:
-            return {'ok': False, 'message': "Request must include json"}, 400
+            # Convert form request into dict
+            data = request.form.to_dict()
+            # return {'ok': False, 'message': "Request must include json"}, 400
+        else:
+            data = request.get_json()
 
         try:
-            new_Employee = EmployeeModel(**request.get_json())
+            current_app.logger.info(request.content_length)
+            current_app.logger.info(data)
+            new_Employee = EmployeeModel(**data)
             new_Employee.save()
         except ValidationError as err:
             current_app.logger.info("Validation error")
