@@ -5,46 +5,44 @@ import datetime
 import json
 import logging
 
-# This is all that __should__ have to be modified to add new fields to the user
-class UserModel(Document):
-    username = StringField(required=True, unique=True)
-    firstname = StringField(required=True)
-    middlename = StringField()
-    lastname = StringField()
-    email = EmailField(required=True)
-    phone_number = StringField()
+from models.UserModel import UserModel, UserResource, UserResourceList
 
-    meta = {'allow_inheritance': True}
+class EmployeeModel(UserModel):
+    address_street = StringField(required=True)
+    address_city = StringField(required=True)
+    address_number = StringField()
+    address_state = StringField(required=True)
+    address_zip = IntField(required=True)
+    assignment = StringField(required=True, choices=['manager', 'waitstaff', 'kitchen'])
+    pin = IntField(required=True)
+    phone_number = StringField(required=True)
 
-def abort_if_user_doesnt_exist(id):
+
+def abort_if_Employee_doesnt_exist(id):
     try:
-        if UserModel.objects.get(id=id) is None:
+        if EmployeeModel.objects.get(id=id) is None:
             current_app.logger.info("WAT")
-            abort(404, message="User {} doesn't exist!".format(id))
+            abort(404, message="Employee {} doesn't exist!".format(id))
     except ValidationError:
-        abort(404, message="User {} doesn't exist!".format(id))
+        abort(404, message="Employee {} doesn't exist!".format(id))
     except DoesNotExist:
-        abort(404, message="User {} doesn't exist!".format(id))
+        abort(404, message="Employee {} doesn't exist!".format(id))
 
-# For referenceing a single user
-# Allows getting, updating, and deleting
-# id will be mongodb's builtit ObjectId
-# id is accessible through UserModel.id
-class UserResource(Resource):
+class EmployeeResource(UserResource):
     def get(self, id):
-        abort_if_user_doesnt_exist(id)
-        return json.loads(UserModel.objects.get(id=id).to_json())
+        abort_if_Employee_doesnt_exist(id)
+        return json.loads(EmployeeModel.objects.get(id=id).to_json())
     
     def delete(self, id):
-        abort_if_user_doesnt_exist(id)
-        if UserModel.objects.get(id=id).delete() == 0:
+        abort_if_Employee_doesnt_exist(id)
+        if EmployeeModel.objects.get(id=id).delete() == 0:
             return {'ok': False, 'message': "Couldn't delete object"}, 400
         else:
             return {'ok': True, 'message': "Object deleted Successfuly"}, 204
 
     # No creation allowed here
     def put(self, id):
-        abort_if_user_doesnt_exist(id)
+        abort_if_Employee_doesnt_exist(id)
 
         if not request.is_json:
             # Convert form request into dict
@@ -54,9 +52,9 @@ class UserResource(Resource):
             data = request.get_json()
 
         try:
-            user = UserModel.objects.get(id=id)
-            user.modify(**data)
-            user.save()
+            Employee = EmployeeModel.objects.get(id=id)
+            Employee.modify(**data)
+            Employee.save()
         except ValidationError as err:
             current_app.logger.info("Validation error")
             return {'ok': False, 'message': "Validation Error: {}".format(err)}, 400
@@ -66,14 +64,12 @@ class UserResource(Resource):
         except FieldDoesNotExist as err:
             return {'ok': False, 'message': "FieldDoesNotExist Error: {}".format(err)}, 400
 
-        return str(user.id),201
+        return str(Employee.id),201
 
-
-
-class UserResourceList(Resource):
+class EmployeeResourceList(UserResourceList):
     def get(self):
         query = request.args.to_dict()
-        return json.loads(UserModel.objects(**query).to_json())
+        return json.loads(EmployeeModel.objects(**query).to_json())
 
     def post(self):
 
@@ -85,8 +81,10 @@ class UserResourceList(Resource):
             data = request.get_json()
 
         try:
-            new_user = UserModel(**data)
-            new_user.save()
+            current_app.logger.info(request.content_length)
+            current_app.logger.info(data)
+            new_Employee = EmployeeModel(**data)
+            new_Employee.save()
         except ValidationError as err:
             current_app.logger.info("Validation error")
             return {'ok': False, 'message': "Validation Error: {}".format(err)}, 400
@@ -96,6 +94,7 @@ class UserResourceList(Resource):
         except FieldDoesNotExist as err:
             return {'ok': False, 'message': "FieldDoesNotExist Error: {}".format(err)}, 400
 
-        return str(new_user.id),201
+        return str(new_Employee.id),201
+
 
 
