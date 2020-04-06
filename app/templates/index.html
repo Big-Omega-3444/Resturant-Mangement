@@ -26,6 +26,7 @@
 
 	<!-- Include Unity Assets for Hex -->
 	<link href=" {{ url_for('static', filename='games/Hex_final_webgl/TemplateData/style.css') }}" rel="stylesheet">
+
     <!-- Include Unity Scripts for Hex -->
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/Build/UnityLoader.js') }}"></script>
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/TemplateData/UnityProgress.js') }}"></script>
@@ -1233,7 +1234,7 @@
 									  <div id="unityContainerHEX" style="width: 960px; height: 600px"></div>
 									  <div class="footer">
 										<div class="webgl-logo"></div>
-										<div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+										<div class="fullscreen" onclick="unityInstanceHEX.SetFullscreen(1)"></div>
 										<div class="title">Hexagon - The Game</div>
 									  </div>
 									</div>
@@ -1260,7 +1261,7 @@
 									  <div id="unityContainerSTACK" style="width: 960px; height: 600px"></div>
 									  <div class="footer">
 										<div class="webgl-logo"></div>
-										<div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+										<div class="fullscreen" onclick="unityInstanceSTACK.SetFullscreen(1)"></div>
 										<div class="title">Stupid Stacker</div>
 									  </div>
 									</div>

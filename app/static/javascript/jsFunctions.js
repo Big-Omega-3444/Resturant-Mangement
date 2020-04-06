@@ -50,8 +50,10 @@ function printFunction() {
 // updateClock: gets the time and prints it to two elements: date and time
 function updateClock() {
 	var now = new Date();
-	document.getElementById("date").innerHTML = now.toLocaleDateString();
-	document.getElementById("time").innerHTML = now.toLocaleTimeString();
+	if (document.getElementById("date"))
+	    document.getElementById("date").innerHTML = now.toLocaleDateString();
+	if (document.getElementById("time"))
+	    document.getElementById("time").innerHTML = now.toLocaleTimeString();
 }
 // Outside so the script calls this function repeatedly
 setInterval(updateClock, 1000);
