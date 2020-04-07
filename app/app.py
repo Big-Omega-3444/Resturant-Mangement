@@ -5,6 +5,11 @@ from flask_restful import Api
 from config import Config
 from models.UserModel import UserResource, UserResourceList
 from models.EmployeeModel import EmployeeResource, EmployeeResourceList
+from models.IngredientModel import IngredientResource, IngredientResourceList
+from models.MenuItemModel import MenuItemResource, MenuItemResourceList
+from models.OrderModel import OrderResource, OrderResourceList
+from models.MenuModel import MenuResource, MenuResourceList
+from models.InventoryModel import InventoryResource, InventoryResourceList
 from database import Database as db
 
 
@@ -18,6 +23,21 @@ api.add_resource(UserResource, '/api/users/<id>')
 
 api.add_resource(EmployeeResourceList, '/api/employees')
 api.add_resource(EmployeeResource, '/api/employees/<id>')
+
+api.add_resource(IngredientResourceList, '/api/ingredients')
+api.add_resource(IngredientResource, '/api/ingredients/<id>')
+
+api.add_resource(MenuItemResourceList, '/api/menuitems')
+api.add_resource(MenuItemResource, '/api/menuitems/<id>')
+
+api.add_resource(OrderResourceList, '/api/orders')
+api.add_resource(OrderResource, '/api/orders/<id>')
+
+api.add_resource(MenuResourceList, '/api/menus')
+api.add_resource(MenuResource, '/api/menus/<id>')
+
+api.add_resource(InventoryResourceList, '/api/inventory')
+api.add_resource(InventoryResource, '/api/inventory/<id>')
 
 application.logger.setLevel(logging.INFO)
 
