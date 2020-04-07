@@ -1171,7 +1171,10 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<button type="button" id="gameHelp" onclick="getHelp('gameHelp')" class="btn btn-danger">Help?</button>
+								<ul class="list-inline mb-0">
+									<button type="button" id="gameHelp" onclick="getHelp('gameHelp')" class="btn btn-danger">Help?</button>
+									<button type="button" id="kidzMode" onclick="javascript:window.location='kidzone'" class="btn btn-info">Kidz Mode</button>
+								</ul>
 							</div>
 							<div class="modal-body">
 								<!-- Begin Carousel -->
@@ -1182,7 +1185,7 @@
 										<div class="card-body">
 											<h4 class="card-title">Hexagon: The Game</h4>
 											<p class="card-text">Can you get the high score?</p>
-											<a class="btn btn-primary" data-toggle="modal" href="#Hex">Play Now</a>
+											<a class="btn btn-primary" onclick="startHex()" data-toggle="modal" href="#Hex">Play Now</a>
 										</div>
 									</div>
 									<div class="carousel-item">
@@ -1190,7 +1193,7 @@
 										<div class="card-body">
 											<h4 class="card-title">Stupid Stacker</h4>
 											<p class="card-text">Stack some stupid blocks in this classic arcade game!</p>
-											<a class="btn btn-primary" data-toggle="modal" href="#Stack">Play Now</a>
+											<a class="btn btn-primary" onclick="startStack()" data-toggle="modal" href="#Stack">Play Now</a>
 										</div>
 									</div>
 									<div class="carousel-item">
@@ -1690,7 +1693,31 @@
 </body>
 
 <script>
-    var unityInstanceHEX = UnityLoader.instantiate("unityContainerHEX", "../static/games/Hex_final_webgl/Build/Hex_final_webgl.json", {onProgress: UnityProgress});
-    var unityInstanceHEX = UnityLoader.instantiate("unityContainerSTACK", "../static/games/Stack_final_webgl/Build/Stack_final_webgl.json", {onProgress: UnityProgress});
+
+	var unityInstanceHEX;
+	var unityInstanceSTACK;
+
+    function startHex() {
+		unityInstanceHEX = UnityLoader.instantiate("unityContainerHEX", "../static/games/Hex_final_webgl/Build/Hex_final_webgl.json", {onProgress: UnityProgress,
+			Module:{
+				onQuit : function(){
+					console.log("Closing Hex")
+					//$("#Hex").modal("hide");
+				}
+			}
+		});
+	}
+
+	function startStack() {
+		unityInstanceSTACK = UnityLoader.instantiate("unityContainerSTACK", "../static/games/Stack_final_webgl/Build/Stack_final_webgl.json", {onProgress: UnityProgress,
+			Module:{
+				onQuit : function(){
+					console.log("Closing Stack")
+					//$("#Stack").modal("hide");
+				}
+			}
+		});
+	}
+
 </script>
 </html>
