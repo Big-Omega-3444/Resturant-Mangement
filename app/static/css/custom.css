@@ -1,8 +1,8 @@
 .modal:nth-of-type(even) {
-    z-index: 1051 !important;
+    z-index: 1052 !important;
 }
 .modal-backdrop.show:nth-of-type(even) {
-    z-index: 1001 !important;
+    z-index: 1051 !important;
 }
     
 div.captialOneWord{ text-transform: capitalize; }
