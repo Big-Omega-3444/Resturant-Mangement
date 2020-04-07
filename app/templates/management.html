@@ -114,7 +114,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="Acontainer">
-						<form class="addEmployee" method="POST" action="/api/employees">
+						<form id="addEmployee">
 							<div class="form-row">
 								<div class="form-group col-md-3">
 									<input type="text" class="form-control" id="firstnameTxtBox" name="firstname" placeholder="First name" required>
@@ -219,11 +219,13 @@
 									<input type="text" class="form-control" id="pinTxtBox" name="pin" placeholder="PIN" required>
 								</div>
 							</div>	
-							<button class="btn btn-primary" type="submit">Submit</button>
-							<button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddEmployee">Exit without Saving</button>
 						</form>
 					</div>
 				</div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="javascript:SubmitForm()">Submit</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddEmployee">Exit without Saving</button>
+                </div>
 			</div>
 		</div>
 	</div>

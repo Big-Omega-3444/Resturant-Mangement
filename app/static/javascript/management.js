@@ -11,11 +11,51 @@
 			event.stopPropagation();
 			}
 			form.classList.add('was-validated');
-			window.location.href = "#MGMT_AddEmployee";
 		}, false);
 		});
 	}, false);
 })();
+
+
+//On submit, post a form to the api
+function SubmitForm()
+{
+    event.preventDefault();
+	
+    var post = new XMLHttpRequest();
+
+    // POST to the API
+    post.open('POST', "/api/employees");
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	post.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201)
+		{
+			//Close modal
+			$('#MGMT_AddEmployee').modal('hide');
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("addEmployee"));
+    post.send(formData);
+}
 
 // Function that does a GET request on the specified API
 function requestData(url, selector)
@@ -70,6 +110,12 @@ function populateEmployeesTable(data, selector)
 // Create the table once the modal is shown (after it pops up)
 $('#MGMT_Employees').on('shown.bs.modal', function(event)
 {
+	requestData('/api/employees', '#EmployeesTable');
+});
+
+$('#MGMT_AddEmployee').on('hide.bs.modal', function(event)
+{
+	$('#EmployeesTable tr td').remove();
 	requestData('/api/employees', '#EmployeesTable');
 });
 
