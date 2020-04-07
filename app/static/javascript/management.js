@@ -88,6 +88,45 @@ function requestData(url, selector)
 	request.send();	
 }
 
+// Sample function that deletes a user from the API
+// Requires an HTML element WITH the ID filled in
+// Trust me, it's stupid, but it works
+function deleteUser(object)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the deletion url for user
+	var url = "/api/users/" + object.id;
+	
+	// Open a socket to the url
+	request.open('DELETE', url);
+	
+	// Handle on load
+	request.onload = function() 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			alert("Deletion Successful!");
+	        $('#EmployeesTable tr td').remove();
+	        requestData('/api/employees', '#EmployeesTable');
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+	
+}
+
 // Function that builds the table in #MGMT_Employees
 // data argument requires an JSON-ified data (Use JSON.Parse() before passing it in!)
 function populateEmployeesTable(data, selector)
@@ -104,13 +143,25 @@ function populateEmployeesTable(data, selector)
 		// Append assignment
 		var assignment = $('<div class="captialOneWord"/>').html(data[i].assignment);
 		row.append($('<td/>').html(assignment));
+		
+		//Create buttons for specific ID
+		var uid = data[i]._id.$oid;
+
+
+		var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
+			deleteUser(this);
+		}).html("DEL");
+		
+		row.append($('<td/>').html(deleteButton));
+		
+
 
 		$(selector).append(row);
 	}
 }
 
-// Event listener for specific modal
-// This one listens for the Employee page and executes code when opened
+// Event listener for specific modals
+// These listens for certain events on the management page and executes code when opened
 
 // Create the table once the modal is shown (after it pops up)
 $('#MGMT_Employees').on('shown.bs.modal', function(event)
