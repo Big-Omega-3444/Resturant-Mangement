@@ -30,6 +30,10 @@ with application.app_context():
 def index():
         return render_template('index.html')
 
+@application.route('/kidzone')
+def kidzone():
+        return render_template('kidzone.html')
+
 @application.route('/about')
 def about():
     return render_template('about.html')
