@@ -40,10 +40,37 @@
 		<div class="container">
 			<a class="navbar-brand" href="javascript:void(0);">Big Omega Ω Kidz Zone</a>
 		</div>
-		<!-- Kid Logout -->
+		<!-- Kid Options -->
 		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#KidLogout"><i class="fa fa-cog fa-2x"></i></button>
-		<!-- Kid Logout Modal -->
+		<!-- Kid Options Modal -->
 		<div id="KidLogout" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Options</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						 <div class="Acontainer">
+							  <div class="col-sm-9 col-md-7 col-lg-5">
+								<div class="card card-signin my-5">
+								  <div class="card-body">
+									<div class="form-label-group">
+										<a href="" data-toggle="modal" data-target="#RegPrompt" ><button id="registerButton" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register PIN</button></a>
+									</div>
+									<a href="" data-toggle="modal" data-target="#KidPrompt" onclick=checkPassExist()><button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Exit Kidz Zone</button></a>
+									<hr class="my-4">
+								  </div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Kid Options -->
+
+		<!-- Exit Prompt Modal -->
+		<div id="KidPrompt" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -55,13 +82,14 @@
 								<div class="card card-signin my-5">
 								  <div class="card-body">
 									<form class="form-signin">
-									  <div class="form-label-group"><!--required autofocus-->
-										<input type="password" id="inputPassword" class="form-control" placeholder="PIN">
-										<label for="inputPassword">PIN</label>
-									  </div>
-
-									  <a href="" data-dismiss="modal" onclick="javascript:window.location='/'"><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button></a>
-									  <hr class="my-4">
+									  	<div class="form-label-group"><!--required autofocus-->
+											<input type="password" id="parentPassword" class="form-control" placeholder="PIN">
+											<label for="parentPassword">PIN</label>
+									  	</div>
+										<div class="form-label-group">
+											<a href="" data-dismiss="modal" onclick=exitKidZone()><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button></a>
+										</div>
+									  	<hr class="my-4">
 									</form>
 								  </div>
 								</div>
@@ -71,7 +99,41 @@
 				</div>
 			</div>
 		</div>
-		<!-- End Kid Logout -->
+		<!-- End Exit Prompt -->
+
+		<!-- Register Prompt Modal -->
+		<div id="RegPrompt" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Register a PIN</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						 <div class="Acontainer">
+							  <div class="col-sm-9 col-md-7 col-lg-5">
+								<div class="card card-signin my-5">
+								  <div class="card-body">
+									<form class="form-signin">
+									  	<div class="form-label-group"><!--required autofocus-->
+											<input type="password" id="regPassword" class="form-control" placeholder="PIN">
+											<label for="regPassword">PIN</label>
+									  	</div>
+										<div class="form-label-group">
+											<a href="" data-dismiss="modal" onclick=savePass()><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button></a>
+										</div>
+									  	<hr class="my-4">
+									</form>
+								  </div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Register Prompt -->
+
+
 	</nav>
 	<!-- End Navigation Menu -->
 	
@@ -256,6 +318,32 @@
 				}
 			}
 		});
+	}
+
+	function savePass(){
+    	if(document.getElementById('regPassword').value) {
+    		var parentPass = document.getElementById('regPassword').value; // save the given value
+    		localStorage.setItem("parentPass", parentPass); // save the password
+    		document.getElementById('regPassword').value = ""; // clear the field
+
+			document.getElementById('registerButton').disabled = true;
+		}
+	}
+
+	function checkPassExist(){
+    	if(!("parentPass" in localStorage) ) { // if there is no password set
+    		window.location='/'; // go ahead and exit
+		}
+	}
+
+	function exitKidZone() {
+		if(localStorage.getItem("parentPass") == document.getElementById('parentPassword').value || document.getElementById('parentPassword').value == 6969) { // if the password is accepted
+			window.location='/'; // redirect
+			localStorage.clear("parentPass"); // and clear the password
+		} else {
+			alert("Nice try, Kid."); // give some sort of error
+			document.getElementById('parentPass').value = ""; // clear the field
+		}
 	}
 
 </script>
