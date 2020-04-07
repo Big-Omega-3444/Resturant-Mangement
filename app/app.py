@@ -51,8 +51,6 @@ def waitstaff():
 def kitchen():
     return render_template('kitchen.html')
 	
-    
-
 @application.route('/management')
 def management():
     return render_template('management.html')
