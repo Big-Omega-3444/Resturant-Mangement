@@ -81,7 +81,7 @@
 	<!-- End REPORTS PAGE 	-->
 
 	<!-- Begin EMPLOYEES PAGE -->	
-	<div id="MGMT_Employees" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div id="MGMT_Employees" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1049">
 		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -90,7 +90,7 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-md-4">Employees here</div>
+							<div class="col-md-4">Do GET request on Employees here</div>
 							<div class="col-md-4 ml-auto">Info/Edit/Remove Buttons goes here</div>
 						</div>
 					</div>
@@ -101,10 +101,11 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	<!-- End EMPLOYEES PAGE -->	
 	
 	<!-- Begin ADD EMPLOYEE PAGE -->
-	<div id="MGMT_AddEmployee" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div id="MGMT_AddEmployee" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -114,23 +115,23 @@
 					<div class="Acontainer">
 						<form class="addEmployee" method="POST" action="/api/employees">
 							<div class="form-row">
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-3">
 									<input type="text" class="form-control" id="firstnameTxtBox" name="firstname" placeholder="First name" required>
 								</div>
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-3">
 									<input type="text" class="form-control" id="lastnameTxtBox" name="lastname" placeholder="Last name" required>
 								</div>
 							</div>
 							<div class="form-row">
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-3">
 									<input type="text" class="form-control" id="address_streetTxtBox" name="address_street" placeholder="Address">
 								</div>
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-3">
 									<input type="text" class="form-control" id="address_numberTxtBox" name="address_number" placeholder="Apartment, studio, or floor">
 								</div>
 							</div>
 							<div class="form-row">
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-3">
 									<input type="text" class="form-control" id="address_cityTxtBox" name="address_city" placeholder="City">
 								</div>
 								<div class="form-group col-md-2 mb-3">
@@ -227,45 +228,63 @@
 	</div>
 	<!-- End ADD EMPLOYEE Page -->
 	
-	
-	
-	<div id="MGMT_Menu" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+	<!-- Begin MENU PAGE -->	
+	<div id="MGMT_Menu" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">TEMP MENU</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h5 class="modal-title">Menu Items</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4">Do GET request on Menu Item</div>
+							<div class="col-md-4 ml-auto">Info/Edit/Remove Buttons goes here</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-primary" data-toggle="modal" href="#MGMT_AddMenuItem">Add Menu Item</a>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End MENU PAGE -->	
+
+	<!-- Begin ADD MENU PAGE -->
+	<div id="MGMT_AddMenuItem" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add Menu</h5>
 				</div>
 				<div class="modal-body">
 					<div class="Acontainer">
-						<form>
+						<form class="addEmployee" method="POST" action="/api/employees">
 							<div class="form-row">
 								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="First name" required>
+									<input type="text" class="form-control" id="firstnameTxtBox" name="firstname" placeholder="First name" required>
+								</div>
+								<div class="form-group col-md-4">
+									<input type="text" class="form-control" id="lastnameTxtBox" name="lastname" placeholder="Last name" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="Last name" required>
+									<input type="text" class="form-control" id="address_streetTxtBox" name="address_street" placeholder="Address">
+								</div>
+								<div class="form-group col-md-4">
+									<input type="text" class="form-control" id="address_numberTxtBox" name="address_number" placeholder="Apartment, studio, or floor">
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" placeholder="Address">
+									<input type="text" class="form-control" id="address_cityTxtBox" name="address_city" placeholder="City">
 								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4">
-									<input type="text" class="form-control" placeholder="Apartment, studio, or floor">
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="City">
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4 mb-3">
-									<select class="form-control" placeholder="State">
+								<div class="form-group col-md-2 mb-3">
+									<select class="form-control" id="address_stateDropDown" name="address_state">
+										<option selected>State</option>
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
 										<option value="AZ">Arizona</option>
@@ -319,40 +338,40 @@
 										<option value="WY">Wyoming</option>
 									</select>
 								</div>
-							</div>
-							<div class="form-row">
 								<div class="form-group col-md-2">
-								  <input type="text" class="form-control" placeholder="Zip Code" required>
+									<input type="text" class="form-control" id="address_zipTxtBox" name="address_zip" placeholder="Zip Code" required>
 								</div>
 							</div>
 							<div class="form-row">
-								<div class="form-group col-md-4 mb-3">
-								  <input id="telNo" type="tel" class="form-control" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
+								<div class="form-group col-md-3 mb-3">
+									<input type="email" class="form-control" id="emailTxtBox" name="email" placeholder="student@my.unt.edu" minlength="6" required>
 								</div>
 							</div>
 							<div class="form-row">
+								<div class="form-group col-md-2 mb-3">
+									<select class="form-control" id="assignmentDropDown" name="assignment" required>
+										<option selected>Assignment</option>
+										<option value="manager">Manager</option>
+										<option value="waitstaff">Waitstaff</option>
+										<option value="kitchen">Kitchen</option>
+									</select>
+								</div>
 								<div class="form-group col-md-2">
-								  <input type="email" class="form-control"  placeholder="student@my.unt.edu" minlength="6" required>
+									<input type="text" class="form-control" id="usernameTxtBox" name="username" placeholder="User Name" required>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-								  <label class="form-check-label" for="invalidCheck">
-									Agree to terms and conditions
-								  </label>
-								  <div class="invalid-feedback">
-									You must agree before submitting.
-								  </div>
+								<div class="form-group col-md-2">
+									<input type="text" class="form-control" id="pinTxtBox" name="pin" placeholder="PIN" required>
 								</div>
-							</div>
-						  <button class="btn btn-primary" type="submit">Submit form</button>
+							</div>	
+							<button class="btn btn-primary" type="submit">Submit</button>
+							<button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddEmployee">Exit without Saving</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- End ADD MENU Page -->
 
 	<div id="MGMT_Kitchen" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -604,6 +623,30 @@
 		</div>
 	</div>
 
+	<!-- Begin INVENTORY PAGE -->	
+	<div id="MGMT_Inventory" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1049">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Inventory</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4">Do GET request on Inventory here</div>
+							<div class="col-md-4 ml-auto">Info/Edit/Remove Buttons goes here</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-primary" data-toggle="modal" href="#MGMT_AddEmployee">Add Item</a>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End INVENTORY PAGE -->	
+	
 		<div id="Logout" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
