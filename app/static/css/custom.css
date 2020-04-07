@@ -5,3 +5,4 @@
     z-index: 1001 !important;
 }
     
+div.captialOneWord{ text-transform: capitalize; }

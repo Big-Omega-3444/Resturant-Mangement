@@ -96,9 +96,14 @@ function populateEmployeesTable(data, selector)
 	for(i = 0; i < data.length; i++)
 	{
 		var row = $('<tr/>')
+		
 		// Append first and last name into one variable
 		var fullname = data[i].firstname + " " + data[i].lastname;
 		row.append($('<td/>').html(fullname));
+		
+		// Append assignment
+		var assignment = $('<div class="captialOneWord"/>').html(data[i].assignment);
+		row.append($('<td/>').html(assignment));
 
 		$(selector).append(row);
 	}
