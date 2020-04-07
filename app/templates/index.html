@@ -24,13 +24,13 @@
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
 
-	<!-- Include Unity Assets for Hex -->
+	<!-- Include Unity Assets for games -->
 	<link href=" {{ url_for('static', filename='games/Hex_final_webgl/TemplateData/style.css') }}" rel="stylesheet">
 
-    <!-- Include Unity Scripts for Hex -->
+    <!-- Include Unity Scripts for games -->
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/Build/UnityLoader.js') }}"></script>
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/TemplateData/UnityProgress.js') }}"></script>
-
+	<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
 </head>
 
 <body>
@@ -1692,32 +1692,4 @@
 
 </body>
 
-<script>
-
-	var unityInstanceHEX;
-	var unityInstanceSTACK;
-
-    function startHex() {
-		unityInstanceHEX = UnityLoader.instantiate("unityContainerHEX", "../static/games/Hex_final_webgl/Build/Hex_final_webgl.json", {onProgress: UnityProgress,
-			Module:{
-				onQuit : function(){
-					console.log("Closing Hex")
-					//$("#Hex").modal("hide");
-				}
-			}
-		});
-	}
-
-	function startStack() {
-		unityInstanceSTACK = UnityLoader.instantiate("unityContainerSTACK", "../static/games/Stack_final_webgl/Build/Stack_final_webgl.json", {onProgress: UnityProgress,
-			Module:{
-				onQuit : function(){
-					console.log("Closing Stack")
-					//$("#Stack").modal("hide");
-				}
-			}
-		});
-	}
-
-</script>
 </html>

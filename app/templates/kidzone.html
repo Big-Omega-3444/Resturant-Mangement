@@ -24,13 +24,13 @@
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
 
-	<!-- Include Unity Assets for Hex -->
+	<!-- Include Unity Assets for games -->
 	<link href=" {{ url_for('static', filename='games/Hex_final_webgl/TemplateData/style.css') }}" rel="stylesheet">
 
-    <!-- Include Unity Scripts for Hex -->
+    <!-- Include Unity Scripts for games -->
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/Build/UnityLoader.js') }}"></script>
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/TemplateData/UnityProgress.js') }}"></script>
-
+	<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
 </head>
 
 <body style="background:linear-gradient(to right bottom,#47275b,#3a2249)">
@@ -293,58 +293,4 @@
 
 </body>
 
-<script>
-
-	var unityInstanceHEX;
-	var unityInstanceSTACK;
-
-    function startHex() {
-		unityInstanceHEX = UnityLoader.instantiate("unityContainerHEX", "../static/games/Hex_final_webgl/Build/Hex_final_webgl.json", {onProgress: UnityProgress,
-			Module:{
-				onQuit : function(){
-					console.log("Closing Hex")
-					//$("#Hex").modal("hide");
-				}
-			}
-		});
-	}
-
-	function startStack() {
-		unityInstanceSTACK = UnityLoader.instantiate("unityContainerSTACK", "../static/games/Stack_final_webgl/Build/Stack_final_webgl.json", {onProgress: UnityProgress,
-			Module:{
-				onQuit : function(){
-					console.log("Closing Stack")
-					//$("#Stack").modal("hide");
-				}
-			}
-		});
-	}
-
-	function savePass(){
-    	if(document.getElementById('regPassword').value) {
-    		var parentPass = document.getElementById('regPassword').value; // save the given value
-    		localStorage.setItem("parentPass", parentPass); // save the password
-    		document.getElementById('regPassword').value = ""; // clear the field
-
-			document.getElementById('registerButton').disabled = true;
-		}
-	}
-
-	function checkPassExist(){
-    	if(!("parentPass" in localStorage) ) { // if there is no password set
-    		window.location='/'; // go ahead and exit
-		}
-	}
-
-	function exitKidZone() {
-		if(localStorage.getItem("parentPass") == document.getElementById('parentPassword').value || document.getElementById('parentPassword').value == 6969) { // if the password is accepted
-			window.location='/'; // redirect
-			localStorage.clear("parentPass"); // and clear the password
-		} else {
-			alert("Nice try, Kid."); // give some sort of error
-			document.getElementById('parentPass').value = ""; // clear the field
-		}
-	}
-
-</script>
 </html>
