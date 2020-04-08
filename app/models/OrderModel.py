@@ -18,12 +18,12 @@ class OrderModel(Document):
 
     table = IntField()
     to_go = BooleanField(required=True)
-    items = ListField(ReferenceField(MenuItemModel), required=True)
+    items = ListField(ReferenceField('MenuItemModel'), required=True)
     status = StringField(required=True, choices=['ordered','ready','delivered','payment_recieved'])
     # If the meal was given away for free
     comped = BooleanField(default=False)
     # Who comped the meal
-    staff_comped = ReferenceField(EmployeeModel)
+    staff_comped = ReferenceField('EmployeeModel')
 
 
 class OrderResource(TemplateResource):

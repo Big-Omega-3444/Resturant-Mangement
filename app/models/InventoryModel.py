@@ -8,8 +8,17 @@ from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.IngredientModel import IngredientModel
 
 class InventoryModel(Document):
-    ingredient = ReferenceField(IngredientModel, required=True)
+    ingredient = ReferenceField('IngredientModel', required=True)
     count = IntField(required=True)
+
+    def clean(self):
+        try {
+            if IngredientModel.objects(id=self.ingredient.id) is None:
+            msg = 'Object does not exist'
+        } except {
+            msg = 'Malformated request'
+            raise ValidationError(msg)
+        }
 
 class InventoryResource(TemplateResource):
     model = InventoryModel
