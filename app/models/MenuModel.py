@@ -12,6 +12,7 @@ class MenuModel(Document):
     items = ListField(ReferenceField(MenuItemModel))
     description = StringField(default="Default Menu Description")
     image = URLField()
+    
     pass
 
 class MenuResource(TemplateResource):

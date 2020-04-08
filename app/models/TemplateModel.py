@@ -69,15 +69,17 @@ class TemplateResourceList(Resource):
 
     def post(self):
 
-        if not request.is_json:
-            # Convert form request into dict
-            data = request.form.to_dict()
-            # return {'ok': False, 'message': "Request must include json"}, 400
-        else:
-            data = request.get_json()
-
         try:
-            new_obj = self.model(**data)
+
+            if not request.is_json:
+                # Convert form request into dict
+                data = request.form.to_dict()
+                new_obj = self.model(**data)
+                # return {'ok': False, 'message': "Request must include json"}, 400
+            else:
+                data = request.data
+                new_obj = self.model.from_json(data)
+
             new_obj.save()
         except ValidationError as err:
             current_app.logger.info("Validation error")
@@ -87,5 +89,8 @@ class TemplateResourceList(Resource):
             return {'ok': False, 'message': "NotUniqueError Error: {}".format(err)}, 400
         except FieldDoesNotExist as err:
             return {'ok': False, 'message': "FieldDoesNotExist Error: {}".format(err)}, 400
+        except Exception as err:
+            return {'ok': False, 'message': "Unhandled Error: {}".format(err)}, 400
+
 
         return str(new_obj.id),201
