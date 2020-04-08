@@ -72,7 +72,7 @@ public class TheStackver2 : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.touches.Length > 0)
         {
             if (PlaceTile())
             {
