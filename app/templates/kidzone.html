@@ -24,13 +24,13 @@
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
 
-	<!-- Include Unity Assets for Hex -->
+	<!-- Include Unity Assets for games -->
 	<link href=" {{ url_for('static', filename='games/Hex_final_webgl/TemplateData/style.css') }}" rel="stylesheet">
 
-    <!-- Include Unity Scripts for Hex -->
+    <!-- Include Unity Scripts for games -->
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/Build/UnityLoader.js') }}"></script>
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/TemplateData/UnityProgress.js') }}"></script>
-
+	<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
 </head>
 
 <body style="background:linear-gradient(to right bottom,#47275b,#3a2249)">
@@ -40,10 +40,37 @@
 		<div class="container">
 			<a class="navbar-brand" href="javascript:void(0);">Big Omega Ω Kidz Zone</a>
 		</div>
-		<!-- Kid Logout -->
+		<!-- Kid Options -->
 		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#KidLogout"><i class="fa fa-cog fa-2x"></i></button>
-		<!-- Kid Logout Modal -->
+		<!-- Kid Options Modal -->
 		<div id="KidLogout" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Options</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						 <div class="Acontainer">
+							  <div class="col-sm-9 col-md-7 col-lg-5">
+								<div class="card card-signin my-5">
+								  <div class="card-body">
+									<div class="form-label-group">
+										<a href="" data-toggle="modal" data-target="#RegPrompt" ><button id="registerButton" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register PIN</button></a>
+									</div>
+									<a href="" data-toggle="modal" data-target="#KidPrompt" onclick=checkPassExist()><button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Exit Kidz Zone</button></a>
+									<hr class="my-4">
+								  </div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Kid Options -->
+
+		<!-- Exit Prompt Modal -->
+		<div id="KidPrompt" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -55,13 +82,14 @@
 								<div class="card card-signin my-5">
 								  <div class="card-body">
 									<form class="form-signin">
-									  <div class="form-label-group"><!--required autofocus-->
-										<input type="password" id="inputPassword" class="form-control" placeholder="PIN">
-										<label for="inputPassword">PIN</label>
-									  </div>
-
-									  <a href="" data-dismiss="modal" onclick="javascript:window.location='/'"><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button></a>
-									  <hr class="my-4">
+									  	<div class="form-label-group"><!--required autofocus-->
+											<input type="password" id="parentPassword" class="form-control" placeholder="PIN">
+											<label for="parentPassword">PIN</label>
+									  	</div>
+										<div class="form-label-group">
+											<a href="" data-dismiss="modal" onclick=exitKidZone()><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button></a>
+										</div>
+									  	<hr class="my-4">
 									</form>
 								  </div>
 								</div>
@@ -71,7 +99,41 @@
 				</div>
 			</div>
 		</div>
-		<!-- End Kid Logout -->
+		<!-- End Exit Prompt -->
+
+		<!-- Register Prompt Modal -->
+		<div id="RegPrompt" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Register a PIN</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						 <div class="Acontainer">
+							  <div class="col-sm-9 col-md-7 col-lg-5">
+								<div class="card card-signin my-5">
+								  <div class="card-body">
+									<form class="form-signin">
+									  	<div class="form-label-group"><!--required autofocus-->
+											<input type="password" id="regPassword" class="form-control" placeholder="PIN">
+											<label for="regPassword">PIN</label>
+									  	</div>
+										<div class="form-label-group">
+											<a href="" data-dismiss="modal" onclick=savePass()><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button></a>
+										</div>
+									  	<hr class="my-4">
+									</form>
+								  </div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Register Prompt -->
+
+
 	</nav>
 	<!-- End Navigation Menu -->
 	
@@ -231,32 +293,4 @@
 
 </body>
 
-<script>
-
-	var unityInstanceHEX;
-	var unityInstanceSTACK;
-
-    function startHex() {
-		unityInstanceHEX = UnityLoader.instantiate("unityContainerHEX", "../static/games/Hex_final_webgl/Build/Hex_final_webgl.json", {onProgress: UnityProgress,
-			Module:{
-				onQuit : function(){
-					console.log("Closing Hex")
-					//$("#Hex").modal("hide");
-				}
-			}
-		});
-	}
-
-	function startStack() {
-		unityInstanceSTACK = UnityLoader.instantiate("unityContainerSTACK", "../static/games/Stack_final_webgl/Build/Stack_final_webgl.json", {onProgress: UnityProgress,
-			Module:{
-				onQuit : function(){
-					console.log("Closing Stack")
-					//$("#Stack").modal("hide");
-				}
-			}
-		});
-	}
-
-</script>
 </html>

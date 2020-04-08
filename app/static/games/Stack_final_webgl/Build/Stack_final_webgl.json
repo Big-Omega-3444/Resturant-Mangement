@@ -1,7 +1,7 @@
 {
-"companyName": "Mochamad Yusuf",
+"companyName": "Big Omega",
 "productName": "Stack",
-"productVersion": "1.0",
+"productVersion": "1.1",
 "dataUrl": "Stack_final_webgl.data.unityweb",
 "wasmCodeUrl": "Stack_final_webgl.wasm.code.unityweb",
 "wasmFrameworkUrl": "Stack_final_webgl.wasm.framework.unityweb",
