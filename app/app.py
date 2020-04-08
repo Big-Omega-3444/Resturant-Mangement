@@ -17,6 +17,9 @@ from database import Database as db
 application = Flask(__name__)
 api = Api(application)
 application.config.from_object(Config)
+
+application.logger.setLevel(logging.DEBUG)
+
 # Route the user api
 api.add_resource(UserResourceList, '/api/users')
 api.add_resource(UserResource, '/api/users/<id>')
@@ -39,7 +42,7 @@ api.add_resource(MenuResource, '/api/menus/<id>')
 api.add_resource(InventoryResourceList, '/api/inventory')
 api.add_resource(InventoryResource, '/api/inventory/<id>')
 
-application.logger.setLevel(logging.INFO)
+
 
 
 with application.app_context():
