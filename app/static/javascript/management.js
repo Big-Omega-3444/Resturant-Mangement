@@ -685,6 +685,16 @@ $(document).ready(function(){
   });
 });
 
+//Taken from JSFunctions but made specifically for Employee Table
+$(document).ready(function(){
+  $("#MGMT_Employees_Search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#EmployeesTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
 // Event listener for specific modals and other stuff
 // These listens for certain events on the management page and executes code when opened
 

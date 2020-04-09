@@ -86,16 +86,21 @@
 				<div class="modal-header">
 					<h5 class="modal-title">Employees</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
+				<div class="modal-header">
+					<input class="form-control" id="MGMT_Employees_Search" type="text" placeholder="Search..">
+				</div>
 				<div class="modal-body">
-			<table class="table table-bordered table-striped" id="EmployeesTable">
-				<thead>
-					<tr>
-					<th>Name</th>
-					<th width="10px">Assignment</th>
-					<th width="10px">Edit</th>
-					</tr>
-				</thead>
-			</table>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+						<th>Name</th>
+						<th width="10px">Assignment</th>
+						<th width="10px">Edit</th>
+						</tr>
+					</thead>
+					<tbody id="EmployeesTable">
+					</tbody>
+				</table>
 				</div>
 				<div class="modal-footer">
 					<a class="btn btn-primary" data-toggle="modal" href="#MGMT_AddEmployee">Add Employee</a>
