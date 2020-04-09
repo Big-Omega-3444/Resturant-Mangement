@@ -158,6 +158,8 @@ function SubmitFormInventory(OID)
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201 || post.status === 204)
 		{
+			$('#addIngredient').find('#ingredientNameField').val('');	
+			$('#addIngredient').find('#ingredientAllergenField').val(false);	
 			updateTables();
 		}
 		else
@@ -293,7 +295,7 @@ function SubmitFormInventoryUpdateAll()
 			{
 				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
 				{
-					$('#InventoryTable tr td').remove();
+					return;
 				}
 				else 
 				{	
@@ -688,17 +690,13 @@ $('#MGMT_Employees').on('shown.bs.modal', function(event)
 
 $('#MGMT_AddEmployee').on('hide.bs.modal', function(event)
 {
-	updateTables()
+	updateTables();
 });
 
 // Remove the table's elements after the model is hidden
 $('#MGMT_Employees').on('hide.bs.modal', function(event)
 {
 	$('#EmployeesTable tr td').remove();
-});
-
-$('#MGMT_Reports').on('show.bs.modal', function(){
-   alert("Hello World!");
 });
 
 $('#MGMT_AddEmployee_btnSaveChanges').click( function()
@@ -715,6 +713,20 @@ $('#MGMT_EditEmployee_btnSaveChanges').click( function()
 // END EMPLOYEE LISTENERS
 //
 
+
+//
+// BEGIN REPORT LISTENERS
+//
+
+$('#MGMT_Reports').on('show.bs.modal', function(){
+   alert("Hello World!");
+});
+
+//
+// EMD REPORT LISTENERS
+//
+
+
 //
 // BEGIN INGREDIENT LISTENERS
 //
@@ -730,6 +742,14 @@ $('#MGMT_Inventory').on('hide.bs.modal', function(event)
 	$('#InventoryTable tr td').remove();
 });
 
+// We need this here so we don't lose changes we've made to the inventory
+$('#MGMT_Inventory_btnAddIngredient').click( function()
+{
+	SubmitFormInventoryUpdateAll();
+	updateTables();
+});
+
+
 $('#MGMT_AddIngredient_btnSaveChanges').click( function()
 {
 	SubmitFormIngredient();
@@ -743,6 +763,7 @@ $('#MGMT_EditIngredient_btnSaveChanges').click( function()
 $('#MGMT_Inventory_btnSaveChanges').click( function()
 {
 	SubmitFormInventoryUpdateAll();
+	updateTables();
 });
 
 //
