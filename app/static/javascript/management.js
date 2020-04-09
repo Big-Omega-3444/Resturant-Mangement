@@ -173,7 +173,7 @@ function SubmitFormInventory(OID)
     // Manually create Form with 0 count
 	var data = new FormData();
 	data.append("ingredient", OID);
-	data.append("count", 5);
+	data.append("count", 0);
 	
     post.send(data);
 }
@@ -262,9 +262,57 @@ function SubmitFormIngredientPUT()
     var formData = new FormData(document.getElementById("editIngredientForm"));
 	formData.delete('uid');		//This was just so we can retrieve it again in the future (which we did)
 	
-	console.log(formData);	
-
     put.send(formData);
+}
+
+
+// Unique function that gathers all of the new inputs from the generated forms then POSTs to the Inventory API
+function SubmitFormInventoryUpdateAll()
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	var data = document.querySelectorAll('*[class="ing_update"]');
+	var origin =  document.querySelectorAll('*[class="inv_update"]');
+	
+	// Build the table
+	for(i = 0; i < data.length; i++) {
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			var url = "/api/inventory/" + origin[i].id;
+			requests[i].open('PUT', url);
+			
+			//Generate data
+			var formData = new FormData();
+			formData.append("count", parseInt(data[i].nextSibling.value));
+	
+			// Handle on load
+			requests[i].onload = function()
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					$('#InventoryTable tr td').remove();
+				}
+				else 
+				{	
+					//TODO: Create alert in HTML instead of using this to specify error
+					var error = JSON.parse(requests[i].responseText)
+					console.log(error.message)
+					alert(`Error ${requests[i].status}: ${error.message}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+		
+			requests[i].send(formData);	
+		})(i);
+	}
 }
 
 // Function that does a GET request on the specified API
@@ -412,9 +460,48 @@ function deleteIngredient(object)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
+	
+	//Split id string in half
+	var str = object.id.split("|")
 
 	// Create the deletion url for user
-	var url = "/api/ingredients/" + object.id;
+	var url = "/api/ingredients/" + str[0];
+	
+	// Open a socket to the url
+	request.open('DELETE', url);
+	
+	// Handle on load
+	request.onload = function(data) 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			deleteInventory(data.target.extraInfo);
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+	request.extraInfo = str[1];
+	
+}
+
+// Same as above function but deletes the inventory item from the API
+function deleteInventory(OID)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the deletion url for user
+	var url = "/api/inventory/" + OID;
 	
 	// Open a socket to the url
 	request.open('DELETE', url);
@@ -424,7 +511,6 @@ function deleteIngredient(object)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{
-			alert("Deletion Successful!");
 			updateTables();
 		}
 		else
@@ -503,23 +589,24 @@ function populateInventoryTable(data, selector)
 				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
 				{
 					var row = $('<tr/>')
-					var ingredient = JSON.parse(requests[i].responseText)
+					var ingredient = JSON.parse(requests[i].responseText);
 					
-					row.append($('<td/>').html(ingredient.name));
+					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
+					
+					row.append($('<td/>').html(name));
+					
+					//Create buttons for specific ID
+					var uid = ingredient._id.$oid;
 					
 					// Append assignment
 					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
 					row.append($('<td/>').html(quantity));
 					
-					
-					//Create buttons for specific ID
-					var uid = ingredient._id.$oid;
-					
 					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
 						requestIngredient(this);
 					}).html("EDIT");
 			
-					var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
+					var deleteButton = $(`<button class="btn btn-danger" id=${uid}|${data.target.extraInfo._id.$oid}/>`).click(function() {
 						deleteIngredient(this);
 					}).html("DEL");
 					
@@ -651,6 +738,11 @@ $('#MGMT_AddIngredient_btnSaveChanges').click( function()
 $('#MGMT_EditIngredient_btnSaveChanges').click( function()
 {
 	SubmitFormIngredientPUT();
+});
+
+$('#MGMT_Inventory_btnSaveChanges').click( function()
+{
+	SubmitFormInventoryUpdateAll();
 });
 
 //
