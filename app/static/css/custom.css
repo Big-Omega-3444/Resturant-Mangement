@@ -8,3 +8,7 @@
 }
 */    
 div.captialOneWord{ text-transform: capitalize; }
+
+#ingredientQtyField { 	resize: horizontal;
+						width:70px;
+					}

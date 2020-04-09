@@ -18,7 +18,7 @@
 
 
 //On submit, post a form to the api
-function SubmitForm()
+function SubmitFormUser()
 {
     event.preventDefault();
 	
@@ -57,9 +57,133 @@ function SubmitForm()
     post.send(formData);
 }
 
+//On submit, post a form to the api
+function SubmitFormMenu()
+{
+    event.preventDefault();
+	
+    var post = new XMLHttpRequest();
+
+    // POST to the API
+    post.open('POST', "/api/employees");
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	post.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201)
+		{
+			//Close modal
+			$('#MGMT_AddEmployee').modal('hide');
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("addEmployee"));
+    post.send(formData);
+}
+
+//On submit, post a form to the api
+function SubmitFormIngredient()
+{
+    event.preventDefault();
+	
+    var ingpost = new XMLHttpRequest();
+
+    // POST to the API
+    ingpost.open('POST', "/api/ingredients");
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	ingpost.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	ingpost.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (ingpost.status === 200 || ingpost.status === 201 || ingpost.status === 204)
+		{
+			//Perform a second post
+			SubmitFormInventory(JSON.parse(ingpost.responseText))
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(ingpost.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${ingpost.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("addIngredient"));
+    ingpost.send(formData);
+}
+
+//On submit, post a form to the api
+function SubmitFormInventory(OID)
+{
+    var post = new XMLHttpRequest();
+
+    // POST to the API
+    post.open("POST", "/api/inventory");
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	post.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			$('#addIngredient').find('#ingredientNameField').val('');	
+			$('#addIngredient').find('#ingredientAllergenField').val(false);	
+			updateTables();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+
+    // Manually create Form with 0 count
+	var data = new FormData();
+	data.append("ingredient", OID);
+	data.append("count", 0);
+	
+    post.send(data);
+}
+
+
 //On submit, PUT a form to the api
 //Not to be confused with SubmitForm(), which does a POST request
-function SubmitFormPUT()
+function SubmitFormUserPUT()
 {
     event.preventDefault();
 	
@@ -83,10 +207,7 @@ function SubmitFormPUT()
 		//Check for OK or CREATED status
 		if (put.status === 200 || put.status === 201 || put.status === 204)
 		{
-			//Close modal
-			$('#MGMT_EditEmployee').modal('hide');
-			$('#EmployeesTable tr td').remove();
-			requestData('/api/employees', '#EmployeesTable');
+			updateTables();
 		}
 		else
 		{
@@ -103,7 +224,101 @@ function SubmitFormPUT()
     put.send(formData);
 }
 
+// Same as above, but does it for Ingredients
+function SubmitFormIngredientPUT()
+{
+    event.preventDefault();
+	
+    var put = new XMLHttpRequest();
+	
+	var url = "/api/ingredients/" + $('#editIngredientForm').find('#ingID').val();
+
+    // POST to the API
+    put.open('PUT', url);
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	put.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	put.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (put.status === 200 || put.status === 201 || put.status === 204)
+		{
+			updateTables();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(put.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${put.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("editIngredientForm"));
+	formData.delete('uid');		//This was just so we can retrieve it again in the future (which we did)
+	
+    put.send(formData);
+}
+
+
+// Unique function that gathers all of the new inputs from the generated forms then POSTs to the Inventory API
+function SubmitFormInventoryUpdateAll()
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	var data = document.querySelectorAll('*[class="ing_update"]');
+	var origin =  document.querySelectorAll('*[class="inv_update"]');
+	
+	// Build the table
+	for(i = 0; i < data.length; i++) {
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			var url = "/api/inventory/" + origin[i].id;
+			requests[i].open('PUT', url);
+			
+			//Generate data
+			var formData = new FormData();
+			formData.append("count", parseInt(data[i].nextSibling.value));
+	
+			// Handle on load
+			requests[i].onload = function()
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					return;
+				}
+				else 
+				{	
+					//TODO: Create alert in HTML instead of using this to specify error
+					var error = JSON.parse(requests[i].responseText)
+					console.log(error.message)
+					alert(`Error ${requests[i].status}: ${error.message}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+		
+			requests[i].send(formData);	
+		})(i);
+	}
+}
+
 // Function that does a GET request on the specified API
+// This is the primary function that does a GET on specific objects, then based on the selector variable, populates a table
 function requestData(url, selector)
 {
 	// Create our XMLHttpRequest variable
@@ -122,6 +337,8 @@ function requestData(url, selector)
 //			alert(`Done, got ${request.response.length} bytes`); // responseText is the server	
 			if (selector == '#EmployeesTable')
 				populateEmployeesTable(JSON.parse(request.responseText), selector)
+			else if (selector == '#InventoryTable')
+				populateInventoryTable(JSON.parse(request.responseText), selector)
 		}
 	};
 	
@@ -168,6 +385,40 @@ function requestUser(object)
 	request.send();	
 }
 
+
+// Same as above but grabs the ingredient data instead
+function requestIngredient(object)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	// Create the url to retrieve user
+	var url = "/api/ingredients/" + object.id;	
+	
+	request.open('GET', url);
+	
+	// Handle on load
+	request.onload = function() 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{	
+			autofillEditIngredientForm(JSON.parse(request.responseText))
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+}
+
 // Sample function that deletes a user from the API
 // Requires an HTML element WITH the ID filled in
 // Trust me, it's stupid, but it works
@@ -188,8 +439,81 @@ function deleteUser(object)
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{
 			alert("Deletion Successful!");
-	        $('#EmployeesTable tr td').remove();
-	        requestData('/api/employees', '#EmployeesTable');
+			updateTables();
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+	
+}
+
+// Same as above function but deletes an ingredient from the API
+function deleteIngredient(object)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	//Split id string in half
+	var str = object.id.split("|")
+
+	// Create the deletion url for user
+	var url = "/api/ingredients/" + str[0];
+	
+	// Open a socket to the url
+	request.open('DELETE', url);
+	
+	// Handle on load
+	request.onload = function(data) 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			deleteInventory(data.target.extraInfo);
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+	request.extraInfo = str[1];
+	
+}
+
+// Same as above function but deletes the inventory item from the API
+function deleteInventory(OID)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the deletion url for user
+	var url = "/api/inventory/" + OID;
+	
+	// Open a socket to the url
+	request.open('DELETE', url);
+	
+	// Handle on load
+	request.onload = function() 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			updateTables();
 		}
 		else
 		{
@@ -241,6 +565,77 @@ function populateEmployeesTable(data, selector)
 	}
 }
 
+//
+// Function that builds the table in #MGMT_Ingredients
+// data argument requires an JSON-ified data (Use JSON.Parse() before passing it in!)
+//
+// Example of handling multiple XHR requests with extraInfo parameter!
+// Plus Closures: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures
+//
+function populateInventoryTable(data, selector)
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	// Build the table
+	for(i = 0; i < data.length; i++) {
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			var url = "/api/ingredients/" + data[i].ingredient.$oid;
+			requests[i].open('GET', url);
+	
+			// Handle on load
+			requests[i].onload = function(data)
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					var row = $('<tr/>')
+					var ingredient = JSON.parse(requests[i].responseText);
+					
+					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
+					
+					row.append($('<td/>').html(name));
+					
+					//Create buttons for specific ID
+					var uid = ingredient._id.$oid;
+					
+					// Append assignment
+					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
+					row.append($('<td/>').html(quantity));
+					
+					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
+						requestIngredient(this);
+					}).html("EDIT");
+			
+					var deleteButton = $(`<button class="btn btn-danger" id=${uid}|${data.target.extraInfo._id.$oid}/>`).click(function() {
+						deleteIngredient(this);
+					}).html("DEL");
+					
+					row.append($('<td/>').html(editButton).append(deleteButton));
+					
+					$(selector).append(row);
+		
+					return;
+				}
+				else 
+				{	
+					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+		
+			requests[i].send();	
+			requests[i].extraInfo = data[i];	
+		})(i);
+	}
+}
+
 // Simple function that autofills a selected form
 // data must be in JSON format
 function autofillEditEmployeeForm(data)
@@ -260,9 +655,42 @@ function autofillEditEmployeeForm(data)
 	$('#editEmployee').find('#pinTxtBox').val(data.pin);	
 }
 
+// Same as above, but autofills the ingredient page
+// data must be in JSON format
+function autofillEditIngredientForm(data)
+{
+	$('#editIngredientForm').find('#ingID').val(data._id.$oid);
+	$('#editIngredientForm').find('#ingredientNameField').val(data.name);	
+	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);	
+}
+
+// TODO: Filter for certain tables (or not)
+//		 And add boolean to decide whether or not to request data from API
+function updateTables()
+{
+	$('#EmployeesTable tr td').remove();
+	requestData('/api/employees', '#EmployeesTable');	
+
+	$('#InventoryTable tr td').remove();
+	requestData('/api/inventory', '#InventoryTable');		
+}
+
+//Taken from JSFunctions but made specifically for Inventory Table
+$(document).ready(function(){
+  $("#MGMT_Inventory_Search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#InventoryTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
 
 // Event listener for specific modals and other stuff
 // These listens for certain events on the management page and executes code when opened
+
+//
+// BEGIN EMPLOYEE LISTENERS
+//
 
 // Create the table once the modal is shown (after it pops up)
 $('#MGMT_Employees').on('shown.bs.modal', function(event)
@@ -272,8 +700,7 @@ $('#MGMT_Employees').on('shown.bs.modal', function(event)
 
 $('#MGMT_AddEmployee').on('hide.bs.modal', function(event)
 {
-	$('#EmployeesTable tr td').remove();
-	requestData('/api/employees', '#EmployeesTable');
+	updateTables();
 });
 
 // Remove the table's elements after the model is hidden
@@ -282,11 +709,72 @@ $('#MGMT_Employees').on('hide.bs.modal', function(event)
 	$('#EmployeesTable tr td').remove();
 });
 
-$('#MGMT_Reports').on('show.bs.modal', function(){
-   alert("Hello World!");
+$('#MGMT_AddEmployee_btnSaveChanges').click( function()
+{
+	SubmitFormUser();
 });
 
 $('#MGMT_EditEmployee_btnSaveChanges').click( function()
 {
-	SubmitFormPUT();
+	SubmitFormUserPUT();
 });
+
+//
+// END EMPLOYEE LISTENERS
+//
+
+
+//
+// BEGIN REPORT LISTENERS
+//
+
+$('#MGMT_Reports').on('show.bs.modal', function(){
+   alert("Hello World!");
+});
+
+//
+// EMD REPORT LISTENERS
+//
+
+
+//
+// BEGIN INGREDIENT LISTENERS
+//
+
+$('#MGMT_Inventory').on('shown.bs.modal', function(event)
+{
+	requestData('/api/inventory', '#InventoryTable');
+});
+
+// Remove the table's elements after the model is hidden
+$('#MGMT_Inventory').on('hide.bs.modal', function(event)
+{
+	$('#InventoryTable tr td').remove();
+});
+
+// We need this here so we don't lose changes we've made to the inventory
+$('#MGMT_Inventory_btnAddIngredient').click( function()
+{
+	SubmitFormInventoryUpdateAll();
+	updateTables();
+});
+
+
+$('#MGMT_AddIngredient_btnSaveChanges').click( function()
+{
+	SubmitFormIngredient();
+});
+
+$('#MGMT_EditIngredient_btnSaveChanges').click( function()
+{
+	SubmitFormIngredientPUT();
+});
+
+$('#MGMT_Inventory_btnSaveChanges').click( function()
+{
+	SubmitFormInventoryUpdateAll();
+});
+
+//
+// END INGREDIENT LISTENERS
+//

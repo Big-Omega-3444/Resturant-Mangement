@@ -42,7 +42,7 @@
 	</nav>
 
 	<section class="features-icons bg-light text-center">
-			<div class="col-sm h-100 text-center text-lg-center my-auto">
+			<div class="col-sm h-75 text-center text-lg-center my-auto">
 				<ul class="list-inline mb-0">
 					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Employees"><i class="fas fa-address-book"></i> Manage Employees</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Reports"><i class="fas fa-book"></i> Reports</a></li>
@@ -57,7 +57,7 @@
 	</section>
 	
 	<!-- Begin REPORTS PAGE -->
-	<div id="MGMT_Reports" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div id="MGMT_Reports" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -80,7 +80,7 @@
 	<!-- End REPORTS PAGE 	-->
 
 	<!-- Begin EMPLOYEES PAGE -->	
-	<div id="MGMT_Employees" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1049">
+	<div id="MGMT_Employees" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1049">
 		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -91,8 +91,8 @@
 				<thead>
 					<tr>
 					<th>Name</th>
-					<th>Assignment</th>
-					<th>Edit</th>
+					<th width="10px">Assignment</th>
+					<th width="10px">Edit</th>
 					</tr>
 				</thead>
 			</table>
@@ -107,7 +107,7 @@
 	<!-- End EMPLOYEES PAGE -->	
 	
 	<!-- Begin ADD EMPLOYEE PAGE -->
-	<div id="MGMT_AddEmployee" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
+	<div id="MGMT_AddEmployee" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -224,7 +224,7 @@
 					</div>
 				</div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="javascript:SubmitForm()">Submit</button>
+                    <button class="btn btn-primary" id="MGMT_AddEmployee_btnSaveChanges" data-toggle="modal" data-target="#MGMT_AddEmployee">Submit</button>
                     <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddEmployee">Exit without Saving</button>
                 </div>
 			</div>
@@ -233,7 +233,7 @@
 	<!-- End ADD EMPLOYEE Page -->
 	
 	<!-- Begin EDIT EMPLOYEE PAGE -->
-	<div id="MGMT_EditEmployee" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
+	<div id="MGMT_EditEmployee" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -351,7 +351,7 @@
 					</div>
 				</div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" id="MGMT_EditEmployee_btnSaveChanges">Save Changes</button>
+                    <button class="btn btn-primary" id="MGMT_EditEmployee_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditEmployee">Save Changes</button>
                     <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditEmployee">Exit without Saving</button>
                 </div>
 			</div>
@@ -360,23 +360,28 @@
 	<!-- End EDIT EMPLOYEE Page -->
 	
 	<!-- Begin MENU PAGE -->	
-	<div id="MGMT_Menu" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div id="MGMT_Menu" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Menu Items</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-4">Do GET request on Menu Item</div>
-							<div class="col-md-4 ml-auto">Info/Edit/Remove Buttons goes here</div>
-						</div>
-					</div>
+					<table class="table table-bordered table-striped" id="MenuItemsTable">
+						<thead>
+							<tr>
+							<th>Name</th>
+							<th>Cost</th>
+							<th>Enable</th>
+							<th>Group</th>
+							<th>Edit</th>
+							</tr>
+						</thead>
+					</table>
 				</div>
 				<div class="modal-footer">
 					<a class="btn btn-primary" data-toggle="modal" href="#MGMT_AddMenuItem">Add Menu Item</a>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Save and Close</button>
 				</div>
 			</div>
 		</div>
@@ -384,7 +389,7 @@
 	<!-- End MENU PAGE -->	
 
 	<!-- Begin ADD MENU PAGE -->
-	<div id="MGMT_AddMenuItem" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div id="MGMT_AddMenuItem" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -392,29 +397,23 @@
 				</div>
 				<div class="modal-body">
 					<div class="Acontainer">
-						<form class="addEmployee" method="POST" action="/api/employees">
+						<form class="addMenuItem" method="POST" action="/api/menuitems">
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="firstnameTxtBox" name="firstname" placeholder="First name" required>
+									<input type="text" class="form-control" id="MI_name" name="name" placeholder="Name" required>
 								</div>
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="lastnameTxtBox" name="lastname" placeholder="Last name" required>
+									<input type="text" class="form-control" id="MI_cost" name="cost" placeholder="0.99">
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="address_streetTxtBox" name="address_street" placeholder="Address">
-								</div>
-								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="address_numberTxtBox" name="address_number" placeholder="Apartment, studio, or floor">
+									<input type="text" class="form-control" id="MI_desc" name="description" placeholder="Delicious..." required>
 								</div>
 							</div>
 							<div class="form-row">
-								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="address_cityTxtBox" name="address_city" placeholder="City">
-								</div>
-								<div class="form-group col-md-2 mb-3">
-									<select class="form-control" id="address_stateDropDown" name="address_state">
+								<div id="populateIngredients" class="form-group col-md-2 mb-3">
+									<select class="form-control" id="MI_ingredientsdropdownarray" name="ingredient[]" required>
 										<option selected>State</option>
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
@@ -470,7 +469,7 @@
 									</select>
 								</div>
 								<div class="form-group col-md-2">
-									<input type="text" class="form-control" id="address_zipTxtBox" name="address_zip" placeholder="Zip Code" required>
+									<input type="text" class="form-control" id="address_zipTxtBox" name="count" placeholder="Count" required>
 								</div>
 							</div>
 							<div class="form-row">
@@ -511,119 +510,6 @@
 					<h5 class="modal-title">TEMP MENU</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					<div class="Acontainer">
-
-							<div class="form-row">
-								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="First name" required>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="Last name" required>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4">
-									<input type="text" class="form-control" placeholder="Address">
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4">
-									<input type="text" class="form-control" placeholder="Apartment, studio, or floor">
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="City">
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4 mb-3">
-									<select class="form-control">
-										<option value="AL">Alabama</option>
-										<option value="AK">Alaska</option>
-										<option value="AZ">Arizona</option>
-										<option value="AR">Arkansas</option>
-										<option value="CA">California</option>
-										<option value="CO">Colorado</option>
-										<option value="CT">Connecticut</option>
-										<option value="DE">Delaware</option>
-										<option value="DC">District Of Columbia</option>
-										<option value="FL">Florida</option>
-										<option value="GA">Georgia</option>
-										<option value="HI">Hawaii</option>
-										<option value="ID">Idaho</option>
-										<option value="IL">Illinois</option>
-										<option value="IN">Indiana</option>
-										<option value="IA">Iowa</option>
-										<option value="KS">Kansas</option>
-										<option value="KY">Kentucky</option>
-										<option value="LA">Louisiana</option>
-										<option value="ME">Maine</option>
-										<option value="MD">Maryland</option>
-										<option value="MA">Massachusetts</option>
-										<option value="MI">Michigan</option>
-										<option value="MN">Minnesota</option>
-										<option value="MS">Mississippi</option>
-										<option value="MO">Missouri</option>
-										<option value="MT">Montana</option>
-										<option value="NE">Nebraska</option>
-										<option value="NV">Nevada</option>
-										<option value="NH">New Hampshire</option>
-										<option value="NJ">New Jersey</option>
-										<option value="NM">New Mexico</option>
-										<option value="NY">New York</option>
-										<option value="NC">North Carolina</option>
-										<option value="ND">North Dakota</option>
-										<option value="OH">Ohio</option>
-										<option value="OK">Oklahoma</option>
-										<option value="OR">Oregon</option>
-										<option value="PA">Pennsylvania</option>
-										<option value="RI">Rhode Island</option>
-										<option value="SC">South Carolina</option>
-										<option value="SD">South Dakota</option>
-										<option value="TN">Tennessee</option>
-										<option value="TX">Texas</option>
-										<option value="UT">Utah</option>
-										<option value="VT">Vermont</option>
-										<option value="VA">Virginia</option>
-										<option value="WA">Washington</option>
-										<option value="WV">West Virginia</option>
-										<option value="WI">Wisconsin</option>
-										<option value="WY">Wyoming</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-2">
-								  <input type="text" class="form-control" placeholder="Zip Code" required>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4 mb-3">
-								  <input id="telNo" type="tel" class="form-control" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-2">
-								  <input type="email" class="form-control"  placeholder="student@my.unt.edu" minlength="6" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-								  <label class="form-check-label" for="invalidCheck">
-									Agree to terms and conditions
-								  </label>
-								  <div class="invalid-feedback">
-									You must agree before submitting.
-								  </div>
-								</div>
-							</div>
-						  <button class="btn btn-primary" type="submit">Submit form</button>
-						</form>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -755,28 +641,108 @@
 	</div>
 
 	<!-- Begin INVENTORY PAGE -->	
-	<div id="MGMT_Inventory" class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1049">
-		<div class="modal-dialog modal-xl" role="document">
+	<div id="MGMT_Inventory" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1049">
+		<div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Inventory</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
+				<div class="modal-header">
+					<input class="form-control" id="MGMT_Inventory_Search" type="text" placeholder="Search..">
+				</div>
 				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-4">Do GET request on Inventory here</div>
-							<div class="col-md-4 ml-auto">Info/Edit/Remove Buttons goes here</div>
-						</div>
-					</div>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+							<th width="5px">Name</th>
+							<th width="3px">Qty</th>
+							<th>Edit</th>
+							</tr>
+						</thead>
+						<tbody id="InventoryTable">
+						</tbody>
+					</table>
 				</div>
 				<div class="modal-footer">
-					<a class="btn btn-primary" data-toggle="modal" href="#MGMT_AddEmployee">Add Item</a>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<a class="btn btn-primary" id="MGMT_Inventory_btnAddIngredient" data-toggle="modal" href="#MGMT_AddIngredient">Add Ingredient</a>
+					<button type="button" class="btn btn-secondary" id="MGMT_Inventory_btnSaveChanges" data-toggle="modal" data-target="#MGMT_Inventory">Save and Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- End INVENTORY PAGE -->	
+
+	<!-- Begin ADD INGREDIENTS PAGE -->
+	<div id="MGMT_AddIngredient" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add Ingredient</h5>
+				</div>
+				<div class="modal-body">
+					<div class="Acontainer">
+						<form id="addIngredient">
+							<div class="form-row">
+								<div class="form-group">
+									<input type="text" class="form-control" id="ingredientNameField" name="name" placeholder="Ingredient Name" value="" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="ingredientAllergenField" name="allergen" value="false">
+								  <label class="form-check-label" for="ingredientAllergenField">
+									Allergen?
+								  </label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="MGMT_AddIngredient_btnSaveChanges" data-toggle="modal" data-target="#MGMT_AddIngredient">Create</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddIngredient">Exit without Saving</button>
+                </div>
+			</div>
+		</div>
+	</div>
+	<!-- End ADD INGREDIENTS PAGE -->
+
+	<!-- Begin EDIT INGREDIENTS PAGE -->
+	<div id="MGMT_EditIngredient" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Modify Ingredient Information</h5>
+				</div>
+				<div class="modal-body">
+					<div class="Acontainer">
+						<form id="editIngredientForm">	
+							<input type="hidden" id="ingID" name="uid">
+							<div class="form-row">
+								<div class="form-group">
+									<input type="text" class="form-control" id="ingredientNameField" name="name" placeholder="Ingredient Name" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="ingredientAllergenField" name="allergen" required>
+								  <label class="form-check-label" for="ingredientAllergenField">
+									Allergen?
+								  </label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="MGMT_EditIngredient_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditIngredient">Save Changes</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditIngredient">Exit without Saving</button>
+                </div>
+			</div>
+		</div>
+	</div>
+	<!-- End EDIT INGREDIENTS Page -->
+
 	
 		<div id="Logout" class="modal fade" role="dialog">
 			<div class="modal-dialog">
