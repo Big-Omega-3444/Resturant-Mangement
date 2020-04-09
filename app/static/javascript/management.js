@@ -773,7 +773,6 @@ $('#MGMT_EditIngredient_btnSaveChanges').click( function()
 $('#MGMT_Inventory_btnSaveChanges').click( function()
 {
 	SubmitFormInventoryUpdateAll();
-	updateTables();
 });
 
 //
