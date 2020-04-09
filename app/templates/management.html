@@ -647,8 +647,11 @@
 				<div class="modal-header">
 					<h5 class="modal-title">Inventory</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
+				<div class="modal-header">
+					<input class="form-control" id="MGMT_Inventory_Search" type="text" placeholder="Search..">
+				</div>
 				<div class="modal-body">
-					<table class="table table-bordered table-striped" id="InventoryTable">
+					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
 							<th width="5px">Name</th>
@@ -656,6 +659,8 @@
 							<th>Edit</th>
 							</tr>
 						</thead>
+						<tbody id="InventoryTable">
+						</tbody>
 					</table>
 				</div>
 				<div class="modal-footer">

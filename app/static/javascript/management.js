@@ -675,6 +675,16 @@ function updateTables()
 	requestData('/api/inventory', '#InventoryTable');		
 }
 
+//Taken from JSFunctions but made specifically for Inventory Table
+$(document).ready(function(){
+  $("#MGMT_Inventory_Search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#InventoryTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
 // Event listener for specific modals and other stuff
 // These listens for certain events on the management page and executes code when opened
 
