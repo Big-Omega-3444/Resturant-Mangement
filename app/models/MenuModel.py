@@ -9,10 +9,10 @@ from models.MenuItemModel import MenuItemModel
 
 class MenuModel(Document):
     name = StringField(required=True)
-    items = ListField(ReferenceField(MenuItemModel))
+    items = ListField(ReferenceField('MenuItemModel'))
     description = StringField(default="Default Menu Description")
     image = URLField()
-    
+
     pass
 
 class MenuResource(TemplateResource):

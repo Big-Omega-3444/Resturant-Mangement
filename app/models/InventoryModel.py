@@ -12,13 +12,13 @@ class InventoryModel(Document):
     count = IntField(required=True)
 
     def clean(self):
-        try {
+        try:
             if IngredientModel.objects(id=self.ingredient.id) is None:
-            msg = 'Object does not exist'
-        } except {
+                msg = 'Object does not exist'
+                raise ValidationError(msg)
+        except:
             msg = 'Malformated request'
             raise ValidationError(msg)
-        }
 
 class InventoryResource(TemplateResource):
     model = InventoryModel
