@@ -619,7 +619,8 @@ function requestData(url, selector)
 					populateEditMenuItems(JSON.parse(request.responseText), selector)
 					break;
 				case '#MGMT_AddMenuItem_IngredientSelector_InventoryTable_Body':
-					populateAddMenuIngredientSelectorItems(JSON.parse(request.responseText), selector, false)	
+					populateAddMenuIngredientSelectorItems(JSON.parse(request.responseText), selector, false)
+					break;
 				case '#MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body':
 					populateEditMenuIngredientSelectorItems(JSON.parse(request.responseText), selector)	
 					break;
@@ -935,7 +936,6 @@ function deleteMenuItem(object)
 	};
 
 	request.send();	
-	request.extraInfo = str[1];
 	
 }
 
@@ -1335,6 +1335,15 @@ function populateAddMenuIngredientSelectorItems(data, selector, edit)
 	// Create our array of XMLHttpRequests
 	var requests = []
 	
+	if (edit === false)
+	{
+		//Scrub the data and change the counts to 0
+		for (i = 0; i < data.length; i++)
+		{
+			data[i].count = 0;
+		}
+	}
+	
 	// Build the table
 	for(i = 0; i < data.length; i++) {
 		(function (i){
@@ -1629,6 +1638,14 @@ $('#MGMT_EditMenuItem_IngredientSelector').on('show.bs.modal', function(){
 	requestData('/api/inventory', '#MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body');	
 });
 
+$('#MGMT_AddMenuItem_IngredientSelector').on('hide.bs.modal', function(){
+	$('#MGMT_AddMenuItem_IngredientSelector_InventoryTable_Body tr td').remove();
+});
+
+$('#MGMT_EditMenuItem_IngredientSelector').on('hide.bs.modal', function(){
+	$('#MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body tr td').remove();
+});
+
 $('#MGMT_AddMenuItem').on('show.bs.modal', function(event)
 {
 	$('#MGMT_MenuItem_InventoryTable_Body tr td').remove();
@@ -1660,7 +1677,7 @@ $('#MGMT_EditMenuItem_IS_btnSaveChanges').click( function()
 {
 	$('#MGMT_EditMenuItem_InventoryTable_Body tr td').remove();	
 	SaveChangesIS('#MGMT_EditMenuItem_InventoryTable_Body', true);
-	$('#MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body tr td').remove();	
+9
 });
 
 // This menu cannot have it's table destroyed after it is hidden,
