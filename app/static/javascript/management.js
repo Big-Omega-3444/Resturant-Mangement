@@ -495,6 +495,93 @@ function SubmitFormInventoryUpdateAll()
 	}
 }
 
+// Unique function that gathers all of the new inputs from the generated forms then POSTs to the Inventory API
+function SubmitFormMenuUpdateAll(menuDatas)
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	var data = document.getElementsByClassName('menuSelector');
+	
+	// Build requests
+	for(i = 0; i < data.length; i++) {
+		//Exit out if the selected option is none (only happens after creating the menu item for the first time and not assigning it somewhere)
+		if (data[i].selectedOptions[0].value == "none" || data[i].selectedOptions[0].id == "NoItem")
+			continue;
+		
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			var url = "";
+			var deletion = false;
+
+			//Generate data
+			var menuData = {};
+			
+			// Retrieve JSON that matches the IDs
+			for (j = 0; j < menuDatas.length; j++)
+			{
+				if 	(menuDatas[j]._id.$oid == data[i].selectedOptions[0].id)
+				{
+					menuData = menuDatas[j];
+					j = menuDatas.length;
+					deletion = true;
+				}
+				else if (menuDatas[j]._id.$oid == data[i].selectedOptions[0].value)
+				{
+					menuData = menuDatas[j];
+					j = menuDatas.length;					
+				}
+					
+			}
+			
+			var url = "/api/menus/" + menuData._id.$oid;	
+			
+			if (deletion == true)
+			{
+				for (k = 0; k < menuData.items.length; k++)	
+				{
+					if (menuData.items[k] == data[i].id)
+					{
+						delete menuData.items[k];
+						k = menuData.items.length;
+					}
+				}
+			}
+			else
+				menuData.items.push(data[i].id);
+
+			requests[i].open('PUT', url);
+			
+			// Handle on load
+			requests[i].onload = function()
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					return;
+				}
+				else 
+				{	
+					//TODO: Create alert in HTML instead of using this to specify error
+					var error = JSON.parse(requests[i].responseText)
+					console.log(error.message)
+					alert(`Error ${requests[i].status}: ${error.message}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+			
+			requests[i].setRequestHeader("Content-Type", "application/json");		
+			requests[i].send(JSON.stringify(menuData));	
+		})(i);
+	}
+}
+
 // Function that does a GET request on the specified API
 // This is the primary function that does a GET on specific objects, then based on the selector variable, populates a table
 function requestData(url, selector)
@@ -547,6 +634,9 @@ function requestData(url, selector)
 				}
 				case '#MGMT_MenuItemsTable_Body':
 					populateMenuItemTable(JSON.parse(request.responseText), selector)
+					break;
+				case '#MGMT_DummySelector_MenuItemUpdate':
+					SubmitFormMenuUpdateAll(JSON.parse(request.responseText));
 					break;
 				default:
 					break;
@@ -641,6 +731,40 @@ function requestMenuItem(object)
 	
 	// Create the url to retrieve user
 	var url = "/api/menuitems/" + object.id;	
+	
+	request.open('GET', url);
+	
+	// Handle on load
+	request.onload = function() 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{	
+			autofillEditMenuItemForm(JSON.parse(request.responseText))
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+}
+
+// Function that does a GET request on the specified API
+// This grabs a specific user using the same method as the deletion function
+function requestMenuCategory(object, id)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	// Create the url to retrieve menu category
+	var url = "/api/menu/" + object.id;	
 	
 	request.open('GET', url);
 	
@@ -1002,34 +1126,96 @@ function populateMenuCategoryTable(data, selector)
 //Same as above but creates a table of 
 function populateMenuItemTable(data, selector)
 {
-	// Build the table
-	for(i = 0; i < data.length; i++)
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	// Create the url to retrieve user
+	var url = "/api/menus";	
+	
+	request.open('GET', url);
+	
+	// Handle on load
+	request.onload = function(data) 
 	{
-		var row = $('<tr/>')
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{	
+			menus = JSON.parse(request.responseText);
+			// Build the table
+			for(i = 0; i < data.target.extraInfo.length; i++)
+			{
+				var row = $('<tr/>')
+				
+				// Menu Item name
+				row.append($('<td/>').html(data.target.extraInfo[i].name));
+				
+				// Menu Item cost
+				row.append($('<td/>').html(data.target.extraInfo[i].cost));
+				
+				//Create buttons for specific ID
+				var uid = ""
+				uid = data.target.extraInfo[i]._id.$oid;
+				
+				//Build input selector with unique ID for each
+				var options = $(`<select class="menuSelector" id="${uid}"/>`);
+				var isSelected = false;
+				for (j = 0; j < menus.length; j++)
+				{
+					if (isSelected === false)
+					{
+						if (menus[j].items.length == 0)
+						{
+							options.append($('<option id="NoItems" value="none" selected/>').html("None"));
+							isSelected = true;
+						}
+						else
+						{
+							//For this case, there is some existing menu items, so create a "None" fallback option
+							for (k = 0; k < menus[j].items.length; j++)
+							{
+								var str1 = (menus[j].items[k]).toString()
+								if (str1 === uid)
+								{
+									options.append($(`<option id="${menus[j]._id.$oid}" value="none"/>`).html("None"));
+									options.append($(`<option value="${menus[j]._id.$oid}" selected/>`).html(menus.name));
+									k = menus[j].length;
+									isSelected = true;
+								}
+							}
+						}
+					}
+					options.append($(`<option value="${menus[j]._id.$oid}"/>`).html(menus[j].name));
+				}
+				
+				row.append($('<td/>').html(options));
+				
+				var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditMenuItem"/>`).click(function() {
+					requestMenuItem(this);
+				}).html("EDIT");
 		
-		// Menu Item name
-		row.append($('<td/>').html(data[i].name));
-		
-		// Menu Item cost
-		row.append($('<td/>').html(data[i].cost));
-		
-		//Create buttons for specific ID
-		var uid = data[i]._id.$oid;
-		
-		row.append($('<td/>').html("To Be Done"));
-		
-		var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditMenuItem"/>`).click(function() {
-			requestMenuItem(this);
-		}).html("EDIT");
-
-		var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
-			deleteMenuItem(this);
-		}).html("DEL");
-		
-		row.append($('<td/>').html(editButton).append(deleteButton));
-		
-		$(selector).append(row);
-	}
+				var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
+					deleteMenuItem(this);
+				}).html("DEL");
+				
+				row.append($('<td/>').html(editButton).append(deleteButton));
+				
+				$(selector).append(row);
+			}
+			return;
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+	
+	request.extraInfo = data;
+	request.send();	
 }
 
 function populateAddMenuItems(data, selector)
@@ -1359,7 +1545,6 @@ function SaveChangesIS (selector, edit)
 	}	
 }
 
-
 // Helper functions
 // Uses jquery to target a specific cell, and replaces the contents of that cell
 function replaceCellContent(selector, find, cell, replace)
@@ -1478,19 +1663,25 @@ $('#MGMT_EditMenuItem_IS_btnSaveChanges').click( function()
 	$('#MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body tr td').remove();	
 });
 
+// This menu cannot have it's table destroyed after it is hidden,
+// as it would be too late to update some of it's elements to the server
 $('#MGMT_Menu').on('show.bs.modal', function(event)
 {
+	$('#MenuCategoryTable tr td').remove();
+	$('#MGMT_MenuItemsTable_Body tr td').remove();	
 	requestData('/api/menus', '#MenuCategoryTable');
 	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');
 });
 
-$('#MGMT_Menu').on('hide.bs.modal', function(event)
+$('#MGMT_Menu_btnSaveChanges1').click( function()
 {
-	$('#MenuCategoryTable tr td').remove();
-	$('#MGMT_MenuItemsTable_Body tr td').remove();
+	requestData('/api/menus', '#MGMT_DummySelector_MenuItemUpdate');
 });
 
-
+$('#MGMT_Menu_btnSaveChanges2').click( function()
+{
+	requestData('/api/menus', '#MGMT_DummySelector_MenuItemUpdate');	
+});
 
 
 //
