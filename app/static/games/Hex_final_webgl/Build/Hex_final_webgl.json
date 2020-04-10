@@ -1,7 +1,7 @@
 {
-"companyName": "DefaultCompany",
+"companyName": "Big Omega",
 "productName": "Hexagon - The Game",
-"productVersion": "0.1",
+"productVersion": "1.0",
 "dataUrl": "Hex_final_webgl.data.unityweb",
 "wasmCodeUrl": "Hex_final_webgl.wasm.code.unityweb",
 "wasmFrameworkUrl": "Hex_final_webgl.wasm.framework.unityweb",

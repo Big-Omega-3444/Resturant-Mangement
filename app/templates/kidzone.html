@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="description" content="CSCE 3444 Project">
+	<title>Big Omega Ω</title>
+	<!-- Bootstrap core CSS -->
+	<link href="{{ url_for('static', filename='bootstrap/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+	<!-- Collapse Menu -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<!-- Custom icons for section cards -->
+	<script src="https://kit.fontawesome.com/acaa606056.js"></script>
+	<!-- Custom Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+	<!-- Custom styles for this template -->
+	<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+	<!-- Custom Javascript Functions -->
+	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
+	<!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
+	<!-- Rotating Card Function -->
+	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
+
+	<!-- Include Unity Assets for games -->
+	<link href=" {{ url_for('static', filename='games/Hex_final_webgl/TemplateData/style.css') }}" rel="stylesheet">
+
+    <!-- Include Unity Scripts for games -->
+	<script src="{{ url_for('static', filename='games/Hex_final_webgl/Build/UnityLoader.js') }}"></script>
+	<script src="{{ url_for('static', filename='games/Hex_final_webgl/TemplateData/UnityProgress.js') }}"></script>
+	<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
+</head>
+
+<body style="background:linear-gradient(to right bottom,#47275b,#3a2249)">
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-dark static-top" style="background-color: #58376c">
+		<div class="container">
+			<a class="navbar-brand" href="javascript:void(0);">Big Omega Ω Kidz Zone</a>
+		</div>
+		<!-- Kid Options -->
+		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#KidLogout"><i class="fa fa-cog fa-2x"></i></button>
+		<!-- Kid Options Modal -->
+		<div id="KidLogout" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Options</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						 <div class="Acontainer">
+							  <div class="col-sm-9 col-md-7 col-lg-5">
+								<div class="card card-signin my-5">
+								  <div class="card-body">
+									<div class="form-label-group">
+										<a href="" data-toggle="modal" data-target="#RegPrompt" ><button id="registerButton" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register PIN</button></a>
+									</div>
+									<a href="" data-toggle="modal" data-target="#KidPrompt" onclick=checkPassExist()><button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Exit Kidz Zone</button></a>
+									<hr class="my-4">
+								  </div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Kid Options -->
+
+		<!-- Exit Prompt Modal -->
+		<div id="KidPrompt" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Leave Kidz Mode</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						 <div class="Acontainer">
+							  <div class="col-sm-9 col-md-7 col-lg-5">
+								<div class="card card-signin my-5">
+								  <div class="card-body">
+									<form class="form-signin">
+									  	<div class="form-label-group"><!--required autofocus-->
+											<input type="password" id="parentPassword" class="form-control" placeholder="PIN">
+											<label for="parentPassword">PIN</label>
+									  	</div>
+										<div class="form-label-group">
+											<a href="" data-dismiss="modal" onclick=exitKidZone()><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button></a>
+										</div>
+									  	<hr class="my-4">
+									</form>
+								  </div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Exit Prompt -->
+
+		<!-- Register Prompt Modal -->
+		<div id="RegPrompt" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Register a PIN</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						 <div class="Acontainer">
+							  <div class="col-sm-9 col-md-7 col-lg-5">
+								<div class="card card-signin my-5">
+								  <div class="card-body">
+									<form class="form-signin">
+									  	<div class="form-label-group"><!--required autofocus-->
+											<input type="password" id="regPassword" class="form-control" placeholder="PIN">
+											<label for="regPassword">PIN</label>
+									  	</div>
+										<div class="form-label-group">
+											<a href="" data-dismiss="modal" onclick=savePass()><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Submit</button></a>
+										</div>
+									  	<hr class="my-4">
+									</form>
+								  </div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Register Prompt -->
+
+
+	</nav>
+	<!-- End Navigation Menu -->
+	
+	<!-- Main Menu -->
+	<section class="features-icons text-center">
+		<div class="container">
+			<div class="row">
+				<!-- Hex Div -->
+				<div class="col-lg-4">
+					<div data-toggle="modal" onclick="startHex()" data-target="#Hex" class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+						<div class="features-icons-icon d-flex">
+							<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(45).jpg" style="width:100%">
+						</div>
+							<h3 style="color: lavender">Hexagon: The Game</h3>
+					</div>
+				</div>
+				<!-- End Hex Div -->
+
+				<!-- Stack Div -->
+				<div class="col-lg-4">
+					<div data-toggle="modal" onclick="startStack()" data-target="#Stack" class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+						<div class="features-icons-icon d-flex">
+							<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" style="width:100%">
+						</div>
+						<h3 style="color: lavender">Stupid Stacker</h3>
+					</div>
+				</div>
+				<!-- End Stack Div -->
+				
+				<!-- Three Div -->
+				<div class="col-lg-4">
+					<div data-toggle="modal" data-target="#Three" class="features-icons-item mx-auto mb-0 mb-lg-3">
+						<div class="features-icons-icon d-flex">
+							<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(47).jpg" style="width:100%">
+						</div>
+						<h3 style="color: lavender">Third Game</h3>
+					</div>
+				</div>
+				<!-- End Three Div -->
+
+				<!-- Hex Modal -->
+				 <div id="Hex" class="modal fade" role="dialog">
+						<div class="modal-dialog modal-xl" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Hexagon: The Game</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+							<div class="modal-body">
+								<div class="container-fluid" style="width: 960px; height: 700px">
+									<div class="webgl-content">
+									  <div id="unityContainerHEX" style="width: 960px; height: 600px"></div>
+									  <div class="footer">
+										<div class="webgl-logo"></div>
+										<div class="fullscreen" onclick="unityInstanceHEX.SetFullscreen(1)"></div>
+										<div class="title">Hexagon - The Game</div>
+									  </div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Hex Modal -->
+
+				<!-- Stack Modal -->
+				 <div id="Stack" class="modal fade" role="dialog">
+						<div class="modal-dialog modal-xl" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Stupid Stacker</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+							<div class="modal-body">
+								<div class="container-fluid" style="width: 960px; height: 700px">
+									<div class="webgl-content">
+									  <div id="unityContainerSTACK" style="width: 960px; height: 600px"></div>
+									  <div class="footer">
+										<div class="webgl-logo"></div>
+										<div class="fullscreen" onclick="unityInstanceSTACK.SetFullscreen(1)"></div>
+										<div class="title">Stupid Stacker</div>
+									  </div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Stack Modal -->
+
+				<!-- Three Modal -->
+				 <div id="Three" class="modal fade" role="dialog">
+						<div class="modal-dialog modal-xl" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Half Life 3</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+							<div class="modal-body">
+								<div class="container-fluid" style="width: 960px; height: 700px">
+									<div class="webgl-content">
+									  <div id="unityContainerThree" style="width: 960px; height: 600px"></div>
+									  <div class="footer">
+										<div class="webgl-logo"></div>
+										<div class="fullscreen" onclick="unityInstanceThree.SetFullscreen(1)"></div>
+										<div class="title">Half Life 3</div>
+									  </div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Three Modal -->
+			</div>
+		</div>
+	</section>
+	<!-- End Main Menu -->
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+					<ul class="list-inline mb-2">
+						<li class="list-inline-item">
+							<a href="about">About</a>
+						</li>
+						<li class="list-inline-item">&sdot;</li>
+						<li class="list-inline-item">
+							<a href="contact">Contact</a>
+						</li>
+						<li class="list-inline-item">&sdot;</li>
+						<li class="list-inline-item">
+							<a href="termsOfUse">Terms of Use</a>
+						</li>
+						<li class="list-inline-item">&sdot;</li>
+						<li class="list-inline-item">
+							<a href="privacyPolicy">Privacy Policy</a>
+						</li>
+					</ul>
+					<p class="text-muted small mb-4 mb-lg-0">&copy; Big Omega Ω 2020. All Rights Reserved.</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+</body>
+
+</html>

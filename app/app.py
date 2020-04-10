@@ -3,9 +3,13 @@ import logging
 from flask import Flask, request, jsonify, render_template, current_app, redirect, url_for
 from flask_restful import Api
 from config import Config
-from forms import EmpLogin, LoySignup, LoyLogin, EmpRegister, ContactUs
 from models.UserModel import UserResource, UserResourceList
 from models.EmployeeModel import EmployeeResource, EmployeeResourceList
+from models.IngredientModel import IngredientResource, IngredientResourceList
+from models.MenuItemModel import MenuItemResource, MenuItemResourceList
+from models.OrderModel import OrderResource, OrderResourceList
+from models.MenuModel import MenuResource, MenuResourceList
+from models.InventoryModel import InventoryResource, InventoryResourceList
 from database import Database as db
 
 
@@ -13,6 +17,9 @@ from database import Database as db
 application = Flask(__name__)
 api = Api(application)
 application.config.from_object(Config)
+
+application.logger.setLevel(logging.DEBUG)
+
 # Route the user api
 api.add_resource(UserResourceList, '/api/users')
 api.add_resource(UserResource, '/api/users/<id>')
@@ -20,42 +27,35 @@ api.add_resource(UserResource, '/api/users/<id>')
 api.add_resource(EmployeeResourceList, '/api/employees')
 api.add_resource(EmployeeResource, '/api/employees/<id>')
 
-application.logger.setLevel(logging.INFO)
+api.add_resource(IngredientResourceList, '/api/ingredients')
+api.add_resource(IngredientResource, '/api/ingredients/<id>')
+
+api.add_resource(MenuItemResourceList, '/api/menuitems')
+api.add_resource(MenuItemResource, '/api/menuitems/<id>')
+
+api.add_resource(OrderResourceList, '/api/orders')
+api.add_resource(OrderResource, '/api/orders/<id>')
+
+api.add_resource(MenuResourceList, '/api/menus')
+api.add_resource(MenuResource, '/api/menus/<id>')
+
+api.add_resource(InventoryResourceList, '/api/inventory')
+api.add_resource(InventoryResource, '/api/inventory/<id>')
+
+
 
 
 with application.app_context():
     db.init()
 
 
-
-
-
 @application.route('/')
 def index():
-    empLogin = EmpLogin(prefix="EmpLog")    # employee login form
-    loySignup = LoySignup(prefix="LoySign") # loyalty signup form
-    loyLogin = LoyLogin(prefix="LoyLog")    # loyalty sign in form
+        return render_template('index.html')
 
-    if empLogin.validate(): # if the emplogin input is valid
-        # SELECT against employee database
-        # if valid
-            # if waitStaff
-                # return redirect(url_for('waitStaff'))
-            # if kitchenStaff
-                # return redirect(url_for('kitchenStaff'))
-        # if management
-        return redirect(url_for('management')) # send them to the management window
-#    elif loySignup.validate():
-        # SELECT against loyalty database
-        # if invalid (user doesn't exist)
-        # INSERT into database
-#    elif loyLogin.validate():
-        # SELECT against loyalty database
-        # if valid
-        # redirect to loyalty index.html?
-
-    return render_template('index.html',
-                           empLogin = empLogin, loyLogin = loyLogin, loySignup = loySignup)
+@application.route('/kidzone')
+def kidzone():
+        return render_template('kidzone.html')
 
 @application.route('/about')
 def about():
@@ -63,15 +63,7 @@ def about():
 
 @application.route('/contact')
 def contact():
-  
-    contact = ContactUs(prefix="Contact") # contact form
-
-    if contact.validate(): # if we get valid input
-        # send to a database?
-        return redirect(url_for('index')) # redirect to home
-
-    return render_template('contact.html',
-                           contact = contact)
+    return render_template('contact.html')
     
     
 @application.route('/waitstaff')
@@ -82,20 +74,9 @@ def waitstaff():
 def kitchen():
     return render_template('kitchen.html')
 	
-    
-
 @application.route('/management')
 def management():
-    empRegister = EmpRegister(prefix="EmpReg") # employee register form
-
-    # if empRegister.validate():
-    # SELECT against employee database
-    # if invalid (user doesn't exist)
-    # INSERT into database
-    # redirect to management probably?
-
-    return render_template('management.html',
-                           empRegister = empRegister)
+    return render_template('management.html')
 
 @application.route('/termsOfUse')
 def termsOfUse():
