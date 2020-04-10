@@ -181,142 +181,6 @@ function SubmitFormInventory(OID)
 }
 
 
-//On submit, PUT a form to the api
-//Not to be confused with SubmitForm(), which does a POST request
-function SubmitFormUserPUT()
-{
-    event.preventDefault();
-	
-    var put = new XMLHttpRequest();
-	
-	var url = "/api/employees/" + $('#editEmployee').find('#userID').val();
-
-    // POST to the API
-    put.open('PUT', url);
-	
-	// Handle errors	
-	//To Do: Alert user if errors occured, even OnLoad
-	put.error = function() 
-	{
-		alert("Request Failed!");
-	};	
-	
-	// Handle on load
-	put.onload = function() 
-	{
-		//Check for OK or CREATED status
-		if (put.status === 200 || put.status === 201 || put.status === 204)
-		{
-			updateTables();
-		}
-		else
-		{
-			//TODO: Create alert in HTML instead of using this to specify error
-			var error = JSON.parse(put.responseText)
-			console.log(error.message)
-			
-			alert(`Error ${put.status}: ${error.message}`);
-		}
-	};
-
-    var formData = new FormData(document.getElementById("editEmployee"));
-	formData.delete('uid');		//This was just so we can retrieve it again in the future (which we did)
-    put.send(formData);
-}
-
-// Same as above, but does it for Ingredients
-function SubmitFormIngredientPUT()
-{
-    event.preventDefault();
-	
-    var put = new XMLHttpRequest();
-	
-	var url = "/api/ingredients/" + $('#editIngredientForm').find('#ingID').val();
-
-    // POST to the API
-    put.open('PUT', url);
-	
-	// Handle errors	
-	//To Do: Alert user if errors occured, even OnLoad
-	put.error = function() 
-	{
-		alert("Request Failed!");
-	};	
-	
-	// Handle on load
-	put.onload = function() 
-	{
-		//Check for OK or CREATED status
-		if (put.status === 200 || put.status === 201 || put.status === 204)
-		{
-			updateTables();
-		}
-		else
-		{
-			//TODO: Create alert in HTML instead of using this to specify error
-			var error = JSON.parse(put.responseText)
-			console.log(error.message)
-			
-			alert(`Error ${put.status}: ${error.message}`);
-		}
-	};
-
-    var formData = new FormData(document.getElementById("editIngredientForm"));
-	formData.delete('uid');		//This was just so we can retrieve it again in the future (which we did)
-	
-    put.send(formData);
-}
-
-
-// Unique function that gathers all of the new inputs from the generated forms then POSTs to the Inventory API
-function SubmitFormInventoryUpdateAll()
-{
-	// Create our array of XMLHttpRequests
-	var requests = []
-	
-	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
-	var data = document.querySelectorAll('*[class="ing_update"]');
-	var origin =  document.querySelectorAll('*[class="inv_update"]');
-	
-	// Build the table
-	for(i = 0; i < data.length; i++) {
-		(function (i){
-			requests[i] = new XMLHttpRequest();		
-			
-			var url = "/api/inventory/" + origin[i].id;
-			requests[i].open('PUT', url);
-			
-			//Generate data
-			var formData = new FormData();
-			formData.append("count", parseInt(data[i].nextSibling.value));
-	
-			// Handle on load
-			requests[i].onload = function()
-			{
-				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
-				{
-					return;
-				}
-				else 
-				{	
-					//TODO: Create alert in HTML instead of using this to specify error
-					var error = JSON.parse(requests[i].responseText)
-					console.log(error.message)
-					alert(`Error ${requests[i].status}: ${error.message}`);
-				}
-			};
-		
-			// Handle on errors	
-			requests[i].error = function() 
-			{
-				alert("Request Failed!");
-			};	
-		
-			requests[i].send(formData);	
-		})(i);
-	}
-}
-
 //On submit, post a form to the api
 function SubmitFormMenuCategory()
 {
@@ -429,6 +293,208 @@ function SubmitFormMenuItem()
 }
 
 
+//On submit, PUT a form to the api
+//Not to be confused with SubmitForm(), which does a POST request
+function SubmitFormUserPUT()
+{
+    event.preventDefault();
+	
+    var put = new XMLHttpRequest();
+	
+	var url = "/api/employees/" + $('#editEmployee').find('#userID').val();
+
+    // POST to the API
+    put.open('PUT', url);
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	put.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	put.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (put.status === 200 || put.status === 201 || put.status === 204)
+		{
+			updateTables();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(put.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${put.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("editEmployee"));
+	formData.delete('uid');		//This was just so we can retrieve it again in the future (which we did)
+    put.send(formData);
+}
+
+// Same as above, but does it for Ingredients
+function SubmitFormIngredientPUT()
+{
+    event.preventDefault();
+	
+    var put = new XMLHttpRequest();
+	
+	var url = "/api/ingredients/" + $('#editIngredientForm').find('#ingID').val();
+
+    // POST to the API
+    put.open('PUT', url);
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	put.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	put.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (put.status === 200 || put.status === 201 || put.status === 204)
+		{
+			updateTables();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(put.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${put.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("editIngredientForm"));
+	formData.delete('uid');		//This was just so we can retrieve it again in the future (which we did)
+	
+    put.send(formData);
+}
+
+// Same as above, but does it for MenuItems
+function SubmitFormMenuItemPUT()
+{
+    event.preventDefault();
+	
+    var put = new XMLHttpRequest();
+	
+	var url = "/api/menuitems/" + $('#EditMenuItemForm').find('#miID').val();
+	
+	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	var data = document.querySelectorAll('*[class="EMI_ing_update"]');
+	var origin =  document.querySelectorAll('*[class="EMI_inv_update"]');
+	
+    // POST to the API
+    put.open('PUT', url);
+	
+    var formData = new FormData(document.getElementById("EditMenuItemForm"));	
+	
+	//Needs to be in JSON format, no other way around it
+	var payload =
+	{ 
+		"name": formData.get('name'),
+		"description": formData.get('description'),
+		"cost": parseFloat(formData.get('cost')),
+		"image": formData.get('image'),
+		"ingredients": []
+	};
+	
+	for (i = 0; i < data.length; i++)
+	{
+		var value = parseInt(data[i].nextSibling.value);
+		if (value > 0)
+		{
+			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
+		}
+	}
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	put.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	put.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (put.status === 200 || put.status === 201 || put.status === 204)
+		{
+			updateTables();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(put.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${put.status}: ${error.message}`);
+		}
+	};
+
+	put.setRequestHeader("Content-Type", "application/json");	
+    put.send(JSON.stringify(payload));
+}
+
+
+// Unique function that gathers all of the new inputs from the generated forms then POSTs to the Inventory API
+function SubmitFormInventoryUpdateAll()
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	var data = document.querySelectorAll('*[class="ing_update"]');
+	var origin =  document.querySelectorAll('*[class="inv_update"]');
+	
+	// Build the table
+	for(i = 0; i < data.length; i++) {
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			var url = "/api/inventory/" + origin[i].id;
+			requests[i].open('PUT', url);
+			
+			//Generate data
+			var formData = new FormData();
+			formData.append("count", parseInt(data[i].nextSibling.value));
+	
+			// Handle on load
+			requests[i].onload = function()
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					return;
+				}
+				else 
+				{	
+					//TODO: Create alert in HTML instead of using this to specify error
+					var error = JSON.parse(requests[i].responseText)
+					console.log(error.message)
+					alert(`Error ${requests[i].status}: ${error.message}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+		
+			requests[i].send(formData);	
+		})(i);
+	}
+}
+
 // Function that does a GET request on the specified API
 // This is the primary function that does a GET on specific objects, then based on the selector variable, populates a table
 function requestData(url, selector)
@@ -451,22 +517,40 @@ function requestData(url, selector)
 		else
 		{
 //			alert(`Done, got ${request.response.length} bytes`); // responseText is the server	
-			if (selector == '#EmployeesTable')
-				populateEmployeesTable(JSON.parse(request.responseText), selector)
-			else if (selector == '#InventoryTable')
-				populateInventoryTable(JSON.parse(request.responseText), selector)
-			else if (selector == '#MGMT_MenuItem_InventoryTable_Body')
-				populateAddMenuItems(JSON.parse(request.responseText), selector)
-			else if (selector == '#MenuCategoryTable')
+			switch(selector)
 			{
-				var test = JSON.parse(request.responseText);
-				//if (test.length == 0)
-				//	$('#MGMT_Menu_btnAddMenuItem').attr('disabled', true);
-				//else
-					populateMenuCategoryTable(JSON.parse(request.responseText), selector);
+				case '#EmployeesTable':
+					populateEmployeesTable(JSON.parse(request.responseText), selector)
+					break;
+				case '#InventoryTable':
+					populateInventoryTable(JSON.parse(request.responseText), selector)
+					break;
+				case '#MGMT_MenuItem_InventoryTable_Body':
+					populateAddMenuItems(JSON.parse(request.responseText), selector)
+					break;
+				case '#MGMT_EditMenuItem_InventoryTable_Body':
+					populateEditMenuItems(JSON.parse(request.responseText), selector)
+					break;
+				case '#MGMT_AddMenuItem_IngredientSelector_InventoryTable_Body':
+					populateAddMenuIngredientSelectorItems(JSON.parse(request.responseText), selector, false)	
+				case '#MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body':
+					populateEditMenuIngredientSelectorItems(JSON.parse(request.responseText), selector)	
+					break;
+				case '#MenuCategoryTable':
+				{
+					var test = JSON.parse(request.responseText);
+					//if (test.length == 0)
+					//	$('#MGMT_Menu_btnAddMenuItem').attr('disabled', true);
+					//else
+						populateMenuCategoryTable(JSON.parse(request.responseText), selector);
+					break;
+				}
+				case '#MGMT_MenuItemsTable_Body':
+					populateMenuItemTable(JSON.parse(request.responseText), selector)
+					break;
+				default:
+					break;
 			}
-			else if (selector == '#MGMT_MenuItemsTable_Body')
-				populateMenuItemTable(JSON.parse(request.responseText), selector)
 		}
 	};
 	
@@ -565,7 +649,7 @@ function requestMenuItem(object)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{	
-			autofillEditEmployeeForm(JSON.parse(request.responseText))
+			autofillEditMenuItemForm(JSON.parse(request.responseText))
 		}
 		else
 		{
@@ -935,7 +1019,7 @@ function populateMenuItemTable(data, selector)
 		row.append($('<td/>').html("To Be Done"));
 		
 		var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditMenuItem"/>`).click(function() {
-			requestUser(this);
+			requestMenuItem(this);
 		}).html("EDIT");
 
 		var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
@@ -1001,6 +1085,157 @@ function populateAddMenuItems(data, selector)
 		})(i);
 	}
 }
+
+function populateEditMenuItems(data, selector)
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	// Build the table
+	for(i = 0; i < data.ingredients.length; i++) {
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			var url = "/api/ingredients/" + data.ingredients[i].ingredient.$oid;
+			requests[i].open('GET', url);
+	
+			// Handle on load
+			requests[i].onload = function(data)
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					var row = $('<tr/><div class="addScrollbar"/>')
+					var ingredient = JSON.parse(requests[i].responseText);
+					
+					// For inventory items
+					var name = $(`<div class="EMI_inv_update" id=${data.target.extraInfo.ingredient.$oid}/>`).html(ingredient.name);
+					
+					row.append($('<td/>').html(name));
+					
+					//Create buttons for specific ID
+					var uid = ingredient._id.$oid;
+					
+					var count = parseInt(data.target.extraInfo.count);
+					
+					// For ingredients
+					var quantity = $(`<form class="EMI_ing_update" id=${uid}/><input type="number" min=0 step=1 maxlength="4" class="form-control" name="count" value="${count}" readonly>`);
+					row.append($('<td/>').html(quantity));
+					
+					$(selector).append(row);
+		
+					return;
+				}
+				else 
+				{	
+					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+		
+			requests[i].send();	
+			requests[i].extraInfo = data.ingredients[i];	
+		})(i);
+	}
+}
+
+
+function populateAddMenuIngredientSelectorItems(data, selector, edit)
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	// Build the table
+	for(i = 0; i < data.length; i++) {
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			var url = "/api/ingredients/" + data[i].ingredient.$oid;
+			requests[i].open('GET', url);
+	
+			// Handle on load
+			requests[i].onload = function(data)
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					var row = $('<tr/><div class="addScrollbar"/>')
+					var ingredient = JSON.parse(requests[i].responseText);
+					
+					var name;
+					if (edit === true)
+						name = $(`<div class="EMI_IS_inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
+					else
+						name = $(`<div class="AMI_IS_inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);						
+					
+					
+					row.append($('<td/>').html(name));
+					
+					//Create buttons for specific ID
+					var uid = ingredient._id.$oid;
+					
+					// Append assignment
+					var quantity;
+					if (edit === true)
+						quantity = $(`<form class="EMI_IS_ing_update" id=${uid}/><input type="number" min=0 step=1 maxlength="4" class="form-control" name="count" value="${data.target.extraInfo.count}" required>`);
+					else
+						quantity = $(`<form class="AMI_IS_ing_update" id=${uid}/><input type="number" min=0 step=1 maxlength="4" class="form-control" name="count" value="${data.target.extraInfo.count}" required>`);						
+					
+					row.append($('<td/>').html(quantity));
+					
+					$(selector).append(row);
+		
+					return;
+				}
+				else 
+				{	
+					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+		
+			requests[i].send();	
+			requests[i].extraInfo = data[i];	
+		})(i);
+	}
+}
+
+
+function populateEditMenuIngredientSelectorItems(data, selector)
+{
+
+	var ingdata = document.querySelectorAll('*[class="EMI_ing_update"]');
+
+	//We want to grab the data we got and modify it before populating the table
+	for (i = 0; i < data.length; i++)
+	{
+		for (j = 0; j < ingdata.length; j++)
+		{
+			//Different data types, so we need to convert both to strings
+			var str1 = (data[i].ingredient.$oid).toString();
+			var str2 = (ingdata[j].id).toString();
+			if (str1 === str2)
+			{
+				data[i].count = parseInt(ingdata[j].nextSibling.value);
+				i++;
+				j = 0;
+			}
+			else
+				data[i].count = 0;
+		}
+	}
+	
+	populateAddMenuIngredientSelectorItems(data, selector, true)	
+}
+
 // Simple function that autofills a selected form
 // data must be in JSON format
 function autofillEditEmployeeForm(data)
@@ -1033,9 +1268,12 @@ function autofillEditIngredientForm(data)
 // data must be in JSON format
 function autofillEditMenuItemForm(data)
 {
-	$('#editIngredientForm').find('#ingID').val(data._id.$oid);
-	$('#editIngredientForm').find('#ingredientNameField').val(data.name);	
-	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);	
+	$('#EditMenuItemForm').find('#miID').val(data._id.$oid);
+	$('#EditMenuItemForm').find('#MI_name').val(data.name);	
+	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);	
+	$('#EditMenuItemForm').find('#MI_desc').val(data.description);	
+	$('#EditMenuItemForm').find('#imageURL').val(data.image);	
+	populateEditMenuItems(data, '#MGMT_EditMenuItem_InventoryTable_Body');
 }
 
 // TODO: Filter for certain tables (or not)
@@ -1074,6 +1312,62 @@ $(document).ready(function(){
     });
   });
 });
+
+function SaveChangesIS (selector, edit)
+{
+	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	var data = []
+	var origin = []
+	if (edit === true)
+	{
+		data = document.querySelectorAll('*[class="EMI_IS_ing_update"]');		//Quantity
+		origin =  document.querySelectorAll('*[class="EMI_IS_inv_update"]');	//Names
+	}
+	else
+	{
+		data = document.querySelectorAll('*[class="AMI_IS_ing_update"]');		//Quantity
+		origin =  document.querySelectorAll('*[class="AMI_IS_inv_update"]');	//Names		
+	}
+	
+	for (i = 0; i < data.length; i++)
+	{
+		var value = parseInt(data[i].nextSibling.value);
+
+		// Skip over any values that are less than or equal to 0
+		if (value <= 0)
+			continue;
+		
+		//Construct the table for the Add
+		var row = $('<tr/>')
+		var name;
+		if (edit)
+			name = $(`<div class="EMI_inv_update" id=${origin[i].id}/>`).html(origin[i].innerHTML);
+		else
+			name = $(`<div class="AMI_inv_update" id=${origin[i].id}/>`).html(origin[i].innerHTML);
+		
+		row.append($('<td/>').html(name));
+		
+		var quantity;
+		if (edit)
+			quantity = $(`<form class="EMI_ing_update" id=${data[i].id}/><input type="number" min=0 step=1 maxlength="4" class="form-control" name="count" value="${value}" readonly>`);
+		else
+			quantity = $(`<form class="AMI_ing_update" id=${data[i].id}/><input type="number" min=0 step=1 maxlength="4" class="form-control" name="count" value="${value}" readonly>`);
+		
+		row.append($('<td/>').html(quantity));
+		
+		$(selector).append(row);
+	}	
+}
+
+
+// Helper functions
+// Uses jquery to target a specific cell, and replaces the contents of that cell
+function replaceCellContent(selector, find, cell, replace)
+{
+	$(`${selector} td:contains('${find}')`).eq(cell).hmtl(replace);
+}
+
+
 
 // Event listener for specific modals and other stuff
 // These listens for certain events on the management page and executes code when opened
@@ -1132,10 +1426,6 @@ $('#MGMT_Reports').on('show.bs.modal', function(){
 // BEGIN MENU LISTENERS
 //
 
-$('#MGMT_AddMenuItem').on('show.bs.modal', function(){
-	requestData('/api/inventory', '#MGMT_MenuItem_InventoryTable_Body');	
-});
-
 $('#MGMT_AddMenuItem_btnSaveChanges').click( function()
 {
 	SubmitFormMenuItem();
@@ -1144,6 +1434,48 @@ $('#MGMT_AddMenuItem_btnSaveChanges').click( function()
 $('#MGMT_AddMenuCategory_btnSaveChanges').click( function()
 {
 	SubmitFormMenuCategory();
+});
+
+$('#MGMT_AddMenuItem_IngredientSelector').on('show.bs.modal', function(){
+	requestData('/api/inventory', '#MGMT_AddMenuItem_IngredientSelector_InventoryTable_Body');	
+});
+
+$('#MGMT_EditMenuItem_IngredientSelector').on('show.bs.modal', function(){
+	requestData('/api/inventory', '#MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body');	
+});
+
+$('#MGMT_AddMenuItem').on('show.bs.modal', function(event)
+{
+	$('#MGMT_MenuItem_InventoryTable_Body tr td').remove();
+});
+
+$('#MGMT_EditMenuItem').on('show.bs.modal', function(event)
+{
+	$('#MGMT_EditMenuItem_InventoryTable_Body tr td').remove();
+});
+
+$('#MGMT_AddMenuItem_IS_btnSaveChanges').click( function()
+{
+	$('#MGMT_MenuItem_InventoryTable_Body tr td').remove();	
+	SaveChangesIS('#MGMT_MenuItem_InventoryTable_Body', false);
+	$('#MGMT_AddMenuItem_IngredientSelector_InventoryTable_Body tr td').remove();	
+});
+
+$('#MGMT_EditMenuItem_btnSaveChanges').click( function()
+{
+	SubmitFormMenuItemPUT();
+});
+
+$('#MGMT_EditMenuCategory_btnSaveChanges').click( function()
+{
+	SubmitFormMenuCategoryPUT();
+});
+
+$('#MGMT_EditMenuItem_IS_btnSaveChanges').click( function()
+{
+	$('#MGMT_EditMenuItem_InventoryTable_Body tr td').remove();	
+	SaveChangesIS('#MGMT_EditMenuItem_InventoryTable_Body', true);
+	$('#MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body tr td').remove();	
 });
 
 $('#MGMT_Menu').on('show.bs.modal', function(event)
@@ -1157,6 +1489,9 @@ $('#MGMT_Menu').on('hide.bs.modal', function(event)
 	$('#MenuCategoryTable tr td').remove();
 	$('#MGMT_MenuItemsTable_Body tr td').remove();
 });
+
+
+
 
 //
 // END MENU LISTENERS
