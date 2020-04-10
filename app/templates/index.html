@@ -94,367 +94,329 @@
 					</div>
 				</div>
 				<!-- End Food Div -->
-				
+
 				<!-- Food Modal -->
-				 <div id="Food" class="modal fade" role="dialog">
-					<div class="modal-dialog">
+				<div id="Food" class="modal fade" role="dialog">
+					<div class="modal-dialog modal-xl">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" id="foodHelp" onclick="getHelp('foodHelp')" class="btn btn-danger">Help?</button>
+								<h4 class="modal-title" id="FoodMenu">Food Menu</h4>
 							</div>
+
 							<div class="modal-body">
-								<!-- Begin Carousel -->
-								<div id="FoodControls" class="carousel slide">
-								  <div class="carousel-inner">
-									<div class="carousel-item active">
-										<!-- Begin Rotating Facts label -->	
-										<div class="card-container manual-flip">
-											<div class="card">
-												<div class="front">
-													<div class="content">
-														<div class="main">
-															<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
-															<div class="card-body">
-																<h4 class="card-title">The &Alpha;lpha</h4>
-																<p class="card-text">Our best Pizza...</p>
-																<button type="button" id="food1" onclick="addOrder('food1')" class="btn btn-primary">Order</button>
-															</div>
-														</div>
-														<div class="footer">
-															<button class="btn btn-simple" onclick="healthFacts(this)">
-																<i class="fas fa-info-circle"></i> Health Facts
-															</button>
-														</div>
-													</div>
-												</div> 
-												<div class="back">
-													<div class="header">
-														<h5 class="card-title">The &Alpha;lpha</h5>
-													</div>
-													<div class="content">
-														<div class="main">
-															<h4 class="text-center">Vegan</h4>
-															<p class="text-center">Flour, Cheese, Tomato Sauce, Meat</p>
-
-															<div class="stats-container">
-																<div class="stats"><h4>Calories</h4><p>375</p></div>
-																<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
-																<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
-															</div>
-														</div>
-													</div>
-													<div class="footer">
-															<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-																<i class="fas fa-backward"></i> Back
-															</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Rotating Facts label -->
-									</div>
-									<div class="carousel-item">
-										<!-- Begin Rotating Facts label -->	
-										<div class="card-container manual-flip">
-											<div class="card">
-												<div class="front">
-													<div class="content">
-														<div class="main">
-															<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(16).jpg" style="width:100%">
-															<div class="card-body">
-																<h4 class="card-title">The &Omega;mega</h4>
-																<p class="card-text">Pineapples, Anchovies...the whole nine</p>
-																<button type="button" id="food2" onclick="addOrder('food2')" class="btn btn-primary">Order</button>
-															</div>
-														</div>
-														<div class="footer">
-															<button class="btn btn-simple" onclick="healthFacts(this)">
-																<i class="fas fa-info-circle"></i> Health Facts
-															</button>
-														</div>
-													</div>
-												</div> 
-												<div class="back">
-													<div class="header">
-														<h5 class="card-title">The &Omega;mega</h5>
-													</div>
-													<div class="content">
-														<div class="main">
-															<h4 class="text-center">Vegan</h4>
-															<p class="text-center">Flour, Cheese, Tomato Sauce, Meat</p>
-
-															<div class="stats-container">
-																<div class="stats"><h4>Calories</h4><p>375</p></div>
-																<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
-																<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
-															</div>
-														</div>
-													</div>
-													<div class="footer">
-															<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-																<i class="fas fa-backward"></i> Back
-															</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Rotating Facts label -->
-									</div>
-									<div class="carousel-item">
-										<!-- Begin Rotating Facts label -->	
-										<div class="card-container manual-flip">
-											<div class="card">
-												<div class="front">
-													<div class="content">
-														<div class="main">
-															<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(17).jpg" style="width:100%">
-															<div class="card-body">
-																<h4 class="card-title">Double Cheese Pizza</h4>
-																<p class="card-text">If you're into normal $#!@</p>
-																<button type="button" id="food3" onclick="addOrder('food3')" class="btn btn-primary">Order</button>
-															</div>
-														</div>
-														<div class="footer">
-															<button class="btn btn-simple" onclick="healthFacts(this)">
-																<i class="fas fa-info-circle"></i> Health Facts
-															</button>
-														</div>
-													</div>
-												</div> 
-												<div class="back">
-													<div class="header">
-														<h5 class="card-title">Double Cheese Pizza</h5>
-													</div>
-													<div class="content">
-														<div class="main">
-															<h4 class="text-center">Vegan</h4>
-															<p class="text-center">Flour, Cheese, Tomato Sauce, Meat</p>
-
-															<div class="stats-container">
-																<div class="stats"><h4>Calories</h4><p>375</p></div>
-																<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
-																<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
-															</div>
-														</div>
-													</div>
-													<div class="footer">
-															<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-																<i class="fas fa-backward"></i> Back
-															</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Rotating Facts label -->
-									</div>
-									<div class="carousel-item">
-										<!-- Begin Rotating Facts label -->	
-										<div class="card-container manual-flip">
-											<div class="card">
-												<div class="front">
-													<div class="content">
-														<div class="main">
-															<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(18).jpg" style="width:100%">
-															<div class="card-body">
-																<h4 class="card-title">The Schooler</h4>
-																<p class="card-text">Large Kids Pizza</p>
-																<button type="button" id="food4" onclick="addOrder('food4')" class="btn btn-primary">Order</button>
-															</div>
-														</div>
-														<div class="footer">
-															<button class="btn btn-simple" onclick="healthFacts(this)">
-																<i class="fas fa-info-circle"></i> Health Facts
-															</button>
-														</div>
-													</div>
-												</div> 
-												<div class="back">
-													<div class="header">
-														<h5 class="card-title">The Schooler</h5>
-													</div>
-													<div class="content">
-														<div class="main">
-															<h4 class="text-center">Vegan</h4>
-															<p class="text-center">Flour, Cheese, Tomato Sauce, Meat</p>
-
-															<div class="stats-container">
-																<div class="stats"><h4>Calories</h4><p>375</p></div>
-																<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
-																<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
-															</div>
-														</div>
-													</div>
-													<div class="footer">
-															<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-																<i class="fas fa-backward"></i> Back
-															</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Rotating Facts label -->
-									</div>
-									<div class="carousel-item">
-										<!-- Begin Rotating Facts label -->	
-										<div class="card-container manual-flip">
-											<div class="card">
-												<div class="front">
-													<div class="content">
-														<div class="main">
-															<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(19).jpg" style="width:100%">
-															<div class="card-body">
-																<h4 class="card-title">The Toddler</h4>
-																<p class="card-text">Medium Kids Pizza</p>
-																<button type="button" id="food5" onclick="addOrder('food5')" class="btn btn-primary">Order</button>
-															</div>
-														</div>
-														<div class="footer">
-															<button class="btn btn-simple" onclick="healthFacts(this)">
-																<i class="fas fa-info-circle"></i> Health Facts
-															</button>
-														</div>
-													</div>
-												</div> 
-												<div class="back">
-													<div class="header">
-														<h5 class="card-title">The Toddler</h5>
-													</div>
-													<div class="content">
-														<div class="main">
-															<h4 class="text-center">Vegan</h4>
-															<p class="text-center">Flour, Cheese, Tomato Sauce, Meat</p>
-
-															<div class="stats-container">
-																<div class="stats"><h4>Calories</h4><p>375</p></div>
-																<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
-																<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
-															</div>
-														</div>
-													</div>
-													<div class="footer">
-															<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-																<i class="fas fa-backward"></i> Back
-															</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Rotating Facts label -->
-									</div>
-									<div class="carousel-item">
-										<!-- Begin Rotating Facts label -->	
-										<div class="card-container manual-flip">
-											<div class="card">
-												<div class="front">
-													<div class="content">
-														<div class="main">
-															<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(20).jpg" style="width:100%">
-															<div class="card-body">
-																<h4 class="card-title">The Infant</h4>
-																<p class="card-text">Personal Pizza</p>
-																<button type="button" id="food6" onclick="addOrder('food6')" class="btn btn-primary">Order</button>
-															</div>
-														</div>
-														<div class="footer">
-															<button class="btn btn-simple" onclick="healthFacts(this)">
-																<i class="fas fa-info-circle"></i> Health Facts
-															</button>
-														</div>
-													</div>
-												</div> 
-												<div class="back">
-													<div class="header">
-														<h5 class="card-title">The Infant</h5>
-													</div>
-													<div class="content">
-														<div class="main">
-															<h4 class="text-center">Vegan</h4>
-															<p class="text-center">Flour, Cheese, Tomato Sauce, Meat</p>
-
-															<div class="stats-container">
-																<div class="stats"><h4>Calories</h4><p>375</p></div>
-																<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
-																<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
-															</div>
-														</div>
-													</div>
-													<div class="footer">
-															<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-																<i class="fas fa-backward"></i> Back
-															</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Rotating Facts label -->
-									</div>
-									<div class="carousel-item">
-										<!-- Begin Rotating Facts label -->	
-										<div class="card-container manual-flip">
-											<div class="card">
-												<div class="front">
-													<div class="content">
-														<div class="main">
-															<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(21).jpg" style="width:100%">
-															<div class="card-body">
-																<h4 class="card-title">The Adolescent</h4>
-																<p class="card-text">Double Meat, Double Cheese Pizza</p>
-																<button type="button" id="food7" onclick="addOrder('food7')" class="btn btn-primary">Order</button>
-															</div>
-														</div>
-														<div class="footer">
-															<button class="btn btn-simple" onclick="healthFacts(this)">
-																<i class="fas fa-info-circle"></i> Health Facts
-															</button>
-														</div>
-													</div>
-												</div> 
-												<div class="back">
-													<div class="header">
-														<h5 class="card-title">The Adolescent</h5>
-													</div>
-													<div class="content">
-														<div class="main">
-															<h4 class="text-center">Vegan</h4>
-															<p class="text-center">Flour, Cheese, Tomato Sauce, Meat</p>
-
-															<div class="stats-container">
-																<div class="stats"><h4>Calories</h4><p>375</p></div>
-																<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
-																<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
-															</div>
-														</div>
-													</div>
-													<div class="footer">
-															<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-																<i class="fas fa-backward"></i> Back
-															</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Rotating Facts label -->
-									</div>
-								  </div>
-								  <a class="carousel-control-prev" href="#FoodControls" role="button" data-slide="prev">
-									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-									<span class="sr-only">Previous</span>
-								  </a>
-								  <a class="carousel-control-next" href="#FoodControls" role="button" data-slide="next">
-									<span class="carousel-control-next-icon" aria-hidden="true"></span>
-									<span class="sr-only">Next</span>
-								  </a>
+								<div role="tabpanel">
+									<!-- Tabs -->
+									<ul class="nav nav-tabs " role="tablist">
+										<li class="nav-item"><a href="#Apps" data-toggle="tab" class="nav-link active">Appetizers</a></li>
+										<li class="nav-item"><a href="#Entrees" data-toggle="tab" class="nav-link">Entrees</a></li>
+										<li class="nav-item"><a href="#Desserts" data-toggle="tab" class="nav-link">Desserts</a></li>
+									</ul>
+									<!-- End of Tabs -->
 								</div>
-								<!-- End Carousel -->
-								<div class="modal-footer">
-								  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<!-- Tab Panes -->
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane active" id="Apps">
+										<div class="row">
+											<!-- Grid Start -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">Totino's Pizza Rolls</h4>
+																		<p class="card-text">You cheap fuck...</p>
+																		<button type="button" id="app1" onclick="addOrder('app1')" class="btn btn-primary">Order</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">Totino's Pizza Rolls</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center"></h4>
+																	<p class="text-center">Flour, "Cheese", "Tomato Sauce", "Meat"</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>375</p></div>
+																		<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next item -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(16).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">Ravioli?</h4>
+																		<p class="card-text">It..uh..looks a bit like ravioli.</p>
+																		<button type="button" id="app2" onclick="addOrder('app2')" class="btn btn-primary">Order</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">Ravioli?</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center">Inedible</h4>
+																	<p class="text-center">Dust, Mold, Slime, Teeth??</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>-8000</p></div>
+																		<div class="stats"><h4>Fat</h4><p>0 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>0 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next Item -->
+										</div>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="Entrees">
+										<div class="row">
+											<!-- Grid Start -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">The &Alpha;lpha</h4>
+																		<p class="card-text">Our best Pizza...</p>
+																		<button type="button" id="ent1" onclick="addOrder('ent1')" class="btn btn-primary">Order</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">The &Alpha;lpha</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center"></h4>
+																	<p class="text-center">Flour, Cheese, Tomato Sauce, Meat</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>375</p></div>
+																		<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next item -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(16).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">The &Omega;mega</h4>
+																		<p class="card-text">Pineapples, Anchovies...the whole nine</p>
+																		<button type="button" id="ent2" onclick="addOrder('ent2')" class="btn btn-primary">Order</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">The &Omega;mega</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center">Vegan</h4>
+																	<p class="text-center">Flour, Vegan Cheese, Tomato Sauce, Meat</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>375</p></div>
+																		<div class="stats"><h4>Fat</h4><p>65 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>42 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next Item -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(16).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">The Sci-&Phi; Convention</h4>
+																		<p class="card-text">Rokeg Meatballs, Targ Heart... A Klingon's Dream</p>
+																		<button type="button" id="ent3" onclick="addOrder('ent3')" class="btn btn-primary">Order</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">The Sci&Phi; Convention</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center">Carnivore</h4>
+																	<p class="text-center">Meat, Meat, Meat Sauce, Meat</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>3000</p></div>
+																		<div class="stats"><h4>Fat</h4><p>70 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>120 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="Desserts">
+										<div class="row">
+											<!-- Grid Start -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">Cup of Ice</h4>
+																		<p class="card-text">It's a bit melted</p>
+																		<button type="button" id="des1" onclick="addOrder('des1')" class="btn btn-primary">Order</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">Cup of Ice</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center">Vegan</h4>
+																	<p class="text-center">Water flavors, Water coloring</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>0</p></div>
+																		<div class="stats"><h4>Fat</h4><p>0 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>0 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next Item -->
+										</div>
+									</div>
 								</div>
+								<!-- End of Panes -->
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- End Food Modal -->
-				
+
 				<!-- Drinks Div -->
 				<div class="col-lg-4">
 					<div id="rcorners2" data-toggle="modal" data-target="#Drinks" class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
@@ -465,9 +427,282 @@
 					</div>
 				</div>
 				<!-- End Drinks Div -->
-				
+				<div id="Drinks" class="modal fade" role="dialog">
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" id="foodHelp" onclick="getHelp('foodHelp')" class="btn btn-danger">Help?</button>
+								<h4 class="modal-title" id="FoodMenu">Food Menu</h4>
+							</div>
+
+							<div class="modal-body">
+								<div role="tabpanel">
+									<!-- Tabs -->
+									<ul class="nav nav-tabs " role="tablist">
+										<li class="nav-item"><a href="#BasicDrinks" data-toggle="tab" class="nav-link active">Drinks</a></li>
+										<li class="nav-item"><a href="#Alcohol" data-toggle="tab" class="nav-link">Alcohol</a></li>
+										<li class="nav-item"><a href="#FrozenDrinks" data-toggle="tab" class="nav-link">Frozen Drinks</a></li>
+									</ul>
+									<!-- End of Tabs -->
+								</div>
+								<!-- Tab Panes -->
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane active" id="BasicDrinks">
+										<div class="row">
+											<!-- Grid Start -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(68).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">Water</h4>
+																		<p class="card-text">The original.</p>
+																		<button type="button" id="drink2" onclick="addOrder('drink2')" class="btn btn-primary">Order</button>&nbsp;&nbsp;<button type="button" id="drRefill2" onclick="needRefill('drRefill2')" class="btn btn-primary">Refill</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">Water</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center">Non-GMO</h4>
+																	<p class="text-center">Water</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>0</p></div>
+																		<div class="stats"><h4>Fat</h4><p>0 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>0 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next item -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(68).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">Coke</h4>
+																		<p class="card-text">*Sip* Mmmm ahhh...</p>
+																		<button type="button" id="drink1" onclick="addOrder('drink1')" class="btn btn-primary">Order</button>&nbsp;&nbsp;<button type="button" id="drRefill1" onclick="needRefill('drRefill1')" class="btn btn-primary">Refill</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">Coke</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center">Non-GMO</h4>
+																	<p class="text-center">Sugar, Water, Food Coloring, Unhealthy stuff</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>170</p></div>
+																		<div class="stats"><h4>Fat</h4><p>0 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>0 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next Item -->
+										</div>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="Alcohol">
+										<div class="row">
+											<!-- Grid Start -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">Two Shots of Vodka</h4>
+																		<p class="card-text">(It's a lot more than two shots)</p>
+																		<button type="button" id="alc1" onclick="addOrder('alc1')" class="btn btn-primary">Order</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">Alcoholic</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center"></h4>
+																	<p class="text-center">Vodka</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>0</p></div>
+																		<div class="stats"><h4>Fat</h4><p>0 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>0 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next item -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(16).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">Bloody Mary</h4>
+																		<p class="card-text">Pizzas, Hamburgers, Fried Chicken... basically a four course meal</p>
+																		<button type="button" id="alc2" onclick="addOrder('alc2')" class="btn btn-primary">Order</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">Bloody mary</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center">Alcoholic</h4>
+																	<p class="text-center">Vodka, Tomato Juice, Bacon, Pizza, Hamburger, Onion Rings</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>10,000</p></div>
+																		<div class="stats"><h4>Fat</h4><p>150 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>73 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next Item -->
+										</div>
+									</div>
+									<div role="tabpanel" class="tab-pane" id="FrozenDrinks">
+										<div class="row">
+											<!-- Grid Start -->
+											<div class="col-sm-4">
+												<div class="card-container manual-flip">
+													<div class="card">
+														<div class="front">
+															<div class="content">
+																<div class="main">
+																	<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
+																	<div class="card-body">
+																		<h4 class="card-title">Ice Water</h4>
+																		<p class="card-text">Lukewarm</p>
+																		<button type="button" id="froz1" onclick="addOrder('froz1')" class="btn btn-primary">Order</button>&nbsp;&nbsp;<button type="button" id="frRefill1" onclick="needRefill('frRefill1')" class="btn btn-primary">Refill</button>
+																	</div>
+																</div>
+																<div class="footer">
+																	<button class="btn btn-simple" onclick="healthFacts(this)">
+																		<i class="fas fa-info-circle"></i> Health Facts
+																	</button>
+																</div>
+															</div>
+														</div>
+														<div class="back">
+															<div class="header">
+																<h5 class="card-title">Cup of Ice</h5>
+															</div>
+															<div class="content">
+																<div class="main">
+																	<h4 class="text-center">Vegan</h4>
+																	<p class="text-center">Water flavors, Water coloring, Water</p>
+
+																	<div class="stats-container">
+																		<div class="stats"><h4>Calories</h4><p>0</p></div>
+																		<div class="stats"><h4>Fat</h4><p>0 grams</p></div>
+																		<div class="stats"><h4>Protein</h4><p>0 grams</p></div>
+																	</div>
+																</div>
+															</div>
+															<div class="footer">
+																	<button type="button" class="btn btn-light" onclick="healthFacts(this)">
+																		<i class="fas fa-backward"></i> Back
+																	</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Next Item -->
+										</div>
+									</div>
+								</div>
+								<!-- End of Panes -->
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- Drinks Modal -->
-				 <div id="Drinks" class="modal fade" role="dialog">
+				 <div id="Nothing" class="modal fade" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
