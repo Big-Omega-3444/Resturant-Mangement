@@ -336,6 +336,69 @@ function SubmitFormUserPUT()
     put.send(formData);
 }
 
+
+// Same as above, but does it for Menu Categories
+function SubmitFormMenuCategoryPUT()
+{
+    event.preventDefault();
+	
+    var put = new XMLHttpRequest();
+	
+	var url = "/api/menus/" + $('#editMenuCategoryForm').find('#mcID').val();
+	
+    // POST to the API
+    put.open('PUT', url);
+	
+    var formData = new FormData(document.getElementById("editMenuCategoryForm"));	
+	
+	//Needs to be in JSON format, no other way around it
+	var payload =
+	{ 
+		"name": formData.get('name'),
+		"description": formData.get('description'),
+		"image": formData.get('image')
+//		"items": []
+	};
+	
+//	for (i = 0; i < data.length; i++)
+//	{
+//		var value = parseInt(data[i].nextSibling.value);
+//		if (value > 0)
+//		{
+//			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
+//		}
+//	}
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	put.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	put.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (put.status === 200 || put.status === 201 || put.status === 204)
+		{
+			updateTables();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(put.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${put.status}: ${error.message}`);
+		}
+	};
+
+	put.setRequestHeader("Content-Type", "application/json");	
+    put.send(JSON.stringify(payload));
+}
+
+
 // Same as above, but does it for Ingredients
 function SubmitFormIngredientPUT()
 {
@@ -765,7 +828,7 @@ function requestMenuCategory(object, id)
 	var request = new XMLHttpRequest();
 	
 	// Create the url to retrieve menu category
-	var url = "/api/menu/" + object.id;	
+	var url = "/api/menus/" + object.id;	
 	
 	request.open('GET', url);
 	
@@ -774,7 +837,7 @@ function requestMenuCategory(object, id)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{	
-			autofillEditMenuItemForm(JSON.parse(request.responseText))
+			autofillEditMenuCategoryForm(JSON.parse(request.responseText))
 		}
 		else
 		{
@@ -885,6 +948,42 @@ function deleteInventory(OID)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{
+			updateTables();
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+	
+}
+
+// Same as above function but deletes an ingredient from the API
+function deleteMenuCategory(object)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	// Create the deletion url for user
+	var url = "/api/menus/" + object.id;
+	
+	// Open a socket to the url
+	request.open('DELETE', url);
+	
+	// Handle on load
+	request.onload = function(data) 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			alert("Deletion Successful!");
 			updateTables();
 		}
 		else
@@ -1044,7 +1143,7 @@ function populateInventoryTable(data, selector)
 	}
 }
 
-//Same as above but creates a table of 
+//Same as above but creates a table of menu categories
 function populateMenuCategoryTable(data, selector)
 {
 	// Create our array of XMLHttpRequests
@@ -1059,8 +1158,23 @@ function populateMenuCategoryTable(data, selector)
 			var name = $(`<div class="inv_update" id=${data[i]._id.$oid}/>`).html(data[i].name);
 			
 			row.append($('<td/>').html(name));	
+			row.append($('<td/>'));
 
+			//Create buttons for specific ID
+			var uid = data[i]._id.$oid;
+			
+			var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditMenuCategory"/>`).click(function() {
+				requestMenuCategory(this);
+			}).html("EDIT");
+			
+			var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
+				deleteMenuCategory(this);
+			}).html("DEL");
+			
+			row.append($('<td/>').html(editButton).append(deleteButton));
+			
 			$(selector).append(row);	
+			
 			continue;
 		}		
 		(function (i){
@@ -1461,6 +1575,16 @@ function autofillEditIngredientForm(data)
 	$('#editIngredientForm').find('#ingID').val(data._id.$oid);
 	$('#editIngredientForm').find('#ingredientNameField').val(data.name);	
 	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);	
+}
+
+// Same as above, but autofills the ingredient page
+// data must be in JSON format
+function autofillEditMenuCategoryForm(data)
+{
+	$('#editMenuCategoryForm').find('#mcID').val(data._id.$oid);
+	$('#editMenuCategoryForm').find('#MC_name').val(data.name);	
+	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
+	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);	
 }
 
 // Same as above, but autofills the ingredient page

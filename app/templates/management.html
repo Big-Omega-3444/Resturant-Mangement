@@ -458,6 +458,36 @@
 	</div>
 	<!-- End ADD MENU Page -->
 
+	<!-- Begin ADD MENU CATEGORY PAGE -->
+	<div id="MGMT_EditMenuCategory" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Menu Category</h5>
+				</div>
+				<div class="modal-body">
+					<form id="editMenuCategoryForm">
+						<input type="hidden" id="mcID" name="uid">
+						<div class="form-group">
+							<input type="text" class="form-control" id="MC_name" name="name" placeholder="Name" required>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" id="MC_desc" name="description" placeholder="Add a description here..." rows="5"></textarea>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" id="MC_imageURL" name="image" placeholder="Image URL" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+                    <button class="btn btn-primary" id="MGMT_EditMenuCategory_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditMenuCategory">Submit</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditMenuCategory">Exit without Saving</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End ADD MENU Page -->
+
 	<!-- Begin ADD MENU PAGE -->
 	<div id="MGMT_AddMenuItem" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
