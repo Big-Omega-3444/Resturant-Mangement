@@ -601,7 +601,7 @@ function populateInventoryTable(data, selector)
 					var uid = ingredient._id.$oid;
 					
 					// Append assignment
-					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
+					var quantity = $(`<form class="ing_update" id=${uid}/><input type="number" min=0 step=1 maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
 					row.append($('<td/>').html(quantity));
 					
 					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
