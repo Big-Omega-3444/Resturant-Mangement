@@ -1145,8 +1145,12 @@ function populateMenuItemTable(data, selector)
 			{
 				var row = $('<tr/>')
 				
+				var media = $('<div class="media"/>');
+				media.append($(`<img width="64" height="64" class="mr-3 d-none d-lg-block d-xl-block" src="${data.target.extraInfo[i].image}" alt="${data.target.extraInfo[i].name}"/>`));
+				media.append($(`<div class="media-body"><h5 class="mt-0"> ${data.target.extraInfo[i].name}</h5><p>${data.target.extraInfo[i].description}</p></div>`));
+				
 				// Menu Item name
-				row.append($('<td/>').html(data.target.extraInfo[i].name));
+				row.append($('<td/>').html(media));
 				
 				// Menu Item cost
 				row.append($('<td/>').html(data.target.extraInfo[i].cost));
