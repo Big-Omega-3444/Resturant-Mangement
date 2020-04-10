@@ -1573,6 +1573,7 @@ function replaceCellContent(selector, find, cell, replace)
 // Create the table once the modal is shown (after it pops up)
 $('#MGMT_Employees').on('shown.bs.modal', function(event)
 {
+	$('#EmployeesTable tr td').remove();
 	requestData('/api/employees', '#EmployeesTable');
 });
 
