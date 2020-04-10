@@ -317,6 +317,118 @@ function SubmitFormInventoryUpdateAll()
 	}
 }
 
+//On submit, post a form to the api
+function SubmitFormMenuCategory()
+{
+    event.preventDefault();
+	
+    var post = new XMLHttpRequest();
+
+    // POST to the API
+    post.open('POST', "/api/menus");
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	post.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			updateTables();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+	
+    var formData = new FormData(document.getElementById("addMenuCategoryForm"));
+//	var payload = {
+//		"name": formData.get('name'),
+//		"description": formData.get('description'),
+//		"image": formData.get('image')
+//	}
+	
+    post.send(formData);
+}
+
+//On submit, post a form to the api
+function SubmitFormMenuItem()
+{
+    event.preventDefault();
+	
+    var post = new XMLHttpRequest();
+	
+	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	var data = document.querySelectorAll('*[class="AMI_ing_update"]');
+	var origin =  document.querySelectorAll('*[class="AMI_inv_update"]');
+
+    // POST to the API
+    post.open('POST', "/api/menuitems");
+
+    var formData = new FormData(document.getElementById("addMenuItem"));	
+	
+	//Needs to be in JSON format, no other way around it
+	var payload =
+	{ 
+		"name": formData.get('name'),
+		"description": formData.get('description'),
+		"cost": parseFloat(formData.get('cost')),
+		"image": formData.get('image'),
+		"ingredients": []
+	};
+	
+	for (i = 0; i < data.length; i++)
+	{
+		var value = parseInt(data[i].nextSibling.value);
+		if (value > 0)
+		{
+			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
+		}
+	}
+	
+	console.log(payload);
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	post.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			updateTables();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+	
+	post.setRequestHeader("Content-Type", "application/json");	
+    post.send(JSON.stringify(payload));
+}
+
+
 // Function that does a GET request on the specified API
 // This is the primary function that does a GET on specific objects, then based on the selector variable, populates a table
 function requestData(url, selector)
@@ -330,7 +442,11 @@ function requestData(url, selector)
 	{
 		if (request.status != 200)
 		{
-			alert(`Error ${request.status}: ${request.statusText}`);
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(request.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${request.status}: ${error.message}`);
 		}
 		else
 		{
@@ -339,6 +455,18 @@ function requestData(url, selector)
 				populateEmployeesTable(JSON.parse(request.responseText), selector)
 			else if (selector == '#InventoryTable')
 				populateInventoryTable(JSON.parse(request.responseText), selector)
+			else if (selector == '#MGMT_MenuItem_InventoryTable_Body')
+				populateAddMenuItems(JSON.parse(request.responseText), selector)
+			else if (selector == '#MenuCategoryTable')
+			{
+				var test = JSON.parse(request.responseText);
+				//if (test.length == 0)
+				//	$('#MGMT_Menu_btnAddMenuItem').attr('disabled', true);
+				//else
+					populateMenuCategoryTable(JSON.parse(request.responseText), selector);
+			}
+			else if (selector == '#MGMT_MenuItemsTable_Body')
+				populateMenuItemTable(JSON.parse(request.responseText), selector)
 		}
 	};
 	
@@ -403,6 +531,41 @@ function requestIngredient(object)
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{	
 			autofillEditIngredientForm(JSON.parse(request.responseText))
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+}
+
+
+// Function that does a GET request on the specified API
+// This grabs a specific user using the same method as the deletion function
+function requestMenuItem(object)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	// Create the url to retrieve user
+	var url = "/api/menuitems/" + object.id;	
+	
+	request.open('GET', url);
+	
+	// Handle on load
+	request.onload = function() 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{	
+			autofillEditEmployeeForm(JSON.parse(request.responseText))
 		}
 		else
 		{
@@ -531,6 +694,43 @@ function deleteInventory(OID)
 	
 }
 
+// Same as above function but deletes an ingredient from the API
+function deleteMenuItem(object)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	// Create the deletion url for user
+	var url = "/api/menuitems/" + object.id;
+	
+	// Open a socket to the url
+	request.open('DELETE', url);
+	
+	// Handle on load
+	request.onload = function(data) 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			alert("Deletion Successful!");
+			updateTables();
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+	request.extraInfo = str[1];
+	
+}
+
 // Function that builds the table in #MGMT_Employees
 // data argument requires an JSON-ified data (Use JSON.Parse() before passing it in!)
 function populateEmployeesTable(data, selector)
@@ -636,6 +836,171 @@ function populateInventoryTable(data, selector)
 	}
 }
 
+//Same as above but creates a table of 
+function populateMenuCategoryTable(data, selector)
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	// Build the table
+	for(i = 0; i < data.length; i++) {
+		
+		if (data[i].items.length == 0)
+		{
+			var row = $('<tr/>')
+			var name = $(`<div class="inv_update" id=${data[i]._id.$oid}/>`).html(data[i].name);
+			
+			row.append($('<td/>').html(name));	
+
+			$(selector).append(row);	
+			continue;
+		}		
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			// We don't have any items to request just yet, so just skip
+
+			var url = "/api/menuitems/" + data[i].items.$oid;
+			requests[i].open('GET', url);
+	
+			// Handle on load
+			requests[i].onload = function(data)
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					var row = $('<tr/>')
+					var ingredient = JSON.parse(requests[i].responseText);
+					
+					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
+					
+					row.append($('<td/>').html(name));
+					
+					//Create buttons for specific ID
+					var uid = ingredient._id.$oid;
+					
+					// Append assignment
+					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
+					row.append($('<td/>').html(quantity));
+					
+					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
+						requestIngredient(this);
+					}).html("EDIT");
+			
+					var deleteButton = $(`<button class="btn btn-danger" id=${uid}|${data.target.extraInfo._id.$oid}/>`).click(function() {
+						deleteIngredient(this);
+					}).html("DEL");
+					
+					row.append($('<td/>').html(editButton).append(deleteButton));
+					
+					$(selector).append(row);
+		
+					return;
+				}
+				else 
+				{	
+					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+		
+			requests[i].send();	
+			requests[i].extraInfo = data[i];	
+		})(i);
+	}
+}
+
+
+//Same as above but creates a table of 
+function populateMenuItemTable(data, selector)
+{
+	// Build the table
+	for(i = 0; i < data.length; i++)
+	{
+		var row = $('<tr/>')
+		
+		// Menu Item name
+		row.append($('<td/>').html(data[i].name));
+		
+		// Menu Item cost
+		row.append($('<td/>').html(data[i].cost));
+		
+		//Create buttons for specific ID
+		var uid = data[i]._id.$oid;
+		
+		row.append($('<td/>').html("To Be Done"));
+		
+		var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditMenuItem"/>`).click(function() {
+			requestUser(this);
+		}).html("EDIT");
+
+		var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
+			deleteMenuItem(this);
+		}).html("DEL");
+		
+		row.append($('<td/>').html(editButton).append(deleteButton));
+		
+		$(selector).append(row);
+	}
+}
+
+function populateAddMenuItems(data, selector)
+{
+	// Create our array of XMLHttpRequests
+	var requests = []
+	
+	// Build the table
+	for(i = 0; i < data.length; i++) {
+		(function (i){
+			requests[i] = new XMLHttpRequest();		
+			
+			var url = "/api/ingredients/" + data[i].ingredient.$oid;
+			requests[i].open('GET', url);
+	
+			// Handle on load
+			requests[i].onload = function(data)
+			{
+				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+				{
+					var row = $('<tr/><div class="addScrollbar"/>')
+					var ingredient = JSON.parse(requests[i].responseText);
+					
+					var name = $(`<div class="AMI_inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
+					
+					row.append($('<td/>').html(name));
+					
+					//Create buttons for specific ID
+					var uid = ingredient._id.$oid;
+					
+					// Append assignment
+					var quantity = $(`<form class="AMI_ing_update" id=${uid}/><input type="number" min=0 step=1 maxlength="4" class="form-control" name="count" value="0" required>`);
+					row.append($('<td/>').html(quantity));
+					
+					$(selector).append(row);
+		
+					return;
+				}
+				else 
+				{	
+					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
+				}
+			};
+		
+			// Handle on errors	
+			requests[i].error = function() 
+			{
+				alert("Request Failed!");
+			};	
+		
+			requests[i].send();	
+			requests[i].extraInfo = data[i];	
+		})(i);
+	}
+}
 // Simple function that autofills a selected form
 // data must be in JSON format
 function autofillEditEmployeeForm(data)
@@ -664,6 +1029,15 @@ function autofillEditIngredientForm(data)
 	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);	
 }
 
+// Same as above, but autofills the ingredient page
+// data must be in JSON format
+function autofillEditMenuItemForm(data)
+{
+	$('#editIngredientForm').find('#ingID').val(data._id.$oid);
+	$('#editIngredientForm').find('#ingredientNameField').val(data.name);	
+	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);	
+}
+
 // TODO: Filter for certain tables (or not)
 //		 And add boolean to decide whether or not to request data from API
 function updateTables()
@@ -673,6 +1047,12 @@ function updateTables()
 
 	$('#InventoryTable tr td').remove();
 	requestData('/api/inventory', '#InventoryTable');		
+	
+	$('#MenuCategoryTable tr td').remove();
+	requestData('/api/menus', '#MenuCategoryTable');		
+	
+	$('#MGMT_MenuItemsTable_Body tr td').remove();
+	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');		
 }
 
 //Taken from JSFunctions but made specifically for Inventory Table
@@ -744,6 +1124,42 @@ $('#MGMT_Reports').on('show.bs.modal', function(){
 
 //
 // EMD REPORT LISTENERS
+//
+
+
+
+//
+// BEGIN MENU LISTENERS
+//
+
+$('#MGMT_AddMenuItem').on('show.bs.modal', function(){
+	requestData('/api/inventory', '#MGMT_MenuItem_InventoryTable_Body');	
+});
+
+$('#MGMT_AddMenuItem_btnSaveChanges').click( function()
+{
+	SubmitFormMenuItem();
+});
+
+$('#MGMT_AddMenuCategory_btnSaveChanges').click( function()
+{
+	SubmitFormMenuCategory();
+});
+
+$('#MGMT_Menu').on('show.bs.modal', function(event)
+{
+	requestData('/api/menus', '#MenuCategoryTable');
+	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');
+});
+
+$('#MGMT_Menu').on('hide.bs.modal', function(event)
+{
+	$('#MenuCategoryTable tr td').remove();
+	$('#MGMT_MenuItemsTable_Body tr td').remove();
+});
+
+//
+// END MENU LISTENERS
 //
 
 
