@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,13 +21,19 @@
 	<!-- Custom Javascript Functions -->
 	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
 	<!-- Include the PayPal JavaScript SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
+	<script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
+<<<<<<< HEAD
+	<!--Charts.js javascript-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+=======
 	
+>>>>>>> e998fd9ebff27d58a7027dd64bedc8f829c23aa3
 </head>
 
 <body>
+	
 	<nav class="navbar navbar-light bg-light static-top">
 		<div class="container">
 			<div class="row">		
@@ -43,8 +49,8 @@
 	</nav>
 
 	<section class="features-icons bg-light text-center">
-			<div class="col-sm h-75 text-center text-lg-center my-auto">
-				<ul class="list-inline mb-0">
+			<div class="col-sm h-75 text-center text-lg-center my-auto"> 
+				<ul class="list-inline my-0">
 					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Employees"><i class="fas fa-address-book"></i> Manage Employees</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Reports"><i class="fas fa-book"></i> Reports</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Menu"><i class="fas fa-bars"></i> Modify Menu</a></li>
@@ -64,13 +70,70 @@
 				<div class="modal-header">
 					<h5 class="modal-title">Reports</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-4">Buttons Go here</div>
-							<div class="col-md-4 ml-auto">Report Stuff goes here</div>
+                    <div class="container-fluid">
+						<ul class="nav nav-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" data-toggle="tab" href="#Sales">Sales Chart</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#Order">Order History</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#Track">Track Employee Hours</a>
+							</li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane container active" id="Sales">
+								<div class="container-fluid">
+									<canvas id="myChart"></canvas>
+								</div>
+								<div class="container">
+									<div class="form-check-inline">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" id="chartDay" value="cDay" name="optradio">Day
+										</label>
+									</div>
+									<div class="form-check-inline">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" id="chartWeek" value="cWeek" name="optradio">Week
+										</label>
+									</div>
+									<div class="form-check-inline">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" id="chartMonth" value="cMonth" name="optradio">Month
+										</label>
+									</div>
+									<div class="form-check-inline">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" id="chartYear" value="cYear" name="optradio">Year
+										</label>
+									</div>
+								</div>
+
+							</div>
+							<div class="tab-pane container fade" id="Order">
+								
+
+							</div>
+							<div class="tab-pane container fade" id="Track">
+								
+
+							</div>
 						</div>
-					</div>
+                        <!--<div class="row">
+                            <div class="col-md-4">Buttons Go here</div>
+                            <div class="col-lg-7 ml-auto">
+                                Report Stuff goes here
+
+                                <div class="container">
+                                    <canvas id="myChart" role="img"></canvas>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -894,6 +957,27 @@
 	<!-- End EDIT INGREDIENTS Page -->
 
 	
+<<<<<<< HEAD
+		<div id="Logout" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Logout</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						 <div class="Acontainer">
+							  <div class="col-sm-9 col-md-7 col-lg-5">
+							  	<p><em>Are you sure you want to log out?</em></p>
+								<div class="card card-signin my-5">
+								  <div class="card-body">
+										<ul class="list-inline mb-0">
+											<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal" onclick="javascript:window.location='/'"></i>Sign out</a></li>
+											<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal">Fuck go back</a></li>
+										</ul>
+									</section>
+								  </div>
+								</div>
+=======
 	<div id="Logout" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -910,6 +994,7 @@
 									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal" onclick="javascript:window.location=''"></i>Sign out</a></li>
 									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal">Fuck go back</a></li>
 								</ul>
+>>>>>>> e998fd9ebff27d58a7027dd64bedc8f829c23aa3
 							</div>
 							</div>
 						</div>
