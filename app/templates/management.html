@@ -24,6 +24,7 @@
     <script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
+	
 </head>
 
 <body>
@@ -86,16 +87,21 @@
 				<div class="modal-header">
 					<h5 class="modal-title">Employees</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
+				<div class="modal-header">
+					<input class="form-control" id="MGMT_Employees_Search" type="text" placeholder="Search..">
+				</div>
 				<div class="modal-body">
-			<table class="table table-bordered table-striped" id="EmployeesTable">
-				<thead>
-					<tr>
-					<th>Name</th>
-					<th width="10px">Assignment</th>
-					<th width="10px">Edit</th>
-					</tr>
-				</thead>
-			</table>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+						<th>Name</th>
+						<th width="10px">Assignment</th>
+						<th width="10px">Edit</th>
+						</tr>
+					</thead>
+					<tbody id="EmployeesTable">
+					</tbody>
+				</table>
 				</div>
 				<div class="modal-footer">
 					<a class="btn btn-primary" data-toggle="modal" href="#MGMT_AddEmployee">Add Employee</a>
@@ -361,148 +367,292 @@
 	
 	<!-- Begin MENU PAGE -->	
 	<div id="MGMT_Menu" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Menu Items</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h5 class="modal-title">Menu Management</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
+				<div class="modal-header row d-flex justify-content-between mx-1 mx-sm-3 mb-0 pb-0">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" href="#MGMT_MenuCategory_Landing" role="tab" data-toggle="tab" aria-controls="category" aria-selected="true">Category</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#MGMT_MenuItems_Landing" role="tab" data-toggle="tab" aria-controls="items" aria-selected="false">Items</a>
+						</li>						
+					</ul>
+				</div>
+				<br>
 				<div class="modal-body">
-					<table class="table table-bordered table-striped" id="MenuItemsTable">
-						<thead>
-							<tr>
-							<th>Name</th>
-							<th>Cost</th>
-							<th>Enable</th>
-							<th>Group</th>
-							<th>Edit</th>
-							</tr>
-						</thead>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<a class="btn btn-primary" data-toggle="modal" href="#MGMT_AddMenuItem">Add Menu Item</a>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Save and Close</button>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="MGMT_MenuCategory_Landing" aria-labelledby="category-tab">
+							<table class="table table-bordered table-striped" id="MenuCategoryTable">
+								<thead>
+									<tr>
+									<th>Name</th>
+									<th>Menu Items</th>
+									<th>Edit</th>
+									</tr>
+								</thead>
+								<tbody id="MenuCategoryTable_Body">
+								</tbody>
+							</table>	
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id="MGMT_Menu_btnAddMenuCategory" data-toggle="modal" data-target="#MGMT_AddMenuCategory">Add Menu Category</button>
+								<button type="button" class="btn btn-secondary" id="MGMT_Menu_btnSaveChanges1" data-toggle="modal" data-target="#MGMT_Menu">Save and Close</button>
+							</div>							
+						</div>
+						<div class="tab-pane fade" id="MGMT_MenuItems_Landing" aria-labelledby="menuitem-tab">
+							<table class="table table-bordered table-striped" id="MGMT_MenuItemsTable">
+								<thead>
+									<tr>
+									<th>Name</th>
+									<th>Cost</th>
+									<th>Group</th>
+									<th>Edit</th>
+									</tr>
+								</thead>
+								<tbody id="MGMT_MenuItemsTable_Body">
+								</tbody>
+							</table>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id="MGMT_Menu_btnAddMenuItem" data-toggle="modal" data-target="#MGMT_AddMenuItem">Add Menu Item</button>
+								<button type="button" class="btn btn-secondary" id="MGMT_Menu_btnSaveChanges2" data-toggle="modal" data-target="#MGMT_Menu">Save and Close</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- End MENU PAGE -->	
-
-	<!-- Begin ADD MENU PAGE -->
-	<div id="MGMT_AddMenuItem" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	
+	<!-- Begin ADD MENU CATEGORY PAGE -->
+	<div id="MGMT_AddMenuCategory" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Add Menu</h5>
+					<h5 class="modal-title">Add Menu Category</h5>
 				</div>
 				<div class="modal-body">
-					<div class="Acontainer">
-						<form class="addMenuItem" method="POST" action="/api/menuitems">
-							<div class="form-row">
-								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="MI_name" name="name" placeholder="Name" required>
-								</div>
-								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="MI_cost" name="cost" placeholder="0.99">
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-4">
-									<input type="text" class="form-control" id="MI_desc" name="description" placeholder="Delicious..." required>
-								</div>
-							</div>
-							<div class="form-row">
-								<div id="populateIngredients" class="form-group col-md-2 mb-3">
-									<select class="form-control" id="MI_ingredientsdropdownarray" name="ingredient[]" required>
-										<option selected>State</option>
-										<option value="AL">Alabama</option>
-										<option value="AK">Alaska</option>
-										<option value="AZ">Arizona</option>
-										<option value="AR">Arkansas</option>
-										<option value="CA">California</option>
-										<option value="CO">Colorado</option>
-										<option value="CT">Connecticut</option>
-										<option value="DE">Delaware</option>
-										<option value="DC">District Of Columbia</option>
-										<option value="FL">Florida</option>
-										<option value="GA">Georgia</option>
-										<option value="HI">Hawaii</option>
-										<option value="ID">Idaho</option>
-										<option value="IL">Illinois</option>
-										<option value="IN">Indiana</option>
-										<option value="IA">Iowa</option>
-										<option value="KS">Kansas</option>
-										<option value="KY">Kentucky</option>
-										<option value="LA">Louisiana</option>
-										<option value="ME">Maine</option>
-										<option value="MD">Maryland</option>
-										<option value="MA">Massachusetts</option>
-										<option value="MI">Michigan</option>
-										<option value="MN">Minnesota</option>
-										<option value="MS">Mississippi</option>
-										<option value="MO">Missouri</option>
-										<option value="MT">Montana</option>
-										<option value="NE">Nebraska</option>
-										<option value="NV">Nevada</option>
-										<option value="NH">New Hampshire</option>
-										<option value="NJ">New Jersey</option>
-										<option value="NM">New Mexico</option>
-										<option value="NY">New York</option>
-										<option value="NC">North Carolina</option>
-										<option value="ND">North Dakota</option>
-										<option value="OH">Ohio</option>
-										<option value="OK">Oklahoma</option>
-										<option value="OR">Oregon</option>
-										<option value="PA">Pennsylvania</option>
-										<option value="RI">Rhode Island</option>
-										<option value="SC">South Carolina</option>
-										<option value="SD">South Dakota</option>
-										<option value="TN">Tennessee</option>
-										<option value="TX">Texas</option>
-										<option value="UT">Utah</option>
-										<option value="VT">Vermont</option>
-										<option value="VA">Virginia</option>
-										<option value="WA">Washington</option>
-										<option value="WV">West Virginia</option>
-										<option value="WI">Wisconsin</option>
-										<option value="WY">Wyoming</option>
-									</select>
-								</div>
-								<div class="form-group col-md-2">
-									<input type="text" class="form-control" id="address_zipTxtBox" name="count" placeholder="Count" required>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-3 mb-3">
-									<input type="email" class="form-control" id="emailTxtBox" name="email" placeholder="student@my.unt.edu" minlength="6" required>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-2 mb-3">
-									<select class="form-control" id="assignmentDropDown" name="assignment" required>
-										<option selected>Assignment</option>
-										<option value="manager">Manager</option>
-										<option value="waitstaff">Waitstaff</option>
-										<option value="kitchen">Kitchen</option>
-									</select>
-								</div>
-								<div class="form-group col-md-2">
-									<input type="text" class="form-control" id="usernameTxtBox" name="username" placeholder="User Name" required>
-								</div>
-								<div class="form-group col-md-2">
-									<input type="text" class="form-control" id="pinTxtBox" name="pin" placeholder="PIN" required>
-								</div>
-							</div>	
-							<button class="btn btn-primary" type="submit">Submit</button>
-							<button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddEmployee">Exit without Saving</button>
-						</form>
-					</div>
+					<form id="addMenuCategoryForm">
+						<div class="form-group">
+							<input type="text" class="form-control" id="MI_name" name="name" placeholder="Name" required>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" id="MI_desc" name="description" placeholder="Add a description here..." rows="5"></textarea>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" id="imageURL" name="image" placeholder="Image URL" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+                    <button class="btn btn-primary" id="MGMT_AddMenuCategory_btnSaveChanges" data-toggle="modal" data-target="#MGMT_AddMenuCategory">Submit</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddMenuCategory">Exit without Saving</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- End ADD MENU Page -->
 
+	<!-- Begin ADD MENU CATEGORY PAGE -->
+	<div id="MGMT_EditMenuCategory" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Menu Category</h5>
+				</div>
+				<div class="modal-body">
+					<form id="editMenuCategoryForm">
+						<input type="hidden" id="mcID" name="uid">
+						<div class="form-group">
+							<input type="text" class="form-control" id="MC_name" name="name" placeholder="Name" required>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" id="MC_desc" name="description" placeholder="Add a description here..." rows="5"></textarea>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" id="MC_imageURL" name="image" placeholder="Image URL" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+                    <button class="btn btn-primary" id="MGMT_EditMenuCategory_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditMenuCategory">Submit</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditMenuCategory">Exit without Saving</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End ADD MENU Page -->
+
+	<!-- Begin ADD MENU PAGE -->
+	<div id="MGMT_AddMenuItem" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add Menu Item</h5>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<form id="addMenuItem">
+							<div class="form-group row">
+								<div class="input-group col">
+									<input type="text" class="form-control" id="MI_name" name="name" placeholder="Name" required>
+								</div>
+								<div class="input-group col">
+									<div class="input-group-prepend">
+										<span class="input-group-text">$</span>
+									</div>
+									<input type="number" class="form-control" id="MI_cost" name="cost" placeholder="Cost" min=0 step="0.01" aria-label="Cost of the Menu Item" required>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="input-group col">
+									<textarea class="form-control" id="MI_desc" name="description" placeholder="Add a description here..." rows="5"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="input-group col">
+									<input type="text" class="form-control" id="imageURL" name="image" placeholder="Image URL" required>
+								</div>
+							</div>
+						</form>
+					</div>
+					<table id="MGMT_MenuItem_InventoryTable" class="table table-bordered table-striped"> <!-- This needs to be pulled manually in JS -->
+						<thead>
+							<tr>
+								<th width="5px">Name</th>
+								<th width="3px">Qty</th>
+							</tr>
+						</thead>
+						<tbody id="MGMT_MenuItem_InventoryTable_Body">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#MGMT_AddMenuItem_IngredientSelector">Add Ingredients</button>
+                    <button class="btn btn-primary" id="MGMT_AddMenuItem_btnSaveChanges" data-toggle="modal" data-target="#MGMT_AddMenuItem">Submit</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddMenuItem">Exit without Saving</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End ADD MENU Page -->
+	
+	<!-- Begin ADD MENU ITEM - INGREDIENT SELECTOR Page -->	
+	<div id="MGMT_AddMenuItem_IngredientSelector" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Menu Item</h5>
+				</div>
+				<div class="modal-body">
+					<table id="MGMT_AddMenuItem_IngredientSelector_InventoryTable" class="table table-bordered table-striped"> <!-- This needs to be pulled manually in JS -->
+						<thead>
+							<tr>
+								<th width="5px">Name</th>
+								<th width="3px">Qty</th>
+							</tr>
+						</thead>
+						<tbody id="MGMT_AddMenuItem_IngredientSelector_InventoryTable_Body">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+                    <button class="btn btn-primary" id="MGMT_AddMenuItem_IS_btnSaveChanges" data-toggle="modal" data-target="#MGMT_AddMenuItem_IngredientSelector">Save</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddMenuItem_IngredientSelector">Discard</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End ADD MENU ITEM - INGREDIENT SELECTOR Page -->	
+
+	<!-- Begin EDIT MENU PAGE -->
+	<div id="MGMT_EditMenuItem" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Menu Item</h5>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<form id="EditMenuItemForm">
+							<input type="hidden" id="miID" name="uid">
+							<div class="form-group row">
+								<div class="input-group col">
+									<input type="text" class="form-control" id="MI_name" name="name" placeholder="Name" required>
+								</div>
+								<div class="input-group col">
+									<div class="input-group-prepend">
+										<span class="input-group-text">$</span>
+									</div>
+									<input type="number" class="form-control" id="MI_cost" name="cost" placeholder="Cost" min=0 step="0.01" aria-label="Cost of the Menu Item" required>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="input-group col">
+									<textarea class="form-control" id="MI_desc" name="description" placeholder="Add a description here..." rows="5"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="input-group col">
+									<input type="text" class="form-control" id="imageURL" name="image" placeholder="Image URL" required>
+								</div>
+							</div>
+						</form>
+					</div>
+					<table id="MGMT_EditMenuItem_InventoryTable" class="table table-bordered table-striped"> <!-- This needs to be pulled manually in JS -->
+						<thead>
+							<tr>
+								<th width="5px">Name</th>
+								<th width="3px">Qty</th>
+							</tr>
+						</thead>
+						<tbody id="MGMT_EditMenuItem_InventoryTable_Body">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#MGMT_EditMenuItem_IngredientSelector">Add Ingredients</button>
+                    <button class="btn btn-primary" id="MGMT_EditMenuItem_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditMenuItem">Submit</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditMenuItem">Exit without Saving</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End EDIT MENU Page -->
+
+	<!-- Begin EDIT MENU ITEM - INGREDIENT SELECTOR Page -->		
+	<div id="MGMT_EditMenuItem_IngredientSelector" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Menu Item</h5>
+				</div>
+				<div class="modal-body">
+					<table id="MGMT_EditMenuItem_IngredientSelector_InventoryTable" class="table table-bordered table-striped"> <!-- This needs to be pulled manually in JS -->
+						<thead>
+							<tr>
+								<th width="5px">Name</th>
+								<th width="3px">Qty</th>
+							</tr>
+						</thead>
+						<tbody id="MGMT_EditMenuItem_IngredientSelector_InventoryTable_Body">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+                    <button class="btn btn-primary" id="MGMT_EditMenuItem_IS_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditMenuItem_IngredientSelector">Save</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditMenuItem_IngredientSelector">Discard</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End EDIT MENU ITEM - INGREDIENT SELECTOR Page -->	
+		
 	<div id="MGMT_Kitchen" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -744,31 +894,30 @@
 	<!-- End EDIT INGREDIENTS Page -->
 
 	
-		<div id="Logout" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Logout</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						 <div class="Acontainer">
-							  <div class="col-sm-9 col-md-7 col-lg-5">
-							  	<p><em>Are you sure you want to log out?</em></p>
-								<div class="card card-signin my-5">
-								  <div class="card-body">
-										<ul class="list-inline mb-0">
-											<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal" onclick="javascript:window.location=''"></i>Sign out</a></li>
-											<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal">Fuck go back</a></li>
-										</ul>
-									</section>
-								  </div>
-								</div>
+	<div id="Logout" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Logout</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="Acontainer">
+						<div class="col-sm-9 col-md-7 col-lg-5">
+							<p><em>Are you sure you want to log out?</em></p>
+							<div class="card card-signin my-5">
+							<div class="card-body">
+								<ul class="list-inline mb-0">
+									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal" onclick="javascript:window.location=''"></i>Sign out</a></li>
+									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal">Fuck go back</a></li>
+								</ul>
 							</div>
-						  </div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 		<!-- Bootstrap core JavaScript -->
 		<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>	
