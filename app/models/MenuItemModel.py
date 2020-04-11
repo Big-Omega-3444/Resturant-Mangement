@@ -29,6 +29,7 @@ class MenuItemModel(Document):
     image = URLField()
     cost = FloatField(required=True)
     ingredients = EmbeddedDocumentListField(IngredientAmount)
+    allergens = ListField(StringField(default=[],choices=['wheat','peanut','egg','soy','milk','fish','shellfish','treenut']))
 
 class MenuItemResource(TemplateResource):
     model = MenuItemModel
