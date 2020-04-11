@@ -8,7 +8,7 @@ from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.IngredientModel import IngredientModel
 
 class InventoryModel(Document):
-    ingredient = ReferenceField('IngredientModel', required=True)
+    ingredient = ReferenceField('IngredientModel', required=True, unique=True)
     count = IntField(required=True)
 
     def clean(self):
