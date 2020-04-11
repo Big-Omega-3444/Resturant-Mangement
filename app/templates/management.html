@@ -367,7 +367,7 @@
 	
 	<!-- Begin MENU PAGE -->	
 	<div id="MGMT_Menu" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog modal-xl" role="document">
+		<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Menu Management</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -452,6 +452,36 @@
 				<div class="modal-footer">
                     <button class="btn btn-primary" id="MGMT_AddMenuCategory_btnSaveChanges" data-toggle="modal" data-target="#MGMT_AddMenuCategory">Submit</button>
                     <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddMenuCategory">Exit without Saving</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End ADD MENU Page -->
+
+	<!-- Begin ADD MENU CATEGORY PAGE -->
+	<div id="MGMT_EditMenuCategory" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Menu Category</h5>
+				</div>
+				<div class="modal-body">
+					<form id="editMenuCategoryForm">
+						<input type="hidden" id="mcID" name="uid">
+						<div class="form-group">
+							<input type="text" class="form-control" id="MC_name" name="name" placeholder="Name" required>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" id="MC_desc" name="description" placeholder="Add a description here..." rows="5"></textarea>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" id="MC_imageURL" name="image" placeholder="Image URL" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+                    <button class="btn btn-primary" id="MGMT_EditMenuCategory_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditMenuCategory">Submit</button>
+                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditMenuCategory">Exit without Saving</button>
 				</div>
 			</div>
 		</div>
@@ -864,31 +894,30 @@
 	<!-- End EDIT INGREDIENTS Page -->
 
 	
-		<div id="Logout" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Logout</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						 <div class="Acontainer">
-							  <div class="col-sm-9 col-md-7 col-lg-5">
-							  	<p><em>Are you sure you want to log out?</em></p>
-								<div class="card card-signin my-5">
-								  <div class="card-body">
-										<ul class="list-inline mb-0">
-											<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal" onclick="javascript:window.location=''"></i>Sign out</a></li>
-											<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal">Fuck go back</a></li>
-										</ul>
-									</section>
-								  </div>
-								</div>
+	<div id="Logout" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Logout</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="Acontainer">
+						<div class="col-sm-9 col-md-7 col-lg-5">
+							<p><em>Are you sure you want to log out?</em></p>
+							<div class="card card-signin my-5">
+							<div class="card-body">
+								<ul class="list-inline mb-0">
+									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal" onclick="javascript:window.location=''"></i>Sign out</a></li>
+									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal">Fuck go back</a></li>
+								</ul>
 							</div>
-						  </div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 		<!-- Bootstrap core JavaScript -->
 		<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>	
