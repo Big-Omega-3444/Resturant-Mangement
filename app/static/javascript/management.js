@@ -570,51 +570,39 @@ function SubmitFormMenuUpdateAll(menuDatas)
 	// Build requests
 	for(i = 0; i < data.length; i++) {
 		//Exit out if the selected option is none (only happens after creating the menu item for the first time and not assigning it somewhere)
-		if (data[i].selectedOptions[0].value == "none" || data[i].selectedOptions[0].id == "NoItem")
+		if (menuDatas.length == 0)
 			continue;
 		
-		(function (i){
+		var o = data[i];
+		(function (i, optionData){
 			requests[i] = new XMLHttpRequest();		
 			
 			var url = "";
-			var deletion = false;
 
 			//Generate data
-			var menuData = {};
+			var payload = {
+				"items": [],
+			}
 			
-			// Retrieve JSON that matches the IDs
+			var deletion = false;
+
+			// Iterate through each menuDatas and attempt to find matches with selected IDs
 			for (j = 0; j < menuDatas.length; j++)
 			{
-				if 	(menuDatas[j]._id.$oid == data[i].selectedOptions[0].id)
+				if 	((menuDatas[j]._id.$oid == optionData.selectedOptions[0].id ) && optionData.selectedOptions[0].value == "none")
 				{
-					menuData = menuDatas[j];
-					j = menuDatas.length;
-					deletion = true;
+					//Nothing else to do here
+					return;
 				}
-				else if (menuDatas[j]._id.$oid == data[i].selectedOptions[0].value)
+				else if (menuDatas[j]._id.$oid == optionData.selectedOptions[0].value)
 				{
-					menuData = menuDatas[j];
+					url = "/api/menus/" + menuDatas[j]._id.$oid;	
+					payload.items.push({"item": optionData.id});
 					j = menuDatas.length;					
 				}
 					
 			}
 			
-			var url = "/api/menus/" + menuData._id.$oid;	
-			
-			if (deletion == true)
-			{
-				for (k = 0; k < menuData.items.length; k++)	
-				{
-					if (menuData.items[k] == data[i].id)
-					{
-						delete menuData.items[k];
-						k = menuData.items.length;
-					}
-				}
-			}
-			else
-				menuData.items.push(data[i].id);
-
 			requests[i].open('PUT', url);
 			
 			// Handle on load
@@ -640,8 +628,8 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			};	
 			
 			requests[i].setRequestHeader("Content-Type", "application/json");		
-			requests[i].send(JSON.stringify(menuData));	
-		})(i);
+			requests[i].send(JSON.stringify(payload));	
+		})(i, o);
 	}
 }
 
@@ -1152,8 +1140,8 @@ function populateMenuCategoryTable(data, selector)
 	// Build the table
 	for(i = 0; i < data.length; i++) {
 		
-		if (data[i].items.length == 0)
-		{
+//		if (data[i].items.length == 0)
+//		{
 			var row = $('<tr/>')
 			var name = $(`<div class="inv_update" id=${data[i]._id.$oid}/>`).html(data[i].name);
 			
@@ -1176,69 +1164,69 @@ function populateMenuCategoryTable(data, selector)
 			$(selector).append(row);	
 			
 			continue;
-		}		
-		(function (i){
-			requests[i] = new XMLHttpRequest();		
-			
-			// We don't have any items to request just yet, so just skip
-
-			var url = "/api/menuitems/" + data[i].items.$oid;
-			requests[i].open('GET', url);
-	
-			// Handle on load
-			requests[i].onload = function(data)
-			{
-				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
-				{
-					var row = $('<tr/>')
-					var ingredient = JSON.parse(requests[i].responseText);
-					
-					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
-					
-					row.append($('<td/>').html(name));
-					
-					//Create buttons for specific ID
-					var uid = ingredient._id.$oid;
-					
-					// Append assignment
-					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
-					row.append($('<td/>').html(quantity));
-					
-					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
-						requestIngredient(this);
-					}).html("EDIT");
-			
-					var deleteButton = $(`<button class="btn btn-danger" id=${uid}|${data.target.extraInfo._id.$oid}/>`).click(function() {
-						deleteIngredient(this);
-					}).html("DEL");
-					
-					row.append($('<td/>').html(editButton).append(deleteButton));
-					
-					$(selector).append(row);
-		
-					return;
-				}
-				else 
-				{	
-					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
-				}
-			};
-		
-			// Handle on errors	
-			requests[i].error = function() 
-			{
-				alert("Request Failed!");
-			};	
-		
-			requests[i].send();	
-			requests[i].extraInfo = data[i];	
-		})(i);
+//		}		
+//		(function (i){
+//			requests[i] = new XMLHttpRequest();		
+//			
+//			// We don't have any items to request just yet, so just skip
+//
+//			var url = "/api/menuitems/" + data[i].items.$oid;
+//			requests[i].open('GET', url);
+//	
+//			// Handle on load
+//			requests[i].onload = function(data)
+//			{
+//				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
+//				{
+//					var row = $('<tr/>')
+//					var ingredient = JSON.parse(requests[i].responseText);
+//					
+//					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
+//					
+//					row.append($('<td/>').html(name));
+//					
+//					//Create buttons for specific ID
+//					var uid = ingredient._id.$oid;
+//					
+//					// Append assignment
+//					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
+//					row.append($('<td/>').html(quantity));
+//					
+//					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
+//						requestIngredient(this);
+//					}).html("EDIT");
+//			
+//					var deleteButton = $(`<button class="btn btn-danger" id=${uid}|${data.target.extraInfo._id.$oid}/>`).click(function() {
+//						deleteIngredient(this);
+//					}).html("DEL");
+//					
+//					row.append($('<td/>').html(editButton).append(deleteButton));
+//					
+//					$(selector).append(row);
+//		
+//					return;
+//				}
+//				else 
+//				{	
+//					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
+//				}
+//			};
+//		
+//			// Handle on errors	
+//			requests[i].error = function() 
+//			{
+//				alert("Request Failed!");
+//			};	
+//		
+//			requests[i].send();	
+//			requests[i].extraInfo = data[i];	
+//		})(i);
 	}
 }
 
 
 //Same as above but creates a table of 
-function populateMenuItemTable(data, selector)
+function populateMenuItemTable(menuItemsData, selector)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
@@ -1254,54 +1242,70 @@ function populateMenuItemTable(data, selector)
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{	
 			menus = JSON.parse(request.responseText);
+			menuItems = data.target.extraInfo;
+			
 			// Build the table
-			for(i = 0; i < data.target.extraInfo.length; i++)
+			for(i = 0; i < menuItems.length; i++)
 			{
 				var row = $('<tr/>')
 				
+				//Build media object
 				var media = $('<div class="media"/>');
-				media.append($(`<img width="64" height="64" class="mr-3 d-none d-lg-block d-xl-block" src="${data.target.extraInfo[i].image}" alt="${data.target.extraInfo[i].name}"/>`));
-				media.append($(`<div class="media-body"><h5 class="mt-0"> ${data.target.extraInfo[i].name}</h5><p>${data.target.extraInfo[i].description}</p></div>`));
+				media.append($(`<img width="64" height="64" class="mr-3 d-none d-lg-block d-xl-block" src="${menuItems[i].image}" alt="${menuItems[i].name}"/>`));
+				media.append($(`<div class="media-body"><h5 class="mt-0"> ${menuItems[i].name}</h5><p>${menuItems[i].description}</p></div>`));
 				
 				// Menu Item name
 				row.append($('<td/>').html(media));
 				
 				// Menu Item cost
-				row.append($('<td/>').html(data.target.extraInfo[i].cost));
+				row.append($('<td/>').html(menuItems[i].cost));
 				
 				//Create buttons for specific ID
 				var uid = ""
-				uid = data.target.extraInfo[i]._id.$oid;
+				uid = menuItems[i]._id.$oid;
 				
 				//Build input selector with unique ID for each
 				var options = $(`<select class="menuSelector" id="${uid}"/>`);
-				var isSelected = false;
+
+				var isNoneGenerated = false;
+
 				for (j = 0; j < menus.length; j++)
 				{
+					var isSelected = false;
+					
+					if (isNoneGenerated === false)
+					{
+						options.append($(`<option id="${menus[j]._id.$oid}" value="none"/>`).html("None"));
+						isNoneGenerated = true;
+					}						
+					
 					if (isSelected === false)
 					{
-						if (menus[j].items.length == 0)
+						//For this case, there is some existing menu items, so create a "None" fallback option
+						for (k = 0; k < menus[j].items.length; k++)
 						{
-							options.append($('<option id="NoItems" value="none" selected/>').html("None"));
-							isSelected = true;
-						}
-						else
-						{
-							//For this case, there is some existing menu items, so create a "None" fallback option
-							for (k = 0; k < menus[j].items.length; j++)
+							var str1 = (menus[j].items[k].item.$oid).toString()
+							if (str1 === uid)
 							{
-								var str1 = (menus[j].items[k]).toString()
-								if (str1 === uid)
-								{
-									options.append($(`<option id="${menus[j]._id.$oid}" value="none"/>`).html("None"));
-									options.append($(`<option value="${menus[j]._id.$oid}" selected/>`).html(menus.name));
-									k = menus[j].length;
-									isSelected = true;
-								}
+								options.append($(`<option value="${menus[j]._id.$oid}" selected/>`).html(menus[j].name));
+								k = menus[j].items[k].length;
+								isSelected = true;
 							}
 						}
 					}
-					options.append($(`<option value="${menus[j]._id.$oid}"/>`).html(menus[j].name));
+					
+					if (isSelected === false)
+					{
+						options.append($(`<option value="${menus[j]._id.$oid}"/>`).html(menus[j].name));						
+					}
+				}
+
+				// Handle case if there is no menus that exist (if we end up at this point)
+				if (menus.length == 0)
+				{
+					var cosmeticOption = $(`<option id="" value="none"/>`).html("None");
+					cosmeticOption.attr('disabled', true)
+					options.append(cosmeticOption);	
 				}
 				
 				row.append($('<td/>').html(options));
@@ -1332,8 +1336,8 @@ function populateMenuItemTable(data, selector)
 		alert("Request Failed!");
 	};
 	
-	request.extraInfo = data;
 	request.send();	
+	request.extraInfo = menuItemsData;
 }
 
 function populateAddMenuItems(data, selector)
