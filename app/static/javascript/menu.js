@@ -99,7 +99,7 @@ function populateFoodPane(data, selector)
 function populateFoodCards(menuItem, selector)
 {
 	//populate food pane with items
-	var ingList = "Under Construction"; // concatenate ingredients
+	var ingList = "Ingredients Under Construction"; // concatenate ingredients
 	/*for (k = 0; k < data.ingredients.length; l++) {
 		var ingID = data.ingredients[k];
 
@@ -133,13 +133,13 @@ function populateFoodCards(menuItem, selector)
 										</div>
 										<div class="content">
 											<div class="main">
-												<h4 class="text-center">Allergen</h4>
+												<h4 class="text-center">${menuItem.allergens}</h4>
 												<p class="text-center">${ingList}</p>
 
 												<div class="stats-container">
-													<div class="stats"><h4>Calories</h4><p>000</p></div>
-													<div class="stats"><h4>Fat</h4><p>000 grams</p></div>
-													<div class="stats"><h4>Protein</h4><p>000 grams</p></div>
+													<div class="stats"><h4></h4><p></p></div>
+													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
+													<div class="stats"><h4></h4><p></p></div>
 												</div>
 											</div>
 										</div>
