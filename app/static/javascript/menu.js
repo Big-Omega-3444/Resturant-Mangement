@@ -13,17 +13,15 @@ function populateFoodTabs(data, selector)
 		}
 
 		$(selector).append(tab);
+	}
+}
 
-		var pSelector = '#foodPane'; // selector for the food pane
+function populateFoodPane(data, selector)
+{
+	for(i = 0; i < data.length; i++) // iterate through menus again
+	{
 		var pane;
-
-		if (i == 0){ // first food tab gets the active pane
-			pane = $(`<div role="tabpanel" class="tab-pane active" id=${tabName} <div class="row"/>/>`);
-		} else {
-			pane = $(`<div role="tabpanel" class="tab-pane" id=${tabName} <div class="row"/>/>`);
-		}
-		var pSelector = '#foodPane'; // selector for the food pane
-		var pane;
+		var tabName = data[i].name;
 
 		if (i == 0){ // first food tab gets the active pane
 			pane = $(`<div role="tabpanel" class="tab-pane active" id=${tabName}/>`);
@@ -31,7 +29,7 @@ function populateFoodTabs(data, selector)
 			pane = $(`<div role="tabpanel" class="tab-pane" id=${tabName}/>`);
 		}
 		row = $('<div class="row"/>')
-
+		/*
 		const cardTemplate = `<div class="col-sm-4">
 									<div class="card-container manual-flip">
 										<div class="card">
@@ -77,19 +75,29 @@ function populateFoodTabs(data, selector)
 										</div>
 									</div>
 								</div>`;
-
 		//append our template to the pane
 		row.append(cardTemplate);
-
 		pane.append(row);
+		 */
 
-		/*
-		//populate food pane
+		//populate food pane with items
 		for(j = 0; j < data[i].items.length; i++)
 		{
+			itemID = data[i].items[j];
+			url = "/api/menuitems/" + itemID;
+
+			menuItem = requestData(url, "menuitem");
+
 			var ingList = ""; // concatenate ingredients
-			for(l = 0; l < data[i].items[j].ingredients.length; l++)
-				ingList = ingList + data[i].items[j].ingredients[l].name + ",";
+			for(k = 0; k < menuItem[i].ingredients.length; l++)
+			{
+				ingID = menuItem[i].ingredients[k];
+				ingurl = "/api/ingredients/" + ingID;
+
+				ingredient = requestData(url, "ingredient");
+
+				ingList = ingList + ingredient.name + ",";
+			}
 
 			// hopefully I can just use this template for the cards
 			const cardTemplate = `<div class="col-sm-4">
@@ -98,11 +106,11 @@ function populateFoodTabs(data, selector)
 											<div class="front">
 												<div class="content">
 													<div class="main">
-														<img class="card-img-top" src=${data[i].items[j].image} style="width:100%">
+														<img class="card-img-top" src=${menuItem.image} style="width:100%">
 														<div class="card-body">
-															<h4 class="card-title">${data[i].items[j].name}</h4>
-															<p class="card-text">${data[i].items[j].description}</p>
-															<button type="button" id=${data[i].items[j].name} onclick="addOrder(${data[i].items[j].name})" class="btn btn-primary">Order</button>
+															<h4 class="card-title">${menuItem.name}</h4>
+															<p class="card-text">${menuItem.description}</p>
+															<button type="button" id=${menuItem.name} onclick="addOrder(${menuItem.name})" class="btn btn-primary">Order</button>
 														</div>
 													</div>
 													<div class="footer">
@@ -114,13 +122,13 @@ function populateFoodTabs(data, selector)
 											</div>
 											<div class="back">
 												<div class="header">
-													<h5 class="card-title">${data[i].items[j].name}</h5>
+													<h5 class="card-title">${menuItem.name}</h5>
 												</div>
 												<div class="content">
 													<div class="main">
-														<h4 class="text-center"></h4>
+														<h4 class="text-center">Allergen</h4>
 														<p class="text-center">${ingList}</p>
-			
+
 														<div class="stats-container">
 															<div class="stats"><h4>Calories</h4><p>000</p></div>
 															<div class="stats"><h4>Fat</h4><p>000 grams</p></div>
@@ -143,14 +151,11 @@ function populateFoodTabs(data, selector)
 
 			pane.append(row);
 		}
-		 */
-
-		// append our cards to the food panes
-		$(pSelector).append(pane);
 	}
+
+	// append our cards to the food panes
+	$(selector).append(pane);
 }
-
-
 
 function requestData(url, selector)
 {
@@ -171,7 +176,9 @@ function requestData(url, selector)
 			switch(selector)
 			{
 				case'#foodTabs': populateFoodTabs(JSON.parse(request.responseText), selector); break;
+				case'#foodPane': populateFoodPane(JSON.parse(request.responseText), selector); break;
 				case'#drinkTabs': populateDrinksTabs(JSON.parse(request.responseText), selector); break;
+				default: return JSON.parse(request.responseText); break;
 			}
 		}
 	};
