@@ -16,7 +16,10 @@ class OrderModel(Document):
                 msg = 'comped flag set so staff_comped must reference an employee'
                 raise ValidationError(msg)
 
+
+    gratuity = FloatField()
     table = IntField()
+    special_notes = StringField()
     to_go = BooleanField(required=True)
     items = ListField(ReferenceField('MenuItemModel'), required=True)
     status = StringField(required=True, choices=['ordered','ready','delivered','payment_recieved'])
