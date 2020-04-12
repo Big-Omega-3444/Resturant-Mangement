@@ -10,6 +10,11 @@ from models.MenuItemModel import MenuItemResource, MenuItemResourceList
 from models.OrderModel import OrderResource, OrderResourceList
 from models.MenuModel import MenuResource, MenuResourceList
 from models.InventoryModel import InventoryResource, InventoryResourceList
+from models.CouponModel import CouponResource, CouponResourceList
+from models.SpecialsModel import SpecialsResource, SpecialsResourceList
+from models.LoyaltyMemberModel import LoyaltyMemberResource, LoyaltyMemberResourceList
+from models.TimeSheetModel import TimeSheetResource, TimeSheetResourceList
+from models.TableModel import TableResource, TableResourceList
 from database import Database as db
 
 
@@ -41,6 +46,21 @@ api.add_resource(MenuResource, '/api/menus/<id>')
 
 api.add_resource(InventoryResourceList, '/api/inventory')
 api.add_resource(InventoryResource, '/api/inventory/<id>')
+
+api.add_resource(CouponResourceList,'/api/coupons')
+api.add_resource(CouponResource,'/api/coupons/<id>')
+
+api.add_resource(SpecialsResourceList,'/api/specials')
+api.add_resource(SpecialsResource,'/api/specials/<id>')
+
+api.add_resource(LoyaltyMemberResourceList,'/api/loyaltymembers')
+api.add_resource(LoyaltyMemberResource,'/api/loyaltymembers/<id>')
+
+api.add_resource(TimeSheetResourceList,'/api/timesheets')
+api.add_resource(TimeSheetResource,'/api/timesheets/<id>')
+
+api.add_resource(TableResourceList, '/api/tables')
+api.add_resource(TableResource, '/api/tables/<id>')
 
 
 
