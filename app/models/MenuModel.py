@@ -35,6 +35,7 @@ class MenuModel(Document):
     description = StringField(default="Default Menu Description")
     image = URLField()
     drinks = BooleanField(required=True)
+    ignore_timeslots = BooleanField(default=False)
 
     pass
 
