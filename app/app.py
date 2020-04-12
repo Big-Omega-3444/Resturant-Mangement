@@ -14,6 +14,7 @@ from models.CouponModel import CouponResource, CouponResourceList
 from models.SpecialsModel import SpecialsResource, SpecialsResourceList
 from models.LoyaltyMemberModel import LoyaltyMemberResource, LoyaltyMemberResourceList
 from models.TimeSheetModel import TimeSheetResource, TimeSheetResourceList
+from models.TableModel import TableResource, TableResourceList
 from database import Database as db
 
 
@@ -58,6 +59,9 @@ api.add_resource(LoyaltyMemberResource,'/api/loyaltymembers/<id>')
 api.add_resource(TimeSheetResourceList,'/api/timesheets')
 api.add_resource(TimeSheetResource,'/api/timesheets/<id>')
 
+api.add_resource(TableResourceList, '/api/tables')
+api.add_resource(TableResource, '/api/tables/<id>')
+
 
 
 
@@ -80,16 +84,15 @@ def about():
 @application.route('/contact')
 def contact():
     return render_template('contact.html')
-    
-    
+
 @application.route('/waitstaff')
 def waitstaff():
     return render_template('waitstaff.html')
-	
+
 @application.route('/kitchen')
 def kitchen():
     return render_template('kitchen.html')
-	
+
 @application.route('/management')
 def management():
     return render_template('management.html')
@@ -105,6 +108,10 @@ def privacypolicy():
 @application.route('/TestList')
 def TestList():
     return render_template('TestList.html')
+
+@application.route('/TableMap')
+def TableMap():
+    return render_template('TableMap.html')
 
 if __name__ == "__main__":
     ENVIRONMENT_DEBUG = os.environ.get("APP_DEBUG", True)

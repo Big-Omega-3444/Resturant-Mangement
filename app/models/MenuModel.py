@@ -6,6 +6,7 @@ import json
 import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.MenuItemModel import MenuItemModel
+from models.MyBooleanField import MyBooleanField
 
 # Dumb solution to a weird bug
 class ItemList(EmbeddedDocument):
@@ -34,6 +35,9 @@ class MenuModel(Document):
     timeslots = EmbeddedDocumentListField(DayTimeSlot, default=[])
     description = StringField(default="Default Menu Description")
     image = URLField()
+    drinks = MyBooleanField(required=True)
+    ignore_timeslots = MyBooleanField(default=False)
+
 
     pass
 
