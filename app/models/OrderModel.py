@@ -9,6 +9,20 @@ from models.MenuItemModel import MenuItemModel
 from models.EmployeeModel import EmployeeModel
 from models.MyBooleanField import MyBooleanField
 
+
+# Dumb solution to a weird bug
+class ItemList(EmbeddedDocument):
+    item = ReferenceField('MenuItemModel', required=True)
+
+    def clean(self):
+        try:
+            if MenuItemModel.objects(id=self.item.id) is None:
+                msg = 'Object does not exist'
+                raise ValidationError(msg)
+        except:
+            msg = 'Malformated request'
+            raise ValidationError(msg)
+
 class OrderModel(Document):
 
     def clean(self):
@@ -22,7 +36,7 @@ class OrderModel(Document):
     table = IntField()
     special_notes = StringField()
     to_go = MyBooleanField(required=True)
-    items = ListField(ReferenceField('MenuItemModel'), required=True)
+    items = EmbeddedDocumentListField(ItemList, required=True)
     status = StringField(required=True, choices=['ordered','ready','delivered','payment_recieved'])
     # If the meal was given away for free
     comped = MyBooleanField(default=False)
