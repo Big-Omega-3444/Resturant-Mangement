@@ -7,13 +7,14 @@ import logging
 
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.EmployeeModel import EmployeeModel
+from models.MyBooleanField import MyBooleanField
 
 class TimeSheetModel(Document):
     employee = ReferenceField('EmployeeModel')
     # Stores times in utc format (milliseconds since epoch)
     utc_start_time = IntField(required=True)
     utc_end_time = IntField()
-    ongoing = BooleanField(default=True)
+    ongoing = MyBooleanField(default=True)
 
     def clean(self):
         try:

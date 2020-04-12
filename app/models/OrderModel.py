@@ -7,6 +7,7 @@ import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.MenuItemModel import MenuItemModel
 from models.EmployeeModel import EmployeeModel
+from models.MyBooleanField import MyBooleanField
 
 class OrderModel(Document):
 
@@ -20,11 +21,11 @@ class OrderModel(Document):
     gratuity = FloatField()
     table = IntField()
     special_notes = StringField()
-    to_go = BooleanField(required=True)
+    to_go = MyBooleanField(required=True)
     items = ListField(ReferenceField('MenuItemModel'), required=True)
     status = StringField(required=True, choices=['ordered','ready','delivered','payment_recieved'])
     # If the meal was given away for free
-    comped = BooleanField(default=False)
+    comped = MyBooleanField(default=False)
     # Who comped the meal
     staff_comped = ReferenceField('EmployeeModel')
 
