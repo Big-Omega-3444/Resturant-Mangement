@@ -1,3 +1,10 @@
+/*TODO:
+   Substitutions?
+   Special Requests (these might go under ORDERS)
+   
+   Help / Refill Buttons (also integration with waitstaff/tablesdb)
+   Time based Menus
+*/
 
 //Creates Tabs for food menu
 function populateFoodTabs(data, selector)
@@ -8,7 +15,7 @@ function populateFoodTabs(data, selector)
 		// check if the menu is for drinks or not
 		if(data[i].drinks)
 			continue;
-		// check if the menu is active
+		// TODO: check if the menu is active
 
 
 
@@ -35,7 +42,7 @@ function populateFoodPane(data, selector)
 		// check if the menu is for drinks or not
 		if(data[i].drinks)
 			continue;
-		// check if the menu is active
+		// TODO: check if the menu is active
 
 
 
@@ -172,9 +179,6 @@ function populateFoodCards(menuItem, selector)
 
 		requestData(url, selector, "ingredient");
 	}
-
-	//For later to fill in ingredients
-	//
 }
 
 
@@ -187,7 +191,7 @@ function populateDrinkTabs(data, selector)
 		// check if the menu is for drinks or not
 		if(!data[i].drinks)
 			continue;
-		// check if the menu is active
+		// TODO: check if the menu is active
 
 
 
@@ -213,7 +217,7 @@ function populateDrinkPane(data, selector)
 		// check if the menu is for drinks or not
 		if(!data[i].drinks)
 			continue;
-		// check if the menu is active
+		// TODO: check if the menu is active
 
 
 
@@ -221,7 +225,7 @@ function populateDrinkPane(data, selector)
 		var tabName = data[i].name;
 		var refName = tabName.replace(" ", "_")
 
-		if (i == 0){ // first food tab gets the active pane
+		if (i == 0){ // first drink tab gets the active pane
 			pane = $(`<div role="tabpanel" class="tab-pane active" id="${refName}"/>`);
 		} else {
 			pane = $(`<div role="tabpanel" class="tab-pane" id="${refName}"/>`);
@@ -244,7 +248,7 @@ function populateDrinkPane(data, selector)
 //Creates the Cards for our menu items
 function populateDrinkCards(menuItem, selector)
 {
-	//populate food pane with items
+	//populate drinks pane with items
 
 	//Card Template
 	const cardTemplate = `<div id=${menuItem.name.replace(" ","_")} class="col-sm-4">
@@ -352,9 +356,6 @@ function populateDrinkCards(menuItem, selector)
 
 		requestData(url, selector, "ingredient");
 	}
-
-	//For later to fill in ingredients
-	//
 }
 
 //Populates the ingredients section of the menuitem Card
@@ -375,8 +376,6 @@ function requestData(url, selector, type)
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
 	request.open('GET', url);
-
-
 
 	// Handle on load
 	request.onload = function()
@@ -415,30 +414,29 @@ function requestData(url, selector, type)
 	request.send();
 }
 
-// LISTENERS
-//Food -----------------------------------------------------------//
-// Create the table once the modal is shown (after it pops up)
-$('#Food').on('shown.bs.modal', function(event)
+//--- LISTENERS -----------------------------------------------------------------------------------------//
+
+//--- Food -----------------------------------------------------------//
+$('#Food').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
 	requestData('/api/menus', '#foodTabs', "UI");
 	requestData('/api/menus', '#foodPane', "UI");
 });
 
-// Remove the table's elements after the model is hidden
-$('#Food').on('hide.bs.modal', function(event)
+$('#Food').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
 	$('#foodTabs li').remove();
 	$('#foodPane div').remove();
 });
-//Drinks ----------------------------------------------------------//
-$('#Drinks').on('shown.bs.modal', function(event)
+
+//--- Drinks ----------------------------------------------------------//
+$('#Drinks').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
 	requestData('/api/menus', '#drinkTabs', "UI");
 	requestData('/api/menus', '#drinkPane', "UI");
 });
 
-// Remove the table's elements after the model is hidden
-$('#Drinks').on('hide.bs.modal', function(event)
+$('#Drinks').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
 	$('#drinkTabs li').remove();
 	$('#drinkPane div').remove();
