@@ -1779,80 +1779,114 @@ $('#MGMT_EditEmployee_btnSaveChanges').click( function()
 //
 
 $('#MGMT_Reports').on('show.bs.modal', function(){
-   //Create chart
-	
-    let myChart = document.getElementById('myChart').getContext('2d');
-    // Global Options
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = '#777';
-    let massPopChart = new Chart(myChart, {
-        type: 'bar',
-        data: {
-            labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
-            datasets: [{
-                label: 'Population',
-                data: [
-                    617594,
-                    181045,
-                    153060,
-                    106519,
-                    105162,
-                    95072
-                ],
-                //backgroundColor:'green',
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(255, 99, 132, 0.6)'
-                ],
-                borderWidth: 1,
-                borderColor: '#777',
-                hoverBorderWidth: 3,
-                hoverBorderColor: '#000'
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Largest Cities In Massachusetts',
-                fontSize: 25
-            },
-            legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                    fontColor: '#000'
-                }
-            },
-            layout: {
-                padding: {
-                    left: 50,
-                    right: 0,
-                    bottom: 0,
-                    top: 0
-                }
-            },
-            tooltips: {
-                enabled: true
-            }
-        }
-    });
-
-
-   alert("Hello World!");
+	//Create chart
+	createChart("Day");
 });
 
 //
 // EMD REPORT LISTENERS
 //
 
+$('#chartDay').click(function (){
 
+	var time = document.getElementById("chartDay").value
 
+	createChart(time);
+});
+
+$('#chartWeek').click(function () {
+
+	var time = document.getElementById("chartWeek").value
+
+	createChart(time);
+});
+
+$('#chartMonth').click(function () {
+
+	var time = document.getElementById("chartMonth").value
+
+	createChart(time);
+});
+
+$('#chartYear').click(function () {
+
+	var time = document.getElementById("chartYear").value
+
+	createChart(time);
+});
+
+$('#chartAll').click(function () {
+
+	var time = document.getElementById("chartAll").value
+
+	createChart(time);
+});
+
+function createChart(pick) {
+	let myChart = document.getElementById('myChart').getContext('2d');
+
+	var title_text = pick;
+
+	if (pick == "Day") {
+		var labels_arr = ['Morning', 'Noon', 'Night'];
+		var data_arr = [100, 200, 300];
+
+	}
+	else if (pick == "Week") {
+		var labels_arr = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+		var data_arr = [100, 2, 40, 7, 70, 200, 150];
+	}
+	else if (pick == "Month") {
+		var labels_arr = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
+		var data_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+	}
+	else if (pick == "Year") {
+		var labels_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+		var data_arr = [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6];
+	}
+	else if (pick == "All") {
+
+    }
+	// Global Options
+	Chart.defaults.global.defaultFontFamily = 'Lato';
+	Chart.defaults.global.defaultFontSize = 18;
+	Chart.defaults.global.defaultFontColor = '#777';
+	let massPopChart = new Chart(myChart, {
+		type: 'line',
+		data: {
+			labels: labels_arr,
+			datasets: [{
+				label: 'Sales', data: data_arr, borderColor: "#3e95cd", fill: false
+
+			}]
+		},
+		options: {
+			title: {
+				display: true,
+				text: title_text + " Sales",
+				fontSize: 25
+			},
+			legend: {
+				display: true,
+				position: 'right',
+				labels: {
+					fontColor: '#000'
+				}
+			},
+			layout: {
+				padding: {
+					left: 50,
+					right: 0,
+					bottom: 0,
+					top: 0
+				}
+			},
+			tooltips: {
+				enabled: true
+			}
+		}
+	});
+}
 //
 // BEGIN MENU LISTENERS
 //
