@@ -654,13 +654,6 @@ function requestData(url, selector)
 		}
 		else
 		{
-<<<<<<< HEAD
-//			alert(`Done, got ${request.response.length} bytes`); // responseText is the server
-			if (selector == '#EmployeesTable')
-				populateEmployeesTable(JSON.parse(request.responseText), selector)
-			else if (selector == '#InventoryTable')
-				populateInventoryTable(JSON.parse(request.responseText), selector)
-=======
 //			alert(`Done, got ${request.response.length} bytes`); // responseText is the server	
 			switch(selector)
 			{
@@ -700,7 +693,6 @@ function requestData(url, selector)
 				default:
 					break;
 			}
->>>>>>> d084285ef5eb0bb061d11b1742cbbb48f0893191
 		}
 	};
 
@@ -788,22 +780,12 @@ function requestMenuItem(object)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
-<<<<<<< HEAD
-
-	// Create the deletion url for user
-	var url = "/api/users/" + object.id;
-
-	// Open a socket to the url
-	request.open('DELETE', url);
-
-=======
 	
 	// Create the url to retrieve user
 	var url = "/api/menuitems/" + object.id;	
 	
 	request.open('GET', url);
 	
->>>>>>> d084285ef5eb0bb061d11b1742cbbb48f0893191
 	// Handle on load
 	request.onload = function()
 	{
@@ -823,12 +805,7 @@ function requestMenuItem(object)
 		alert("Request Failed!");
 	};
 
-<<<<<<< HEAD
-	request.send();
-
-=======
 	request.send();	
->>>>>>> d084285ef5eb0bb061d11b1742cbbb48f0893191
 }
 
 // Function that does a GET request on the specified API
@@ -1634,9 +1611,6 @@ function updateTables()
 	requestData('/api/employees', '#EmployeesTable');
 
 	$('#InventoryTable tr td').remove();
-<<<<<<< HEAD
-	requestData('/api/inventory', '#InventoryTable');
-=======
 	requestData('/api/inventory', '#InventoryTable');		
 	
 	$('#MenuCategoryTable tr td').remove();
@@ -1644,7 +1618,6 @@ function updateTables()
 	
 	$('#MGMT_MenuItemsTable_Body tr td').remove();
 	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');		
->>>>>>> d084285ef5eb0bb061d11b1742cbbb48f0893191
 }
 
 //Taken from JSFunctions but made specifically for Inventory Table
