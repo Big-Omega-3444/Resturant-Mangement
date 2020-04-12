@@ -190,7 +190,7 @@ function populateDrinkTabs(data, selector)
 		// check if the menu is active
 
 
-		
+
 		var tab = $('<li class="nav-item"/>')
 
 		var tabName = data[i].name;
