@@ -172,7 +172,6 @@ function populateIngredients(ingredient, selector)
 	var ingList = ingredient.name + ","; // concatenate ingredients
 	if($(selector).find('div div div.back div.content div p').innerHTML != undefined)
 		ingList = ingList + $(selector).find('div div div.back div.content div p').innerHTML;
-	alert(ingList);
 
 	$(selector).find('div div div.back div.content div.main p.text-center').replaceWith($(`<p class="text-center"/>`).html(ingList));
 }
