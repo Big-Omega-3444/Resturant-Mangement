@@ -1,8 +1,12 @@
+
+//Creates Tabs for food menu
 function populateFoodTabs(data, selector)
 {
 	//populate Food
 	for(i = 0; i < data.length; i++)
 	{
+		// check if the menu is for drinks or not
+
 		// check if the menu is active
 
 
@@ -22,10 +26,13 @@ function populateFoodTabs(data, selector)
 	}
 }
 
+//Creates the Pane on which the cards will display
 function populateFoodPane(data, selector)
 {
 	for(i = 0; i < data.length; i++) // iterate through menus
 	{
+		// check if the menu is for drinks or not
+
 		// check if the menu is active
 
 
@@ -54,6 +61,7 @@ function populateFoodPane(data, selector)
 	}
 }
 
+//Creates the Cards for our menu items
 function populateFoodCards(menuItem, selector)
 {
 	//populate food pane with items
@@ -86,7 +94,7 @@ function populateFoodCards(menuItem, selector)
 										<div class="content">
 											<div class="main">
 												<h4 class="text-center">${menuItem.allergens}</h4>
-												<p class="text-center">Ingredients</p>
+												<p class="text-center"></p>
 												<div class="stats-container">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
@@ -167,13 +175,17 @@ function populateFoodCards(menuItem, selector)
 	//
 }
 
+//Populates the ingredients section of the menuitem Card
 function populateIngredients(ingredient, selector)
 {
-	var ingList = ingredient.name + ","; // concatenate ingredients
-	if($(selector).find('div div div.back div.content div p').innerHTML != undefined)
-		ingList = ingList + $(selector).find('div div div.back div.content div p').innerHTML;
+	var ingList;
+	if($(selector).find('div div div.back div.content div.main p.text-center').html() === "")
+		ingList = ingredient.name;
+	else
+		ingList = ingredient.name + ", " + $(selector).find('div div div.back div.content div.main p.text-center').html(); // concatenate; // concatenate ingredients
 
-	$(selector).find('div div div.back div.content div.main p.text-center').replaceWith($(`<p class="text-center"/>`).html(ingList));
+	$(selector).find('div div div.back div.content div.main p.text-center').html(ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
+	//$(selector).find('div div div.back div.content div.main p.text-center').replaceWith($(`<p class="text-center"/>`).html(ingList.substring(0,ingList.length-2))); // replace the ingredients with the added ingredient (comma is to remove the last comma)
 }
 
 function requestData(url, selector, type)
@@ -230,6 +242,19 @@ $('#Food').on('shown.bs.modal', function(event)
 // Remove the table's elements after the model is hidden
 $('#Food').on('hide.bs.modal', function(event)
 {
-	$('#foodTabs li a').remove();
+	$('#foodTabs li').remove();
 	$('#foodPane div').remove();
+});
+
+$('#Drinks').on('shown.bs.modal', function(event)
+{
+	requestData('/api/menus', '#drinkTabs', "UI");
+	requestData('/api/menus', '#drinkPane', "UI");
+});
+
+// Remove the table's elements after the model is hidden
+$('#Drinks').on('hide.bs.modal', function(event)
+{
+	$('#drinkTabs li').remove();
+	$('#drinkPane div').remove();
 });
