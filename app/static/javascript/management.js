@@ -21,21 +21,21 @@
 function SubmitFormUser()
 {
     event.preventDefault();
-	
+
     var post = new XMLHttpRequest();
 
     // POST to the API
     post.open('POST', "/api/employees");
-	
-	// Handle errors	
+
+	// Handle errors
 	//To Do: Alert user if errors occured, even OnLoad
-	post.error = function() 
+	post.error = function()
 	{
 		alert("Request Failed!");
-	};	
-	
+	};
+
 	// Handle on load
-	post.onload = function() 
+	post.onload = function()
 	{
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201)
@@ -48,7 +48,7 @@ function SubmitFormUser()
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(post.responseText)
 			console.log(error.message)
-			
+
 			alert(`Error ${post.status}: ${error.message}`);
 		}
 	};
@@ -61,21 +61,21 @@ function SubmitFormUser()
 function SubmitFormMenu()
 {
     event.preventDefault();
-	
+
     var post = new XMLHttpRequest();
 
     // POST to the API
     post.open('POST', "/api/employees");
-	
-	// Handle errors	
+
+	// Handle errors
 	//To Do: Alert user if errors occured, even OnLoad
-	post.error = function() 
+	post.error = function()
 	{
 		alert("Request Failed!");
-	};	
-	
+	};
+
 	// Handle on load
-	post.onload = function() 
+	post.onload = function()
 	{
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201)
@@ -88,7 +88,7 @@ function SubmitFormMenu()
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(post.responseText)
 			console.log(error.message)
-			
+
 			alert(`Error ${post.status}: ${error.message}`);
 		}
 	};
@@ -101,21 +101,21 @@ function SubmitFormMenu()
 function SubmitFormIngredient()
 {
     event.preventDefault();
-	
+
     var ingpost = new XMLHttpRequest();
 
     // POST to the API
     ingpost.open('POST', "/api/ingredients");
-	
-	// Handle errors	
+
+	// Handle errors
 	//To Do: Alert user if errors occured, even OnLoad
-	ingpost.error = function() 
+	ingpost.error = function()
 	{
 		alert("Request Failed!");
-	};	
-	
+	};
+
 	// Handle on load
-	ingpost.onload = function() 
+	ingpost.onload = function()
 	{
 		//Check for OK or CREATED status
 		if (ingpost.status === 200 || ingpost.status === 201 || ingpost.status === 204)
@@ -128,7 +128,7 @@ function SubmitFormIngredient()
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(ingpost.responseText)
 			console.log(error.message)
-			
+
 			alert(`Error ${ingpost.status}: ${error.message}`);
 		}
 	};
@@ -144,22 +144,22 @@ function SubmitFormInventory(OID)
 
     // POST to the API
     post.open("POST", "/api/inventory");
-	
-	// Handle errors	
+
+	// Handle errors
 	//To Do: Alert user if errors occured, even OnLoad
-	post.error = function() 
+	post.error = function()
 	{
 		alert("Request Failed!");
-	};	
-	
+	};
+
 	// Handle on load
-	post.onload = function() 
+	post.onload = function()
 	{
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201 || post.status === 204)
 		{
-			$('#addIngredient').find('#ingredientNameField').val('');	
-			$('#addIngredient').find('#ingredientAllergenField').val(false);	
+			$('#addIngredient').find('#ingredientNameField').val('');
+			$('#addIngredient').find('#ingredientAllergenField').val(false);
 			updateTables();
 		}
 		else
@@ -167,7 +167,7 @@ function SubmitFormInventory(OID)
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(post.responseText)
 			console.log(error.message)
-			
+
 			alert(`Error ${post.status}: ${error.message}`);
 		}
 	};
@@ -176,7 +176,7 @@ function SubmitFormInventory(OID)
 	var data = new FormData();
 	data.append("ingredient", OID);
 	data.append("count", 0);
-	
+
     post.send(data);
 }
 
@@ -186,23 +186,23 @@ function SubmitFormInventory(OID)
 function SubmitFormUserPUT()
 {
     event.preventDefault();
-	
+
     var put = new XMLHttpRequest();
-	
+
 	var url = "/api/employees/" + $('#editEmployee').find('#userID').val();
 
     // POST to the API
     put.open('PUT', url);
-	
-	// Handle errors	
+
+	// Handle errors
 	//To Do: Alert user if errors occured, even OnLoad
-	put.error = function() 
+	put.error = function()
 	{
 		alert("Request Failed!");
-	};	
-	
+	};
+
 	// Handle on load
-	put.onload = function() 
+	put.onload = function()
 	{
 		//Check for OK or CREATED status
 		if (put.status === 200 || put.status === 201 || put.status === 204)
@@ -214,7 +214,7 @@ function SubmitFormUserPUT()
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(put.responseText)
 			console.log(error.message)
-			
+
 			alert(`Error ${put.status}: ${error.message}`);
 		}
 	};
@@ -228,23 +228,23 @@ function SubmitFormUserPUT()
 function SubmitFormIngredientPUT()
 {
     event.preventDefault();
-	
+
     var put = new XMLHttpRequest();
-	
+
 	var url = "/api/ingredients/" + $('#editIngredientForm').find('#ingID').val();
 
     // POST to the API
     put.open('PUT', url);
-	
-	// Handle errors	
+
+	// Handle errors
 	//To Do: Alert user if errors occured, even OnLoad
-	put.error = function() 
+	put.error = function()
 	{
 		alert("Request Failed!");
-	};	
-	
+	};
+
 	// Handle on load
-	put.onload = function() 
+	put.onload = function()
 	{
 		//Check for OK or CREATED status
 		if (put.status === 200 || put.status === 201 || put.status === 204)
@@ -256,14 +256,14 @@ function SubmitFormIngredientPUT()
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(put.responseText)
 			console.log(error.message)
-			
+
 			alert(`Error ${put.status}: ${error.message}`);
 		}
 	};
 
     var formData = new FormData(document.getElementById("editIngredientForm"));
 	formData.delete('uid');		//This was just so we can retrieve it again in the future (which we did)
-	
+
     put.send(formData);
 }
 
@@ -273,23 +273,23 @@ function SubmitFormInventoryUpdateAll()
 {
 	// Create our array of XMLHttpRequests
 	var requests = []
-	
+
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
 	var data = document.querySelectorAll('*[class="ing_update"]');
 	var origin =  document.querySelectorAll('*[class="inv_update"]');
-	
+
 	// Build the table
 	for(i = 0; i < data.length; i++) {
 		(function (i){
-			requests[i] = new XMLHttpRequest();		
-			
+			requests[i] = new XMLHttpRequest();
+
 			var url = "/api/inventory/" + origin[i].id;
 			requests[i].open('PUT', url);
-			
+
 			//Generate data
 			var formData = new FormData();
 			formData.append("count", parseInt(data[i].nextSibling.value));
-	
+
 			// Handle on load
 			requests[i].onload = function()
 			{
@@ -297,22 +297,22 @@ function SubmitFormInventoryUpdateAll()
 				{
 					return;
 				}
-				else 
-				{	
+				else
+				{
 					//TODO: Create alert in HTML instead of using this to specify error
 					var error = JSON.parse(requests[i].responseText)
 					console.log(error.message)
 					alert(`Error ${requests[i].status}: ${error.message}`);
 				}
 			};
-		
-			// Handle on errors	
-			requests[i].error = function() 
+
+			// Handle on errors
+			requests[i].error = function()
 			{
 				alert("Request Failed!");
-			};	
-		
-			requests[i].send(formData);	
+			};
+
+			requests[i].send(formData);
 		})(i);
 	}
 }
@@ -324,9 +324,9 @@ function requestData(url, selector)
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
 	request.open('GET', url);
-	
+
 	// Handle on load
-	request.onload = function() 
+	request.onload = function()
 	{
 		if (request.status != 200)
 		{
@@ -334,21 +334,21 @@ function requestData(url, selector)
 		}
 		else
 		{
-//			alert(`Done, got ${request.response.length} bytes`); // responseText is the server	
+//			alert(`Done, got ${request.response.length} bytes`); // responseText is the server
 			if (selector == '#EmployeesTable')
 				populateEmployeesTable(JSON.parse(request.responseText), selector)
 			else if (selector == '#InventoryTable')
 				populateInventoryTable(JSON.parse(request.responseText), selector)
 		}
 	};
-	
-	// Handle on errors	
-	request.error = function() 
+
+	// Handle on errors
+	request.error = function()
 	{
 		alert("Request Failed!");
 	};
 
-	request.send();	
+	request.send();
 }
 
 // Function that does a GET request on the specified API
@@ -357,17 +357,17 @@ function requestUser(object)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
-	
+
 	// Create the url to retrieve user
-	var url = "/api/users/" + object.id;	
-	
+	var url = "/api/users/" + object.id;
+
 	request.open('GET', url);
-	
+
 	// Handle on load
-	request.onload = function() 
+	request.onload = function()
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
-		{	
+		{
 			autofillEditEmployeeForm(JSON.parse(request.responseText))
 		}
 		else
@@ -375,14 +375,14 @@ function requestUser(object)
 			alert(`Error ${request.status}: ${request.statusText}`);
 		}
 	};
-	
-	// Handle on errors	
-	request.error = function() 
+
+	// Handle on errors
+	request.error = function()
 	{
 		alert("Request Failed!");
 	};
 
-	request.send();	
+	request.send();
 }
 
 
@@ -391,17 +391,17 @@ function requestIngredient(object)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
-	
+
 	// Create the url to retrieve user
-	var url = "/api/ingredients/" + object.id;	
-	
+	var url = "/api/ingredients/" + object.id;
+
 	request.open('GET', url);
-	
+
 	// Handle on load
-	request.onload = function() 
+	request.onload = function()
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
-		{	
+		{
 			autofillEditIngredientForm(JSON.parse(request.responseText))
 		}
 		else
@@ -409,14 +409,14 @@ function requestIngredient(object)
 			alert(`Error ${request.status}: ${request.statusText}`);
 		}
 	};
-	
-	// Handle on errors	
-	request.error = function() 
+
+	// Handle on errors
+	request.error = function()
 	{
 		alert("Request Failed!");
 	};
 
-	request.send();	
+	request.send();
 }
 
 // Sample function that deletes a user from the API
@@ -429,12 +429,12 @@ function deleteUser(object)
 
 	// Create the deletion url for user
 	var url = "/api/users/" + object.id;
-	
+
 	// Open a socket to the url
 	request.open('DELETE', url);
-	
+
 	// Handle on load
-	request.onload = function() 
+	request.onload = function()
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{
@@ -446,15 +446,15 @@ function deleteUser(object)
 			alert(`Error ${request.status}: ${request.statusText}`);
 		}
 	};
-	
-	// Handle on errors	
-	request.error = function() 
+
+	// Handle on errors
+	request.error = function()
 	{
 		alert("Request Failed!");
 	};
 
-	request.send();	
-	
+	request.send();
+
 }
 
 // Same as above function but deletes an ingredient from the API
@@ -462,18 +462,18 @@ function deleteIngredient(object)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
-	
+
 	//Split id string in half
 	var str = object.id.split("|")
 
 	// Create the deletion url for user
 	var url = "/api/ingredients/" + str[0];
-	
+
 	// Open a socket to the url
 	request.open('DELETE', url);
-	
+
 	// Handle on load
-	request.onload = function(data) 
+	request.onload = function(data)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{
@@ -484,16 +484,16 @@ function deleteIngredient(object)
 			alert(`Error ${request.status}: ${request.statusText}`);
 		}
 	};
-	
-	// Handle on errors	
-	request.error = function() 
+
+	// Handle on errors
+	request.error = function()
 	{
 		alert("Request Failed!");
 	};
 
-	request.send();	
+	request.send();
 	request.extraInfo = str[1];
-	
+
 }
 
 // Same as above function but deletes the inventory item from the API
@@ -504,12 +504,12 @@ function deleteInventory(OID)
 
 	// Create the deletion url for user
 	var url = "/api/inventory/" + OID;
-	
+
 	// Open a socket to the url
 	request.open('DELETE', url);
-	
+
 	// Handle on load
-	request.onload = function() 
+	request.onload = function()
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{
@@ -520,15 +520,15 @@ function deleteInventory(OID)
 			alert(`Error ${request.status}: ${request.statusText}`);
 		}
 	};
-	
-	// Handle on errors	
-	request.error = function() 
+
+	// Handle on errors
+	request.error = function()
 	{
 		alert("Request Failed!");
 	};
 
-	request.send();	
-	
+	request.send();
+
 }
 
 // Function that builds the table in #MGMT_Employees
@@ -539,18 +539,18 @@ function populateEmployeesTable(data, selector)
 	for(i = 0; i < data.length; i++)
 	{
 		var row = $('<tr/>')
-		
+
 		// Append first and last name into one variable
 		var fullname = data[i].firstname + " " + data[i].lastname;
 		row.append($('<td/>').html(fullname));
-		
+
 		// Append assignment
 		var assignment = $('<div class="captialOneWord"/>').html(data[i].assignment);
 		row.append($('<td/>').html(assignment));
-		
+
 		//Create buttons for specific ID
 		var uid = data[i]._id.$oid;
-		
+
 		var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditEmployee"/>`).click(function() {
 			requestUser(this);
 		}).html("EDIT");
@@ -558,9 +558,9 @@ function populateEmployeesTable(data, selector)
 		var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
 			deleteUser(this);
 		}).html("DEL");
-		
+
 		row.append($('<td/>').html(editButton).append(deleteButton));
-		
+
 		$(selector).append(row);
 	}
 }
@@ -576,15 +576,15 @@ function populateInventoryTable(data, selector)
 {
 	// Create our array of XMLHttpRequests
 	var requests = []
-	
+
 	// Build the table
 	for(i = 0; i < data.length; i++) {
 		(function (i){
-			requests[i] = new XMLHttpRequest();		
-			
+			requests[i] = new XMLHttpRequest();
+
 			var url = "/api/ingredients/" + data[i].ingredient.$oid;
 			requests[i].open('GET', url);
-	
+
 			// Handle on load
 			requests[i].onload = function(data)
 			{
@@ -592,46 +592,46 @@ function populateInventoryTable(data, selector)
 				{
 					var row = $('<tr/>')
 					var ingredient = JSON.parse(requests[i].responseText);
-					
+
 					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
-					
+
 					row.append($('<td/>').html(name));
-					
+
 					//Create buttons for specific ID
 					var uid = ingredient._id.$oid;
-					
+
 					// Append assignment
 					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
 					row.append($('<td/>').html(quantity));
-					
+
 					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
 						requestIngredient(this);
 					}).html("EDIT");
-			
+
 					var deleteButton = $(`<button class="btn btn-danger" id=${uid}|${data.target.extraInfo._id.$oid}/>`).click(function() {
 						deleteIngredient(this);
 					}).html("DEL");
-					
+
 					row.append($('<td/>').html(editButton).append(deleteButton));
-					
+
 					$(selector).append(row);
-		
+
 					return;
 				}
-				else 
-				{	
+				else
+				{
 					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
 				}
 			};
-		
-			// Handle on errors	
-			requests[i].error = function() 
+
+			// Handle on errors
+			requests[i].error = function()
 			{
 				alert("Request Failed!");
-			};	
-		
-			requests[i].send();	
-			requests[i].extraInfo = data[i];	
+			};
+
+			requests[i].send();
+			requests[i].extraInfo = data[i];
 		})(i);
 	}
 }
@@ -649,10 +649,10 @@ function autofillEditEmployeeForm(data)
 	$('#editEmployee').find('#address_stateDropDown').val(data.address_state);
 	$('#editEmployee').find('#address_zipTxtBox').val(data.address_zip);
 	$('#editEmployee').find('#phone_numberTxtBox').val(data.phone_number);
-	$('#editEmployee').find('#emailTxtBox').val(data.email);	
-	$('#editEmployee').find('#assignmentDropDown').val(data.assignment);	
-	$('#editEmployee').find('#usernameTxtBox').val(data.username);	
-	$('#editEmployee').find('#pinTxtBox').val(data.pin);	
+	$('#editEmployee').find('#emailTxtBox').val(data.email);
+	$('#editEmployee').find('#assignmentDropDown').val(data.assignment);
+	$('#editEmployee').find('#usernameTxtBox').val(data.username);
+	$('#editEmployee').find('#pinTxtBox').val(data.pin);
 }
 
 // Same as above, but autofills the ingredient page
@@ -660,8 +660,8 @@ function autofillEditEmployeeForm(data)
 function autofillEditIngredientForm(data)
 {
 	$('#editIngredientForm').find('#ingID').val(data._id.$oid);
-	$('#editIngredientForm').find('#ingredientNameField').val(data.name);	
-	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);	
+	$('#editIngredientForm').find('#ingredientNameField').val(data.name);
+	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);
 }
 
 // TODO: Filter for certain tables (or not)
@@ -669,10 +669,10 @@ function autofillEditIngredientForm(data)
 function updateTables()
 {
 	$('#EmployeesTable tr td').remove();
-	requestData('/api/employees', '#EmployeesTable');	
+	requestData('/api/employees', '#EmployeesTable');
 
 	$('#InventoryTable tr td').remove();
-	requestData('/api/inventory', '#InventoryTable');		
+	requestData('/api/inventory', '#InventoryTable');
 }
 
 //Taken from JSFunctions but made specifically for Inventory Table
