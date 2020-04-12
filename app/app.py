@@ -14,6 +14,7 @@ from models.CouponModel import CouponResource, CouponResourceList
 from models.SpecialsModel import SpecialsResource, SpecialsResourceList
 from models.LoyaltyMemberModel import LoyaltyMemberResource, LoyaltyMemberResourceList
 from models.TimeSheetModel import TimeSheetResource, TimeSheetResourceList
+from models.TableModel import TableResource, TableResourceList
 from database import Database as db
 
 
@@ -57,6 +58,9 @@ api.add_resource(LoyaltyMemberResource,'/api/loyaltymembers/<id>')
 
 api.add_resource(TimeSheetResourceList,'/api/timesheets')
 api.add_resource(TimeSheetResource,'/api/timesheets/<id>')
+
+api.add_resource(TableResourceList, '/api/tables')
+api.add_resource(TableResource, '/api/tables/<id>')
 
 
 
