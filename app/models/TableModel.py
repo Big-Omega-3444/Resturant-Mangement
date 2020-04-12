@@ -6,6 +6,7 @@ import json
 import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.OrderModel import OrderModel
+from models.MyBooleanField import MyBooleanField
 
 class OrderObj(EmbeddedDocument):
     order = ReferenceField('OrderModel')
@@ -24,8 +25,8 @@ class OrderObj(EmbeddedDocument):
 
 class TableModel(Document):
     number = IntField(unique=True)
-    needs_help = BooleanField(default=False)
-    needs_refill = BooleanField(default=False)
+    needs_help = MyBooleanField(default=False)
+    needs_refill = MyBooleanField(default=False)
     orders = EmbeddedDocumentListField(OrderObj, default=[])
 
 

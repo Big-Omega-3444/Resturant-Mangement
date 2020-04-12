@@ -5,10 +5,11 @@ import datetime
 import json
 import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
+from models.MyBooleanField import MyBooleanField
 
 class IngredientModel(Document):
     name = StringField(required=True, unique=True)
-    allergen = BooleanField(default=False)
+    allergen = MyBooleanField(default=False)
 
 class IngredientResource(TemplateResource):
     model = IngredientModel
