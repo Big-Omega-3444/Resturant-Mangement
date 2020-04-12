@@ -34,6 +34,7 @@ class MenuModel(Document):
     timeslots = EmbeddedDocumentListField(DayTimeSlot, default=[])
     description = StringField(default="Default Menu Description")
     image = URLField()
+    drinks = BooleanField(required=True)
 
     pass
 
