@@ -1,7 +1,7 @@
 /*TODO:
    Substitutions?
    Special Requests (these might go under ORDERS)
-   
+
    Help / Refill Buttons (also integration with waitstaff/tablesdb)
    Time based Menus
 */
@@ -16,7 +16,39 @@ function populateFoodTabs(data, selector)
 		if(data[i].drinks)
 			continue;
 		// TODO: check if the menu is active
+		var today = new Date();
 
+		switch(today.getDay()) // Check the day of the week
+		{
+			case 0: if(data[i].timeslots.day == 'Su')
+			{
+				if(!(today.getHours() >= data[i].timeslots.start_hour && today.getHours() <= data[i].timeslots.end_hour))
+			} break; // Su
+			case 1: if(data[i].timeslots.day == 'M')
+			{
+
+			} break; // M
+			case 2: if(data[i].timeslots.day == 'Tu')
+			{
+
+			} break; // Tu
+			case 3: if(data[i].timeslots.day == 'W')
+			{
+
+			} break; // W
+			case 4: if(data[i].timeslots.day == 'Th')
+			{
+
+			} break; // Th
+			case 5: if(data[i].timeslots.day == 'F')
+			{
+
+			} break; // F
+			case 6: if(data[i].timeslots.day == 'Sa')
+			{
+
+			} break; // Sa
+		}
 
 
 
