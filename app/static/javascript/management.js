@@ -1586,7 +1586,7 @@ function autofillEditIngredientForm(data)
 {
 	$('#editIngredientForm').find('#ingID').val(data._id.$oid);
 	$('#editIngredientForm').find('#ingredientNameField').val(data.name);
-	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);
+	$('#editIngredientForm').find('#ingredientAllergenField').prop("checked", data.allergen);
 }
 
 // Same as above, but autofills the ingredient page
