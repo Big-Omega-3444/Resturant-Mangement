@@ -233,7 +233,8 @@ function SubmitFormMenuItem()
 	
     var post = new XMLHttpRequest();
 	
-	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	// Ingredients selection
+	// Gather all ing_update and inv_update classes, we need the ids of these to push to the API
 	var data = document.querySelectorAll('*[class="AMI_ing_update"]');
 	var origin =  document.querySelectorAll('*[class="AMI_inv_update"]');
 
@@ -241,6 +242,8 @@ function SubmitFormMenuItem()
     post.open('POST', "/api/menuitems");
 
     var formData = new FormData(document.getElementById("addMenuItem"));	
+    var formDataHealth = new FormData(document.getElementById("addMenuItem_Health"));
+//    var formDataCustomization = new FormData(document.getElementById("addMenuItem_Customization"));
 	
 	//Needs to be in JSON format, no other way around it
 	var payload =
@@ -249,7 +252,9 @@ function SubmitFormMenuItem()
 		"description": formData.get('description'),
 		"cost": parseFloat(formData.get('cost')),
 		"image": formData.get('image'),
-		"ingredients": []
+		"ingredients": [],
+		"calories": parseInt(formDataHealth.get('calories')),
+		"allergens": []
 	};
 	
 	for (i = 0; i < data.length; i++)
@@ -261,6 +266,31 @@ function SubmitFormMenuItem()
 		}
 	}
 	
+	//Here we go, here we go
+	if ( formDataHealth.get('wheat') != null )
+		payload.allergens.push(formDataHealth.get('wheat'));
+
+	if ( formDataHealth.get('peanut') != null )
+		payload.allergens.push(formDataHealth.get('peanut'));
+	
+	if ( formDataHealth.get('egg') != null )
+		payload.allergens.push(formDataHealth.get('egg'));
+	
+	if ( formDataHealth.get('soy') != null )
+		payload.allergens.push(formDataHealth.get('soy'));
+	
+	if ( formDataHealth.get('milk') != null )
+		payload.allergens.push(formDataHealth.get('milk'));
+	
+	if ( formDataHealth.get('fish') != null )
+		payload.allergens.push(formDataHealth.get('fish'));
+	
+	if ( formDataHealth.get('shellfish') != null )
+		payload.allergens.push(formDataHealth.get('shellfish'));
+	
+	if ( formDataHealth.get('treenut') != null )
+		payload.allergens.push(formDataHealth.get('treenut'));
+
 	console.log(payload);
 	
 	// Handle errors	
@@ -356,9 +386,16 @@ function SubmitFormMenuCategoryPUT()
 	{ 
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"image": formData.get('image')
+		"image": formData.get('image'),
+		"drinks": formData.get('drinks'),
 //		"items": []
 	};
+	
+	// Not sure why but this works
+	if (payload['drinks'] != null)
+		payload['drinks'] = true;
+	else
+		payload['drinks'] = false;		
 	
 //	for (i = 0; i < data.length; i++)
 //	{
@@ -382,6 +419,7 @@ function SubmitFormMenuCategoryPUT()
 		//Check for OK or CREATED status
 		if (put.status === 200 || put.status === 201 || put.status === 204)
 		{
+			$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", false);
 			updateTables();
 		}
 		else
@@ -454,11 +492,12 @@ function SubmitFormMenuItemPUT()
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
 	var data = document.querySelectorAll('*[class="EMI_ing_update"]');
 	var origin =  document.querySelectorAll('*[class="EMI_inv_update"]');
-	
+
     // POST to the API
     put.open('PUT', url);
 	
     var formData = new FormData(document.getElementById("EditMenuItemForm"));	
+    var formDataHealth = new FormData(document.getElementById("editMenuItem_Health"));
 	
 	//Needs to be in JSON format, no other way around it
 	var payload =
@@ -467,7 +506,9 @@ function SubmitFormMenuItemPUT()
 		"description": formData.get('description'),
 		"cost": parseFloat(formData.get('cost')),
 		"image": formData.get('image'),
-		"ingredients": []
+		"ingredients": [],
+		"calories": parseInt(formDataHealth.get('calories')),
+		"allergens": []
 	};
 	
 	for (i = 0; i < data.length; i++)
@@ -478,6 +519,31 @@ function SubmitFormMenuItemPUT()
 			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
 		}
 	}
+	
+	//Here we go, here we go
+	if ( formDataHealth.get('wheat') != null )
+		payload.allergens.push(formDataHealth.get('wheat'));
+
+	if ( formDataHealth.get('peanut') != null )
+		payload.allergens.push(formDataHealth.get('peanut'));
+	
+	if ( formDataHealth.get('egg') != null )
+		payload.allergens.push(formDataHealth.get('egg'));
+	
+	if ( formDataHealth.get('soy') != null )
+		payload.allergens.push(formDataHealth.get('soy'));
+	
+	if ( formDataHealth.get('milk') != null )
+		payload.allergens.push(formDataHealth.get('milk'));
+	
+	if ( formDataHealth.get('fish') != null )
+		payload.allergens.push(formDataHealth.get('fish'));
+	
+	if ( formDataHealth.get('shellfish') != null )
+		payload.allergens.push(formDataHealth.get('shellfish'));
+	
+	if ( formDataHealth.get('treenut') != null )
+		payload.allergens.push(formDataHealth.get('treenut'));
 	
 	// Handle errors	
 	//To Do: Alert user if errors occured, even OnLoad
@@ -516,20 +582,27 @@ function SubmitFormInventoryUpdateAll()
 	var requests = []
 
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
-	var data = document.querySelectorAll('*[class="ing_update"]');
-	var origin =  document.querySelectorAll('*[class="inv_update"]');
-
+	var origin = document.getElementsByClassName('inv_update');
+	
 	// Build the table
-	for(i = 0; i < data.length; i++) {
+	for(i = 0; i < origin.length; i++) {
 		(function (i){
 			requests[i] = new XMLHttpRequest();
+			
+			// Inventory ID | Ingredient ID
+			var ids = origin[i].id.split("|");
 
-			var url = "/api/inventory/" + origin[i].id;
-			requests[i].open('PUT', url);
+			var url = "/api/inventory/" + ids[0];
+
+			
+			//Retrieve the ingredient form
+			var object = document.getElementById(`ingQty_${ids[1]}`);
 
 			//Generate data
 			var formData = new FormData();
-			formData.append("count", parseInt(data[i].nextSibling.value));
+			formData.append("count", parseInt(object[0].value));
+			
+			requests[i].open('PUT', url);	
 
 			// Handle on load
 			requests[i].onload = function()
@@ -564,17 +637,18 @@ function SubmitFormMenuUpdateAll(menuDatas)
 	// Create our array of XMLHttpRequests
 	var requests = []
 	
-	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
-	var data = document.getElementsByClassName('menuSelector');
+	//Gather all classes, we need the ids of these to push to the API
+	var data = document.getElementsByClassName('MenuItemCategory');
 	
 	// Build requests
-	for(i = 0; i < data.length; i++) {
-		//Exit out if the selected option is none (only happens after creating the menu item for the first time and not assigning it somewhere)
-		if (menuDatas.length == 0)
-			continue;
+	for(i = 0; i < menuDatas.length; i++) {
+		//Exit out if there's no data sent in
+		if (data.length == 0)
+			return;
 		
-		var o = data[i];
-		(function (i, optionData){
+		var o = menuDatas[i];
+		var p = data;
+		(function (i, menuData, MIC_data){
 			requests[i] = new XMLHttpRequest();		
 			
 			var url = "";
@@ -585,23 +659,25 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			}
 			
 			var deletion = false;
+			
+			//Split the string apart to get the menu item id that we will send
 
-			// Iterate through each menuDatas and attempt to find matches with selected IDs
-			for (j = 0; j < menuDatas.length; j++)
+			
+			url = "/api/menus/" + menuData._id.$oid;
+			
+			//Go through each checkbox form and figure out our values that we're gonna send to the API
+			for (j = 0; j < MIC_data.length; j++)
 			{
-				if 	((menuDatas[j]._id.$oid == optionData.selectedOptions[0].id ) && optionData.selectedOptions[0].value == "none")
+				var formData = new FormData(MIC_data[j])
+				
+				if (formData.get(`${menuData.name}`) != null)
 				{
-					//Nothing else to do here
-					return;
+					var str = MIC_data[j].id.split("_");					
+					payload.items.push({"item": str[1]});
 				}
-				else if (menuDatas[j]._id.$oid == optionData.selectedOptions[0].value)
-				{
-					url = "/api/menus/" + menuDatas[j]._id.$oid;	
-					payload.items.push({"item": optionData.id});
-					j = menuDatas.length;					
-				}
-					
 			}
+						
+			console.log(payload)
 			
 			requests[i].open('PUT', url);
 			
@@ -629,7 +705,7 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			
 			requests[i].setRequestHeader("Content-Type", "application/json");		
 			requests[i].send(JSON.stringify(payload));	
-		})(i, o);
+		})(i, o, p);
 	}
 }
 
@@ -1086,17 +1162,18 @@ function populateInventoryTable(data, selector)
 				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
 				{
 					var row = $('<tr/>')
-					var ingredient = JSON.parse(requests[i].responseText);
-
-					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
-
-					row.append($('<td/>').html(name));
-
+					var ingredient = JSON.parse(requests[i].responseText);	//Ingredient
+																			//extraInfo contains Inventory stuff
+																			
 					//Create buttons for specific ID
 					var uid = ingredient._id.$oid;
 
+					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}|${uid}/>`).html(ingredient.name);
+
+					row.append($('<td/>').html(name));
+
 					// Append assignment
-					var quantity = $(`<form class="ing_update" id=${uid}/><input type="number" min=0 step=1 maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
+					var quantity = $(`<form id="ingQty_${uid}"><input type="number" min=0 step=1 maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required></form>`);
 					row.append($('<td/>').html(quantity));
 
 					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
@@ -1125,8 +1202,9 @@ function populateInventoryTable(data, selector)
 				alert("Request Failed!");
 			};
 
-			requests[i].send();
 			requests[i].extraInfo = data[i];
+			requests[i].send();
+
 		})(i);
 	}
 }
@@ -1143,7 +1221,7 @@ function populateMenuCategoryTable(data, selector)
 //		if (data[i].items.length == 0)
 //		{
 			var row = $('<tr/>')
-			var name = $(`<div class="inv_update" id=${data[i]._id.$oid}/>`).html(data[i].name);
+			var name = $(`<div class="menuCategoryTableClass" id=${data[i]._id.$oid}/>`).html(data[i].name);
 			
 			row.append($('<td/>').html(name));	
 			row.append($('<td/>'));
@@ -1241,9 +1319,9 @@ function populateMenuItemTable(menuItemsData, selector)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{	
-			menus = JSON.parse(request.responseText);
+			menuCategory = JSON.parse(request.responseText);
 			menuItems = data.target.extraInfo;
-			
+						
 			// Build the table
 			for(i = 0; i < menuItems.length; i++)
 			{
@@ -1264,51 +1342,34 @@ function populateMenuItemTable(menuItemsData, selector)
 				var uid = ""
 				uid = menuItems[i]._id.$oid;
 				
-				//Build input selector with unique ID for each
-				var options = $(`<select class="menuSelector" id="${uid}"/>`);
-
-				var isNoneGenerated = false;
-
-				for (j = 0; j < menus.length; j++)
+				// Do a shallow copy of the options and tie a unique id to the elements
+				var checkboxes = $(`<form class="MenuItemCategory" id="MenuItemCat_${uid}"/>`);
+				
+				//Build input selector tied to the menu item's ID
+				var options = [];
+				
+				// We need to gather which menu categories holds our item
+				var find = [];
+				
+				// Build the menu items category checkboxes
+				for (j = 0; j < menuCategory.length; j++)
 				{
-					var isSelected = false;
-					
-					if (isNoneGenerated === false)
-					{
-						options.append($(`<option id="${menus[j]._id.$oid}" value="none"/>`).html("None"));
-						isNoneGenerated = true;
-					}						
-					
-					if (isSelected === false)
-					{
-						//For this case, there is some existing menu items, so create a "None" fallback option
-						for (k = 0; k < menus[j].items.length; k++)
-						{
-							var str1 = (menus[j].items[k].item.$oid).toString()
-							if (str1 === uid)
-							{
-								options.append($(`<option value="${menus[j]._id.$oid}" selected/>`).html(menus[j].name));
-								k = menus[j].items[k].length;
-								isSelected = true;
-							}
-						}
-					}
-					
-					if (isSelected === false)
-					{
-						options.append($(`<option value="${menus[j]._id.$oid}"/>`).html(menus[j].name));						
-					}
+					options[j] = $('<div class="form-group row"/>');
+					//Tie the menu category ID to the value
+					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${menuCategory[j].name}" name="${menuCategory[j].name}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}">${menuCategory[j].name}</label></div>`));				
 				}
-
+							
 				// Handle case if there is no menus that exist (if we end up at this point)
-				if (menus.length == 0)
+				if (menuCategory.length == 0)
 				{
-					var cosmeticOption = $(`<option id="" value="none"/>`).html("None");
+					var cosmeticOption = $(`<input type="checkbox" id="" value="none"/>`).html("None");
 					cosmeticOption.attr('disabled', true)
 					options.append(cosmeticOption);	
 				}
 				
-				row.append($('<td/>').html(options));
+				checkboxes.append(options);
+			
+				row.append($('<td/>').html(checkboxes));
 				
 				var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditMenuItem"/>`).click(function() {
 					requestMenuItem(this);
@@ -1321,6 +1382,18 @@ function populateMenuItemTable(menuItemsData, selector)
 				row.append($('<td/>').html(editButton).append(deleteButton));
 				
 				$(selector).append(row);
+				
+				//We need to enable the checkboxes now that they exist
+				for (j = 0; j < menuCategory.length; j++)
+				{
+					for (k = 0; k < menuCategory[j].items.length; k++)
+					{
+						if (menuCategory[j].items[k].item.$oid == uid)
+						{
+							$(`#MenuItemCat_${uid}`).find(`#CAT_${menuCategory[j].name}`).prop("checked", true);
+						}
+					}
+				}
 			}
 			return;
 		}
@@ -1578,7 +1651,7 @@ function autofillEditIngredientForm(data)
 {
 	$('#editIngredientForm').find('#ingID').val(data._id.$oid);
 	$('#editIngredientForm').find('#ingredientNameField').val(data.name);
-	$('#editIngredientForm').find('#ingredientAllergenField').val(data.allergen);
+	$('#editIngredientForm').find('#ingredientAllergenField').prop("checked", data.allergen);
 }
 
 // Same as above, but autofills the ingredient page
@@ -1588,7 +1661,8 @@ function autofillEditMenuCategoryForm(data)
 	$('#editMenuCategoryForm').find('#mcID').val(data._id.$oid);
 	$('#editMenuCategoryForm').find('#MC_name').val(data.name);	
 	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
-	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);	
+	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
+	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
 }
 
 // Same as above, but autofills the ingredient page
@@ -1600,6 +1674,43 @@ function autofillEditMenuItemForm(data)
 	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);	
 	$('#EditMenuItemForm').find('#MI_desc').val(data.description);	
 	$('#EditMenuItemForm').find('#imageURL').val(data.image);	
+
+	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);	
+	
+	for (i = 0; i < data.allergens.length; i++)
+	{
+		switch (data.allergens[i])
+		{
+			case "wheat":
+				$('#editMenuItem_Health').find('#MI_wheat').prop("checked", true);
+				break;
+			case "peanut":
+				$('#editMenuItem_Health').find('#MI_peanut').prop("checked", true);
+				break;
+			case "egg":
+				$('#editMenuItem_Health').find('#MI_egg').prop("checked", true);
+				break;
+			case "soy":
+				$('#editMenuItem_Health').find('#MI_soy').prop("checked", true);
+				break;
+			case "milk":
+				$('#editMenuItem_Health').find('#MI_milk').prop("checked", true);
+				break;
+			case "fish":
+				$('#editMenuItem_Health').find('#MI_fish').prop("checked", true);
+				break;
+			case "shellfish":
+				$('#editMenuItem_Health').find('#MI_shellfish').prop("checked", true);
+				break;
+			case "treenut":
+				$('#editMenuItem_Health').find('#MI_treenut').prop("checked", true);
+				break;
+		}
+	}
+
+
+//	$('#editMenuItem_Customization').find('#imageURL').val(data.image);	
+	
 	populateEditMenuItems(data, '#MGMT_EditMenuItem_InventoryTable_Body');
 }
 

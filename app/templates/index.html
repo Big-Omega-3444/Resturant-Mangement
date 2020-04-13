@@ -31,6 +31,8 @@
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/Build/UnityLoader.js') }}"></script>
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/TemplateData/UnityProgress.js') }}"></script>
 	<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
+	<!-- Include Form Submission js -->
+	<script src="{{ url_for('static', filename='javascript/login.js') }}"></script>
 </head>
 
 <body>
@@ -54,18 +56,18 @@
 							  <div class="col-sm-9 col-md-7 col-lg-5">
 								<div class="card card-signin my-5">
 								  <div class="card-body">
-									<form class="form-signin">
+									<form id="loginForm" class="form-signin">
 									  <div class="form-label-group"><!--required autofocus-->
-										<input type="text" id="text" class="form-control" placeholder="Employee ID">
-										<label for="text">Employee ID</label>
+										<input type="text" id="eID" class="form-control" placeholder="Employee ID">
+										<label for="eID">Employee ID</label>
 									  </div>
 
 									  <div class="form-label-group"><!--required-->
-										<input type="password" id="inputPassword" class="form-control" placeholder="PIN">
-										<label for="inputPassword">PIN</label>
+										<input type="password" id="ePass" class="form-control" placeholder="PIN">
+										<label for="ePass">PIN</label>
 									  </div>
 
-									  <a href="" data-dismiss="modal" onclick="javascript:window.location='management'"><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button></a>
+									  <a href="" data-dismiss="modal" onclick=requestInputText('/api/employees','#loginForm'); ><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button></a>
 									  <hr class="my-4">
 									</form>
 								  </div>
@@ -392,10 +394,10 @@
 													<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Coupon code</div>
 														<div class="p-4">
 															<p class="font-italic mb-4">If you have a coupon code, please enter it in the box below</p>
-															<div class="input-group mb-4 border rounded-pill p-2">
-																<input type="text" placeholder="Apply coupon" aria-describedby="button-addon3" class="form-control border-0">
+															<div  class="input-group mb-4 border rounded-pill p-2">
+																<input id="couponForm" type="text" placeholder="Apply coupon" aria-describedby="button-addon3" class="form-control border-0">
 																<div class="input-group-append border-0">
-																	<button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Apply coupon</button>
+																	<button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill" onclick=requestInputText('/api/coupons','#couponForm'); ><i class="fa fa-gift mr-2"></i>Apply coupon</button>
 																</div>
 															</div>
 														</div>
@@ -701,7 +703,10 @@
 	<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+	<!-- Include menu js -->
 	<script src="{{ url_for('static', filename='javascript/menu.js') }}"></script>
+	<!-- Include orders js -->
+	<script src="{{ url_for('static', filename='javascript/order.js') }}"></script>
 </body>
 
 </html>

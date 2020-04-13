@@ -23,6 +23,7 @@ class ItemList(EmbeddedDocument):
             msg = 'Malformated request'
             raise ValidationError(msg)
 
+
 class OrderModel(Document):
 
     def clean(self):
@@ -30,8 +31,14 @@ class OrderModel(Document):
             if self.staff_comped is None:
                 msg = 'comped flag set so staff_comped must reference an employee'
                 raise ValidationError(msg)
+        
+        # Calculate the total cost for this meal
+        self.total_cost=0
+        for item in self.items:
+            self.total_cost += item.item.cost
 
-
+    # Epoch_time
+    time_ordered = IntField()
     gratuity = FloatField()
     table = IntField()
     special_notes = StringField()
@@ -42,6 +49,9 @@ class OrderModel(Document):
     comped = MyBooleanField(default=False)
     # Who comped the meal
     staff_comped = ReferenceField('EmployeeModel')
+    total_cost = FloatField(default=0)
+
+
 
 
 class OrderResource(TemplateResource):

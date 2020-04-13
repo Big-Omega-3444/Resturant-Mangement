@@ -42,13 +42,13 @@ now we are going to create a user for mongodb for flask to use
 
 Change the password here to whatever you set in docker-compose.yml for MONGODB_PASSWORD
 
-`db.createUser({user: 'flaskuser', pwd: 'your password', roles: [{role: 'readWrite', db: 'flaskdb'}]})`
+`db.createUser({user: 'flaskuser', pwd: 'password', roles: [{role: 'readWrite', db: 'flaskdb'}]})`
 
 `exit`
 
 Change the password here to whatever you set in docker-compose.yml for MONGODB_PASSWORD
 
-`mongo -u flaskuser -p your password --authenticationDatabase flaskdb`
+`mongo -u flaskuser -p password --authenticationDatabase flaskdb`
 
 `exit`
 
