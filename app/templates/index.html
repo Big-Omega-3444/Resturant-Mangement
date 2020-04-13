@@ -31,6 +31,8 @@
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/Build/UnityLoader.js') }}"></script>
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/TemplateData/UnityProgress.js') }}"></script>
 	<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
+
+	<script src="{{ url_for('static', filename='javascript/login.js') }}"></script>
 </head>
 
 <body>
@@ -54,18 +56,18 @@
 							  <div class="col-sm-9 col-md-7 col-lg-5">
 								<div class="card card-signin my-5">
 								  <div class="card-body">
-									<form class="form-signin">
+									<form id="loginForm" class="form-signin">
 									  <div class="form-label-group"><!--required autofocus-->
-										<input type="text" id="text" class="form-control" placeholder="Employee ID">
-										<label for="text">Employee ID</label>
+										<input type="text" id="eID" class="form-control" placeholder="Employee ID">
+										<label for="eID">Employee ID</label>
 									  </div>
 
 									  <div class="form-label-group"><!--required-->
-										<input type="password" id="inputPassword" class="form-control" placeholder="PIN">
-										<label for="inputPassword">PIN</label>
+										<input type="password" id="ePass" class="form-control" placeholder="PIN">
+										<label for="ePass">PIN</label>
 									  </div>
 
-									  <a href="" data-dismiss="modal" onclick="javascript:window.location='management'"><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button></a>
+									  <a href="" data-dismiss="modal" onclick=requestLogin('/api/employees','#loginForm'); ><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button></a>
 									  <hr class="my-4">
 									</form>
 								  </div>
