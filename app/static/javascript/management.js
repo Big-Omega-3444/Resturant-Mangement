@@ -584,6 +584,7 @@ function SubmitFormInventoryUpdateAll()
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
 	var data = document.getElementsByClassName('ing_update');
 	var origin = document.getElementsByClassName('inv_update');
+	
 	// Build the table
 	for(i = 0; i < data.length; i++) {
 		(function (i){
@@ -629,7 +630,7 @@ function SubmitFormMenuUpdateAll(menuDatas)
 	// Create our array of XMLHttpRequests
 	var requests = []
 	
-	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	//Gather all classes, we need the ids of these to push to the API
 	var data = document.getElementsByClassName('MenuItemCategory');
 	
 	// Build requests
@@ -1154,7 +1155,8 @@ function populateInventoryTable(data, selector)
 				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
 				{
 					var row = $('<tr/>')
-					var ingredient = JSON.parse(requests[i].responseText);
+					var ingredient = JSON.parse(requests[i].responseText);	//Ingredient
+																			//extraInfo contains Inventory stuff
 
 					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
 
@@ -1193,8 +1195,9 @@ function populateInventoryTable(data, selector)
 				alert("Request Failed!");
 			};
 
-			requests[i].send();
 			requests[i].extraInfo = data[i];
+			requests[i].send();
+
 		})(i);
 	}
 }
@@ -1211,7 +1214,7 @@ function populateMenuCategoryTable(data, selector)
 //		if (data[i].items.length == 0)
 //		{
 			var row = $('<tr/>')
-			var name = $(`<div class="inv_update" id=${data[i]._id.$oid}/>`).html(data[i].name);
+			var name = $(`<div class="menuCategoryTableClass" id=${data[i]._id.$oid}/>`).html(data[i].name);
 			
 			row.append($('<td/>').html(name));	
 			row.append($('<td/>'));
