@@ -582,9 +582,8 @@ function SubmitFormInventoryUpdateAll()
 	var requests = []
 
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
-	var data = document.querySelectorAll('*[class="ing_update"]');
-	var origin =  document.querySelectorAll('*[class="inv_update"]');
-
+	var data = document.getElementsByClassName('ing_update');
+	var origin = document.getElementsByClassName('inv_update');
 	// Build the table
 	for(i = 0; i < data.length; i++) {
 		(function (i){
@@ -1373,8 +1372,6 @@ function populateMenuItemTable(menuItemsData, selector)
 				row.append($('<td/>').html(editButton).append(deleteButton));
 				
 				$(selector).append(row);
-				
-				var query = document.getElementsByClassName('MenuItemCategory');
 				
 				//We need to enable the checkboxes now that they exist
 				for (j = 0; j < menuCategory.length; j++)
