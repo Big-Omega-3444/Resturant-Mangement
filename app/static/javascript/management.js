@@ -217,13 +217,21 @@ function SubmitFormMenuCategory()
 	};
 	
     var formData = new FormData(document.getElementById("addMenuCategoryForm"));
-//	var payload = {
-//		"name": formData.get('name'),
-//		"description": formData.get('description'),
-//		"image": formData.get('image')
-//	}
+	var payload = {
+		"name": formData.get('name'),
+		"description": formData.get('description'),
+		"image": formData.get('image'),
+		"drinks": false
+	}
 	
-    post.send(formData);
+	// If we got null here, then don't change the value to true
+	if (formData.get('drinks') != null)
+		payload['drinks'] = true;
+	
+	console.log(payload);
+	
+	put.setRequestHeader("Content-Type", "application/json");	
+    put.send(JSON.stringify(payload));
 }
 
 //On submit, post a form to the api
@@ -387,24 +395,12 @@ function SubmitFormMenuCategoryPUT()
 		"name": formData.get('name'),
 		"description": formData.get('description'),
 		"image": formData.get('image'),
-		"drinks": formData.get('drinks'),
-//		"items": []
+		"drinks": false
 	};
 	
 	// Not sure why but this works
-	if (payload['drinks'] != null)
+	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
-	else
-		payload['drinks'] = false;		
-	
-//	for (i = 0; i < data.length; i++)
-//	{
-//		var value = parseInt(data[i].nextSibling.value);
-//		if (value > 0)
-//		{
-//			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
-//		}
-//	}
 	
 	// Handle errors	
 	//To Do: Alert user if errors occured, even OnLoad
@@ -431,6 +427,8 @@ function SubmitFormMenuCategoryPUT()
 			alert(`Error ${put.status}: ${error.message}`);
 		}
 	};
+	
+	console.log(payload);
 
 	put.setRequestHeader("Content-Type", "application/json");	
     put.send(JSON.stringify(payload));
