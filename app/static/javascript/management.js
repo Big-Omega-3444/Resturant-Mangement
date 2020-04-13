@@ -631,16 +631,17 @@ function SubmitFormMenuUpdateAll(menuDatas)
 	var requests = []
 	
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
-	var data = document.getElementsByClassName('menuSelector');
+	var data = document.getElementsByClassName('MenuItemCategory');
 	
 	// Build requests
-	for(i = 0; i < data.length; i++) {
-		//Exit out if the selected option is none (only happens after creating the menu item for the first time and not assigning it somewhere)
-		if (menuDatas.length == 0)
-			continue;
+	for(i = 0; i < menuDatas.length; i++) {
+		//Exit out if there's no data sent in
+		if (data.length == 0)
+			return;
 		
-		var o = data[i];
-		(function (i, optionData){
+		var o = menuDatas[i];
+		var p = data;
+		(function (i, menuData, MIC_data){
 			requests[i] = new XMLHttpRequest();		
 			
 			var url = "";
@@ -651,23 +652,25 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			}
 			
 			var deletion = false;
+			
+			//Split the string apart to get the menu item id that we will send
 
-			// Iterate through each menuDatas and attempt to find matches with selected IDs
-			for (j = 0; j < menuDatas.length; j++)
+			
+			url = "/api/menus/" + menuData._id.$oid;
+			
+			//Go through each checkbox form and figure out our values that we're gonna send to the API
+			for (j = 0; j < MIC_data.length; j++)
 			{
-				if 	((menuDatas[j]._id.$oid == optionData.selectedOptions[0].id ) && optionData.selectedOptions[0].value == "none")
+				var formData = new FormData(MIC_data[j])
+				
+				if (formData.get(`${menuData.name}`) != null)
 				{
-					url = "/api/menus/" + menuDatas[j]._id.$oid;
-					j = menuDatas.length;						
+					var str = MIC_data[j].id.split("_");					
+					payload.items.push({"item": str[1]});
 				}
-				else if (menuDatas[j]._id.$oid == optionData.selectedOptions[0].value)
-				{
-					url = "/api/menus/" + menuDatas[j]._id.$oid;	
-					payload.items.push({"item": optionData.id});
-					j = menuDatas.length;					
-				}
-					
 			}
+						
+			console.log(payload)
 			
 			requests[i].open('PUT', url);
 			
@@ -695,7 +698,7 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			
 			requests[i].setRequestHeader("Content-Type", "application/json");		
 			requests[i].send(JSON.stringify(payload));	
-		})(i, o);
+		})(i, o, p);
 	}
 }
 
@@ -1307,9 +1310,9 @@ function populateMenuItemTable(menuItemsData, selector)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{	
-			menus = JSON.parse(request.responseText);
+			menuCategory = JSON.parse(request.responseText);
 			menuItems = data.target.extraInfo;
-			
+						
 			// Build the table
 			for(i = 0; i < menuItems.length; i++)
 			{
@@ -1330,51 +1333,34 @@ function populateMenuItemTable(menuItemsData, selector)
 				var uid = ""
 				uid = menuItems[i]._id.$oid;
 				
-				//Build input selector with unique ID for each
-				var options = $(`<select class="menuSelector" id="${uid}"/>`);
-
-				var isNoneGenerated = false;
-
-				for (j = 0; j < menus.length; j++)
+				// Do a shallow copy of the options and tie a unique id to the elements
+				var checkboxes = $(`<form class="MenuItemCategory" id="MenuItemCat_${uid}"/>`);
+				
+				//Build input selector tied to the menu item's ID
+				var options = [];
+				
+				// We need to gather which menu categories holds our item
+				var find = [];
+				
+				// Build the menu items category checkboxes
+				for (j = 0; j < menuCategory.length; j++)
 				{
-					var isSelected = false;
-					
-					if (isNoneGenerated === false)
-					{
-						options.append($(`<option id="${menus[j]._id.$oid}" value="none"/>`).html("None"));
-						isNoneGenerated = true;
-					}						
-					
-					if (isSelected === false)
-					{
-						//For this case, there is some existing menu items, so create a "None" fallback option
-						for (k = 0; k < menus[j].items.length; k++)
-						{
-							var str1 = (menus[j].items[k].item.$oid).toString()
-							if (str1 === uid)
-							{
-								options.append($(`<option value="${menus[j]._id.$oid}" selected/>`).html(menus[j].name));
-								k = menus[j].items[k].length;
-								isSelected = true;
-							}
-						}
-					}
-					
-					if (isSelected === false)
-					{
-						options.append($(`<option value="${menus[j]._id.$oid}"/>`).html(menus[j].name));						
-					}
+					options[j] = $('<div class="form-group row"/>');
+					//Tie the menu category ID to the value
+					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${menuCategory[j].name}" name="${menuCategory[j].name}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}">${menuCategory[j].name}</label></div>`));				
 				}
-
+							
 				// Handle case if there is no menus that exist (if we end up at this point)
-				if (menus.length == 0)
+				if (menuCategory.length == 0)
 				{
-					var cosmeticOption = $(`<option id="" value="none"/>`).html("None");
+					var cosmeticOption = $(`<input type="checkbox" id="" value="none"/>`).html("None");
 					cosmeticOption.attr('disabled', true)
 					options.append(cosmeticOption);	
 				}
 				
-				row.append($('<td/>').html(options));
+				checkboxes.append(options);
+			
+				row.append($('<td/>').html(checkboxes));
 				
 				var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditMenuItem"/>`).click(function() {
 					requestMenuItem(this);
@@ -1387,6 +1373,20 @@ function populateMenuItemTable(menuItemsData, selector)
 				row.append($('<td/>').html(editButton).append(deleteButton));
 				
 				$(selector).append(row);
+				
+				var query = document.getElementsByClassName('MenuItemCategory');
+				
+				//We need to enable the checkboxes now that they exist
+				for (j = 0; j < menuCategory.length; j++)
+				{
+					for (k = 0; k < menuCategory[j].items.length; k++)
+					{
+						if (menuCategory[j].items[k].item.$oid == uid)
+						{
+							$(`#MenuItemCat_${uid}`).find(`#CAT_${menuCategory[j].name}`).prop("checked", true);
+						}
+					}
+				}
 			}
 			return;
 		}
