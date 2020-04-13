@@ -1,7 +1,7 @@
 /*TODO:
    Substitutions?
    Special Requests (these might go under ORDERS)
-   
+
    Help / Refill Buttons (also integration with waitstaff/tablesdb)
    Time based Menus
 */
@@ -9,23 +9,66 @@
 //Creates Tabs for food menu
 function populateFoodTabs(data, selector)
 {
+	var first = true;
 	//populate Food
 	for(i = 0; i < data.length; i++)
 	{
 		// check if the menu is for drinks or not
 		if(data[i].drinks)
 			continue;
-		// TODO: check if the menu is active
 
 
+		if(!data[i].ignore_timeslots) // if this menu is time dependent
+		{
 
+			var today = new Date();
+			switch(today.getDay()) // Check the day of the week
+			{
+				case 0: if(data[i].timeslots[0].day === 'Su')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Su
+				case 1: if(data[i].timeslots[0].day === 'M')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // M
+				case 2: if(data[i].timeslots[0].day === 'Tu')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Tu
+				case 3: if(data[i].timeslots[0].day === 'W')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // W
+				case 4: if(data[i].timeslots[0].day === 'Th')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Th
+				case 5: if(data[i].timeslots[0].day === 'F')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // F
+				case 6: if(data[i].timeslots[0].day === 'Sa')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Sa
+			}
+		}
 
 		var tab = $('<li class="nav-item"/>')
 
 		var tabName = data[i].name;
-		var refName = tabName.replace(" ", "_");
-		if (i == 0){
+		var refName = tabName.replace(/ |\!|\?/g, "_");
+		if (first){
 			tab.append($(`<a href="${"#" + refName}" data-toggle="tab" class="nav-link active"/>`).html(tabName));
+			first = false;
 		} else {
 			tab.append($(`<a href="${"#" + refName}" data-toggle="tab" class="nav-link"/>`).html(tabName));
 		}
@@ -37,21 +80,65 @@ function populateFoodTabs(data, selector)
 //Creates the Pane on which the cards will display
 function populateFoodPane(data, selector)
 {
+	var first = true;
 	for(i = 0; i < data.length; i++) // iterate through menus
 	{
 		// check if the menu is for drinks or not
 		if(data[i].drinks)
 			continue;
-		// TODO: check if the menu is active
 
+		if(!data[i].ignore_timeslots) // if this menu is time dependent
+		{
+
+			var today = new Date();
+			switch(today.getDay()) // Check the day of the week
+			{
+				case 0: if(data[i].timeslots[0].day === 'Su')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Su
+				case 1: if(data[i].timeslots[0].day === 'M')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // M
+				case 2: if(data[i].timeslots[0].day === 'Tu')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Tu
+				case 3: if(data[i].timeslots[0].day === 'W')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // W
+				case 4: if(data[i].timeslots[0].day === 'Th')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Th
+				case 5: if(data[i].timeslots[0].day === 'F')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // F
+				case 6: if(data[i].timeslots[0].day === 'Sa')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Sa
+			}
+		}
 
 
 		var pane;
 		var tabName = data[i].name;
-		var refName = tabName.replace(" ", "_")
+		var refName = tabName.replace(/ /g, "_")
 
-		if (i == 0){ // first food tab gets the active pane
+		if (first){ // first food tab gets the active pane
 			pane = $(`<div role="tabpanel" class="tab-pane active" id="${refName}"/>`);
+			first = false;
 		} else {
 			pane = $(`<div role="tabpanel" class="tab-pane" id="${refName}"/>`);
 		}
@@ -76,7 +163,7 @@ function populateFoodCards(menuItem, selector)
 	//populate food pane with items
 
 	//Card Template
-	const cardTemplate = `<div id=${menuItem.name.replace(" ","_")} class="col-sm-4">
+	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
 							<div class="card-container manual-flip">
 								<div class="card">
 									<div class="front">
@@ -103,7 +190,7 @@ function populateFoodCards(menuItem, selector)
 										<div class="content">
 											<div class="main">
 												<h4 class="text-center">${menuItem.allergens}</h4>
-												<p class="text-center"></p>
+												<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
 												<div class="stats-container">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
@@ -177,30 +264,71 @@ function populateFoodCards(menuItem, selector)
 		var ingID = menuItem.ingredients[k].ingredient.$oid;
 		var url = "/api/ingredients/" + ingID;
 
-		requestData(url, selector, "ingredient");
+		requestData(url, "#"+selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
 	}
 }
-
 
 //Creates Tabs for food menu
 function populateDrinkTabs(data, selector)
 {
+	var first = true;
 	//populate Food
 	for(i = 0; i < data.length; i++)
 	{
 		// check if the menu is for drinks or not
 		if(!data[i].drinks)
 			continue;
-		// TODO: check if the menu is active
 
-
+		if(!data[i].ignore_timeslots) // if this menu is time dependent
+		{
+			var today = new Date();
+			switch(today.getDay()) // Check the day of the week
+			{
+				case 0: if(data[i].timeslots[0].day === 'Su')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Su
+				case 1: if(data[i].timeslots[0].day === 'M')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // M
+				case 2: if(data[i].timeslots[0].day === 'Tu')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Tu
+				case 3: if(data[i].timeslots[0].day === 'W')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // W
+				case 4: if(data[i].timeslots[0].day === 'Th')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Th
+				case 5: if(data[i].timeslots[0].day === 'F')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // F
+				case 6: if(data[i].timeslots[0].day === 'Sa')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Sa
+			}
+		}
 
 		var tab = $('<li class="nav-item"/>')
 
 		var tabName = data[i].name;
-		var refName = tabName.replace(" ", "_");
-		if (i == 0){
+		var refName = tabName.replace(/ /g, "_");
+		if (first){
 			tab.append($(`<a href="${"#" + refName}" data-toggle="tab" class="nav-link active"/>`).html(tabName));
+			first = false;
 		} else {
 			tab.append($(`<a href="${"#" + refName}" data-toggle="tab" class="nav-link"/>`).html(tabName));
 		}
@@ -212,21 +340,65 @@ function populateDrinkTabs(data, selector)
 //Creates the Pane on which the cards will display
 function populateDrinkPane(data, selector)
 {
+	var first = true;
 	for(i = 0; i < data.length; i++) // iterate through menus
 	{
 		// check if the menu is for drinks or not
 		if(!data[i].drinks)
 			continue;
-		// TODO: check if the menu is active
 
+		if(!data[i].ignore_timeslots) // if this menu is time dependent
+		{
+
+			var today = new Date();
+			switch(today.getDay()) // Check the day of the week
+			{
+				case 0: if(data[i].timeslots[0].day === 'Su')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Su
+				case 1: if(data[i].timeslots[0].day === 'M')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // M
+				case 2: if(data[i].timeslots[0].day === 'Tu')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Tu
+				case 3: if(data[i].timeslots[0].day === 'W')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // W
+				case 4: if(data[i].timeslots[0].day === 'Th')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Th
+				case 5: if(data[i].timeslots[0].day === 'F')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // F
+				case 6: if(data[i].timeslots[0].day === 'Sa')
+				{
+					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+						continue;
+				} break; // Sa
+			}
+		}
 
 
 		var pane;
 		var tabName = data[i].name;
-		var refName = tabName.replace(" ", "_")
+		var refName = tabName.replace(/ |\!|\?/g, "_");
 
-		if (i == 0){ // first drink tab gets the active pane
+		if (first){ // first drink tab gets the active pane
 			pane = $(`<div role="tabpanel" class="tab-pane active" id="${refName}"/>`);
+			first = false;
 		} else {
 			pane = $(`<div role="tabpanel" class="tab-pane" id="${refName}"/>`);
 		}
@@ -251,7 +423,7 @@ function populateDrinkCards(menuItem, selector)
 	//populate drinks pane with items
 
 	//Card Template
-	const cardTemplate = `<div id=${menuItem.name.replace(" ","_")} class="col-sm-4">
+	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
 							<div class="card-container manual-flip">
 								<div class="card">
 									<div class="front">
@@ -279,7 +451,7 @@ function populateDrinkCards(menuItem, selector)
 										<div class="content">
 											<div class="main">
 												<h4 class="text-center">${menuItem.allergens}</h4>
-												<p class="text-center"></p>
+												<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
 												<div class="stats-container">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
@@ -354,7 +526,7 @@ function populateDrinkCards(menuItem, selector)
 		var ingID = menuItem.ingredients[k].ingredient.$oid;
 		var url = "/api/ingredients/" + ingID;
 
-		requestData(url, selector, "ingredient");
+		requestData(url, "#"+selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
 	}
 }
 
@@ -362,12 +534,13 @@ function populateDrinkCards(menuItem, selector)
 function populateIngredients(ingredient, selector)
 {
 	var ingList;
-	if($(selector).find('div div div.back div.content div.main p.text-center').html() === "")
+
+	if($(selector).html() === "")
 		ingList = ingredient.name;
 	else
-		ingList = ingredient.name + ", " + $(selector).find('div div div.back div.content div.main p.text-center').html(); // concatenate; // concatenate ingredients
+		ingList = ingredient.name + ", " + $(selector).html(); // concatenate; // concatenate ingredients
 
-	$(selector).find('div div div.back div.content div.main p.text-center').html(ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
+	$(selector).html(ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
 	//$(selector).find('div div div.back div.content div.main p.text-center').replaceWith($(`<p class="text-center"/>`).html(ingList.substring(0,ingList.length-2))); // replace the ingredients with the added ingredient (comma is to remove the last comma)
 }
 
