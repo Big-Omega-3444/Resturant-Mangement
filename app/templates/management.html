@@ -560,42 +560,146 @@
 				<div class="modal-header">
 					<h5 class="modal-title">Add Menu Item</h5>
 				</div>
+				<div class="modal-header row d-flex justify-content-between mx-1 mx-sm-3 mb-0 pb-0">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" href="#MGMT_AddMenuItem_Main" role="tab" data-toggle="tab" aria-controls="category" aria-selected="true">Item</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#MGMT_AddMenuItem_Health" role="tab" data-toggle="tab" aria-controls="items" aria-selected="false">Health</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#MGMT_AddMenuItem_Customization" role="tab" data-toggle="tab" aria-controls="items" aria-selected="false">Customization</a>
+						</li>									
+					</ul>
+				</div>
 				<div class="modal-body">
-					<div class="container">
-						<form id="addMenuItem">
-							<div class="form-group row">
-								<div class="input-group col">
-									<input type="text" class="form-control" id="MI_name" name="name" placeholder="Name" required>
-								</div>
-								<div class="input-group col">
-									<div class="input-group-prepend">
-										<span class="input-group-text">$</span>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="MGMT_AddMenuItem_Main" aria-labelledby="category-tab">
+							<div class="container">
+								<form id="addMenuItem">
+									<div class="form-group row">
+										<div class="input-group col">
+											<input type="text" class="form-control" id="MI_name" name="name" placeholder="Name" required>
+										</div>
+										<div class="input-group col">
+											<div class="input-group-prepend">
+												<span class="input-group-text">$</span>
+											</div>
+											<input type="number" class="form-control" id="MI_cost" name="cost" placeholder="Cost" min=0 step="0.01" aria-label="Cost of the Menu Item" required>
+										</div>
 									</div>
-									<input type="number" class="form-control" id="MI_cost" name="cost" placeholder="Cost" min=0 step="0.01" aria-label="Cost of the Menu Item" required>
-								</div>
+									<div class="form-group row">
+										<div class="input-group col">
+											<textarea class="form-control" id="MI_desc" name="description" placeholder="Add a description here..." rows="5"></textarea>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="input-group col">
+											<input type="text" class="form-control" id="imageURL" name="image" placeholder="Image URL" required>
+										</div>
+									</div>
+								</form>
 							</div>
-							<div class="form-group row">
-								<div class="input-group col">
-									<textarea class="form-control" id="MI_desc" name="description" placeholder="Add a description here..." rows="5"></textarea>
-								</div>
+							<table id="MGMT_MenuItem_InventoryTable" class="table table-bordered table-striped"> <!-- This needs to be pulled manually in JS -->
+								<thead>
+									<tr>
+										<th width="5px">Name</th>
+										<th width="3px">Qty</th>
+									</tr>
+								</thead>
+								<tbody id="MGMT_MenuItem_InventoryTable_Body">
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="MGMT_AddMenuItem_Health" aria-labelledby="menuitem-tab">
+							<div class="container">
+								<form id="addMenuItem_Health">
+									<div class="form-group row">
+										<div class="input-group col">
+											<input type="number" class="form-control" id="MI_calories" name="calories" placeholder="Calories" min=0 aria-label="Calories" required>
+										</div>
+									</div>
+									<div class="form-group row">
+										Allergens								
+									</div>
+									<div class="form-group row">
+										<div class="form-check">
+											<input type="checkbox" id="MI_wheat" name="wheat" value="wheat">
+											<label class="form-check-label" for="MI_wheat">
+												Wheat
+											</label>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="form-check">
+											<input type="checkbox" id="MI_peanut" name="peanut" value="peanut">
+											<label class="form-check-label" for="MI_peanut">
+												Peanut
+											</label>
+										</div>
+									</div>	
+									<div class="form-group row">
+										<div class="form-check">
+											<input type="checkbox" id="MI_egg" name="egg" value="egg">
+											<label class="form-check-label" for="MI_egg">
+												Egg
+											</label>
+										</div>
+									</div>	
+									<div class="form-group row">
+										<div class="form-check">
+											<input type="checkbox" id="MI_soy" name="soy" value="soy">
+											<label class="form-check-label" for="MI_soy">
+												Soy
+											</label>
+										</div>
+									</div>	
+									<div class="form-group row">
+										<div class="form-check">
+											<input type="checkbox" id="MI_milk" name="milk" value="milk">
+											<label class="form-check-label" for="MI_milk">
+												Milk
+											</label>
+										</div>
+									</div>	
+									<div class="form-group row">
+										<div class="form-check">
+											<input type="checkbox" id="MI_fish" name="fish" value="fish">
+											<label class="form-check-label" for="MI_fish">
+												Fish
+											</label>
+										</div>
+									</div>	
+									<div class="form-group row">
+										<div class="form-check">
+											<input type="checkbox" id="MI_shellfish" name="shellfish" value="shellfish">
+											<label class="form-check-label" for="MI_shellfish">
+												Shellfish
+											</label>
+										</div>
+									</div>	
+									<div class="form-group row">
+										<div class="form-check">
+											<input type="checkbox" id="MI_treenut" name="treenut" value="treenut">
+											<label class="form-check-label" for="MI_shellfish">
+												Treenut
+											</label>
+										</div>
+									</div>	
+								</form>
 							</div>
-							<div class="form-group row">
-								<div class="input-group col">
-									<input type="text" class="form-control" id="imageURL" name="image" placeholder="Image URL" required>
-								</div>
+						</div>
+						<div class="tab-pane fade" id="MGMT_AddMenuItem_Customization" aria-labelledby="menuitem-tab">
+							<div class="container">
+								<form id="addMenuItem_Customization">
+									<p> Coming Soon! </p>
+								</form>
 							</div>
-						</form>
+						</div>
 					</div>
-					<table id="MGMT_MenuItem_InventoryTable" class="table table-bordered table-striped"> <!-- This needs to be pulled manually in JS -->
-						<thead>
-							<tr>
-								<th width="5px">Name</th>
-								<th width="3px">Qty</th>
-							</tr>
-						</thead>
-						<tbody id="MGMT_MenuItem_InventoryTable_Body">
-						</tbody>
-					</table>
 				</div>
 				<div class="modal-footer">
                     <button class="btn btn-primary" data-toggle="modal" data-target="#MGMT_AddMenuItem_IngredientSelector">Add Ingredients</button>

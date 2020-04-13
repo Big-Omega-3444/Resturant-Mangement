@@ -233,7 +233,8 @@ function SubmitFormMenuItem()
 	
     var post = new XMLHttpRequest();
 	
-	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	// Ingredients selection
+	// Gather all ing_update and inv_update classes, we need the ids of these to push to the API
 	var data = document.querySelectorAll('*[class="AMI_ing_update"]');
 	var origin =  document.querySelectorAll('*[class="AMI_inv_update"]');
 
@@ -241,6 +242,8 @@ function SubmitFormMenuItem()
     post.open('POST', "/api/menuitems");
 
     var formData = new FormData(document.getElementById("addMenuItem"));	
+    var formDataHealth = new FormData(document.getElementById("addMenuItem_Health"));
+//    var formDataCustomization = new FormData(document.getElementById("addMenuItem_Customization"));
 	
 	//Needs to be in JSON format, no other way around it
 	var payload =
@@ -249,7 +252,9 @@ function SubmitFormMenuItem()
 		"description": formData.get('description'),
 		"cost": parseFloat(formData.get('cost')),
 		"image": formData.get('image'),
-		"ingredients": []
+		"ingredients": [],
+		"calories": parseInt(formDataHealth.get('calories')),
+		"allergens": []
 	};
 	
 	for (i = 0; i < data.length; i++)
@@ -261,6 +266,31 @@ function SubmitFormMenuItem()
 		}
 	}
 	
+	//Here we go, here we go
+	if ( formDataHealth.get('wheat') != null )
+		payload.allergens.push(formDataHealth.get('wheat'));
+
+	if ( formDataHealth.get('peanut') != null )
+		payload.allergens.push(formDataHealth.get('peanut'));
+	
+	if ( formDataHealth.get('egg') != null )
+		payload.allergens.push(formDataHealth.get('egg'));
+	
+	if ( formDataHealth.get('soy') != null )
+		payload.allergens.push(formDataHealth.get('soy'));
+	
+	if ( formDataHealth.get('milk') != null )
+		payload.allergens.push(formDataHealth.get('milk'));
+	
+	if ( formDataHealth.get('fish') != null )
+		payload.allergens.push(formDataHealth.get('fish'));
+	
+	if ( formDataHealth.get('shellfish') != null )
+		payload.allergens.push(formDataHealth.get('shellfish'));
+	
+	if ( formDataHealth.get('treenut') != null )
+		payload.allergens.push(formDataHealth.get('treenut'));
+
 	console.log(payload);
 	
 	// Handle errors	
@@ -599,8 +629,8 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			{
 				if 	((menuDatas[j]._id.$oid == optionData.selectedOptions[0].id ) && optionData.selectedOptions[0].value == "none")
 				{
-					//Nothing else to do here
-					return;
+					url = "/api/menus/" + menuDatas[j]._id.$oid;
+					j = menuDatas.length;						
 				}
 				else if (menuDatas[j]._id.$oid == optionData.selectedOptions[0].value)
 				{
