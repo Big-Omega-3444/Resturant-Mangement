@@ -175,7 +175,7 @@ function populateFoodCards(menuItem, selector)
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name}</h4>
 													<p class="card-text">${menuItem.description}</p>
-													<button type="button" id='${menuItem.name}' onclick="addOrder('${menuItem.name}')" class="btn btn-primary">Order</button>
+													<button type="button" id='${menuItem.name+"btn"}' onclick="addOrder('${menuItem.name+"btn"}')" class="btn btn-primary">Order</button>
 												</div>
 											</div>
 											<div class="footer">
@@ -388,7 +388,7 @@ function populateDrinkCards(menuItem, selector)
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name}</h4>
 													<p class="card-text">${menuItem.description}</p>
-													<button type="button" id='${menuItem.name}' onclick="addOrder('${menuItem.name}')" class="btn btn-primary">Order</button>
+													<button type="button" id='${menuItem.name+"btn"}' onclick="addOrder('${menuItem.name+"btn"}')" class="btn btn-primary">Order</button>
 													<button type="button" id='${menuItem.name+"refill"}' onclick="needRefill('${menuItem.name+"refill"}')" class="btn btn-primary">Refill</button>
 												</div>
 											</div>

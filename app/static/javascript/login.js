@@ -1,12 +1,14 @@
 function checkCredentials(data, selector)
 {
-    user = document.getElementById("eID").value;
-    pass = document.getElementById("ePass").value;
+    var fail = true;
+    var user = document.getElementById("eID").value.toString();
+    var pass = document.getElementById("ePass").value.toString();
 
     for(i=0; i < data.length; i++) // step through users
     {
-        if(data[i].username === user && data[i].pin == pass) // same user, same pass
+        if(data[i].username.toString() === user && data[i].pin.toString() === pass) // same user, same pass
         {
+            fail = false;
             switch(data[i].assignment) // redirect accordingly
             {
                 case "manager": window.location='/management'; break;
@@ -17,7 +19,8 @@ function checkCredentials(data, selector)
 
         }
     }
-    alert("Nice try, kid");
+    if(fail)
+        alert("Nice try, kid");
 }
 
 function checkCoupon(data, selector)
