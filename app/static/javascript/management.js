@@ -356,9 +356,16 @@ function SubmitFormMenuCategoryPUT()
 	{ 
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"image": formData.get('image')
+		"image": formData.get('image'),
+		"drinks": formData.get('drinks'),
 //		"items": []
 	};
+	
+	// Not sure why but this works
+	if (payload['drinks'] != null)
+		payload['drinks'] = true;
+	else
+		payload['drinks'] = false;		
 	
 //	for (i = 0; i < data.length; i++)
 //	{
@@ -382,6 +389,7 @@ function SubmitFormMenuCategoryPUT()
 		//Check for OK or CREATED status
 		if (put.status === 200 || put.status === 201 || put.status === 204)
 		{
+			$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", false);
 			updateTables();
 		}
 		else
@@ -1588,7 +1596,8 @@ function autofillEditMenuCategoryForm(data)
 	$('#editMenuCategoryForm').find('#mcID').val(data._id.$oid);
 	$('#editMenuCategoryForm').find('#MC_name').val(data.name);	
 	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
-	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);	
+	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
+	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
 }
 
 // Same as above, but autofills the ingredient page
