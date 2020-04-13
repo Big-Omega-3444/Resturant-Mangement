@@ -492,11 +492,12 @@ function SubmitFormMenuItemPUT()
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
 	var data = document.querySelectorAll('*[class="EMI_ing_update"]');
 	var origin =  document.querySelectorAll('*[class="EMI_inv_update"]');
-	
+
     // POST to the API
     put.open('PUT', url);
 	
     var formData = new FormData(document.getElementById("EditMenuItemForm"));	
+    var formDataHealth = new FormData(document.getElementById("editMenuItem_Health"));
 	
 	//Needs to be in JSON format, no other way around it
 	var payload =
@@ -505,7 +506,9 @@ function SubmitFormMenuItemPUT()
 		"description": formData.get('description'),
 		"cost": parseFloat(formData.get('cost')),
 		"image": formData.get('image'),
-		"ingredients": []
+		"ingredients": [],
+		"calories": parseInt(formDataHealth.get('calories')),
+		"allergens": []
 	};
 	
 	for (i = 0; i < data.length; i++)
@@ -516,6 +519,31 @@ function SubmitFormMenuItemPUT()
 			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
 		}
 	}
+	
+	//Here we go, here we go
+	if ( formDataHealth.get('wheat') != null )
+		payload.allergens.push(formDataHealth.get('wheat'));
+
+	if ( formDataHealth.get('peanut') != null )
+		payload.allergens.push(formDataHealth.get('peanut'));
+	
+	if ( formDataHealth.get('egg') != null )
+		payload.allergens.push(formDataHealth.get('egg'));
+	
+	if ( formDataHealth.get('soy') != null )
+		payload.allergens.push(formDataHealth.get('soy'));
+	
+	if ( formDataHealth.get('milk') != null )
+		payload.allergens.push(formDataHealth.get('milk'));
+	
+	if ( formDataHealth.get('fish') != null )
+		payload.allergens.push(formDataHealth.get('fish'));
+	
+	if ( formDataHealth.get('shellfish') != null )
+		payload.allergens.push(formDataHealth.get('shellfish'));
+	
+	if ( formDataHealth.get('treenut') != null )
+		payload.allergens.push(formDataHealth.get('treenut'));
 	
 	// Handle errors	
 	//To Do: Alert user if errors occured, even OnLoad
@@ -1639,6 +1667,43 @@ function autofillEditMenuItemForm(data)
 	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);	
 	$('#EditMenuItemForm').find('#MI_desc').val(data.description);	
 	$('#EditMenuItemForm').find('#imageURL').val(data.image);	
+
+	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);	
+	
+	for (i = 0; i < data.allergens.length; i++)
+	{
+		switch (data.allergens[i])
+		{
+			case "wheat":
+				$('#editMenuItem_Health').find('#MI_wheat').prop("checked", true);
+				break;
+			case "peanut":
+				$('#editMenuItem_Health').find('#MI_peanut').prop("checked", true);
+				break;
+			case "egg":
+				$('#editMenuItem_Health').find('#MI_egg').prop("checked", true);
+				break;
+			case "soy":
+				$('#editMenuItem_Health').find('#MI_soy').prop("checked", true);
+				break;
+			case "milk":
+				$('#editMenuItem_Health').find('#MI_milk').prop("checked", true);
+				break;
+			case "fish":
+				$('#editMenuItem_Health').find('#MI_fish').prop("checked", true);
+				break;
+			case "shellfish":
+				$('#editMenuItem_Health').find('#MI_shellfish').prop("checked", true);
+				break;
+			case "treenut":
+				$('#editMenuItem_Health').find('#MI_treenut').prop("checked", true);
+				break;
+		}
+	}
+
+
+//	$('#editMenuItem_Customization').find('#imageURL').val(data.image);	
+	
 	populateEditMenuItems(data, '#MGMT_EditMenuItem_InventoryTable_Body');
 }
 
