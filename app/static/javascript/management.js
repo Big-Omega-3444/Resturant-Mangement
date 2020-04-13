@@ -582,20 +582,27 @@ function SubmitFormInventoryUpdateAll()
 	var requests = []
 
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
-	var data = document.getElementsByClassName('ing_update');
 	var origin = document.getElementsByClassName('inv_update');
 	
 	// Build the table
-	for(i = 0; i < data.length; i++) {
+	for(i = 0; i < origin.length; i++) {
 		(function (i){
 			requests[i] = new XMLHttpRequest();
+			
+			// Inventory ID | Ingredient ID
+			var ids = origin[i].id.split("|");
 
-			var url = "/api/inventory/" + origin[i].id;
-			requests[i].open('PUT', url);
+			var url = "/api/inventory/" + ids[0];
+
+			
+			//Retrieve the ingredient form
+			var object = document.getElementById(`ingQty_${ids[1]}`);
 
 			//Generate data
 			var formData = new FormData();
-			formData.append("count", parseInt(data[i].nextSibling.value));
+			formData.append("count", parseInt(object[0].value));
+			
+			requests[i].open('PUT', url);	
 
 			// Handle on load
 			requests[i].onload = function()
@@ -1157,16 +1164,16 @@ function populateInventoryTable(data, selector)
 					var row = $('<tr/>')
 					var ingredient = JSON.parse(requests[i].responseText);	//Ingredient
 																			//extraInfo contains Inventory stuff
-
-					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
-
-					row.append($('<td/>').html(name));
-
+																			
 					//Create buttons for specific ID
 					var uid = ingredient._id.$oid;
 
+					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}|${uid}/>`).html(ingredient.name);
+
+					row.append($('<td/>').html(name));
+
 					// Append assignment
-					var quantity = $(`<form class="ing_update" id=${uid}/><input type="number" min=0 step=1 maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
+					var quantity = $(`<form id="ingQty_${uid}"><input type="number" min=0 step=1 maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required></form>`);
 					row.append($('<td/>').html(quantity));
 
 					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
