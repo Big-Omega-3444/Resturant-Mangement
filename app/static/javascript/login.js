@@ -3,11 +3,11 @@ function checkCredentials(data, selector)
     user = document.getElementById("eID").value;
     pass = document.getElementById("ePass").value;
 
-    for(i=0; i < data.length; i++)
+    for(i=0; i < data.length; i++) // step through users
     {
-        if(data[i].username === user && data[i].pin == pass)
+        if(data[i].username === user && data[i].pin == pass) // same user, same pass
         {
-            switch(data[i].assignment)
+            switch(data[i].assignment) // redirect accordingly
             {
                 case "manager": window.location='/management'; break;
                 case "kitchen": window.location='/kitchen'; break;
@@ -20,9 +20,22 @@ function checkCredentials(data, selector)
     alert("Nice try, kid");
 }
 
-function requestLogin(url, selector)
+function checkCoupon(data, selector)
 {
+    code = document.getElementById("couponForm").value;
 
+    for(i=0; i < data.length; i++) // step through data
+    {
+        if(data[i].entry_code === code)
+        {
+            alert("Coupon Accepted!");
+        }
+    }
+    alert("Invalid Coupon");
+}
+
+function requestInputText(url, selector)
+{
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
 	request.open('GET', url);
@@ -39,6 +52,9 @@ function requestLogin(url, selector)
 //			alert(`Done, got ${request.response.length} bytes`); // responseText is the server
 			switch(selector)
 			{
+                case '#couponForm':
+                    checkCoupon(JSON.parse(request.responseText), selector);
+                    break;
                 case '#loginForm':
                     checkCredentials(JSON.parse(request.responseText), selector);
                     break;

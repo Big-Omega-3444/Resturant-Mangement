@@ -210,54 +210,6 @@ function populateFoodCards(menuItem, selector)
 							</div>
 						</div>`;
 
-	 /* Example card
-	const cardTemplate = `<div id="Title" class="col-sm-4">
-									<div class="card-container manual-flip">
-										<div class="card">
-											<div class="front">
-												<div class="content">
-													<div class="main">
-														<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
-														<div class="card-body">
-															<h4 class="card-title">Title</h4>
-															<p class="card-text">Description</p>
-															<button type="button" id="Test" onclick="addOrder('Test')" class="btn btn-primary">Order</button>
-														</div>
-													</div>
-													<div class="footer">
-														<button class="btn btn-simple" onclick="healthFacts(this)">
-															<i class="fas fa-info-circle"></i> Health Facts
-														</button>
-													</div>
-												</div>
-											</div>
-											<div class="back">
-												<div class="header">
-													<h5 class="card-title">Title</h5>
-												</div>
-												<div class="content">
-													<div class="main">
-														<h4 class="text-center"></h4>
-														<p class="text-center">Ingredient, ingredient, ingredient</p>
-			
-														<div class="stats-container">
-															<div class="stats"><h4>Calories</h4><p>000</p></div>
-															<div class="stats"><h4>Fat</h4><p>000 grams</p></div>
-															<div class="stats"><h4>Protein</h4><p>000 grams</p></div>
-														</div>
-													</div>
-												</div>
-												<div class="footer">
-														<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-															<i class="fas fa-backward"></i> Back
-														</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>`;
-	  */
-
 	//append our template to the pane
 	$(selector).find('div.row').append(cardTemplate);
 
@@ -269,6 +221,7 @@ function populateFoodCards(menuItem, selector)
 		requestData(url, selector+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
 	}
 }
+
 
 //Creates Tabs for food menu
 function populateDrinkTabs(data, selector)
@@ -470,55 +423,6 @@ function populateDrinkCards(menuItem, selector)
 								</div>
 							</div>
 						</div>`;
-
-	 /* Example card
-	const cardTemplate = `<div id="Title" class="col-sm-4">
-									<div class="card-container manual-flip">
-										<div class="card">
-											<div class="front">
-												<div class="content">
-													<div class="main">
-														<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
-														<div class="card-body">
-															<h4 class="card-title">Title</h4>
-															<p class="card-text">Description</p>
-															<button type="button" id="Test" onclick="addOrder('Test')" class="btn btn-primary">Order</button>
-															<button type="button" id="Refill" onclick="needRefill('Refill')" class="btn btn-primary">Refill</button>
-														</div>
-													</div>
-													<div class="footer">
-														<button class="btn btn-simple" onclick="healthFacts(this)">
-															<i class="fas fa-info-circle"></i> Health Facts
-														</button>
-													</div>
-												</div>
-											</div>
-											<div class="back">
-												<div class="header">
-													<h5 class="card-title">Title</h5>
-												</div>
-												<div class="content">
-													<div class="main">
-														<h4 class="text-center"></h4>
-														<p class="text-center">Ingredient, ingredient, ingredient</p>
-
-														<div class="stats-container">
-															<div class="stats"><h4>Calories</h4><p>000</p></div>
-															<div class="stats"><h4>Fat</h4><p>000 grams</p></div>
-															<div class="stats"><h4>Protein</h4><p>000 grams</p></div>
-														</div>
-													</div>
-												</div>
-												<div class="footer">
-														<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-															<i class="fas fa-backward"></i> Back
-														</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>`;
-	  */
 
 	//append our template to the pane
 	$(selector).find('div.row').append(cardTemplate);
