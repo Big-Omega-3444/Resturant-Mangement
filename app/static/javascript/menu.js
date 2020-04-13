@@ -99,37 +99,37 @@ function populateFoodPane(data, selector)
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Su
+				} else continue; break; // Su
 				case 1: if(data[i].timeslots[0].day === 'M')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // M
+				} else continue; break; // M
 				case 2: if(data[i].timeslots[0].day === 'Tu')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Tu
+				} else continue; break; // Tu
 				case 3: if(data[i].timeslots[0].day === 'W')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // W
+				} else continue; break; // W
 				case 4: if(data[i].timeslots[0].day === 'Th')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Th
+				} else continue; break; // Th
 				case 5: if(data[i].timeslots[0].day === 'F')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // F
+				} else continue; break; // F
 				case 6: if(data[i].timeslots[0].day === 'Sa')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Sa
+				} else continue; break; // Sa
 			}
 		}
 
@@ -290,37 +290,37 @@ function populateDrinkTabs(data, selector)
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Su
+				} else continue; break; // Su
 				case 1: if(data[i].timeslots[0].day === 'M')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // M
+				} else continue; break; // M
 				case 2: if(data[i].timeslots[0].day === 'Tu')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Tu
+				} else continue; break; // Tu
 				case 3: if(data[i].timeslots[0].day === 'W')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // W
+				} else continue; break; // W
 				case 4: if(data[i].timeslots[0].day === 'Th')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Th
+				} else continue; break; // Th
 				case 5: if(data[i].timeslots[0].day === 'F')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // F
+				} else continue; break; // F
 				case 6: if(data[i].timeslots[0].day === 'Sa')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Sa
+				} else continue; break; // Sa
 			}
 		}
 
@@ -359,37 +359,37 @@ function populateDrinkPane(data, selector)
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Su
+				} else continue; break; // Su
 				case 1: if(data[i].timeslots[0].day === 'M')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // M
+				} else continue; break; // M
 				case 2: if(data[i].timeslots[0].day === 'Tu')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Tu
+				} else continue; break; // Tu
 				case 3: if(data[i].timeslots[0].day === 'W')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // W
+				} else continue; break; // W
 				case 4: if(data[i].timeslots[0].day === 'Th')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Th
+				} else continue; break; // Th
 				case 5: if(data[i].timeslots[0].day === 'F')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // F
+				} else continue; break; // F
 				case 6: if(data[i].timeslots[0].day === 'Sa')
 				{
 					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
 						continue;
-				} break; // Sa
+				} else continue; break; // Sa
 			}
 		}
 
