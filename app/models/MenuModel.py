@@ -22,7 +22,7 @@ class ItemList(EmbeddedDocument):
             raise ValidationError(msg)
 
 class DayTimeSlot(EmbeddedDocument):
-    day = StringField(choices=['M','Tu','W','Th','F','Sa','Su'])
+    day = StringField(choices=['Su','M','Tu','W','Th','F','Sa'])
     start_hour = IntField(min_value=0, max_value=23)
     start_min = IntField(min_value=0, max_value=59)
     end_hour = IntField(min_value=0, max_value=23)
