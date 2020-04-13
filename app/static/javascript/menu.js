@@ -266,7 +266,7 @@ function populateFoodCards(menuItem, selector)
 		var ingID = menuItem.ingredients[k].ingredient.$oid;
 		var url = "/api/ingredients/" + ingID;
 
-		requestData(url, "#"+selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
+		requestData(url, selector+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
 	}
 }
 
@@ -528,7 +528,7 @@ function populateDrinkCards(menuItem, selector)
 		var ingID = menuItem.ingredients[k].ingredient.$oid;
 		var url = "/api/ingredients/" + ingID;
 
-		requestData(url, "#"+selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
+		requestData(url, selector+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
 	}
 }
 
