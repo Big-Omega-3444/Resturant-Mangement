@@ -213,6 +213,8 @@ function SubmitFormMenuCategory()
 		arrTimeSlots.push(timeSlot);
 	}
 	
+	payload['timeslots'] = arrTimeSlots;
+	
 	// If we got null here, then don't change the value to true
 	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
