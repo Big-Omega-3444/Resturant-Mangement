@@ -1327,7 +1327,7 @@ function populateMenuItemTable(menuItemsData, selector)
 				{
 					var cosmeticOption = $(`<input type="checkbox" id="" value="none"/>`).html("None");
 					cosmeticOption.attr('disabled', true)
-					options.append(cosmeticOption);	
+					options[j].append(cosmeticOption);	
 				}
 				
 				checkboxes.append(options);
