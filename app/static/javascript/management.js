@@ -57,45 +57,6 @@ function SubmitFormUser()
 }
 
 //On submit, post a form to the api
-function SubmitFormMenu()
-{
-    event.preventDefault();
-
-    var post = new XMLHttpRequest();
-
-    // POST to the API
-    post.open('POST', "/api/employees");
-
-	// Handle errors
-	//To Do: Alert user if errors occured, even OnLoad
-	post.error = function()
-	{
-		alert("Request Failed!");
-	};
-
-	// Handle on load
-	post.onload = function()
-	{
-		//Check for OK or CREATED status
-		if (post.status === 200 || post.status === 201)
-		{
-			updateTables();
-		}
-		else
-		{
-			//TODO: Create alert in HTML instead of using this to specify error
-			var error = JSON.parse(post.responseText)
-			console.log(error.message)
-
-			alert(`Error ${post.status}: ${error.message}`);
-		}
-	};
-
-    var formData = new FormData(document.getElementById("addEmployee"));
-    post.send(formData);
-}
-
-//On submit, post a form to the api
 function SubmitFormIngredient()
 {
     event.preventDefault();
