@@ -1908,7 +1908,7 @@ function createChart(pick) {
 	/*requests.onload = function () {
 
 		if (requests.status === 200 || requests.status === 201 || requests.status === 204) {
-
+		
 			var orders = JSON.parse(requests.responseText);
 			
 			if (pick == "Day") {
