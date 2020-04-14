@@ -19,8 +19,14 @@ function checkCredentials(data, selector)
 
         }
     }
-    if(fail)
+    if(fail){
         alert("Nice try, kid");
+        user = "fail";
+        pass = "stupid";
+        document.getElementById("eID").value = "";
+        document.getElementById("ePass").value = "";
+    }
+
 }
 
 function checkCoupon(data, selector)

@@ -40,48 +40,7 @@ function SubmitFormUser()
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201)
 		{
-			//Close modal
-			$('#MGMT_AddEmployee').modal('hide');
-		}
-		else
-		{
-			//TODO: Create alert in HTML instead of using this to specify error
-			var error = JSON.parse(post.responseText)
-			console.log(error.message)
-
-			alert(`Error ${post.status}: ${error.message}`);
-		}
-	};
-
-    var formData = new FormData(document.getElementById("addEmployee"));
-    post.send(formData);
-}
-
-//On submit, post a form to the api
-function SubmitFormMenu()
-{
-    event.preventDefault();
-
-    var post = new XMLHttpRequest();
-
-    // POST to the API
-    post.open('POST', "/api/employees");
-
-	// Handle errors
-	//To Do: Alert user if errors occured, even OnLoad
-	post.error = function()
-	{
-		alert("Request Failed!");
-	};
-
-	// Handle on load
-	post.onload = function()
-	{
-		//Check for OK or CREATED status
-		if (post.status === 200 || post.status === 201)
-		{
-			//Close modal
-			$('#MGMT_AddEmployee').modal('hide');
+			updateTables();
 		}
 		else
 		{
@@ -217,13 +176,23 @@ function SubmitFormMenuCategory()
 	};
 	
     var formData = new FormData(document.getElementById("addMenuCategoryForm"));
-//	var payload = {
-//		"name": formData.get('name'),
-//		"description": formData.get('description'),
-//		"image": formData.get('image')
-//	}
+	var payload = {
+		"name": formData.get('name'),
+		"description": formData.get('description'),
+		"drinks": false
+	}
 	
-    post.send(formData);
+	// If we got null here, then don't change the value to true
+	if (formData.get('drinks') != null)
+		payload['drinks'] = true;
+	
+	if (formData.get('image') != "")
+		payload['image'] = formData.get('image');
+	
+	console.log(payload);
+	
+	post.setRequestHeader("Content-Type", "application/json");	
+    post.send(JSON.stringify(payload));
 }
 
 //On submit, post a form to the api
@@ -386,25 +355,15 @@ function SubmitFormMenuCategoryPUT()
 	{ 
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"image": formData.get('image'),
-		"drinks": formData.get('drinks'),
-//		"items": []
+		"drinks": false
 	};
 	
 	// Not sure why but this works
-	if (payload['drinks'] != null)
+	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
-	else
-		payload['drinks'] = false;		
 	
-//	for (i = 0; i < data.length; i++)
-//	{
-//		var value = parseInt(data[i].nextSibling.value);
-//		if (value > 0)
-//		{
-//			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
-//		}
-//	}
+	if (formData.get('image') != "")
+		payload['image'] = formData.get('image');
 	
 	// Handle errors	
 	//To Do: Alert user if errors occured, even OnLoad
@@ -431,6 +390,8 @@ function SubmitFormMenuCategoryPUT()
 			alert(`Error ${put.status}: ${error.message}`);
 		}
 	};
+	
+	console.log(payload);
 
 	put.setRequestHeader("Content-Type", "application/json");	
     put.send(JSON.stringify(payload));
@@ -1364,7 +1325,7 @@ function populateMenuItemTable(menuItemsData, selector)
 				{
 					var cosmeticOption = $(`<input type="checkbox" id="" value="none"/>`).html("None");
 					cosmeticOption.attr('disabled', true)
-					options.append(cosmeticOption);	
+					options[j].append(cosmeticOption);	
 				}
 				
 				checkboxes.append(options);
