@@ -179,7 +179,38 @@ function SubmitFormMenuCategory()
 	var payload = {
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"drinks": false
+		"drinks": false,
+		"timeslots": []
+	}
+	
+	var daysOfweek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+	var arrTimeSlots = []
+
+	//Time Stuff
+	// Gather time and push to timeslots
+	for (i = 0; i < daysOfweek.length; i++)
+	{
+		var timeSlot = {};
+		
+		if ( formData.get(daysOfweek[i]) != null )
+		{
+			timeSlot['day'] = formData.get(daysOfweek[i]);
+			if ( formData.get('startTime') != null )
+			{
+				var startTime = (formData.get('startTime')).split(":");
+				timeSlot.start_hour = startTime[0];
+				timeSlot.start_min = startTime[1];
+			}
+		
+			if ( formData.get('endTime') != null )
+			{
+				var endTime = (formData.get('endTime')).split(":");
+				timeSlot.end_hour = endTime[0];
+				timeSlot.end_min = endTime[1];
+			}
+		}
+
+		arrTimeSlots.push(timeSlot);
 	}
 	
 	// If we got null here, then don't change the value to true
@@ -364,6 +395,10 @@ function SubmitFormMenuCategoryPUT()
 	
 	if (formData.get('image') != "")
 		payload['image'] = formData.get('image');
+	
+	//Time Stuff
+	var output = formData.get('startTime')
+	payload.timeslots.push({});
 	
 	// Handle errors	
 	//To Do: Alert user if errors occured, even OnLoad
@@ -1628,7 +1663,7 @@ function autofillEditIngredientForm(data)
 function autofillEditMenuCategoryForm(data)
 {
 	$('#editMenuCategoryForm').find('#mcID').val(data._id.$oid);
-	$('#editMenuCategoryForm').find('#MC_name').val(data.name);	
+	$('#editMenuCategoryForm').find('#MC_desc').val(data.name);	
 	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
 	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
 	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
