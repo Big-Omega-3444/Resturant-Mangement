@@ -619,11 +619,7 @@ function SubmitFormMenuUpdateAll(menuDatas)
 				"items": [],
 			}
 			
-			var deletion = false;
-			
-			//Split the string apart to get the menu item id that we will send
 
-			
 			url = "/api/menus/" + menuData._id.$oid;
 			
 			//Go through each checkbox form and figure out our values that we're gonna send to the API
@@ -633,6 +629,7 @@ function SubmitFormMenuUpdateAll(menuDatas)
 				
 				if (formData.get(`${menuData.name}`) != null)
 				{
+					//Split the string apart to get the menu item id that we will send
 					var str = MIC_data[j].id.split("_");					
 					payload.items.push({"item": str[1]});
 				}
@@ -1317,7 +1314,7 @@ function populateMenuItemTable(menuItemsData, selector)
 				{
 					options[j] = $('<div class="form-group row"/>');
 					//Tie the menu category ID to the value
-					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${menuCategory[j].name}" name="${menuCategory[j].name}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}">${menuCategory[j].name}</label></div>`));				
+					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${menuCategory[j].name}_${uid}" name="${menuCategory[j].name}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}_${uid}">${menuCategory[j].name}</label></div>`));				
 				}
 							
 				// Handle case if there is no menus that exist (if we end up at this point)
@@ -1351,7 +1348,7 @@ function populateMenuItemTable(menuItemsData, selector)
 					{
 						if (menuCategory[j].items[k].item.$oid == uid)
 						{
-							$(`#MenuItemCat_${uid}`).find(`#CAT_${menuCategory[j].name}`).prop("checked", true);
+							$(`#MenuItemCat_${uid}`).find(`#CAT_${menuCategory[j].name}_${uid}`).prop("checked", true);
 						}
 					}
 				}
