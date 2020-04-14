@@ -619,11 +619,11 @@ function SubmitFormMenuUpdateAll(menuDatas)
 				"items": [],
 			}
 			
-			var deletion = false;
+			//Use Regex to remove spaces from the name parameter
+			var findName = menuData.name;
+			findName = findName.replace(/\s/g, '_');
 			
-			//Split the string apart to get the menu item id that we will send
 
-			
 			url = "/api/menus/" + menuData._id.$oid;
 			
 			//Go through each checkbox form and figure out our values that we're gonna send to the API
@@ -631,8 +631,9 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			{
 				var formData = new FormData(MIC_data[j])
 				
-				if (formData.get(`${menuData.name}`) != null)
+				if (formData.get(`${findName}`) != null)
 				{
+					//Split the string apart to get the menu item id that we will send
 					var str = MIC_data[j].id.split("_");					
 					payload.items.push({"item": str[1]});
 				}
@@ -1316,8 +1317,11 @@ function populateMenuItemTable(menuItemsData, selector)
 				for (j = 0; j < menuCategory.length; j++)
 				{
 					options[j] = $('<div class="form-group row"/>');
+					//Use Regex to remove spaces from the name parameter
+					var inputName = menuCategory[j].name;
+					inputName = inputName.replace(/\s/g, '_');
 					//Tie the menu category ID to the value
-					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${menuCategory[j].name}" name="${menuCategory[j].name}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}">${menuCategory[j].name}</label></div>`));				
+					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${inputName}_${uid}" name="${inputName}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}_${uid}">${menuCategory[j].name}</label></div>`));				
 				}
 							
 				// Handle case if there is no menus that exist (if we end up at this point)
@@ -1351,7 +1355,11 @@ function populateMenuItemTable(menuItemsData, selector)
 					{
 						if (menuCategory[j].items[k].item.$oid == uid)
 						{
-							$(`#MenuItemCat_${uid}`).find(`#CAT_${menuCategory[j].name}`).prop("checked", true);
+							//Use Regex to remove spaces from the name parameter
+							var inputName = menuCategory[j].name;
+							inputName = inputName.replace(/\s/g, '_');
+							
+							$(`#MenuItemCat_${uid}`).find(`#CAT_${inputName}_${uid}`).prop("checked", true);
 						}
 					}
 				}
@@ -2051,3 +2059,15 @@ $('#MGMT_Inventory_btnSaveChanges').click( function()
 //
 // END INGREDIENT LISTENERS
 //
+
+//
+// Deny All forms from triggering something when pressing enter
+//
+//Taken from JSFunctions but made specifically for Employee Table
+$(document).ready(function(){
+  $(window).on("keydown", function(event) {
+	if (event.keyCode == 13) {
+		event.preventDefault();
+	}
+  });
+});
