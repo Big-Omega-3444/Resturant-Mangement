@@ -1699,6 +1699,20 @@ function autofillEditMenuCategoryForm(data)
 	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
 
 	var timeSet = false;
+	if (data.timeslots.length == 0)
+	{
+		$('#editMenuCategoryForm').find('#MC_EDIT_startTime').trigger("reset");	
+		$('#editMenuCategoryForm').find('#MC_EDIT_endTime').trigger("reset");
+		
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sun').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Mon').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Tue').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Wed').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Thu').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Fri').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sat').prop("checked", false);
+	}
+	
 	for (i = 0; i < data.timeslots.length; i++)
 	{
 		if ( data.timeslots[i].day != "" )
