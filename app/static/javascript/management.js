@@ -391,16 +391,44 @@ function SubmitFormMenuCategoryPUT()
 		"drinks": false
 	};
 	
+	var daysOfweek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+	var arrTimeSlots = []
+
+	//Time Stuff
+	// Gather time and push to timeslots
+	for (i = 0; i < daysOfweek.length; i++)
+	{
+		var timeSlot = {};
+		
+		if ( formData.get(daysOfweek[i]) != null )
+		{
+			timeSlot['day'] = formData.get(daysOfweek[i]);
+			if ( formData.get('startTime') != null )
+			{
+				var startTime = (formData.get('startTime')).split(":");
+				timeSlot.start_hour = startTime[0];
+				timeSlot.start_min = startTime[1];
+			}
+		
+			if ( formData.get('endTime') != null )
+			{
+				var endTime = (formData.get('endTime')).split(":");
+				timeSlot.end_hour = endTime[0];
+				timeSlot.end_min = endTime[1];
+			}
+		}
+
+		arrTimeSlots.push(timeSlot);
+	}
+	
+	payload['timeslots'] = arrTimeSlots;
+	
 	// Not sure why but this works
 	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
 	
 	if (formData.get('image') != "")
 		payload['image'] = formData.get('image');
-	
-	//Time Stuff
-	var output = formData.get('startTime')
-	payload.timeslots.push({});
 	
 	// Handle errors	
 	//To Do: Alert user if errors occured, even OnLoad
@@ -1669,6 +1697,57 @@ function autofillEditMenuCategoryForm(data)
 	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
 	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
 	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
+
+	var timeSet = false;
+	for (i = 0; i < data.timeslots.length; i++)
+	{
+		if ( data.timeslots[i].day != "" )
+		{
+			if (timeSet === false)
+			{
+				var hours		= (data.timeslots[i].start_hour < 10) ? "0" + data.timeslots[i].start_hour : data.timeslots[i].start_hour;
+				var minutes		= (data.timeslots[i].start_min < 10) ? "0" + data.timeslots[i].start_min : data.timeslots[i].start_min;
+				var startTime 	= hours + ":" + minutes + ":00";
+				$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val(startTime.toString());	
+
+				hours			= (data.timeslots[i].end_hour < 10) ? "0" + data.timeslots[i].end_hour : data.timeslots[i].end_hour;
+				minutes			= (data.timeslots[i].end_min < 10) ? "0" + data.timeslots[i].end_min : data.timeslots[i].end_min;
+				var endTime		= hours + ":" + minutes + ":00";
+				$('#editMenuCategoryForm').find('#MC_EDIT_endTime').val(endTime.toString());
+
+				timeSet = true;
+			}
+
+			switch (data.timeslots[i].day)
+			{
+				case "Su":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sun').prop("checked", true);
+					break;
+				case "M":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Mon').prop("checked", true);
+					break;
+				case "Tu":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Tue').prop("checked", true);
+					break;
+				case "W":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Wed').prop("checked", true);
+					break;
+				case "Th":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Thu').prop("checked", true);
+					break;
+				case "F":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Fri').prop("checked", true);
+					break;
+				case "Sa":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sat').prop("checked", true);
+					break;
+				default:
+					break;
+			}
+
+		}
+	}		
+	
 }
 
 // Same as above, but autofills the ingredient page
