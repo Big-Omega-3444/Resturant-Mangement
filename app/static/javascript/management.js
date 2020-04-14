@@ -2048,3 +2048,15 @@ $('#MGMT_Inventory_btnSaveChanges').click( function()
 //
 // END INGREDIENT LISTENERS
 //
+
+//
+// Deny All forms from triggering something when pressing enter
+//
+//Taken from JSFunctions but made specifically for Employee Table
+$(document).ready(function(){
+  $(window).on("keydown", function(event) {
+	if (event.keyCode == 13) {
+		event.preventDefault();
+	}
+  });
+});
