@@ -179,7 +179,7 @@ function SubmitFormMenuCategory()
 	var payload = {
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"image": formData.get('image'),
+		"image": "",
 		"drinks": false
 	}
 	
@@ -187,10 +187,13 @@ function SubmitFormMenuCategory()
 	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
 	
+	if (formData.get('image') != null)
+		payload['image'] = formData.get('image');
+	
 	console.log(payload);
 	
-	put.setRequestHeader("Content-Type", "application/json");	
-    put.send(JSON.stringify(payload));
+	post.setRequestHeader("Content-Type", "application/json");	
+    post.send(JSON.stringify(payload));
 }
 
 //On submit, post a form to the api
@@ -353,13 +356,16 @@ function SubmitFormMenuCategoryPUT()
 	{ 
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"image": formData.get('image'),
+		"image": "",
 		"drinks": false
 	};
 	
 	// Not sure why but this works
 	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
+	
+	if (formData.get('image') != null)
+		payload['image'] = formData.get('image');
 	
 	// Handle errors	
 	//To Do: Alert user if errors occured, even OnLoad
