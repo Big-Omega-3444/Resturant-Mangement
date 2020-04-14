@@ -179,7 +179,6 @@ function SubmitFormMenuCategory()
 	var payload = {
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"image": "",
 		"drinks": false
 	}
 	
@@ -187,7 +186,7 @@ function SubmitFormMenuCategory()
 	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
 	
-	if (formData.get('image') != null)
+	if (formData.get('image') != "")
 		payload['image'] = formData.get('image');
 	
 	console.log(payload);
@@ -356,7 +355,6 @@ function SubmitFormMenuCategoryPUT()
 	{ 
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"image": "",
 		"drinks": false
 	};
 	
@@ -364,7 +362,7 @@ function SubmitFormMenuCategoryPUT()
 	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
 	
-	if (formData.get('image') != null)
+	if (formData.get('image') != "")
 		payload['image'] = formData.get('image');
 	
 	// Handle errors	
