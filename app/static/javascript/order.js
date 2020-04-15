@@ -109,7 +109,7 @@ function SubmitOrder()
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201)
 		{
-			requestOrderedItems();
+			console.log("Order Submitted");
 		}
 		else
 		{

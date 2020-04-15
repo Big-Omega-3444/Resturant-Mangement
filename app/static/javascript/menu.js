@@ -5,6 +5,59 @@
    Help / Refill Buttons (also integration with waitstaff/tablesdb)
 */
 
+function checkIfActive(data)
+{
+	var active = true;
+
+
+	if(!data[i].ignore_timeslots) // if this menu is time dependent
+	{
+		var today = new Date();
+
+		switch(today.getDay()) // Check the day of the week
+		{
+			case 0: if(data[i].timeslots[0].day === 'Su')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // Su
+			case 1: if(data[i].timeslots[1].day === 'M')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // M
+			case 2: if(data[i].timeslots[2].day === 'Tu')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // Tu
+			case 3: if(data[i].timeslots[3].day === 'W')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // W
+			case 4: if(data[i].timeslots[4].day === 'Th')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // Th
+			case 5: if(data[i].timeslots[5].day === 'F')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // F
+			case 6: if(data[i].timeslots[6].day === 'Sa')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // Sa
+			default: active = false; break;
+		}
+	}
+
+	return active;
+}
+
 //Creates Tabs for food menu
 function populateFoodTabs(data, selector)
 {
@@ -16,50 +69,8 @@ function populateFoodTabs(data, selector)
 		if(data[i].drinks)
 			continue;
 
-
-		if(!data[i].ignore_timeslots) // if this menu is time dependent
-		{
-
-			var today = new Date();
-			switch(today.getDay()) // Check the day of the week
-			{
-				case 0: if(data[i].timeslots[0].day === 'Su')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Su
-				case 1: if(data[i].timeslots[0].day === 'M')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // M
-				case 2: if(data[i].timeslots[0].day === 'Tu')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Tu
-				case 3: if(data[i].timeslots[0].day === 'W')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // W
-				case 4: if(data[i].timeslots[0].day === 'Th')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Th
-				case 5: if(data[i].timeslots[0].day === 'F')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // F
-				case 6: if(data[i].timeslots[0].day === 'Sa')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Sa
-			}
-		}
+		if(!checkIfActive(data)) // returns true if active
+			continue;
 
 		var tab = $('<li class="nav-item"/>')
 
@@ -86,49 +97,8 @@ function populateFoodPane(data, selector)
 		if(data[i].drinks)
 			continue;
 
-		if(!data[i].ignore_timeslots) // if this menu is time dependent
-		{
-
-			var today = new Date();
-			switch(today.getDay()) // Check the day of the week
-			{
-				case 0: if(data[i].timeslots[0].day === 'Su')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Su
-				case 1: if(data[i].timeslots[0].day === 'M')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // M
-				case 2: if(data[i].timeslots[0].day === 'Tu')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Tu
-				case 3: if(data[i].timeslots[0].day === 'W')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // W
-				case 4: if(data[i].timeslots[0].day === 'Th')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Th
-				case 5: if(data[i].timeslots[0].day === 'F')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // F
-				case 6: if(data[i].timeslots[0].day === 'Sa')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Sa
-			}
-		}
+		if(!checkIfActive(data)) // returns true if active
+			continue;
 
 
 		var pane;
@@ -231,48 +201,8 @@ function populateDrinkTabs(data, selector)
 		if(!data[i].drinks)
 			continue;
 
-		if(!data[i].ignore_timeslots) // if this menu is time dependent
-		{
-			var today = new Date();
-			switch(today.getDay()) // Check the day of the week
-			{
-				case 0: if(data[i].timeslots[0].day === 'Su')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Su
-				case 1: if(data[i].timeslots[0].day === 'M')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // M
-				case 2: if(data[i].timeslots[0].day === 'Tu')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Tu
-				case 3: if(data[i].timeslots[0].day === 'W')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // W
-				case 4: if(data[i].timeslots[0].day === 'Th')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Th
-				case 5: if(data[i].timeslots[0].day === 'F')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // F
-				case 6: if(data[i].timeslots[0].day === 'Sa')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Sa
-			}
-		}
+		if(!checkIfActive(data)) // returns true if active
+			continue;
 
 		var tab = $('<li class="nav-item"/>')
 
@@ -299,49 +229,8 @@ function populateDrinkPane(data, selector)
 		if(!data[i].drinks)
 			continue;
 
-		if(!data[i].ignore_timeslots) // if this menu is time dependent
-		{
-
-			var today = new Date();
-			switch(today.getDay()) // Check the day of the week
-			{
-				case 0: if(data[i].timeslots[0].day === 'Su')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Su
-				case 1: if(data[i].timeslots[0].day === 'M')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // M
-				case 2: if(data[i].timeslots[0].day === 'Tu')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Tu
-				case 3: if(data[i].timeslots[0].day === 'W')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // W
-				case 4: if(data[i].timeslots[0].day === 'Th')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Th
-				case 5: if(data[i].timeslots[0].day === 'F')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // F
-				case 6: if(data[i].timeslots[0].day === 'Sa')
-				{
-					if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
-						continue;
-				} else continue; break; // Sa
-			}
-		}
+		if(!checkIfActive(data)) // returns true if active
+			continue;
 
 
 		var pane;
