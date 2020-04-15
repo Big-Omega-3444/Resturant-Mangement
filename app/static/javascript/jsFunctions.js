@@ -48,6 +48,7 @@ function updateClock() {
 setInterval(updateClock, 1000);
 
 // Paypal Function
+/*
 paypal.Buttons({
 
 	// Set up the transaction
@@ -71,7 +72,7 @@ paypal.Buttons({
 
 
 }).render('#paypal-button-container');
-
+*/
 // Phone Number Function
 $("input[type='tel']").each(function(){
   $(this).on("change keyup paste", function (e) {
