@@ -1701,8 +1701,8 @@ function autofillEditMenuCategoryForm(data)
 	var timeSet = false;
 	if (data.timeslots.length == 0)
 	{
-		$('#editMenuCategoryForm').find('#MC_EDIT_startTime').trigger("reset");	
-		$('#editMenuCategoryForm').find('#MC_EDIT_endTime').trigger("reset");
+		$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val("--:--:--");	
+		$('#editMenuCategoryForm').find('#MC_EDIT_endTime').val("--:--:--");
 		
 		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sun').prop("checked", false);
 		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Mon').prop("checked", false);
