@@ -47,14 +47,14 @@
 	<section class="features-icons bg-light text-center">
 			<div class="col-sm h-75 text-center text-lg-center my-auto">
 				<ul class="list-inline mb-0">
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Employees"><i class="fas fa-address-book"></i> Manage Employees</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Reports"><i class="fas fa-book"></i> Reports</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Menu"><i class="fas fa-bars"></i> Modify Menu</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Kitchen"><i class="fas fa-utensils"></i> View Kitchen</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-utensils"></i> Manage Inventory</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Employees"><i class="fas fa-address-book"></i> Manage Employees</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Reports"><i class="fas fa-book"></i> Reports</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Menu"><i class="fas fa-bars"></i> Modify Menu</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Kitchen"><i class="fas fa-utensils"></i> View Kitchen</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-utensils"></i> Manage Inventory</a></li>
 					<li class="list-inline-item"><a href="" data-dismiss="modal" onclick="javascript:window.location='TableMap'"type="button" class="btn btn-primary" data-toggle="modal"><i class="fas fa-border-all"></i> View Tables</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Tables"><i class="fas fa-border-all"></i> Manage Coupons and Specials</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#Logout"><i class="fas fa-gift"></i> Logout</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Tables"><i class="fas fa-border-all"></i> Manage Coupons and Specials</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 				</ul>
 			</div>
 	</section>
@@ -1190,26 +1190,24 @@
 	<!-- End EDIT INGREDIENTS Page -->
 
 	<div id="Logout" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Logout</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					<div class="Acontainer">
-						<div class="col-sm-9 col-md-7 col-lg-5">
-							<p><em>Are you sure you want to log out?</em></p>
-							<div class="card card-signin my-5">
-							<div class="card-body">
-								<ul class="list-inline mb-0">
-									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal" onclick="javascript:window.location='/'"></i>Sign out</a></li>
-									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal">Fuck go back</a></li>
-								</ul>
-							</div>
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col">
+								<p class="text-center">Are you sure you want to log out?</p>
 							</div>
 						</div>
 					</div>
 				</div>
+                <div class="modal-footer">
+					<button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal" onclick="javascript:window.location='/'">Yes</button>
+					<button class="btn btn-lg btn-primary text-uppercase" data-dismiss="modal">No</button>
+                </div>
 			</div>
 		</div>
 	</div>
