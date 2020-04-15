@@ -1715,7 +1715,7 @@ function autofillEditMenuCategoryForm(data)
 	
 	for (i = 0; i < data.timeslots.length; i++)
 	{
-		if ( data.timeslots[i].day != "" )
+		if ( data.timeslots[i].day != null )
 		{
 			if (timeSet === false)
 			{
