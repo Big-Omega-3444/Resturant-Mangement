@@ -4,6 +4,7 @@ from flask_restful import Resource, abort
 import datetime
 import json
 import logging
+from random import randint
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.MenuItemModel import MenuItemModel
 from models.EmployeeModel import EmployeeModel
@@ -36,6 +37,9 @@ class OrderModel(Document):
         self.total_cost=0
         for item in self.items:
             self.total_cost += item.item.cost
+        # Set a random id for the order
+        if (self.order_id == -1):
+            self.order_id = randint(0,10000)
 
     # Epoch_time
     time_ordered = IntField()
@@ -50,6 +54,8 @@ class OrderModel(Document):
     # Who comped the meal
     staff_comped = ReferenceField('EmployeeModel')
     total_cost = FloatField(default=0)
+    # This is a numerical identifier for the staff (they could potentially be duplicated)
+    order_id = IntField(default=-1)
 
 
 
