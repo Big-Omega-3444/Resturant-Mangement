@@ -179,8 +179,41 @@ function SubmitFormMenuCategory()
 	var payload = {
 		"name": formData.get('name'),
 		"description": formData.get('description'),
-		"drinks": false
+		"drinks": false,
+		"timeslots": []
 	}
+	
+	var daysOfweek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+	var arrTimeSlots = []
+
+	//Time Stuff
+	// Gather time and push to timeslots
+	for (i = 0; i < daysOfweek.length; i++)
+	{
+		var timeSlot = {};
+		
+		if ( formData.get(daysOfweek[i]) != null )
+		{
+			timeSlot['day'] = formData.get(daysOfweek[i]);
+			if ( formData.get('startTime') != null )
+			{
+				var startTime = (formData.get('startTime')).split(":");
+				timeSlot.start_hour = startTime[0];
+				timeSlot.start_min = startTime[1];
+			}
+		
+			if ( formData.get('endTime') != null )
+			{
+				var endTime = (formData.get('endTime')).split(":");
+				timeSlot.end_hour = endTime[0];
+				timeSlot.end_min = endTime[1];
+			}
+		}
+
+		arrTimeSlots.push(timeSlot);
+	}
+	
+	payload['timeslots'] = arrTimeSlots;
 	
 	// If we got null here, then don't change the value to true
 	if (formData.get('drinks') != null)
@@ -357,6 +390,38 @@ function SubmitFormMenuCategoryPUT()
 		"description": formData.get('description'),
 		"drinks": false
 	};
+	
+	var daysOfweek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+	var arrTimeSlots = []
+
+	//Time Stuff
+	// Gather time and push to timeslots
+	for (i = 0; i < daysOfweek.length; i++)
+	{
+		var timeSlot = {};
+		
+		if ( formData.get(daysOfweek[i]) != null )
+		{
+			timeSlot['day'] = formData.get(daysOfweek[i]);
+			if ( formData.get('startTime') != null )
+			{
+				var startTime = (formData.get('startTime')).split(":");
+				timeSlot.start_hour = startTime[0];
+				timeSlot.start_min = startTime[1];
+			}
+		
+			if ( formData.get('endTime') != null )
+			{
+				var endTime = (formData.get('endTime')).split(":");
+				timeSlot.end_hour = endTime[0];
+				timeSlot.end_min = endTime[1];
+			}
+		}
+
+		arrTimeSlots.push(timeSlot);
+	}
+	
+	payload['timeslots'] = arrTimeSlots;
 	
 	// Not sure why but this works
 	if (formData.get('drinks') != null)
@@ -619,11 +684,11 @@ function SubmitFormMenuUpdateAll(menuDatas)
 				"items": [],
 			}
 			
-			var deletion = false;
+			//Use Regex to remove spaces from the name parameter
+			var findName = menuData.name;
+			findName = findName.replace(/\s/g, '_');
 			
-			//Split the string apart to get the menu item id that we will send
 
-			
 			url = "/api/menus/" + menuData._id.$oid;
 			
 			//Go through each checkbox form and figure out our values that we're gonna send to the API
@@ -631,8 +696,9 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			{
 				var formData = new FormData(MIC_data[j])
 				
-				if (formData.get(`${menuData.name}`) != null)
+				if (formData.get(`${findName}`) != null)
 				{
+					//Split the string apart to get the menu item id that we will send
 					var str = MIC_data[j].id.split("_");					
 					payload.items.push({"item": str[1]});
 				}
@@ -1316,8 +1382,11 @@ function populateMenuItemTable(menuItemsData, selector)
 				for (j = 0; j < menuCategory.length; j++)
 				{
 					options[j] = $('<div class="form-group row"/>');
+					//Use Regex to remove spaces from the name parameter
+					var inputName = menuCategory[j].name;
+					inputName = inputName.replace(/\s/g, '_');
 					//Tie the menu category ID to the value
-					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${menuCategory[j].name}" name="${menuCategory[j].name}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}">${menuCategory[j].name}</label></div>`));				
+					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${inputName}_${uid}" name="${inputName}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}_${uid}">${menuCategory[j].name}</label></div>`));				
 				}
 							
 				// Handle case if there is no menus that exist (if we end up at this point)
@@ -1351,7 +1420,11 @@ function populateMenuItemTable(menuItemsData, selector)
 					{
 						if (menuCategory[j].items[k].item.$oid == uid)
 						{
-							$(`#MenuItemCat_${uid}`).find(`#CAT_${menuCategory[j].name}`).prop("checked", true);
+							//Use Regex to remove spaces from the name parameter
+							var inputName = menuCategory[j].name;
+							inputName = inputName.replace(/\s/g, '_');
+							
+							$(`#MenuItemCat_${uid}`).find(`#CAT_${inputName}_${uid}`).prop("checked", true);
 						}
 					}
 				}
@@ -1624,6 +1697,71 @@ function autofillEditMenuCategoryForm(data)
 	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
 	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
 	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
+
+	var timeSet = false;
+	if (data.timeslots.length == 0)
+	{
+		$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val("--:--:--");	
+		$('#editMenuCategoryForm').find('#MC_EDIT_endTime').val("--:--:--");
+		
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sun').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Mon').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Tue').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Wed').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Thu').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Fri').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sat').prop("checked", false);
+	}
+	
+	for (i = 0; i < data.timeslots.length; i++)
+	{
+		if ( data.timeslots[i].day != null )
+		{
+			if (timeSet === false)
+			{
+				var hours		= (data.timeslots[i].start_hour < 10) ? "0" + data.timeslots[i].start_hour : data.timeslots[i].start_hour;
+				var minutes		= (data.timeslots[i].start_min < 10) ? "0" + data.timeslots[i].start_min : data.timeslots[i].start_min;
+				var startTime 	= hours + ":" + minutes + ":00";
+				$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val(startTime.toString());	
+
+				hours			= (data.timeslots[i].end_hour < 10) ? "0" + data.timeslots[i].end_hour : data.timeslots[i].end_hour;
+				minutes			= (data.timeslots[i].end_min < 10) ? "0" + data.timeslots[i].end_min : data.timeslots[i].end_min;
+				var endTime		= hours + ":" + minutes + ":00";
+				$('#editMenuCategoryForm').find('#MC_EDIT_endTime').val(endTime.toString());
+
+				timeSet = true;
+			}
+
+			switch (data.timeslots[i].day)
+			{
+				case "Su":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sun').prop("checked", true);
+					break;
+				case "M":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Mon').prop("checked", true);
+					break;
+				case "Tu":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Tue').prop("checked", true);
+					break;
+				case "W":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Wed').prop("checked", true);
+					break;
+				case "Th":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Thu').prop("checked", true);
+					break;
+				case "F":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Fri').prop("checked", true);
+					break;
+				case "Sa":
+					$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sat').prop("checked", true);
+					break;
+				default:
+					break;
+			}
+
+		}
+	}		
+	
 }
 
 // Same as above, but autofills the ingredient page
@@ -2203,3 +2341,15 @@ $('#MGMT_Inventory_btnSaveChanges').click( function()
 //
 // END INGREDIENT LISTENERS
 //
+
+//
+// Deny All forms from triggering something when pressing enter
+//
+//Taken from JSFunctions but made specifically for Employee Table
+$(document).ready(function(){
+  $(window).on("keydown", function(event) {
+	if (event.keyCode == 13) {
+		event.preventDefault();
+	}
+  });
+});
