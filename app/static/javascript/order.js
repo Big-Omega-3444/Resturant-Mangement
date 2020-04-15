@@ -154,6 +154,11 @@ $('#MyCart').on('hide.bs.modal', function(event) // Remove the table's elements 
 
 $('#PayNow').click( function()
 {
-  	console.log(JSON.stringify(order));
-	SubmitOrder();
+    if(order.items.length == 0) {
+      alert("Please order something before giving us your money");
+    } else {
+	  SubmitOrder();
+	  $("#PayBill").modal();
+    }
+
 });
