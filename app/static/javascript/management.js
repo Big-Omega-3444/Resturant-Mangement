@@ -1952,11 +1952,14 @@ $('#MGMT_EditEmployee_btnSaveChanges').click( function()
 $('#MGMT_Reports').on('show.bs.modal', function(){
 	//Create chart
 	createChart("Day");
+    RetrieveOrders(false, true);
 });
 
-//
-// EMD REPORT LISTENERS
-//
+$('#MGMT_Reports').on('hide.bs.modal', function(event)
+{
+	$('#KTCH_OrderHistoryTable_Body tr td').remove();
+});
+
 
 $('#chartDay').click(function (){
 
@@ -2271,6 +2274,11 @@ function createChart(pick) {
 		});*/
 	requests.send()
 }
+
+//
+// EMD REPORT LISTENERS
+//
+
 //
 // BEGIN MENU LISTENERS
 //
