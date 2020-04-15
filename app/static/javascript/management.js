@@ -1693,7 +1693,7 @@ function autofillEditIngredientForm(data)
 function autofillEditMenuCategoryForm(data)
 {
 	$('#editMenuCategoryForm').find('#mcID').val(data._id.$oid);
-	$('#editMenuCategoryForm').find('#MC_desc').val(data.name);	
+	$('#editMenuCategoryForm').find('#MC_name').val(data.name);	
 	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
 	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
 	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
