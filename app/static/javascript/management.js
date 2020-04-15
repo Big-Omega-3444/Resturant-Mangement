@@ -1987,31 +1987,33 @@ $('#chartYear').click(function () {
 
 });
 
-$('#chartAll').click(function () {
+$('#chartDecade').click(function () {
 
-	var time = document.getElementById("chartAll").value
+	var time = document.getElementById("chartDecade").value
 	createChart(time);
 });
 
 function createChart(pick) {
-	let myChart = document.getElementById('myChart').getContext('2d');
+	
 
 	var title_text = pick;
 	var requests = new XMLHttpRequest();
 
 	requests.open('GET', "/api/orders");
 
-
-	var i,t;
+	var i,t; //for loop variables, re-used
 
 
 	requests.onload = function () {
 
 		if (requests.status === 200 || requests.status === 201 || requests.status === 204) {
+			var myChart = document.getElementById('myChart').getContext('2d'); //was let instead of var
 
 			var orders = JSON.parse(requests.responseText);
 			var date_temp = new Date();
 			var current_date;
+
+			//Calculating this Days orders
 			if (pick == "Day") {
 
 				current_date = new Date();
@@ -2031,9 +2033,11 @@ function createChart(pick) {
 							}
 						}
 					}
-				}		
+				}
+
 			}
 
+			//Calculating this Weeks orders
 			else if (pick == "Week") {
 				current_date = new Date();
 
@@ -2062,6 +2066,7 @@ function createChart(pick) {
 				
 			}
 
+			//Calculating this Months orders
 			else if (pick == "Month") {
 				current_date = new Date();
 				var month = current_date.getMonth();
@@ -2069,30 +2074,30 @@ function createChart(pick) {
 				var month30th = new Array(3, 5, 8, 10);
 				var month31th = new Array(0, 2, 4, 6, 7, 9, 11);
 
-
+				//Set labels and size of data array equal to that months 
 				if (-1 != month30th.indexOf(month)) {
-					var labels_arr = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th');
-					var total = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+					var labels_arr = new Array('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th');
+					var data_arr = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 				}
 				else if (-1 != month31th.indexOf(month)) {
-					var labels_arr = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31th');
-					var total = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+					var labels_arr = new Array('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31th');
+					var data_arr = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 				}
 				else {
-
-					var labels_arr = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th');
-					var total = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+					var labels_arr = new Array('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th');
+					var data_arr = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                 }
 
 				for (t = 0; t < labels_arr.length; t++) {
-					for (i = 0; i < orders.length(); i++) {
+					for (i = 0; i < orders.length; i++) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
-						if (date_temp.getMonth() == current_date.getMonth()) {
-							if ((t+1) == date_temp.getDate()) {
+						if (date_temp.getFullYear() == current_date.getFullYear()) {
+							if (date_temp.getMonth() == current_date.getMonth()) {
+								if ((t + 1) == date_temp.getDate()) {
 
-								data_arr[t] = data_arr[t] + orders[i].total_cost;
-
-							}
+									data_arr[t] = data_arr[t] + orders[i].total_cost;
+								}
+							}	
 						}
                     }
 
@@ -2100,13 +2105,14 @@ function createChart(pick) {
 				
 			}
 
+			//Calculating past Years orders
 			else if (pick == "Year") {
 				var labels_arr = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 				var data_arr = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 				current_date = new Date();
 
 				for (t = 0; t < labels_arr.length; t++) {
-					for (i = 0; i < orders.length(); i++) {
+					for (i = 0; i < orders.length; i++) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
 						if (date_temp.getFullYear() == current_date.getFullYear()) {
 							if (t == date_temp.getMonth()) {
@@ -2116,7 +2122,42 @@ function createChart(pick) {
 					}
 				}
             }
-				
+
+			//Calculating past Decades orders
+			else if (pick == "Decade") {
+
+				current_date = new Date();
+
+				var labels_arr = new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+				var data_arr = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+				var year_temp = current_date.getFullYear();
+				var iter_arr;
+
+
+				for (iter_arr = 0; iter_arr < 10; iter_arr++) {
+
+					labels_arr[9-iter_arr] = year_temp - iter_arr;
+					
+                }
+
+				var temp = current_date.valueOf() - (31556952000 * 9);
+				var first_year = new Date(temp);
+
+				for (t = 0; t < labels_arr.length; t++) {
+					for (i = 0; i < orders.length; i++) {
+						date_temp = new Date(orders[i].time_ordered * 1000);
+
+						if (first_year.getFullYear() == date_temp.getFullYear()) {
+							data_arr[t] = data_arr[t] + orders[i].total_cost;
+
+						}
+
+					}
+					temp = first_year.valueOf() + 31556952000;
+					first_year = new Date(temp);
+					
+				}
+			}
 				
 			
 		}
@@ -2127,17 +2168,35 @@ function createChart(pick) {
 		Chart.defaults.global.defaultFontFamily = 'Lato';
 		Chart.defaults.global.defaultFontSize = 18;
 		Chart.defaults.global.defaultFontColor = '#777';
-		let massPopChart = new Chart(myChart, {
+
+		//fixes hovering issue by destroying previous chart
+		if (window.stuff != undefined) {
+			window.stuff.destroy();
+		}
+		//create chart based on calculated data
+		window.stuff = new Chart(myChart, {
 			type: 'line',
 			data: {
 				labels: labels_arr,
 				datasets: [{
-					label: 'Sales', data: data_arr, borderColor: "#3e95cd", fill: false
+					label: 'Sales', data: data_arr, borderColor: "#3e95cd", fill: false, yAxisID: 'y-axis-1'
 
 				}]
 			},
 			options: {
-
+				scales: {
+					yAxes: [
+						{
+							id: 'y-axis-1',
+							type: 'linear',
+							display: true,
+							position: 'left',
+							ticks: {
+								beginAtZero: true
+							}
+						}
+					]
+				},
 				title: {
 					display: true,
 					text: title_text + " Sales",
@@ -2157,10 +2216,12 @@ function createChart(pick) {
 						bottom: 0,
 						top: 0
 					}
-				},
-				tooltips: {
-					enabled: true
 				}
+			}
+		});
+		Chart.scaleService.updateScaleDefaults('linear', {
+			ticks: {
+				min: 0
 			}
 		});
     }
