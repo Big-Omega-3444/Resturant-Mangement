@@ -1984,12 +1984,12 @@ $('#chartYear').click(function () {
 	var time = document.getElementById("chartYear").value
 
 	createChart(time);
+
 });
 
 $('#chartAll').click(function () {
 
 	var time = document.getElementById("chartAll").value
-
 	createChart(time);
 });
 
@@ -1997,66 +1997,218 @@ function createChart(pick) {
 	let myChart = document.getElementById('myChart').getContext('2d');
 
 	var title_text = pick;
+	var requests = new XMLHttpRequest();
 
-	if (pick == "Day") {
-		var labels_arr = ['Morning', 'Noon', 'Night'];
-		var data_arr = [100, 200, 300];
+	requests.open('GET', "/api/orders");
 
-	}
-	else if (pick == "Week") {
-		var labels_arr = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-		var data_arr = [100, 2, 40, 7, 70, 200, 150];
-	}
-	else if (pick == "Month") {
-		var labels_arr = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
-		var data_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
-	}
-	else if (pick == "Year") {
-		var labels_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-		var data_arr = [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6];
-	}
-	else if (pick == "All") {
 
-    }
-	// Global Options
-	Chart.defaults.global.defaultFontFamily = 'Lato';
-	Chart.defaults.global.defaultFontSize = 18;
-	Chart.defaults.global.defaultFontColor = '#777';
-	let massPopChart = new Chart(myChart, {
-		type: 'line',
-		data: {
-			labels: labels_arr,
-			datasets: [{
-				label: 'Sales', data: data_arr, borderColor: "#3e95cd", fill: false
+	var i,t;
 
-			}]
-		},
-		options: {
-			title: {
-				display: true,
-				text: title_text + " Sales",
-				fontSize: 25
-			},
-			legend: {
-				display: true,
-				position: 'right',
-				labels: {
-					fontColor: '#000'
-				}
-			},
-			layout: {
-				padding: {
-					left: 50,
-					right: 0,
-					bottom: 0,
-					top: 0
-				}
-			},
-			tooltips: {
-				enabled: true
+
+	requests.onload = function () {
+
+		if (requests.status === 200 || requests.status === 201 || requests.status === 204) {
+
+			var orders = JSON.parse(requests.responseText);
+			var date_temp = new Date();
+			var current_date;
+			if (pick == "Day") {
+
+				current_date = new Date();
+				var data_arr = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+				var labels_arr = new Array("00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00");
+				
+				for (t = 0; t < labels_arr.length; t++) {
+
+					for (i = 0; i < orders.length; i++) {
+						date_temp = new Date(orders[i].time_ordered * 1000);
+
+						if (date_temp.toDateString() == current_date.toDateString()) {
+							if (t == date_temp.getHours()) {
+								
+								data_arr[t] = data_arr[t] + orders[i].total_cost;
+			
+							}
+						}
+					}
+				}		
 			}
+
+			else if (pick == "Week") {
+				current_date = new Date();
+
+				var day_temp = current_date.getDay();
+				var temp = current_date.valueOf() - (86400000 * day_temp);
+				var first_sun = new Date(temp);
+				//alert(first_sun);
+				
+				var data_arr = new Array(0,0,0,0,0,0,0);
+				var labels_arr = new Array('Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+
+				for (t = 0; t < labels_arr.length; t++) {
+				
+					for (i = 0; i < orders.length; i++) {
+						date_temp = new Date(orders[i].time_ordered * 1000);
+						if (first_sun.toDateString() == date_temp.toDateString()) {
+							data_arr[t] = data_arr[t] + orders[i].total_cost;
+
+						}
+
+					}
+					temp = first_sun.valueOf() + 86400000;
+					first_sun = new Date(temp);
+					
+				}
+				
+			}
+
+			else if (pick == "Month") {
+				current_date = new Date();
+				var month = current_date.getMonth();
+
+				var month30th = new Array(3, 5, 8, 10);
+				var month31th = new Array(0, 2, 4, 6, 7, 9, 11);
+
+
+				if (-1 != month30th.indexOf(month)) {
+					var labels_arr = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th');
+					var total = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+				}
+				else if (-1 != month31th.indexOf(month)) {
+					var labels_arr = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31th');
+					var total = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+				}
+				else {
+
+					var labels_arr = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th');
+					var total = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                }
+
+				for (t = 0; t < labels_arr.length; t++) {
+					for (i = 0; i < orders.length(); i++) {
+						date_temp = new Date(orders[i].time_ordered * 1000);
+						if (date_temp.getMonth() == current_date.getMonth()) {
+							if ((t+1) == date_temp.getDate()) {
+
+								data_arr[t] = data_arr[t] + orders[i].total_cost;
+
+							}
+						}
+                    }
+
+				}
+				
+			}
+
+			else if (pick == "Year") {
+				var labels_arr = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+				var data_arr = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+				current_date = new Date();
+
+				for (t = 0; t < labels_arr.length; t++) {
+					for (i = 0; i < orders.length(); i++) {
+						date_temp = new Date(orders[i].time_ordered * 1000);
+						if (date_temp.getFullYear() == current_date.getFullYear()) {
+							if (t == date_temp.getMonth()) {
+								data_arr[t] = data_arr[t] + orders[i].total_cost;
+							}
+						}
+					}
+				}
+            }
+				
+				
+			
 		}
-	});
+		else {
+			alert(`Error ${requests.status}: ${requests.statusText}`);
+		}
+
+		Chart.defaults.global.defaultFontFamily = 'Lato';
+		Chart.defaults.global.defaultFontSize = 18;
+		Chart.defaults.global.defaultFontColor = '#777';
+		let massPopChart = new Chart(myChart, {
+			type: 'line',
+			data: {
+				labels: labels_arr,
+				datasets: [{
+					label: 'Sales', data: data_arr, borderColor: "#3e95cd", fill: false
+
+				}]
+			},
+			options: {
+
+				title: {
+					display: true,
+					text: title_text + " Sales",
+					fontSize: 25
+				},
+				legend: {
+					display: true,
+					position: 'right',
+					labels: {
+						fontColor: '#000'
+					}
+				},
+				layout: {
+					padding: {
+						left: 50,
+						right: 0,
+						bottom: 0,
+						top: 0
+					}
+				},
+				tooltips: {
+					enabled: true
+				}
+			}
+		});
+    }
+
+
+		
+
+		/*// Global Options
+		Chart.defaults.global.defaultFontFamily = 'Lato';
+		Chart.defaults.global.defaultFontSize = 18;
+		Chart.defaults.global.defaultFontColor = '#777';
+		let massPopChart = new Chart(myChart, {
+			type: 'line',
+			data: {
+				labels: labels_arr,
+				datasets: [{
+					label: 'Sales', data: data_arr, borderColor: "#3e95cd", fill: false
+
+				}]
+			},
+			options: {
+
+				title: {
+					display: true,
+					text: title_text + " Sales",
+					fontSize: 25
+				},
+				legend: {
+					display: true,
+					position: 'right',
+					labels: {
+						fontColor: '#000'
+					}
+				},
+				layout: {
+					padding: {
+						left: 50,
+						right: 0,
+						bottom: 0,
+						top: 0
+					}
+				},
+				tooltips: {
+					enabled: true
+				}
+			}
+		});*/
+	requests.send()
 }
 //
 // BEGIN MENU LISTENERS
