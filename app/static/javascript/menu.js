@@ -3,7 +3,6 @@
    Special Requests (these might go under ORDERS)
 
    Help / Refill Buttons (also integration with waitstaff/tablesdb)
-   Time based Menus
 */
 
 //Creates Tabs for food menu
@@ -22,8 +21,6 @@ function populateFoodTabs(data, selector)
 		{
 
 			var today = new Date();
-			console.log(today);
-			console.log(data[i].timeslots[0]);
 			switch(today.getDay()) // Check the day of the week
 			{
 				case 0: if(data[i].timeslots[0].day === 'Su')
@@ -175,7 +172,7 @@ function populateFoodCards(menuItem, selector)
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name}</h4>
 													<p class="card-text">${menuItem.description}</p>
-													<button type="button" id='${menuItem.name+"btn"}' onclick="addOrder('${menuItem.name+"btn"}')" class="btn btn-primary">Order</button>
+													<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="addItemToOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
 												</div>
 											</div>
 											<div class="footer">
@@ -388,7 +385,7 @@ function populateDrinkCards(menuItem, selector)
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name}</h4>
 													<p class="card-text">${menuItem.description}</p>
-													<button type="button" id='${menuItem.name+"btn"}' onclick="addOrder('${menuItem.name+"btn"}')" class="btn btn-primary">Order</button>
+													<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="addItemToOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
 													<button type="button" id='${menuItem.name+"refill"}' onclick="needRefill('${menuItem.name+"refill"}')" class="btn btn-primary">Refill</button>
 												</div>
 											</div>
@@ -472,6 +469,7 @@ function requestData(url, selector, type)
 				case'#foodPane': populateFoodPane(JSON.parse(request.responseText), selector); break;
 				case'#drinkTabs': populateDrinkTabs(JSON.parse(request.responseText), selector); break;
 				case'#drinkPane': populateDrinkPane(JSON.parse(request.responseText), selector); break;
+				case'#orderList': populateOrders(JSON.parse(request.responseText), selector); break;
 				default:
 					switch(type)
 					{
@@ -519,4 +517,5 @@ $('#Drinks').on('hide.bs.modal', function(event) // Remove the table's elements 
 {
 	$('#drinkTabs li').remove();
 	$('#drinkPane div').remove();
-});
+})
+
