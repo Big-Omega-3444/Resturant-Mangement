@@ -1693,15 +1693,29 @@ function autofillEditIngredientForm(data)
 function autofillEditMenuCategoryForm(data)
 {
 	$('#editMenuCategoryForm').find('#mcID').val(data._id.$oid);
-	$('#editMenuCategoryForm').find('#MC_desc').val(data.name);	
+	$('#editMenuCategoryForm').find('#MC_name').val(data.name);	
 	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
 	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
 	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
 
 	var timeSet = false;
+	if (data.timeslots.length == 0)
+	{
+		$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val("--:--:--");	
+		$('#editMenuCategoryForm').find('#MC_EDIT_endTime').val("--:--:--");
+		
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sun').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Mon').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Tue').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Wed').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Thu').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Fri').prop("checked", false);
+		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sat').prop("checked", false);
+	}
+	
 	for (i = 0; i < data.timeslots.length; i++)
 	{
-		if ( data.timeslots[i].day != "" )
+		if ( data.timeslots[i].day != null )
 		{
 			if (timeSet === false)
 			{
