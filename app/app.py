@@ -15,6 +15,7 @@ from models.SpecialsModel import SpecialsResource, SpecialsResourceList
 from models.LoyaltyMemberModel import LoyaltyMemberResource, LoyaltyMemberResourceList
 from models.TimeSheetModel import TimeSheetResource, TimeSheetResourceList
 from models.TableModel import TableResource, TableResourceList
+from models.NotificationModel import NotificationResource, NotificationResourceList
 from database import Database as db
 
 
@@ -61,6 +62,9 @@ api.add_resource(TimeSheetResource,'/api/timesheets/<id>')
 
 api.add_resource(TableResourceList, '/api/tables')
 api.add_resource(TableResource, '/api/tables/<id>')
+
+api.add_resource(NotificationResourceList, '/api/notifications')
+api.add_resource(NotificationResource, '/api/notifications/<id>')
 
 
 
