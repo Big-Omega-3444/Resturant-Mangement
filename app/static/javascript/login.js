@@ -8,6 +8,9 @@ function checkCredentials(data, selector)
     {
         if(data[i].username.toString() === user && data[i].pin.toString() === pass) // same user, same pass
         {
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+            document.cookie = 'username=' + user + "path=/";
+            recordSignIn(user);
             fail = false;
             switch(data[i].assignment) // redirect accordingly
             {
@@ -29,6 +32,79 @@ function checkCredentials(data, selector)
 
 }
 
+$('#signOut').click(function () {
+
+    recordSignOut()
+    
+});
+
+function recordSignIn(id) {
+
+    var request = new XMLHttpRequest();
+
+    var employee_id = getEmployee(id);
+    request.open('PUT', '/api/timesheets/' + employee_id);
+
+    request.onload = function () {
+
+        if (request.status != 200) {
+            alert(`Error ${request.status}: ${request.statusText}`);
+        }
+        else {
+
+            start = Date.now();
+
+            var input_data =
+            {
+                "utc_start_time": start,
+                "employee": employee_id
+            };
+
+             
+
+
+        }
+
+    }
+
+}
+
+
+function recordSignOut(id) {
+
+
+
+}
+
+function getEmployee(username) {
+
+    var request = new XMLHttpRequest();
+    var i;
+    getEmployee(id);
+    request.open('GET', "/api/employees");
+
+    request.onload = function () {
+
+        if (request.status != 200) {
+            alert(`Error ${request.status}: ${request.statusText}`);
+        }
+        else {
+
+            var employees = JSON.parse(requests.responseText);
+
+            for (i = 0; i < employees.length; i++) {
+
+                if (employees[i].username == username) {
+
+                    return employees.id;
+
+                }
+            }
+        }
+
+    }
+
+}
 function checkCoupon(data, selector)
 {
     code = document.getElementById("couponForm").value;
