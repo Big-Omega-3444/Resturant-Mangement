@@ -24,7 +24,7 @@ class OrderObj(EmbeddedDocument):
 
 
 class TableModel(Document):
-    number = IntField(unique=True)
+    number = IntField(unique=True, required=True)
     needs_help = MyBooleanField(default=False)
     needs_refill = MyBooleanField(default=False)
     orders = EmbeddedDocumentListField(OrderObj, default=[])
