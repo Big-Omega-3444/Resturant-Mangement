@@ -1,3 +1,4 @@
+
 function populateOrdersTable(orderData, menuItemsData)
 {
 	// Build the table
@@ -20,7 +21,7 @@ function populateOrdersTable(orderData, menuItemsData)
 
 		// Append first and last name into one variable
 //		var fullname = data[i].firstname + " " + data[i].lastname;
-		row.append($('<td/>').html("???"));
+		row.append($('<td/>').html(orderData[i].order_id));
 		
 		var inject = $('<ul/>');
 		
@@ -39,13 +40,11 @@ function populateOrdersTable(orderData, menuItemsData)
 		row.append($('<td/>').html(`${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()} ${time.getHours()}:${minutes} ${suffix}`));
 
 		var readyButton = $(`<button class="btn btn-success" id="btnReady_${orderData[i]._id.$oid}"/>`).click(function() {
-			//removeOrderCard(this);
-			void(0);
+			SendOrderReadyRequest(this);
 		}).html("RDY");
 		
 		var callButton = $(`<button class="btn btn-secondary" id="btnCall_${orderData[i]._id.$oid}" data-toggle="modal" href=""/>`).click(function() {
-//			requestUser(this);
-			void(0);
+			SendOrderCallWaitstaffRequest(this);
 		}).html("CALL");
 	
 		row.append($('<td/>').html(readyButton).append(callButton));
@@ -95,7 +94,7 @@ function populateOrdersHistoryTable(orderData, menuItemsData)
 				
 				// Append first and last name into one variable
 //				var fullname = data[i].firstname + " " + data[i].lastname;
-				row.append($('<td/>').html("???"));
+				row.append($('<td/>').html(orderData[i].order_id));
 				
 				var inject = $('<ul/>');
 				
@@ -242,6 +241,10 @@ function BuildOrderCards(orderData, menuItemsData)
 	// Build the table
 	for(i = 0; i < orderData.length; i++) 
 	{
+		//If the status of an order is ready, then skip over that card
+		if((orderData[i].status).toString() === "ready")
+			continue;
+		
 		// Update time on existing card then exit
 		if ( $(`#orderID_${orderData[i]._id.$oid}`).length)
 		{
@@ -267,12 +270,12 @@ function BuildOrderCards(orderData, menuItemsData)
 		var cardTemplate = `<div class="SingletonOrderCard" id="orderID_${orderData[i]._id.$oid}">
 							<div class="card bg-transparent border-primary mb-3 w-75 text-center">
 								<div class="card-header text-primary border-primary" >
-									Order #???
+									Order #${orderData[i].order_id}
 								</div>
 								<div id="updateBody"></div>
 								<div class="card-footer bg-transparent border-primary">
-									<button class="btn-success" id="btnReady_${orderData[i]._id.$oid}">Ready</button>
-									<button class="btn-secondary" id="btnWaitstaff_${orderData[i]._id.$oid}">Call Waitstaff</button>
+									<button type="button" class="btn btn-success" id="btnReady_${orderData[i]._id.$oid}">Ready</button>
+									<button type="button" class="btn btn-secondary" id="btnWaitstaff_${orderData[i]._id.$oid}_${orderData[i].order_id}">Call Waitstaff</button>
 								</div>
 								<div class="card-footer bg-transparent border-primary">
 									<div id="updateTime"></div>
@@ -303,21 +306,148 @@ function BuildOrderCards(orderData, menuItemsData)
 		
 		//Edit the button to include a function
 		$(`#btnReady_${orderData[i]._id.$oid}`).click(function() {
-			removeOrderCard(this);
+			SendOrderReadyRequest(this);
+		});
+			
+		//Edit the button to include a function
+		$(`#btnWaitstaff_${orderData[i]._id.$oid}_${orderData[i].order_id}`).click(function() {
+			SendOrderCallWaitstaffRequest(this);
 		});		
 	}
 }
 
-// TO DO: do something else besides delete card
-function removeOrderCard(button)
+
+function SendOrderReadyRequest(button)
 {
 	var splitstr = (button.id).split("_");
 	
 	$('#orderNotifications').find(`#orderID_${splitstr[1]}`).remove();
+	
+	//Create Alert
+	GenerateAlertMessage("Waitstaff will be in momentarily to pick up Order #" + orderData[i].order_id, "alert-success");
+	
+	//Generate XHR
+	var post = new XMLHttpRequest();
+	
+	// Create a notification to database
+	var url = "/api/notifications";
+	
+	var payload = {
+		"order": splitstr[1],
+		"meal_ready": true
+	}
+	
+	// Open a socket to the url
+	post.open('POST', url);
+	
+	// Handle on load
+	post.onload = function(data) 
+	{
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			//Submit a second request
+			var putOrders = new XMLHttpRequest();
+		
+			var url = "/api/orders/" + splitstr[1];
+			
+			var payloadOrders = {
+				"status": "ready"
+			}
+		
+			// POST to the API
+			putOrders.open('PUT', url);
+		
+			// Handle errors
+			//To Do: Alert user if errors occured, even OnLoad
+			putOrders.error = function()
+			{
+				alert("Request Failed!");
+			};
+		
+			// Handle on load
+			putOrders.onload = function()
+			{
+				//Check for OK or CREATED status
+				if (putOrders.status === 200 || putOrders.status === 201 || putOrders.status === 204)
+				{
+					return;
+				}
+				else
+				{
+					//TODO: Create alert in HTML instead of using this to specify error
+					var error = JSON.parse(putOrders.responseText)
+					console.log(error.message)
+		
+					alert(`Error ${putOrders.status}: ${error.message}`);
+				}
+			};
+		
+			putOrders.setRequestHeader("Content-Type", "application/json");
+			putOrders.send(JSON.stringify(payloadOrders));			
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	post.error = function() 
+	{
+		alert("Request Failed!");
+	};
+	
+	post.setRequestHeader("Content-Type", "application/json");
+	post.send(JSON.stringify(payload));		
 }
 
-// Outside so the script calls this function repeatedly every minute
-setInterval(RetrieveOrders(true, false), 10000);
+
+function SendOrderCallWaitstaffRequest(button)
+{
+	var splitstr = (button.id).split("_");
+	
+	//Create Alert
+	GenerateAlertMessage("Waitstaff was notified of request for Order #" + splitstr[2] + ". Stand-by.", "alert-info");
+	
+	//Generate XHR
+	var post = new XMLHttpRequest();
+	
+	// Create a notification to database
+	var url = "/api/notifications";
+	
+	var payload = {
+		"order": splitstr[1],
+		"call_waitstaff": true
+	}
+	
+	// Open a socket to the url
+	post.open('POST', url);
+	
+	// Handle on load
+	post.onload = function(data) 
+	{
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			return;
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	post.error = function() 
+	{
+		alert("Request Failed!");
+	};
+	
+	post.setRequestHeader("Content-Type", "application/json");
+	post.send(JSON.stringify(payload));		
+}
+
+// Outside so the script calls this function repeatedly 10 seconds
+setInterval(function() { RetrieveOrders(true, false); }, 10000);
 
 //
 // BEGIN Event Listeners
@@ -337,4 +467,28 @@ $('#KCHN_Orders').on('hide.bs.modal', function(event)
 {
 	$('#KTCH_OrderHistoryTable_Body tr td').remove();
 });
+
+$('#btn_callWaitstaff').click( function()
+{
+	var payload = { 
+	"call_waitstaff": true,
+	};
+	
+	PostNotifications(payload);
+	GenerateAlertMessage("Waitstaff has been called!", "alert-danger");
+});
+
+$('#btn_callManagement').click( function()
+{
+	var payload = { 
+	"call_management": true,
+	};
+	
+	PostNotifications(payload);
+	GenerateAlertMessage("Management has been called!", "alert-danger");
+});
+
+//
+// END Event Listeners
+//
 
