@@ -2226,49 +2226,6 @@ function createChart(pick) {
 		});
     }
 
-
-		
-
-		/*// Global Options
-		Chart.defaults.global.defaultFontFamily = 'Lato';
-		Chart.defaults.global.defaultFontSize = 18;
-		Chart.defaults.global.defaultFontColor = '#777';
-		let massPopChart = new Chart(myChart, {
-			type: 'line',
-			data: {
-				labels: labels_arr,
-				datasets: [{
-					label: 'Sales', data: data_arr, borderColor: "#3e95cd", fill: false
-
-				}]
-			},
-			options: {
-
-				title: {
-					display: true,
-					text: title_text + " Sales",
-					fontSize: 25
-				},
-				legend: {
-					display: true,
-					position: 'right',
-					labels: {
-						fontColor: '#000'
-					}
-				},
-				layout: {
-					padding: {
-						left: 50,
-						right: 0,
-						bottom: 0,
-						top: 0
-					}
-				},
-				tooltips: {
-					enabled: true
-				}
-			}
-		});*/
 	requests.send()
 }
 //
