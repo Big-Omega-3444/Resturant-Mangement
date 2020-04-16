@@ -18,37 +18,37 @@ function checkIfActive(data)
 		{
 			case 0: if(data[i].timeslots[0].day === 'Su')
 			{
-				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour || today.getHours() >= data[i].timeslots[0].start_hour && data[i].timeslots[0].end_hour == 0)) //if current hour is NOT between start and end
 					active = false;
 			} else active = false; break; // Su
 			case 1: if(data[i].timeslots[1].day === 'M')
 			{
-				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour || today.getHours() >= data[i].timeslots[0].start_hour && data[i].timeslots[0].end_hour == 0)) //if current hour is NOT between start and end
 					active = false;
 			} else active = false; break; // M
 			case 2: if(data[i].timeslots[2].day === 'Tu')
 			{
-				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour || today.getHours() >= data[i].timeslots[0].start_hour && data[i].timeslots[0].end_hour == 0)) //if current hour is NOT between start and end
 					active = false;
 			} else active = false; break; // Tu
 			case 3: if(data[i].timeslots[3].day === 'W')
 			{
-				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour || today.getHours() >= data[i].timeslots[0].start_hour && data[i].timeslots[0].end_hour == 0)) //if current hour is NOT between start and end
 					active = false;
 			} else active = false; break; // W
 			case 4: if(data[i].timeslots[4].day === 'Th')
 			{
-				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour || today.getHours() >= data[i].timeslots[0].start_hour && data[i].timeslots[0].end_hour == 0)) //if current hour is NOT between start and end
 					active = false;
 			} else active = false; break; // Th
 			case 5: if(data[i].timeslots[5].day === 'F')
 			{
-				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour || today.getHours() >= data[i].timeslots[0].start_hour && data[i].timeslots[0].end_hour == 0)) //if current hour is NOT between start and end
 					active = false;
 			} else active = false; break; // F
 			case 6: if(data[i].timeslots[6].day === 'Sa')
 			{
-				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour || today.getHours() >= data[i].timeslots[0].start_hour && data[i].timeslots[0].end_hour == 0)) //if current hour is NOT between start and end
 					active = false;
 			} else active = false; break; // Sa
 			default: active = false; break;
