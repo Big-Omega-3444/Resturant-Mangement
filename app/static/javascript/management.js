@@ -2340,7 +2340,6 @@ $('#MGMT_EditMenuItem_IS_btnSaveChanges').click( function()
 {
 	$('#MGMT_EditMenuItem_InventoryTable_Body tr td').remove();	
 	SaveChangesIS('#MGMT_EditMenuItem_InventoryTable_Body', true);
-9
 });
 
 // This menu cannot have it's table destroyed after it is hidden,
