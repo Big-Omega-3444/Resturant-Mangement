@@ -472,7 +472,7 @@ $('#btn_callWaitstaff').click( function()
 {
 	$(this).prop('disabled', true);
 	setTimeout(function(){
-		$(this).attr('disabled', false);
+		$('#btn_callWaitstaff').attr('disabled', false);
 	},15000);
 	
 	var payload = { 
@@ -489,7 +489,7 @@ $('#btn_callManagement').click( function()
 {
 	$(this).prop('disabled', true);
 	setTimeout(function(){
-		$(this).attr('disabled', false);
+		$('#btn_callManagement').attr('disabled', false);
 	},15000);	
 	
 	var payload = { 
