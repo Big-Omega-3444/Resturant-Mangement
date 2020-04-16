@@ -324,7 +324,7 @@ function SendOrderReadyRequest(button)
 	$('#orderNotifications').find(`#orderID_${splitstr[1]}`).remove();
 	
 	//Create Alert
-	GenerateAlertMessage("Waitstaff will be in momentarily to pick up Order #" + orderData[i].order_id, "alert-success");
+	GenerateAlertMessage('#KTCH_Alerts', "Waitstaff will be in momentarily to pick up Order #" + orderData[i].order_id, "alert-success");
 	
 	//Generate XHR
 	var post = new XMLHttpRequest();
@@ -407,7 +407,7 @@ function SendOrderCallWaitstaffRequest(button)
 	var splitstr = (button.id).split("_");
 	
 	//Create Alert
-	GenerateAlertMessage("Waitstaff was notified of request for Order #" + splitstr[2] + ". Stand-by.", "alert-info");
+	GenerateAlertMessage('#KTCH_Alerts', "Waitstaff was notified of request for Order #" + splitstr[2] + ". Stand-by.", "alert-info");
 	
 	//Generate XHR
 	var post = new XMLHttpRequest();
@@ -470,22 +470,34 @@ $('#KCHN_Orders').on('hide.bs.modal', function(event)
 
 $('#btn_callWaitstaff').click( function()
 {
+	$(this).prop('disabled', true);
+	setTimeout(function(){
+		$(this).attr('disabled', false);
+	},15000);
+	
 	var payload = { 
 	"call_waitstaff": true,
 	};
 	
 	PostNotifications(payload);
-	GenerateAlertMessage("Waitstaff has been called!", "alert-danger");
+	GenerateAlertMessage('#KTCH_Alerts', "Waitstaff has been called!", "alert-danger");
+
+
 });
 
 $('#btn_callManagement').click( function()
 {
+	$(this).prop('disabled', true);
+	setTimeout(function(){
+		$(this).attr('disabled', false);
+	},15000);	
+	
 	var payload = { 
 	"call_management": true,
 	};
 	
 	PostNotifications(payload);
-	GenerateAlertMessage("Management has been called!", "alert-danger");
+	GenerateAlertMessage('#KTCH_Alerts', "Management has been called!", "alert-danger");
 });
 
 //
