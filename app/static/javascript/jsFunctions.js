@@ -1,5 +1,5 @@
 // Request Help Function
-function getHelp(helpVal) { 
+function getHelp(helpVal) {
   if (document.getElementById(helpVal).innerHTML === "Help?") {
     document.getElementById(helpVal).innerHTML = "Your host is on the way!";
     // Alert waiter
@@ -10,7 +10,7 @@ function getHelp(helpVal) {
 }
 
 // Refill Drink Function
-function needRefill(drinkId) { 
+function needRefill(drinkId) {
   if (document.getElementById(drinkId).innerHTML === "Refill") {
     document.getElementById(drinkId).innerHTML = "Please wait...";
     // Alert waiter
@@ -21,7 +21,7 @@ function needRefill(drinkId) {
 }
 
 // Add to Order Function
-function addOrder(foodId) { 
+function addOrder(foodId) {
   if (document.getElementById(foodId).innerHTML === "Order") {
     document.getElementById(foodId).innerHTML = "&#9989;";
     // Alert waiter

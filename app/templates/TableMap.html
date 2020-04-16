@@ -19,17 +19,19 @@
 	<!-- Custom styles for this template -->
 	<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
 	<!-- Custom Javascript Functions -->
-	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
+	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}" type="type/javascript"></script>
+	<script src="{{ url_for('static', filename='javascript/TableMap.js') }}" type="type/javascript"></script>
 	<!-- Include the PayPal JavaScript SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
 </head>
 <body>
+
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
       <div class="row">
-        <div class="col-9"><a class="navbar-brand" href="javascript:void(0);">Management Main Menu</a></div>
+        <div class="col-9"><a class="navbar-brand" href="javascript:void(0);">Table Map</a></div>
       </div>
       <div class="row">
         <div class="w-100"></div>
@@ -39,9 +41,33 @@
       </div>
     </div>
   </nav>
-  
-  <a href="" data-dismiss="modal" onclick="javascript:window.location='index.html'"> <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Back</button></a>
-  
+
+<!--- logout and back button -->
+	<section class="features-icons bg-light text-center">
+
+			<div class="col-sm h-75 text-center text-lg-center my-auto">
+
+					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-dismiss="modal" onclick="javascript:window.location='index.html'"><i class="fas fa-reply"></i> Back To Management</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#Logout"><i class="fas fa-gift"></i> Logout</a></li>
+			</div>
+			<div class="col-sm h-75 text-center text-lg-center my-auto">
+
+					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-dismiss="modal" onclick="javascript:window.location='index.html'"><i class="fas fa-utensils"></i> Table 01</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#Logout"><i class="fas fa-utensils"></i> Logout</a></li>
+			</div>
+
+	
+	</section>
+
+
+
+
+
+
+<!-- Draggable Table Map -->
+
+
+
 </body>
 
 </html>
