@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -31,6 +31,9 @@
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/Build/UnityLoader.js') }}"></script>
 	<script src="{{ url_for('static', filename='games/Hex_final_webgl/TemplateData/UnityProgress.js') }}"></script>
 	<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
+	<!-- Include Form Submission js -->
+	<script src="{{ url_for('static', filename='javascript/login.js') }}"></script>
+
 </head>
 
 <body>
@@ -54,18 +57,18 @@
 							  <div class="col-sm-9 col-md-7 col-lg-5">
 								<div class="card card-signin my-5">
 								  <div class="card-body">
-									<form class="form-signin">
+									<form id="loginForm" class="form-signin">
 									  <div class="form-label-group"><!--required autofocus-->
-										<input type="text" id="text" class="form-control" placeholder="Employee ID">
-										<label for="text">Employee ID</label>
+										<input type="text" id="eID" class="form-control" placeholder="Employee ID">
+										<label for="eID">Employee ID</label>
 									  </div>
 
 									  <div class="form-label-group"><!--required-->
-										<input type="password" id="inputPassword" class="form-control" placeholder="PIN">
-										<label for="inputPassword">PIN</label>
+										<input type="password" id="ePass" class="form-control" placeholder="PIN">
+										<label for="ePass">PIN</label>
 									  </div>
 
-									  <a href="" data-dismiss="modal" onclick="javascript:window.location='management'"><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button></a>
+									  <a href="" data-dismiss="modal" onclick=requestInputText('/api/employees','#loginForm'); ><button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button></a>
 									  <hr class="my-4">
 									</form>
 								  </div>
@@ -325,7 +328,7 @@
 										</address>
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 text-right">
-										<p><em>Date: 29 February, 2020</em></p>
+										<p><em>Date: </em></em><em id="date">29 February, 2020</em></p>
 										<p><em>Receipt #: 123456789A</em></p>
 									</div>
 								</div>
@@ -342,37 +345,17 @@
 												<th class="text-center">Price</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td class="col-md-1"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
-												<td class="col-md-5"><em>Large Pizza</em></h4><br><span class="text-muted font-weight-normal font-italic">Double Cheese, Chicken, Japaleno</span></td>
-												<td class="col-md-1" style="text-align: center"> 1 </td>
-												<td class="col-md-1 text-center">$23.99</td>
-											</tr>
-											<tr>
-												<td class="col-md-1"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
-												<td class="col-md-5"><em>Medium Pizza</em></h4><br><span class="text-muted font-weight-normal font-italic">Pineapple, Mushroom</span></td>
-												<td class="col-md-1" style="text-align: center"> 1 </td>
-												<td class="col-md-1 text-center">$18.99</td>
-											</tr>
-											<tr>
-												<td class="col-md-1"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
-												<td class="col-md-5"><em>Drink</em></h4><br><span class="text-muted font-weight-normal font-italic">Sprite</span></td>
-												<td class="col-md-1" style="text-align: center"> 3 </td>
-												<td class="col-md-1 text-center">$14.97</td>
-											</tr>
+										<tbody id="orderList">
 											<tr>
 												<td>   </td>
 												<td>   </td>
 												<td class="text-right">
 													<p><strong>Subtotal: </strong></p>
 													<p><strong>Tax: </strong></p>
-													<p><strong>Gratuity: </strong></p>
 												</td>
 												<td class="text-center">
-													<p><strong>$57.95</strong></p>
-													<p><strong>$4.78</strong></p>
-													<p><strong>$10.43</strong></p>
+													<p><strong id="subtotal">$0.00</strong></p>
+													<p><strong id="tax">$0.00</strong></p>
 												</td>
 											</tr>
 											<tr>
@@ -382,7 +365,7 @@
 													<h4><strong>Total: </strong></h4>
 												</td>
 												<td class="text-center text-danger">
-													<h4><strong>$73.16</strong></h4>
+													<h4><strong id="totalBill">$0.00</strong></h4>
 												</td>
 											</tr>
 										</tbody>
@@ -392,16 +375,16 @@
 													<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Coupon code</div>
 														<div class="p-4">
 															<p class="font-italic mb-4">If you have a coupon code, please enter it in the box below</p>
-															<div class="input-group mb-4 border rounded-pill p-2">
-																<input type="text" placeholder="Apply coupon" aria-describedby="button-addon3" class="form-control border-0">
+															<div  class="input-group mb-4 border rounded-pill p-2">
+																<input id="couponForm" type="text" placeholder="Apply coupon" aria-describedby="button-addon3" class="form-control border-0">
 																<div class="input-group-append border-0">
-																	<button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill"><i class="fa fa-gift mr-2"></i>Apply coupon</button>
+																	<button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill" onclick=requestInputText('/api/coupons','#couponForm'); ><i class="fa fa-gift mr-2"></i>Apply coupon</button>
 																</div>
 															</div>
 														</div>
 												</div>
 										</div>
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#PayBill"><i class="fas fa-dollar-sign"></i>&nbsp;Pay Now</button>&nbsp;&nbsp;
+									<button type="button" class="btn btn-primary" id="PayNow"><i class="fas fa-dollar-sign"></i>&nbsp;Pay Now</button>&nbsp;&nbsp;
 									 <button class="btn btn-primary hidden-print" onclick="printFunction()"><i class="fas fa-print"></i>Print</button>
 								</div>
 							</div>
@@ -701,7 +684,13 @@
 	<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+	<!-- Include menu js -->
 	<script src="{{ url_for('static', filename='javascript/menu.js') }}"></script>
+	<!-- Include orders js -->
+	<script src="{{ url_for('static', filename='javascript/order.js') }}"></script>
+
+
+
 </body>
 
 </html>

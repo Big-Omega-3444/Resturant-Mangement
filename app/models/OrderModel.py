@@ -4,9 +4,26 @@ from flask_restful import Resource, abort
 import datetime
 import json
 import logging
+from random import randint
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.MenuItemModel import MenuItemModel
 from models.EmployeeModel import EmployeeModel
+from models.MyBooleanField import MyBooleanField
+
+
+# Dumb solution to a weird bug
+class ItemList(EmbeddedDocument):
+    item = ReferenceField('MenuItemModel', required=True)
+
+    def clean(self):
+        try:
+            if MenuItemModel.objects(id=self.item.id) is None:
+                msg = 'Object does not exist'
+                raise ValidationError(msg)
+        except:
+            msg = 'Malformated request'
+            raise ValidationError(msg)
+
 
 class OrderModel(Document):
 
@@ -15,18 +32,32 @@ class OrderModel(Document):
             if self.staff_comped is None:
                 msg = 'comped flag set so staff_comped must reference an employee'
                 raise ValidationError(msg)
+        
+        # Calculate the total cost for this meal
+        self.total_cost=0
+        for item in self.items:
+            self.total_cost += item.item.cost
+        # Set a random id for the order
+        if (self.order_id == -1):
+            self.order_id = randint(0,10000)
 
-
+    # Epoch_time
+    time_ordered = IntField()
     gratuity = FloatField()
     table = IntField()
     special_notes = StringField()
-    to_go = BooleanField(required=True)
-    items = ListField(ReferenceField('MenuItemModel'), required=True)
+    to_go = MyBooleanField(required=True)
+    items = EmbeddedDocumentListField(ItemList, required=True)
     status = StringField(required=True, choices=['ordered','ready','delivered','payment_recieved'])
     # If the meal was given away for free
-    comped = BooleanField(default=False)
+    comped = MyBooleanField(default=False)
     # Who comped the meal
     staff_comped = ReferenceField('EmployeeModel')
+    total_cost = FloatField(default=0)
+    # This is a numerical identifier for the staff (they could potentially be duplicated)
+    order_id = IntField(default=-1)
+
+
 
 
 class OrderResource(TemplateResource):

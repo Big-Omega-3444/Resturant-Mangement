@@ -81,6 +81,7 @@ class TemplateResourceList(Resource):
             else:
                 data = request.data
                 new_obj = self.model.from_json(data)
+                current_app.logger.info("Update: " + str(data))
 
             new_obj.save()
         except ValidationError as err:

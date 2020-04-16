@@ -1,31 +1,84 @@
 /*TODO:
    Substitutions?
    Special Requests (these might go under ORDERS)
-   
+
    Help / Refill Buttons (also integration with waitstaff/tablesdb)
-   Time based Menus
 */
+
+function checkIfActive(data)
+{
+	var active = true;
+
+
+	if(!data[i].ignore_timeslots) // if this menu is time dependent
+	{
+		var today = new Date();
+
+		switch(today.getDay()) // Check the day of the week
+		{
+			case 0: if(data[i].timeslots[0].day === 'Su')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // Su
+			case 1: if(data[i].timeslots[1].day === 'M')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // M
+			case 2: if(data[i].timeslots[2].day === 'Tu')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // Tu
+			case 3: if(data[i].timeslots[3].day === 'W')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // W
+			case 4: if(data[i].timeslots[4].day === 'Th')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // Th
+			case 5: if(data[i].timeslots[5].day === 'F')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // F
+			case 6: if(data[i].timeslots[6].day === 'Sa')
+			{
+				if(!(today.getHours() >= data[i].timeslots[0].start_hour && today.getHours() < data[i].timeslots[0].end_hour)) //if current hour is NOT between start and end
+					active = false;
+			} else active = false; break; // Sa
+			default: active = false; break;
+		}
+	}
+
+	return active;
+}
 
 //Creates Tabs for food menu
 function populateFoodTabs(data, selector)
 {
+	var first = true;
 	//populate Food
 	for(i = 0; i < data.length; i++)
 	{
 		// check if the menu is for drinks or not
 		if(data[i].drinks)
 			continue;
-		// TODO: check if the menu is active
 
-
-
+		if(!checkIfActive(data)) // returns true if active
+			continue;
 
 		var tab = $('<li class="nav-item"/>')
 
 		var tabName = data[i].name;
-		var refName = tabName.replace(" ", "_");
-		if (i == 0){
+		var refName = tabName.replace(/ |\!|\?/g, "_");
+		if (first){
 			tab.append($(`<a href="${"#" + refName}" data-toggle="tab" class="nav-link active"/>`).html(tabName));
+			first = false;
 		} else {
 			tab.append($(`<a href="${"#" + refName}" data-toggle="tab" class="nav-link"/>`).html(tabName));
 		}
@@ -37,21 +90,24 @@ function populateFoodTabs(data, selector)
 //Creates the Pane on which the cards will display
 function populateFoodPane(data, selector)
 {
+	var first = true;
 	for(i = 0; i < data.length; i++) // iterate through menus
 	{
 		// check if the menu is for drinks or not
 		if(data[i].drinks)
 			continue;
-		// TODO: check if the menu is active
 
+		if(!checkIfActive(data)) // returns true if active
+			continue;
 
 
 		var pane;
 		var tabName = data[i].name;
-		var refName = tabName.replace(" ", "_")
+		var refName = tabName.replace(/ /g, "_")
 
-		if (i == 0){ // first food tab gets the active pane
+		if (first){ // first food tab gets the active pane
 			pane = $(`<div role="tabpanel" class="tab-pane active" id="${refName}"/>`);
+			first = false;
 		} else {
 			pane = $(`<div role="tabpanel" class="tab-pane" id="${refName}"/>`);
 		}
@@ -76,7 +132,7 @@ function populateFoodCards(menuItem, selector)
 	//populate food pane with items
 
 	//Card Template
-	const cardTemplate = `<div id=${menuItem.name.replace(" ","_")} class="col-sm-4">
+	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
 							<div class="card-container manual-flip">
 								<div class="card">
 									<div class="front">
@@ -86,7 +142,7 @@ function populateFoodCards(menuItem, selector)
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name}</h4>
 													<p class="card-text">${menuItem.description}</p>
-													<button type="button" id='${menuItem.name}' onclick="addOrder('${menuItem.name}')" class="btn btn-primary">Order</button>
+													<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="addItemToOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
 												</div>
 											</div>
 											<div class="footer">
@@ -103,7 +159,7 @@ function populateFoodCards(menuItem, selector)
 										<div class="content">
 											<div class="main">
 												<h4 class="text-center">${menuItem.allergens}</h4>
-												<p class="text-center"></p>
+												<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
 												<div class="stats-container">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
@@ -121,54 +177,6 @@ function populateFoodCards(menuItem, selector)
 							</div>
 						</div>`;
 
-	 /* Example card
-	const cardTemplate = `<div id="Title" class="col-sm-4">
-									<div class="card-container manual-flip">
-										<div class="card">
-											<div class="front">
-												<div class="content">
-													<div class="main">
-														<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
-														<div class="card-body">
-															<h4 class="card-title">Title</h4>
-															<p class="card-text">Description</p>
-															<button type="button" id="Test" onclick="addOrder('Test')" class="btn btn-primary">Order</button>
-														</div>
-													</div>
-													<div class="footer">
-														<button class="btn btn-simple" onclick="healthFacts(this)">
-															<i class="fas fa-info-circle"></i> Health Facts
-														</button>
-													</div>
-												</div>
-											</div>
-											<div class="back">
-												<div class="header">
-													<h5 class="card-title">Title</h5>
-												</div>
-												<div class="content">
-													<div class="main">
-														<h4 class="text-center"></h4>
-														<p class="text-center">Ingredient, ingredient, ingredient</p>
-			
-														<div class="stats-container">
-															<div class="stats"><h4>Calories</h4><p>000</p></div>
-															<div class="stats"><h4>Fat</h4><p>000 grams</p></div>
-															<div class="stats"><h4>Protein</h4><p>000 grams</p></div>
-														</div>
-													</div>
-												</div>
-												<div class="footer">
-														<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-															<i class="fas fa-backward"></i> Back
-														</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>`;
-	  */
-
 	//append our template to the pane
 	$(selector).find('div.row').append(cardTemplate);
 
@@ -177,7 +185,7 @@ function populateFoodCards(menuItem, selector)
 		var ingID = menuItem.ingredients[k].ingredient.$oid;
 		var url = "/api/ingredients/" + ingID;
 
-		requestData(url, selector, "ingredient");
+		requestData(url, selector+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
 	}
 }
 
@@ -185,22 +193,24 @@ function populateFoodCards(menuItem, selector)
 //Creates Tabs for food menu
 function populateDrinkTabs(data, selector)
 {
+	var first = true;
 	//populate Food
 	for(i = 0; i < data.length; i++)
 	{
 		// check if the menu is for drinks or not
 		if(!data[i].drinks)
 			continue;
-		// TODO: check if the menu is active
 
-
+		if(!checkIfActive(data)) // returns true if active
+			continue;
 
 		var tab = $('<li class="nav-item"/>')
 
 		var tabName = data[i].name;
-		var refName = tabName.replace(" ", "_");
-		if (i == 0){
+		var refName = tabName.replace(/ /g, "_");
+		if (first){
 			tab.append($(`<a href="${"#" + refName}" data-toggle="tab" class="nav-link active"/>`).html(tabName));
+			first = false;
 		} else {
 			tab.append($(`<a href="${"#" + refName}" data-toggle="tab" class="nav-link"/>`).html(tabName));
 		}
@@ -212,21 +222,24 @@ function populateDrinkTabs(data, selector)
 //Creates the Pane on which the cards will display
 function populateDrinkPane(data, selector)
 {
+	var first = true;
 	for(i = 0; i < data.length; i++) // iterate through menus
 	{
 		// check if the menu is for drinks or not
 		if(!data[i].drinks)
 			continue;
-		// TODO: check if the menu is active
 
+		if(!checkIfActive(data)) // returns true if active
+			continue;
 
 
 		var pane;
 		var tabName = data[i].name;
-		var refName = tabName.replace(" ", "_")
+		var refName = tabName.replace(/ |\!|\?/g, "_");
 
-		if (i == 0){ // first drink tab gets the active pane
+		if (first){ // first drink tab gets the active pane
 			pane = $(`<div role="tabpanel" class="tab-pane active" id="${refName}"/>`);
+			first = false;
 		} else {
 			pane = $(`<div role="tabpanel" class="tab-pane" id="${refName}"/>`);
 		}
@@ -251,7 +264,7 @@ function populateDrinkCards(menuItem, selector)
 	//populate drinks pane with items
 
 	//Card Template
-	const cardTemplate = `<div id=${menuItem.name.replace(" ","_")} class="col-sm-4">
+	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
 							<div class="card-container manual-flip">
 								<div class="card">
 									<div class="front">
@@ -261,7 +274,7 @@ function populateDrinkCards(menuItem, selector)
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name}</h4>
 													<p class="card-text">${menuItem.description}</p>
-													<button type="button" id='${menuItem.name}' onclick="addOrder('${menuItem.name}')" class="btn btn-primary">Order</button>
+													<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="addItemToOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
 													<button type="button" id='${menuItem.name+"refill"}' onclick="needRefill('${menuItem.name+"refill"}')" class="btn btn-primary">Refill</button>
 												</div>
 											</div>
@@ -279,7 +292,7 @@ function populateDrinkCards(menuItem, selector)
 										<div class="content">
 											<div class="main">
 												<h4 class="text-center">${menuItem.allergens}</h4>
-												<p class="text-center"></p>
+												<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
 												<div class="stats-container">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
@@ -297,55 +310,6 @@ function populateDrinkCards(menuItem, selector)
 							</div>
 						</div>`;
 
-	 /* Example card
-	const cardTemplate = `<div id="Title" class="col-sm-4">
-									<div class="card-container manual-flip">
-										<div class="card">
-											<div class="front">
-												<div class="content">
-													<div class="main">
-														<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" style="width:100%">
-														<div class="card-body">
-															<h4 class="card-title">Title</h4>
-															<p class="card-text">Description</p>
-															<button type="button" id="Test" onclick="addOrder('Test')" class="btn btn-primary">Order</button>
-															<button type="button" id="Refill" onclick="needRefill('Refill')" class="btn btn-primary">Refill</button>
-														</div>
-													</div>
-													<div class="footer">
-														<button class="btn btn-simple" onclick="healthFacts(this)">
-															<i class="fas fa-info-circle"></i> Health Facts
-														</button>
-													</div>
-												</div>
-											</div>
-											<div class="back">
-												<div class="header">
-													<h5 class="card-title">Title</h5>
-												</div>
-												<div class="content">
-													<div class="main">
-														<h4 class="text-center"></h4>
-														<p class="text-center">Ingredient, ingredient, ingredient</p>
-
-														<div class="stats-container">
-															<div class="stats"><h4>Calories</h4><p>000</p></div>
-															<div class="stats"><h4>Fat</h4><p>000 grams</p></div>
-															<div class="stats"><h4>Protein</h4><p>000 grams</p></div>
-														</div>
-													</div>
-												</div>
-												<div class="footer">
-														<button type="button" class="btn btn-light" onclick="healthFacts(this)">
-															<i class="fas fa-backward"></i> Back
-														</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>`;
-	  */
-
 	//append our template to the pane
 	$(selector).find('div.row').append(cardTemplate);
 
@@ -354,7 +318,7 @@ function populateDrinkCards(menuItem, selector)
 		var ingID = menuItem.ingredients[k].ingredient.$oid;
 		var url = "/api/ingredients/" + ingID;
 
-		requestData(url, selector, "ingredient");
+		requestData(url, selector+menuItem.name.replace(/ |\!|\?/g,"_")+"ing", "ingredient");
 	}
 }
 
@@ -362,12 +326,13 @@ function populateDrinkCards(menuItem, selector)
 function populateIngredients(ingredient, selector)
 {
 	var ingList;
-	if($(selector).find('div div div.back div.content div.main p.text-center').html() === "")
+
+	if($(selector).html() === "")
 		ingList = ingredient.name;
 	else
-		ingList = ingredient.name + ", " + $(selector).find('div div div.back div.content div.main p.text-center').html(); // concatenate; // concatenate ingredients
+		ingList = ingredient.name + ", " + $(selector).html(); // concatenate; // concatenate ingredients
 
-	$(selector).find('div div div.back div.content div.main p.text-center').html(ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
+	$(selector).html(ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
 	//$(selector).find('div div div.back div.content div.main p.text-center').replaceWith($(`<p class="text-center"/>`).html(ingList.substring(0,ingList.length-2))); // replace the ingredients with the added ingredient (comma is to remove the last comma)
 }
 
@@ -393,6 +358,7 @@ function requestData(url, selector, type)
 				case'#foodPane': populateFoodPane(JSON.parse(request.responseText), selector); break;
 				case'#drinkTabs': populateDrinkTabs(JSON.parse(request.responseText), selector); break;
 				case'#drinkPane': populateDrinkPane(JSON.parse(request.responseText), selector); break;
+				case'#orderList': populateOrders(JSON.parse(request.responseText), selector); break;
 				default:
 					switch(type)
 					{
@@ -440,4 +406,5 @@ $('#Drinks').on('hide.bs.modal', function(event) // Remove the table's elements 
 {
 	$('#drinkTabs li').remove();
 	$('#drinkPane div').remove();
-});
+})
+
