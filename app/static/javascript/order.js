@@ -1,12 +1,12 @@
 $(document).ready ( function(){
-  window.order = {
-    time_ordered: 0,
-    table: 1,
-    special_notes: "Why doesn't this work",
-    items: [],
-    to_go: "False",
-    status: 'ordered',
-    comped: "False"
+  window.localOrder = {
+    time_ordered: 0, // updated on submission
+    table: 1, // updates on given cookie
+    special_notes: "This hasn't been implemented", // updates at checkout
+    items: [], // updates when item is added to cart
+    to_go: "False", // I don't know when this changes
+    status: 'ordered', // This will be ordered when ordered and changed by kitchen
+    comped: "False" // Waitstaff modify this
   };
   window.bill = 0;
 });
@@ -30,8 +30,8 @@ function updateBill() {
 function countNumInOrder(itemID) {
   var count = 0;
 
-  for(i = 0; i < order.items.length; i++)
-    if(order.items[i].item === itemID) {
+  for(i = 0; i < localOrder.items.length; i++)
+    if(localOrder.items[i].item === itemID) {
       count++;
     }
   return count;
@@ -41,7 +41,7 @@ function countNumInOrder(itemID) {
 function addItemToOrder(buttonID, item) {
   // add item foodId to an array
   var item = {item};
-  order.items.push(item);
+  localOrder.items.push(item);
 
   if (document.getElementById(buttonID).innerHTML === "Order")
     document.getElementById(buttonID).innerHTML = "Item Added!";
@@ -49,7 +49,7 @@ function addItemToOrder(buttonID, item) {
   setTimeout(function() { revertText(buttonID); }, 1000);
   function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "Order"; }
 
-  console.log(JSON.stringify(order));
+  console.log(JSON.stringify(localOrder));
 }
 
 // Remove from Order Function
@@ -57,8 +57,8 @@ function removeItemFromOrder(buttonID, foodID) {
   // add item foodId to an array
   for(i = 0; i < order.items.length; i++)
   {
-    if(order.items[i].item === foodID) {
-      order.items.splice(i,1);
+    if(localOrder.items[i].item === foodID) {
+      localOrder.items.splice(i,1);
       break;
     }
   }
@@ -110,6 +110,13 @@ function SubmitOrder()
 		if (post.status === 200 || post.status === 201)
 		{
 			console.log("Order Submitted");
+			var order = JSON.parse(post.responseText); // I don't know why I had to split this up
+			var orderID = {order};
+			table.orders.push(orderID);
+
+			var orders = table.orders;
+			var thisIsSoStupid = {orders};
+			updateTable();
 		}
 		else
 		{
@@ -121,18 +128,18 @@ function SubmitOrder()
 		}
 	};
 
-	order.time_ordered = Date.now();
+	localOrder.time_ordered = Date.now();
 
     post.setRequestHeader("Content-Type", "application/json");
-    post.send(JSON.stringify(order));
+    post.send(JSON.stringify(localOrder));
 }
 
 function requestOrderedItems() {
 
   var orders = [];
-  for(i=0; i < order.items.length; i++)
+  for(i=0; i < localOrder.items.length; i++)
   {
-    orders.push(order.items[i].item);
+    orders.push(localOrder.items[i].item);
   }
   var unique = orders.unique();
 
@@ -154,7 +161,7 @@ $('#MyCart').on('hide.bs.modal', function(event) // Remove the table's elements 
 
 $('#PayNow').click( function()
 {
-    if(order.items.length == 0) {
+    if(localOrder.items.length == 0) {
       alert("Please order something before giving us your money");
     } else {
 	  SubmitOrder();
