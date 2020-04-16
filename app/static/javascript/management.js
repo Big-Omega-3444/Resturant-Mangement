@@ -1830,6 +1830,49 @@ function updateTables()
 	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');		
 }
 
+function UpdateAlerts()
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the url to retrieve user
+	var url = "/api/notifications";
+
+	request.open('GET', url);
+
+	// Handle on load
+	request.onload = function()
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			var notifs = JSON.parse(request.responseText)
+			for (i = 0; i < notifs.length; i++)
+			{
+				if (notifs[i].call_management === true)
+				{
+					//Create Alert
+					GenerateAlertMessage('#MGMT_Alerts',`<strong>ALERT!</strong> Kitchen called for help!`, "alert-danger", `${notifs[i]._id.$oid}`);
+				}					
+			}
+			return;
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+
+	// Handle on errors
+	request.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+}
+
+setInterval(UpdateAlerts, 5000)
+
 //Taken from JSFunctions but made specifically for Inventory Table
 $(document).ready(function(){
   $("#MGMT_Inventory_Search").on("keyup", function() {
@@ -1952,11 +1995,14 @@ $('#MGMT_EditEmployee_btnSaveChanges').click( function()
 $('#MGMT_Reports').on('show.bs.modal', function(){
 	//Create chart
 	createChart("Day");
+    RetrieveOrders(false, true);
 });
 
-//
-// EMD REPORT LISTENERS
-//
+$('#MGMT_Reports').on('hide.bs.modal', function(event)
+{
+	$('#KTCH_OrderHistoryTable_Body tr td').remove();
+});
+
 
 $('#chartDay').click(function (){
 
@@ -2228,6 +2274,11 @@ function createChart(pick) {
 
 	requests.send()
 }
+
+//
+// EMD REPORT LISTENERS
+//
+
 //
 // BEGIN MENU LISTENERS
 //
@@ -2289,7 +2340,6 @@ $('#MGMT_EditMenuItem_IS_btnSaveChanges').click( function()
 {
 	$('#MGMT_EditMenuItem_InventoryTable_Body tr td').remove();	
 	SaveChangesIS('#MGMT_EditMenuItem_InventoryTable_Body', true);
-9
 });
 
 // This menu cannot have it's table destroyed after it is hidden,

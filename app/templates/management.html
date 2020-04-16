@@ -43,22 +43,29 @@
 			</div>
 		</div>
 	</nav>
+	
+	<!-- Begin ALERTS -->
+	<section class="bg-light">
+		<div id="MGMT_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
+		</div>
+	</section>	
+	<!-- End ALERTS -->
 
 	<section class="features-icons bg-light text-center">
 			<div class="col-sm h-75 text-center text-lg-center my-auto">
 				<ul class="list-inline mb-0">
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Employees"><i class="fas fa-address-book"></i> Manage Employees</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Reports"><i class="fas fa-book"></i> Reports</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Menu"><i class="fas fa-bars"></i> Modify Menu</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Kitchen"><i class="fas fa-utensils"></i> View Kitchen</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-utensils"></i> Manage Inventory</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Employees"><i class="fas fa-address-book"></i> Manage Employees</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Reports"><i class="fas fa-book"></i> Reports</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Menu"><i class="fas fa-bars"></i> Modify Menu</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Kitchen"><i class="fas fa-utensils"></i> View Kitchen</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-warehouse"></i> Manage Inventory</a></li>
 					<li class="list-inline-item"><a href="" data-dismiss="modal" onclick="javascript:window.location='TableMap'"type="button" class="btn btn-primary" data-toggle="modal"><i class="fas fa-border-all"></i> View Tables</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MGMT_Tables"><i class="fas fa-border-all"></i> Manage Coupons and Specials</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#Logout"><i class="fas fa-gift"></i> Logout</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Tables"><i class="fas fa-ticket-alt"></i> Manage Coupons and Specials</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 				</ul>
 			</div>
 	</section>
-
+	
 	<!-- Begin REPORTS PAGE -->
 	<div id="MGMT_Reports" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document">
@@ -66,20 +73,23 @@
 				<div class="modal-header">
 					<h5 class="modal-title">Reports</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
+				<div class="modal-header row d-flex justify-content-between mx-1 mx-sm-3 mb-0 pb-0">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#Sales">Sales Chart</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#Order">Order History</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#Track">Track Employee Hours</a>
+						</li>					
+					</ul>
+				</div>
+				<br>
 				<div class="modal-body">
 					<div class="container-fluid">
-						<ul class="nav nav-tabs">
-							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" href="#Sales">Sales Chart</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#Order">Order History</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#Track">Track Employee Hours</a>
-							</li>
-						</ul>
-
 						<div class="tab-content">
 							<div class="tab-pane container active" id="Sales">
 								<div class="container-fluid">
@@ -114,8 +124,20 @@
 								</div>
 							</div>
 							<div class="tab-pane container fade" id="Order">
-
-
+								<table class="table table-bordered table-striped table-responsive" id="KTCH_OrderHistoryTable">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Items</th>
+											<th>Date</th>
+											<th>Cost</th>
+											<th>Graduity</th>
+											<th>Compensated</th>
+										</tr>
+									</thead>
+									<tbody id="KTCH_OrderHistoryTable_Body">
+									</tbody>
+								</table>	
 							</div>
 							<div class="tab-pane container fade" id="Track">
 
@@ -124,12 +146,11 @@
 						</div>
 					</div>
 				</div>
-
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						</div>
-					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
 			</div>
+		</div>
 	</div>
 	<!-- End REPORTS PAGE 	-->
 
@@ -1190,12 +1211,13 @@
 	<!-- End EDIT INGREDIENTS Page -->
 
 	<div id="Logout" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Logout</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
+<<<<<<< HEAD
 					<div class="Acontainer">
 						<div class="col-sm-9 col-md-7 col-lg-5">
 							<p><em>Are you sure you want to log out?</em></p>
@@ -1206,10 +1228,20 @@
 									<li class="list-inline-item"><a type="button" class="btn btn-lg btn-primary btn-block text-uppercase" data-dismiss="modal">Go back</a></li>
 								</ul>
 							</div>
+=======
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col">
+								<p class="text-center">Are you sure you want to log out?</p>
+>>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 							</div>
 						</div>
 					</div>
 				</div>
+                <div class="modal-footer">
+					<button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal" onclick="javascript:window.location='/'">Yes</button>
+					<button class="btn btn-lg btn-primary text-uppercase" data-dismiss="modal">No</button>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -1217,6 +1249,7 @@
 		<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 		<!-- Here because javascript suxs -->
+		<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>
 		<script src="{{ url_for('static', filename='javascript/management.js') }}"></script>
 </body>
 </html>

@@ -1,3 +1,161 @@
+// Run on page load, update clock
+$( document ).ready(function() {
+    if (document.getElementById("date") || 	document.getElementById("time"))
+		updateClock();
+});
+
+//Generate alert message
+function GenerateAlertMessage(selector, bodyText, divclass, divID = "")
+{
+	//There's nothing to display
+	if (bodyText == "")
+		return;
+	
+	// If there's no div class sent in, revert to default: alert-primary
+	if (divclass == "")
+		divclass = "alert-primary";
+	
+	var AlertMessage;
+		
+	if (divID != "")
+	{		
+		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert">
+		${bodyText}
+		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>	
+		</div>`
+	}
+	else
+	{
+		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" role="alert">
+		${bodyText}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>	
+		</div>`		
+	}
+	
+	// Tie the alert to <div id="Alerts"/>
+	$(selector).append(AlertMessage);
+
+	//Only works if there's an ID that was passed in
+	if (divID != "")
+	{		
+		//Add a function that should remove the notification after 4000 ms
+		$('.alert-messages').delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
+		
+		//Intentional, this will get the ID properly when splitting the string into two parts
+		$(`btnClose_${divID}`).delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
+	}
+}
+
+// This function simply posts a Notification to the API
+// 	If you want special functions when the notification is posted, then
+// 	you'll need to copy this function for your own purposes
+function PostNotifications(JSONObject)
+{
+	// Don't do anything if JSONObject is empty
+	if (JSONObject == {})
+		return;
+	
+	//Generate XHR
+	var post = new XMLHttpRequest();
+	
+	// Create a notification to database
+	var url = "/api/notifications";
+	
+	// Open a socket to the url
+	post.open('POST', url);
+	
+	// Handle on load
+	post.onload = function(data) 
+	{
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			return;
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+			return;
+		}
+	};
+	
+	// Handle on errors	
+	post.error = function() 
+	{
+		alert("Request Failed!");
+		return;
+	};
+	
+	post.setRequestHeader("Content-Type", "application/json");
+	post.send(JSON.stringify(JSONObject));		
+}
+
+
+//
+// This function simply posts a Notification to the API
+// 	If you want special functions when the notification is posted, then
+// 	you'll need to copy this function for your own purposes
+//
+// Notifications need to follow this rule for IDs when submitting objects: <name>_$oid.
+function DeleteNotifications(object, id = "")
+{
+	// Create a notification to database
+	var url = "/api/notifications/"
+
+	//Determine if ID was submitted or was blank
+	if (id == "")
+	{
+		if (object == null) 	//Check if an object is null
+			return;				//Exit the function, there's nothing to pass in
+		else
+		{
+			//For any object that comes in here, we need to split the string into two parts
+
+			var splitstr = (object.id).split("_");
+			if (splitstr[1] != null)
+				url = url + splitstr[1];
+			else
+				return;
+		}
+	}
+	else
+	{
+		url = url + id;	
+	}
+	
+	//Generate XHR
+	var post = new XMLHttpRequest();
+	
+	// Open a socket to the url
+	post.open('DELETE', url);
+	
+	// Handle on load
+	post.onload = function(data) 
+	{
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			return;
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+			return;
+		}
+	};
+	
+	// Handle on errors	
+	post.error = function() 
+	{
+		alert("Request Failed!");
+		return;
+	};
+	
+	post.send();		
+}
+
 // Request Help Function
 function getHelp(helpVal) { 
   if (document.getElementById(helpVal).innerHTML === "Help?") {

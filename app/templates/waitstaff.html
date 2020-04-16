@@ -674,6 +674,7 @@
 		</div>
 	</div>
 
+<<<<<<< HEAD
 		<div id="Logout" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -692,12 +693,31 @@
 										</ul>
 								  </div>
 								</div>
+=======
+	<div id="Logout" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Logout</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col">
+								<p class="text-center">Are you sure you want to log out?</p>
+>>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 							</div>
-						  </div>
+						</div>
 					</div>
 				</div>
+                <div class="modal-footer">
+					<button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal" onclick="javascript:window.location='/'">Yes</button>
+					<button class="btn btn-lg btn-primary text-uppercase" data-dismiss="modal">No</button>
+                </div>
 			</div>
 		</div>
+	</div>
+	
 		<!-- Bootstrap core JavaScript -->
 		<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>	
