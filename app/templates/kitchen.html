@@ -26,7 +26,8 @@
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
+
 	<!-- Begin Headers -->	
 	<nav class="navbar navbar-light bg-light static-top">
 		<div class="container">
@@ -38,8 +39,8 @@
 					<ul class="list-inline mb-0">
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#KCHN_Orders"><i class="fas fa-clipboard-list"></i> Manage Orders</a></li>
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-warehouse"></i> Manage Inventory</a></li>
-						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-phone"></i> Call Waitstaff</a></li>
-						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-phone"></i> Call Management</a></li>
+						<li class="list-inline-item"><a type="button" id="btn_callWaitstaff" class="btn btn-primary text-white"><i class="fas fa-phone"></i> Call Waitstaff</a></li>
+						<li class="list-inline-item"><a type="button" id="btn_callManagement" class="btn btn-primary text-white"><i class="fas fa-phone"></i> Call Management</a></li>
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
 				</div>
@@ -53,7 +54,10 @@
 		</div>
 	</nav>
 	<!-- End Headers -->	
-
+	<section class="bg-light">
+		<div id="Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
+		</div>
+	</section>	
 	<!-- Begin Main Section -->		
 	<section class="features-icons bg-light text-center">
 		<div class="container">
