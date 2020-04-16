@@ -5,7 +5,7 @@ $( document ).ready(function() {
 });
 
 //Generate alert message
-function GenerateAlertMessage(bodyText, divclass)
+function GenerateAlertMessage(selector, bodyText, divclass, divID = "")
 {
 	//There's nothing to display
 	if (bodyText == "")
@@ -15,21 +15,39 @@ function GenerateAlertMessage(bodyText, divclass)
 	if (divclass == "")
 		divclass = "alert-primary";
 	
-	var AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" role="alert">
-	${bodyText}
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>	
-	</div>`
+	var AlertMessage;
+		
+	if (divID != "")
+	{		
+		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert">
+		${bodyText}
+		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>	
+		</div>`
+	}
+	else
+	{
+		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" role="alert">
+		${bodyText}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>	
+		</div>`		
+	}
 	
-//	AlertMessage = setTimeout(function() { $(this).fadeTo(500, 0).slideUp(500, 
-//		function(){ $(this).remove(); });
-//	}, 2000);
+	// Tie the alert to <div id="Alerts"/>
+	$(selector).append(AlertMessage);
 
-	AlertMessage;
-	
-	$('#Alerts').append(AlertMessage);
-	$('.alert-messages').delay(4000).slideUp(200, function() { $(this).remove(); })
+	//Only works if there's an ID that was passed in
+	if (divID != "")
+	{		
+		//Add a function that should remove the notification after 4000 ms
+		$('.alert-messages').delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
+		
+		//Intentional, this will get the ID properly when splitting the string into two parts
+		$(`btnClose_${divID}`).delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
+	}
 }
 
 // This function simply posts a Notification to the API
@@ -73,6 +91,69 @@ function PostNotifications(JSONObject)
 	
 	post.setRequestHeader("Content-Type", "application/json");
 	post.send(JSON.stringify(JSONObject));		
+}
+
+
+//
+// This function simply posts a Notification to the API
+// 	If you want special functions when the notification is posted, then
+// 	you'll need to copy this function for your own purposes
+//
+// Notifications need to follow this rule for IDs when submitting objects: <name>_$oid.
+function DeleteNotifications(object, id = "")
+{
+	// Create a notification to database
+	var url = "/api/notifications/"
+
+	//Determine if ID was submitted or was blank
+	if (id == "")
+	{
+		if (object == null) 	//Check if an object is null
+			return;				//Exit the function, there's nothing to pass in
+		else
+		{
+			//For any object that comes in here, we need to split the string into two parts
+
+			var splitstr = (object.id).split("_");
+			if (splitstr[1] != null)
+				url = url + splitstr[1];
+			else
+				return;
+		}
+	}
+	else
+	{
+		url = url + id;	
+	}
+	
+	//Generate XHR
+	var post = new XMLHttpRequest();
+	
+	// Open a socket to the url
+	post.open('DELETE', url);
+	
+	// Handle on load
+	post.onload = function(data) 
+	{
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			return;
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+			return;
+		}
+	};
+	
+	// Handle on errors	
+	post.error = function() 
+	{
+		alert("Request Failed!");
+		return;
+	};
+	
+	post.send();		
 }
 
 // Request Help Function

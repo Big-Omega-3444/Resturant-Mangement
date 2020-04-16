@@ -39,8 +39,8 @@
 					<ul class="list-inline mb-0">
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#KCHN_Orders"><i class="fas fa-clipboard-list"></i> Manage Orders</a></li>
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-warehouse"></i> Manage Inventory</a></li>
-						<li class="list-inline-item"><a type="button" id="btn_callWaitstaff" class="btn btn-primary text-white"><i class="fas fa-phone"></i> Call Waitstaff</a></li>
-						<li class="list-inline-item"><a type="button" id="btn_callManagement" class="btn btn-primary text-white"><i class="fas fa-phone"></i> Call Management</a></li>
+						<li class="list-inline-item"><button type="button" id="btn_callWaitstaff"  class="btn btn-primary"><i class="fas fa-phone"></i> Call Waitstaff</button></li>
+						<li class="list-inline-item"><button type="button" id="btn_callManagement" class="btn btn-primary"><i class="fas fa-phone"></i> Call Management</button></li>
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
 				</div>
@@ -54,10 +54,14 @@
 		</div>
 	</nav>
 	<!-- End Headers -->	
+	
+	<!-- Begin ALERTS -->
 	<section class="bg-light">
-		<div id="Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
+		<div id="KTCH_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
 		</div>
 	</section>	
+	<!-- End ALERTS -->
+	
 	<!-- Begin Main Section -->		
 	<section class="features-icons bg-light text-center">
 		<div class="container">

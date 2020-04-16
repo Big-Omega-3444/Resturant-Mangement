@@ -1830,6 +1830,49 @@ function updateTables()
 	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');		
 }
 
+function UpdateAlerts()
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the url to retrieve user
+	var url = "/api/notifications";
+
+	request.open('GET', url);
+
+	// Handle on load
+	request.onload = function()
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			var notifs = JSON.parse(request.responseText)
+			for (i = 0; i < notifs.length; i++)
+			{
+				if (notifs[i].call_management === true)
+				{
+					//Create Alert
+					GenerateAlertMessage('#MGMT_Alerts',`<strong>ALERT!</strong> Kitchen called for help!`, "alert-danger", `${notifs[i]._id.$oid}`);
+				}					
+			}
+			return;
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+
+	// Handle on errors
+	request.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+}
+
+setInterval(UpdateAlerts, 5000)
+
 //Taken from JSFunctions but made specifically for Inventory Table
 $(document).ready(function(){
   $("#MGMT_Inventory_Search").on("keyup", function() {
