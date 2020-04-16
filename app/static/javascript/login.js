@@ -12,16 +12,15 @@ function checkCredentials(data, selector)
             fail = false;
             switch(data[i].assignment) // redirect accordingly
             {
-                case "manager": recordSignIn(user); break;
+                /*case "manager": recordSignIn(user); break; //log sign in 
                 case "kitchen": recordSignIn(user); break;
                 case "waitstaff": recordSignIn(user); break;
-                default: alert("Woah... Something isn't right..."); break;
+                default: alert("Woah... Something isn't right..."); break;*/
 
-
-                /*case "manager": window.location='/management'; break;
+                case "manager": window.location='/management'; break;
                 case "kitchen": window.location='/kitchen'; break;
                 case "waitstaff": window.location='/waitstaff'; break;
-                default: alert("Woah... Something isn't right..."); break;*/
+                default: alert("Woah... Something isn't right..."); break;
             }
 
         }
@@ -34,12 +33,6 @@ function checkCredentials(data, selector)
         document.getElementById("ePass").value = "";
     }
 
-}
-
-function Simulation(url, selector) {
-
-    getEmployee(user);
-    requestInputText(url, selector);
 }
 
 //from w3school, decode cookie
