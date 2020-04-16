@@ -1,3 +1,9 @@
+// Run on page load, update clock
+$( document ).ready(function() {
+    if (document.getElementById("date") || 	document.getElementById("time"))
+		updateClock();
+});
+
 // Request Help Function
 function getHelp(helpVal) { 
   if (document.getElementById(helpVal).innerHTML === "Help?") {
