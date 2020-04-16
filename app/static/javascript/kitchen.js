@@ -40,13 +40,11 @@ function populateOrdersTable(orderData, menuItemsData)
 		row.append($('<td/>').html(`${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()} ${time.getHours()}:${minutes} ${suffix}`));
 
 		var readyButton = $(`<button class="btn btn-success" id="btnReady_${orderData[i]._id.$oid}"/>`).click(function() {
-			//removeOrderCard(this);
-			void(0);
+			SendOrderReadyRequest(this);
 		}).html("RDY");
 		
 		var callButton = $(`<button class="btn btn-secondary" id="btnCall_${orderData[i]._id.$oid}" data-toggle="modal" href=""/>`).click(function() {
-//			requestUser(this);
-			void(0);
+			SendOrderCallWaitstaffRequest(this);
 		}).html("CALL");
 	
 		row.append($('<td/>').html(readyButton).append(callButton));
