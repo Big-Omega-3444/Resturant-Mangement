@@ -17,6 +17,7 @@ class NotificationModel(Document):
     call_management = MyBooleanField(defaul=False)
     request_refill = MyBooleanField(default=False)
     request_help = MyBooleanField(default=False)
+    time_created = IntField(required=True)
 
     def clean(self):
         if not (self.meal_ready or self.call_waitstaff or self.call_management or self.request_refill or self.request_help):
