@@ -43,12 +43,13 @@ class OrderModel(Document):
 
     # Epoch_time
     time_ordered = IntField()
+    time_modified = IntField()
     gratuity = FloatField()
     table = IntField()
     special_notes = StringField()
     to_go = MyBooleanField(required=True)
     items = EmbeddedDocumentListField(ItemList, required=True)
-    status = StringField(required=True, choices=['ordered','ready','delivered','payment_recieved'])
+    status = StringField(required=True, choices=['ordered','ready','delivered','payment_recieved', 'changed'])
     # If the meal was given away for free
     comped = MyBooleanField(default=False)
     # Who comped the meal
