@@ -1,6 +1,6 @@
 $(document).ready ( function(){
   window.table = {
-      number: 25, // This will update with a cookie
+      number: 311, // This will update with a cookie
       needs_help: "False", // This will update with the help button
       needs_refill: "False", // This will update with the refill button
       orders: [] // This updates when
@@ -39,7 +39,6 @@ function scanForTable(data) {
     if(!found)
     {
         postNewTable(); // if a table is not found with our number, create a new one!
-		scanForTable(data);
     }
 
 }
@@ -115,6 +114,7 @@ function postNewTable() {
 		if (post.status === 200 || post.status === 201)
 		{
 		    console.log("Table Created");
+		    id = JSON.parse(post.responseText);
 		}
 		else
 		{
