@@ -15,35 +15,98 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		// Update time on existing card then exit
 		if ( card.length )
 		{	
+			// Grab the card's current status
+			var currsts = (card.find('#status').html()).toString();
+			
 			// If the new status on the order is ready, but the card says, not ready, then change the elements and update info
-			if ((orderData[i].status).toString() === "ready" && card.find('status').html() != "Ready")
+			if ((orderData[i].status).toString() === "ready" && currsts != "Ready")
 			{
-				card.find('status').html("Ready");
+					var object = card.find('#updateBody');
+					//This is gonna look real ugly
+					const nuCard = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
+								<div class="card bg-transparent border-success mb-3 w-75 text-center">
+									<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
+									<div class="card-header text-success border-success" >
+										Order #${orderData[i].order_id}
+										<hr>
+										<span>Status: <span id="status">Ready</span></span>
+									</div>
+									${object[0].outerHTML}
+									<div class="card-footer bg-transparent border-success">
+										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
+										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+									</div>
+									<div class="card-footer bg-transparent border-success">
+										<div id="updateTime"></div>
+									</div>
+								</div>
+							</div>`;
+							
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).replaceWith(nuCard);
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);	
 				
-				
-				card.children('[class^="border"]').attr( '[class^="border"]', "border-success" )				
-
-				card.className = 'border-success';
-				
-				
-//				GenerateAlertMessage('#WTSF_Alerts' ,"<strong>Meal Ready!</strong> Order #${ordersData.order_id} is ready to serve to the customer!", 'alert-success')	
+//				GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Order Ready!</strong> Order #${ordersData.order_id} is ready to serve to Table #${ordersData.table}!`, 'alert-success')	
 			}
-			// If the new status on the order is ready, but the card says, not ready, then change the elements and update info			
-			if ((orderData[i].status).toString() === "changed" && orderData[i].time_modified != null && card.find('status').html() != "Order Changed")
+			// If the new status on the order is changed, but the card says something else, then change the elements and update info			
+			else if ((orderData[i].status).toString() === "changed" && currsts != "Order Changed")
 			{
-				
-				
-				$(`#WTSForderID_${orderData[i]._id.$oid}`).children('[class^="border"]').attr( '[class^="border"]', "border-success" )				
+					var object = card.find('#updateBody');
+					
+					//This is gonna look real ugly
+					const nuCard = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
+								<div class="card bg-transparent border-info mb-3 w-75 text-center">
+									<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
+									<div class="card-header text-info border-info" >
+										Order #${orderData[i].order_id}
+										<hr>
+										<span>Status: <span id="status">Order Changed</span></span>
+									</div>
+									${object[0].outerHTML}
+									<div class="card-footer bg-transparent border-info">
+										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
+										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+									</div>
+									<div class="card-footer bg-transparent border-info">
+										<div id="updateTime"></div>
+									</div>
+								</div>
+							</div>`;	
 
-				$(`#WTSForderID_${orderData[i]._id.$oid}`).addClass('border-success');
-				
-				$(`#WTSForderID_${orderData[i]._id.$oid}`).removeClass('text-primary');
-				$(`#WTSForderID_${orderData[i]._id.$oid}`).addClass('text-success');					
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).replaceWith(nuCard);		
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);				
+			}
+			// If the new status on the order is waitrequest, but the card says something else, then change the elements and update info
+			else if ((orderData[i].status).toString() === "waitrequest" && currsts != "Waitstaff Requested")
+			{
+				var object = card.find('#updateBody');
+
+				//This is gonna look real ugly				
+				cardTemplate = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
+									<div class="card bg-transparent border-info mb-3 w-75 text-center">
+										<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
+										<div class="card-header text-info border-info" >
+											Order #${orderData[i].order_id}
+											<hr>
+											<span>Status: <span id="status">Waitstaff Requested</span></span>
+										</div>
+										${object[0].outerHTML}
+										<div class="card-footer bg-transparent border-info">
+											<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
+											<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+										</div>
+										<div class="card-footer bg-transparent border-info">
+											<div id="updateTime"></div>
+										</div>
+									</div>
+								</div>`;
+
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).replaceWith(nuCard);		
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);									
 			}
 	
-			var elasped = (Date.now() - parseInt($(`#orderID_${orderData[i]._id.$oid}`).find('#lastUpdate').html()))/(60*1000);
+			var elasped = (Date.now() - parseInt(card.find('#lastUpdate').html()))/(60*1000);
 			
-			$(`#orderID_${orderData[i]._id.$oid}`).find('#integer').html(parseInt(elasped));
+			$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#integer').html(parseInt(elasped));
 			
 			continue;
 		}
@@ -186,7 +249,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 	}
 }
 
-function BuildNotificationCards()
+function BuildNotificationCards(ordersData)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
@@ -220,11 +283,24 @@ function BuildNotificationCards()
 
 				//  Update the card for a specific order if kitchen has called for the waitstaff
 				// 	on a specific meal
-				else if (notifs[i].call_waitstaff === true && notifs[i].order == null)
+				if (notifs[i].call_waitstaff === true && notifs[i].order == null)
 				{
 					BuildGenericCWCard(notifs[i]);
 					continue;
 				}
+				/*
+				else if (notifs[i].call_waitstaff === true && notifs[i].order != null)
+				{
+					BuildOrderCWAlert(notifs[i], ordersData);
+					continue;
+				}
+				
+				if (notifs[i].meal_ready)
+				{
+					BuildOrderReadyAlert(notifs[i], ordersData);
+					continue;
+				}
+				*/
 			}
 			return;
 		}
@@ -359,6 +435,16 @@ function BuildGenericCWCard(notifData)
 
 }
 
+function BuildOrderCWAlert(notifData)
+{
+	
+}
+
+function BuildOrderReadyAlert(notifData)
+{
+	
+}
+
 //
 // BEGIN Event Listeners
 //
@@ -370,7 +456,7 @@ $( document ).ready(function() {
     RetrieveOrders(true, false, true);
 });
 
-// Outside so the script calls this function repeatedly 10 seconds
+// Update Orders and Notification Cards
 setInterval(function() { 
 
 	RetrieveOrders(true, false, true); 
