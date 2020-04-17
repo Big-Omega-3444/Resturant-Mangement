@@ -24,8 +24,18 @@ function updateBill() {
 	    document.getElementById("tax").innerHTML = "$"+(bill * .0625).toFixed(2);
 
 	if (document.getElementById("totalBill"))
-	    document.getElementById("totalBill").innerHTML = "$"+(bill * 1.0625).toFixed(2);
+	    document.getElementById("totalBill").innerHTML = "$"+((bill * 1.0625)).toFixed(2);
 }
+
+setInterval(function(){
+    var tip = parseFloat(document.getElementById("tip").value);
+
+    if (isNaN(tip))
+        tip = parseFloat(0);
+
+
+    document.getElementById("totalBill").innerHTML = "$"+((bill * 1.0625) + tip ).toFixed(2)
+}, 1000);
 
 function countNumInOrder(itemID) {
   var count = 0;
@@ -55,7 +65,7 @@ function addItemToOrder(buttonID, item) {
 // Remove from Order Function
 function removeItemFromOrder(buttonID, foodID) {
   // add item foodId to an array
-  for(i = 0; i < order.items.length; i++)
+  for(i = 0; i < localOrder.items.length; i++)
   {
     if(localOrder.items[i].item === foodID) {
       localOrder.items.splice(i,1);
@@ -129,7 +139,7 @@ function SubmitOrder()
 	};
 
 	localOrder.time_ordered = Date.now();
-
+    localOrder.special_notes = document.getElementById('specialRequests').value;
     post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(localOrder));
 }
@@ -152,6 +162,9 @@ function requestOrderedItems() {
 $('#MyCart').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
   requestOrderedItems();
+
+
+
 });
 
 $('#MyCart').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden

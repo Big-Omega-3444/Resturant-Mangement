@@ -352,10 +352,15 @@
 												<td class="text-right">
 													<p><strong>Subtotal: </strong></p>
 													<p><strong>Tax: </strong></p>
+													<p><strong>Tip: </strong></p>
 												</td>
 												<td class="text-center">
 													<p><strong id="subtotal">$0.00</strong></p>
 													<p><strong id="tax">$0.00</strong></p>
+													<div class="input-group">
+													  <span class="input-group-addon">$</span>
+														<input type="text" id="tip" class="form-control" placeholder="0.00"/>
+													</div>
 												</td>
 											</tr>
 											<tr>
@@ -372,6 +377,8 @@
 									</table>
 										<div class="row py-5 p-4 bg-white rounded shadow-sm">
 												<div class="form-row">
+													<label for="comment">Special requests:</label>
+  													<textarea class="form-control" rows="2" id="specialRequests"></textarea>
 													<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Coupon code</div>
 														<div class="p-4">
 															<p class="font-italic mb-4">If you have a coupon code, please enter it in the box below</p>
