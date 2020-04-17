@@ -436,7 +436,27 @@ function SendOrderCallWaitstaffRequest(button)
 	{
 		if (post.status === 200 || post.status === 201 || post.status === 204)
 		{
-			return;
+			//Generate XHR
+			var menuPut = new XMLHttpRequest();
+			
+			// Open a socket to the url
+			menuPut.open('PUT', "/api/orders/" + splitstr[1]);
+			
+			var payload = {
+				"status": "waitrequest",
+				"time_modified": Date.now()
+			}
+			
+			menuPut.onload = function()
+			{
+				if (post.status === 200 || post.status === 201 || post.status === 204)
+					return;
+				else
+					alert(`Error ${request.status}: ${request.statusText}`);
+			}
+			
+			menuPut.setRequestHeader("Content-Type", "application/json");
+			menuPut.send(JSON.stringify(payload));	
 		}
 		else
 		{
@@ -485,6 +505,7 @@ $('#btn_callWaitstaff').click( function()
 	
 	var payload = { 
 	"call_waitstaff": true,
+	"time_created": Date.now()
 	};
 	
 	PostNotifications(payload);
@@ -502,6 +523,7 @@ $('#btn_callManagement').click( function()
 	
 	var payload = { 
 	"call_management": true,
+	"time_created": Date.now()
 	};
 	
 	PostNotifications(payload);
