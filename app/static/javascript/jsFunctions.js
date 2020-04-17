@@ -156,28 +156,6 @@ function DeleteNotifications(object, id = "")
 	post.send();		
 }
 
-// Request Help Function
-function getHelp(helpVal) { 
-  if (document.getElementById(helpVal).innerHTML === "Help?") {
-    document.getElementById(helpVal).innerHTML = "Your host is on the way!";
-    // Alert waiter
-  } else {
-    document.getElementById(helpVal).innerHTML = "Help?";
-    // Cancel Request
-  }
-}
-
-// Refill Drink Function
-function needRefill(drinkId) { 
-  if (document.getElementById(drinkId).innerHTML === "Refill") {
-    document.getElementById(drinkId).innerHTML = "Please wait...";
-    // Alert waiter
-  } else {
-    document.getElementById(drinkId).innerHTML = "Refill";
-    // Cancel Request
-  }
-}
-
 //Management search function
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
@@ -206,7 +184,6 @@ function updateClock() {
 setInterval(updateClock, 1000);
 
 // Paypal Function
-/*
 paypal.Buttons({
 
 	// Set up the transaction
@@ -230,7 +207,7 @@ paypal.Buttons({
 
 
 }).render('#paypal-button-container');
-*/
+
 // Phone Number Function
 $("input[type='tel']").each(function(){
   $(this).on("change keyup paste", function (e) {

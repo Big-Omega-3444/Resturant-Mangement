@@ -1,8 +1,5 @@
 /*TODO:
    Substitutions?
-   Special Requests (these might go under ORDERS)
-
-   Help / Refill Buttons (also integration with waitstaff/tablesdb)
 */
 
 function checkIfActive(data)
