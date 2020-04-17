@@ -531,7 +531,7 @@
 														<div class="p-4">
 															<p class="font-italic mb-4">If you have a coupon code, please enter it in the box below</p>
 															<div  class="input-group mb-4 border rounded-pill p-2">
-																<input id="couponForm" type="text" placeholder="Apply coupon" aria-describedby="button-addon3" class="form-control border-0">
+																<input id="couponForm" type="text" placeholder="Apply coupon" value="Validate Coupon" aria-describedby="button-addon3" class="form-control border-0" onclick="validate(document.getElementsByName('couponForm')[0].value)>
 																<div class="input-group-append border-0">
 																	<button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill" onclick=requestInputText('/api/coupons','#couponForm'); ><i class="fa fa-gift mr-2"></i>Apply coupon</button>
 																</div>
@@ -854,4 +854,20 @@
 
 </body>
 
+<script>
+  function validate(coupon) {
+    codes = new Object();
+    codes.MYPIZZA = 20;
+    codes.FREEPIZZA = 100;
+    codes.MYDRINK = 40;
+    codes.BOGO = 50;
+    console.log(coupon)
+    if (codes[coupon]) {
+      window.alert("Coupon Code Accepted! Click the Order button!");
+    } else {
+      window.alert("Sorry, The Coupon Code you entered is invalid. Please check and try again!");
+    }
+  }
+</script>
+									     
 </html>
