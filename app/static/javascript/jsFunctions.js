@@ -5,7 +5,7 @@ $( document ).ready(function() {
 });
 
 //Generate alert message
-function GenerateAlertMessage(selector, bodyText, divclass, divID = "")
+function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveAlertOnly = false)
 {
 	//There's nothing to display
 	if (bodyText == "")
@@ -43,10 +43,20 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "")
 	if (divID != "")
 	{		
 		//Add a function that should remove the notification after 4000 ms
-		$('.alert-messages').delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
+		$('.alert-messages').delay(4000).slideUp(200, function(bRemoveAlertOnly) 
+		{ 
+			if (bRemoveAlertOnly === false)
+				DeleteNotifications(this); 
+			$(this).remove(); 
+		});
 		
 		//Intentional, this will get the ID properly when splitting the string into two parts
-		$(`btnClose_${divID}`).delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
+		$(`btnClose_${divID}`).delay(4000).slideUp(200, function(bRemoveAlertOnly) 
+		{ 
+			if (bRemoveAlertOnly === false)
+				DeleteNotifications(this); 
+			$(this).remove(); 
+		});
 	}
 }
 
