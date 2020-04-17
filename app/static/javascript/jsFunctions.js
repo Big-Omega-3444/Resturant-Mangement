@@ -2,10 +2,12 @@
 $( document ).ready(function() {
     if (document.getElementById("date") || 	document.getElementById("time"))
 		updateClock();
+
+    window.canRotate = true;
 });
 
 //Generate alert message
-function GenerateAlertMessage(selector, bodyText, divclass, divID = "")
+function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveAlertOnly = false)
 {
 	//There's nothing to display
 	if (bodyText == "")
@@ -43,10 +45,20 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "")
 	if (divID != "")
 	{		
 		//Add a function that should remove the notification after 4000 ms
-		$('.alert-messages').delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
+		$('.alert-messages').delay(4000).slideUp(200, function(bRemoveAlertOnly) 
+		{ 
+			if (bRemoveAlertOnly === false)
+				DeleteNotifications(this); 
+			$(this).remove(); 
+		});
 		
 		//Intentional, this will get the ID properly when splitting the string into two parts
-		$(`btnClose_${divID}`).delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
+		$(`btnClose_${divID}`).delay(4000).slideUp(200, function(bRemoveAlertOnly) 
+		{ 
+			if (bRemoveAlertOnly === false)
+				DeleteNotifications(this); 
+			$(this).remove(); 
+		});
 	}
 }
 
@@ -240,5 +252,43 @@ function healthFacts(btn){
 		$card.removeClass('hover');
 	} else {
 		$card.addClass('hover');
+	}
+}
+
+//Rotate Card
+function rotateCard(btn){
+	var $card = $(btn).closest('.card-container');
+	console.log($card);
+	if($card.hasClass('hover')){
+		$card.removeClass('hover');
+	} else {
+		$card.addClass('hover');
+	}
+}
+
+function rotateGameCard(btn){
+	var $card = $(btn).closest('.card-container');
+
+	var res = Math.round(Math.random()*5);
+	switch(res)
+	{
+		case 1: document.getElementById(btn.id+"Res").innerHTML = "You Win!" + String.fromCodePoint(0x1f370); break;
+		default: document.getElementById(btn.id+"Res").innerHTML = "You Lose... " + String.fromCodePoint(0x1f641); break;
+	}
+
+	if(canRotate){
+		if($card.hasClass('hover')){
+			$card.removeClass('hover');
+		} else {
+			$card.addClass('hover');
+		}
+
+		if(res == 1)
+			alert("A coupon has been added to your Account!");
+
+		canRotate = false;
+
+		setTimeout(function() { reloadPage(); }, 1500);
+		function reloadPage(){ window.location=""; }
 	}
 }
