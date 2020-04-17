@@ -12,15 +12,14 @@ function checkCredentials(data, selector)
             fail = false;
             switch(data[i].assignment) // redirect accordingly
             {
-                /*case "manager": recordSignIn(user); break; //log sign in 
-                case "kitchen": recordSignIn(user); break;
-                case "waitstaff": recordSignIn(user); break;
-                default: alert("Woah... Something isn't right..."); break;*/
 
-                case "manager": window.location='/management'; break;
-                case "kitchen": window.location='/kitchen'; break;
-                case "waitstaff": window.location='/waitstaff'; break;
+                //Added timesheet creator for relevant employee 
+                case "manager": recordSignIn(user, data[i].assignment);  break; 
+                case "kitchen": recordSignIn(user, data[i].assignment);  break;
+                case "waitstaff": recordSignIn(user, data[i].assignment); break; //window.location = '/waitstaff'
                 default: alert("Woah... Something isn't right..."); break;
+
+       
             }
 
         }
@@ -35,25 +34,26 @@ function checkCredentials(data, selector)
 
 }
 
-//from w3school, decode cookie
+//From w3school, decode cookie
 function getCookie(cname) {
 
-    var Cookie_var = document.cookie;
-    console.log("decode=" + decodeURIComponent(document.cookie));
-    var ca = Cookie_var.split('=');
-    console.log("ca[0] = " + ca[0] + "ca[1] = " + ca[1]);
+    var name = cname + "=";
+    var decodedCookie = document.cookie;
+   
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
     
-    return "";
 }
 
-$('#signOut').click(function () {
-
-    var username = getCookie("username");
-    if (username != "") {
-        recordSignOut(username);
-    }
-   
-});
 
 /*$('#signIn').click(function () { //Record sign in on click function may not be needed
 
@@ -63,31 +63,32 @@ $('#signOut').click(function () {
     }
 });*/
 
-function recordSignIn(id) {
+//Make a new timesheet with relevant employee id and recorded time
+function recordSignIn(id, go) {
 
     console.log("in recordSignIn");
 
     var post = new XMLHttpRequest();
 
     var employee_id = getCookie("username");
-    console.log(employee_id);
-    post.open('POST', '/api/timesheets');
+
+    post.open('POST', '/api/timesheets',false);
 
     //Handle errors
     post.error = function () {
         alert("Request Failed!");
     };
- 
+
     post.onload = function () {
 
         if (post.status === 200 || post.status === 201 || post.status === 204) {
-            
+
             //???
-            
+
         }
         else {
 
-            
+
             var error = JSON.parse(post.responseText)
             console.log(error.message)
             alert(`Error ${post.status}: ${error.message}`);
@@ -104,6 +105,13 @@ function recordSignIn(id) {
 
     post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(input_data));
+    if (go == "manager") {
+        window.location = '/management';
+    }
+    else {
+        window.location = '/' + go;
+
+    }
 }
 
 
@@ -119,7 +127,7 @@ function getEmployee(username) {
 
     var request = new XMLHttpRequest();
     var i,temp;
-    request.open('GET', "/api/employees");
+    request.open('GET', "/api/employees",false);
 
     request.onload = function () {
 
@@ -137,7 +145,7 @@ function getEmployee(username) {
 
                     var temp = employees[i]._id.$oid;
                     document.cookie = "username=" + temp + ";" + " path=/";
-                    console.log(document.cookie);
+
                 }
             }
         }
@@ -245,11 +253,12 @@ function checkCoupon(data, selector)
 function requestInputText(url, selector)
 {
 
-    /*if (selector == '#loginForm') { // Work around orderings of onload
+    if (selector == '#loginForm') {
 
-        getEmployee(user);
-
-    } */
+        getEmployee(document.getElementById("eID").value.toString());
+        
+    }
+  
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
 	request.open('GET', url);
