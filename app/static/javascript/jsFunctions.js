@@ -2,6 +2,8 @@
 $( document ).ready(function() {
     if (document.getElementById("date") || 	document.getElementById("time"))
 		updateClock();
+
+    window.canRotate = true;
 });
 
 //Generate alert message
@@ -264,7 +266,6 @@ function rotateCard(btn){
 	}
 }
 
-canRotate = true;
 function rotateGameCard(btn){
 	var $card = $(btn).closest('.card-container');
 
