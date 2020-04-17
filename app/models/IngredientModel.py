@@ -10,6 +10,7 @@ from models.MyBooleanField import MyBooleanField
 class IngredientModel(Document):
     name = StringField(required=True, unique=True)
     allergen = MyBooleanField(default=False)
+    category = StringField(choices=["Crusts","Sauces","Cheeses","Meats","Veggies"])
 
 class IngredientResource(TemplateResource):
     model = IngredientModel
