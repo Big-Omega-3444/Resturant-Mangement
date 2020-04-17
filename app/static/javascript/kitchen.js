@@ -158,7 +158,7 @@ function populateOrdersHistoryTable(orderData, menuItemsData)
 }
 //Separate function because it's very messy
 // Does two XHRs to retrieve data from the database, then moves onto the BuildOrderCards
-function RetrieveOrders(BuildCards, Management)
+function RetrieveOrders(BuildCards, Management, Waitstaff)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
@@ -206,6 +206,14 @@ function RetrieveOrders(BuildCards, Management)
 						populateOrdersHistoryTable(data.target.extraInfo, JSON.parse(request2.responseText))
 						return;
 					}
+					
+					if (Waitstaff == true)
+					{
+						BuildOrderCardsWaitstaff(data.target.extraInfo, JSON.parse(request2.responseText))
+						BuildNotificationCards();
+						return;
+					}
+				
 
 					// Check if we are building cards or a table
 					if (BuildCards === true)
@@ -447,7 +455,7 @@ function SendOrderCallWaitstaffRequest(button)
 }
 
 // Outside so the script calls this function repeatedly 10 seconds
-setInterval(function() { RetrieveOrders(true, false); }, 10000);
+setInterval(function() { RetrieveOrders(true, false, false); }, 10000);
 
 //
 // BEGIN Event Listeners
@@ -455,12 +463,12 @@ setInterval(function() { RetrieveOrders(true, false); }, 10000);
 
 // Retrieve order cards on page load
 $( document ).ready(function() {
-    RetrieveOrders(true, false);
+    RetrieveOrders(true, false, false);
 });
 
 $('#KCHN_Orders').on('shown.bs.modal', function(event)
 {
-    RetrieveOrders(false, false);
+    RetrieveOrders(false, false, false);
 });
 
 $('#KCHN_Orders').on('hide.bs.modal', function(event)

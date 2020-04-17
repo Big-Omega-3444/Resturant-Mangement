@@ -1995,7 +1995,7 @@ $('#MGMT_EditEmployee_btnSaveChanges').click( function()
 $('#MGMT_Reports').on('show.bs.modal', function(){
 	//Create chart
 	createChart("Day");
-    RetrieveOrders(false, true);
+    RetrieveOrders(false, true, false);
 });
 
 $('#MGMT_Reports').on('hide.bs.modal', function(event)
