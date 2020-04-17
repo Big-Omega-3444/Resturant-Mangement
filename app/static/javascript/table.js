@@ -157,10 +157,12 @@ function postNotif(type) {
 	switch(type) {
 		case "refill":
 			payload = {table:table.number,
+						time_created: Date.now(),
 						request_refill:"True"};
 			break;
 		case "help":
 			payload = {table:table.number,
+						time_created: Date.now(),
 						request_help:"True"};
 			break;
 	}
