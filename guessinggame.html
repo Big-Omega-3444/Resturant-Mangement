@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Guessing game</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+ 
+<div class="container">
+  <h2>Thank you for dining with us!</h2>
+  <div class="card" style="width:400px">
+    <img class="card-img-top" src="https://d3awvtnmmsvyot.cloudfront.net/api/file/Jqoi44f2S6aGO6RXDja1/convert?fit=max&w=1450&quality=60&cache=true&rotate=exif&compress=true" alt="Not Big Omega...lol" style="width:100%">
+    <div class="card-body">
+      <h4 class="card-title">Pick a number between 1 and 5!</h4>
+      <p class="card-text">Answer correctly and get dessert on us!</p>
+      <div class="form-group">
+          <input type="text" class="form-control" id="guess" placeholder="1, 2, 3, 4, or 5">
+      </div>
+      <!--a href="#" class="btn btn-primary">Let's go!</a-->
+      <button href="#" class="btn btn-primary" onclick="myFunction()">Try it</button>
+      <a href="#" class="btn btn-primary">No thanks</a>
+    </div>
+  </div>
+</div>
+
+<h3>Correct number: </h3>
+<h3 id="demo"></h3>
+
+<script>
+function myFunction() {
+  var str = document.getElementById("guess").value;
+  //alert("Value inside text is: "+str);
+  var random = document.getElementById("demo").innerHTML = Math.floor((Math.random() * 5) + 1);
+  
+  if (str == random) {
+  alert("Conratulations! Tell a server you won a free dessert!");
+  }
+  else {
+  alert("Sorry! Maybe next time.");
+  }
+  
+}
+</script>
+
+</body>
+</html>
