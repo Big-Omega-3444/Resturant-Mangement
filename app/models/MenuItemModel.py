@@ -6,6 +6,7 @@ import json
 import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.IngredientModel import IngredientModel
+from models.MyBooleanField import MyBooleanField
 
 class IngredientAmount(EmbeddedDocument):
 
@@ -31,6 +32,7 @@ class MenuItemModel(Document):
     ingredients = EmbeddedDocumentListField(IngredientAmount)
     allergens = ListField(StringField(default=[],choices=['wheat','peanut','egg','soy','milk','fish','shellfish','treenut']))
     calories = IntField(min_value=0, required=True)
+    out_of_stock = MyBooleanField(default=False)
 
 class MenuItemResource(TemplateResource):
     model = MenuItemModel
