@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="CSCE 3444 Project">
+    <title>Management</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Collapse Menu -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Custom icons for section cards -->
+    <script src="https://kit.fontawesome.com/acaa606056.js"></script>
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <!-- Custom Javascript Functions -->
+    <script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
+    <!-- Rotating Card Function -->
+    <link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container">
+            <div class="row">
+                <div class="w-100"></div>
+                <div class="col"><a id="time"></a></div>
+                <div class="w-100"></div>
+                <div class="col"><a id="date"></a></div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="features-icons bg-light text-center h-100 my-auto">
+        <container-fluid>
+            <div class="mx-5">
+                <button type="button" class="btn btn-primary btn-lg btn-block rounded" onclick="window.location ='/'">Welcome!</button>
+            </div>
+        </container-fluid>
+    </section>
+
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}">IDBCursor</script>
+    <script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Loaded Lastly for performance reasons -->
+    <script src="{{ url_for('static', filename='javascript/management.js') }}"></script>
+</body>
+</html>
