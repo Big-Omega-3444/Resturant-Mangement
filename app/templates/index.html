@@ -291,6 +291,154 @@
 					</div>
 				</div>
 				<!-- End Stack Modal -->
+
+				<div id="Guess" class="modal fade" role="dialog" style="z-index: 99999999;">
+						<div class="modal-dialog modal-xl" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Win a dessert!</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-sm-4">
+											 <div class="card-container manual-flip mx-auto" id="gameCard1" onclick="rotateGameCard(this)" style="width: 333px">
+												<div class="card text-white mx-auto">
+													<div class="front" style="background-color: teal;">
+														<div class="cover">
+														</div>
+														<div class="content">
+															<div class="main">
+																<h3 class="name" style="font-size: 144px;">1</h3>
+															</div>
+														</div>
+													</div>
+													<div class="back" style="background-color: teal;">
+														<div class="header">
+															<h5 class="motto">"He who fears being conquered is sure of defeat."</h5>
+														</div>
+														<div class="content">
+															<div class="main">
+																<h4 class="text-center" id="gameCard1Res" style="font-size: 72px;">You Win!</h4>
+																<p></p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										<div class="col-sm-4">
+											 <div class="card-container manual-flip mx-auto" id="gameCard2" onclick="rotateGameCard(this)" style="width: 333px">
+												<div class="card text-white mx-auto">
+													<div class="front" style="background-color: goldenrod;">
+														<div class="cover">
+														</div>
+														<div class="content">
+															<div class="main">
+																<h3 class="name"style="font-size: 144px;">2</h3>
+															</div>
+														</div>
+													</div>
+													<div class="back" style="background-color: goldenrod;">
+														<div class="header">
+															<h5 class="motto">"He who fears being conquered is sure of defeat."</h5>
+														</div>
+														<div class="content">
+															<div class="main">
+																<h4 class="text-center" id="gameCard2Res" style="font-size: 72px;">You Lose...</h4>
+																<p></p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										<div class="col-sm-4">
+											 <div class="card-container manual-flip mx-auto" id="gameCard3" onclick="rotateGameCard(this)" style="width: 333px">
+												<div class="card text-white mx-auto">
+													<div class="front" style="background-color: darkred;">
+														<div class="cover">
+														</div>
+														<div class="content">
+															<div class="main">
+																<h3 class="name"style="font-size: 144px;">3</h3>
+															</div>
+														</div>
+													</div>
+													<div class="back" style="background-color: darkred;">
+														<div class="header">
+															<h5 class="motto">"He who fears being conquered is sure of defeat."</h5>
+														</div>
+														<div class="content">
+															<div class="main">
+																<h4 class="text-center" id="gameCard3Res" style="font-size: 72px;">You Lose...</h4>
+																<p></p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										<div class="col-sm-6">
+											 <div class="card-container manual-flip mx-auto" id="gameCard4" onclick="rotateGameCard(this)" style="width: 333px">
+												<div class="card text-white mx-auto">
+													<div class="front" style="background-color: lightcoral;">
+														<div class="cover">
+														</div>
+														<div class="content">
+															<div class="main">
+																<h3 class="name"style="font-size: 144px;">4</h3>
+															</div>
+														</div>
+													</div>
+													<div class="back" style="background-color: lightcoral;">
+														<div class="header">
+															<h5 class="motto">"He who fears being conquered is sure of defeat."</h5>
+														</div>
+														<div class="content">
+															<div class="main">
+																<h4 class="text-center" id="gameCard4Res" style="font-size: 72px;">You Lose...</h4>
+																<p></p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										<div class="col-sm-6" >
+											 <div class="card-container manual-flip mx-auto" id="gameCard5" onclick="rotateGameCard(this)" style="width: 333px">
+												<div class="card text-white mx-auto">
+													<div class="front" style="background-color: rebeccapurple;">
+														<div class="cover">
+														</div>
+														<div class="content">
+															<div class="main">
+																<h3 class="name"style="font-size: 144px;">5</h3>
+															</div>
+														</div>
+													</div>
+													<div class="back" style="background-color: rebeccapurple;">
+														<div class="header">
+															<h5 class="motto">"He who fears being conquered is sure of defeat."</h5>
+														</div>
+														<div class="content">
+															<div class="main">
+																<h4 class="text-center" id="gameCard5Res" style="font-size: 72px;">You Lose...</h4>
+																<p></p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+				</div>
+
 			</div>
 		</div>
 	</section>
@@ -464,7 +612,7 @@
 											  </div>
 											</div>
 										  </div>
-										  <button type="button" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Pay</button>
+										  <button type="button" data-toggle="modal" data-target="#Guess" data-dismiss="modal" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Pay</button>
 										</form>
 									  </div>
 									  <!-- End Credit Card Tab-->

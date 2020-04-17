@@ -143,7 +143,7 @@ function populateFoodCards(menuItem, selector)
 												</div>
 											</div>
 											<div class="footer">
-												<button class="btn btn-simple" onclick="healthFacts(this)">
+												<button class="btn btn-simple" onclick="rotateCard(this)">
 													<i class="fas fa-info-circle"></i> Health Facts
 												</button>
 											</div>
@@ -276,7 +276,7 @@ function populateDrinkCards(menuItem, selector)
 												</div>
 											</div>
 											<div class="footer">
-												<button class="btn btn-simple" onclick="healthFacts(this)">
+												<button class="btn btn-simple" onclick="rotateCard(this)">
 													<i class="fas fa-info-circle"></i> Health Facts
 												</button>
 											</div>
