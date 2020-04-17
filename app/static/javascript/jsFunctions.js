@@ -156,28 +156,6 @@ function DeleteNotifications(object, id = "")
 	post.send();		
 }
 
-// Request Help Function
-function getHelp(helpVal) { 
-  if (document.getElementById(helpVal).innerHTML === "Help?") {
-    document.getElementById(helpVal).innerHTML = "Your host is on the way!";
-    // Alert waiter
-  } else {
-    document.getElementById(helpVal).innerHTML = "Help?";
-    // Cancel Request
-  }
-}
-
-// Refill Drink Function
-function needRefill(drinkId) { 
-  if (document.getElementById(drinkId).innerHTML === "Refill") {
-    document.getElementById(drinkId).innerHTML = "Please wait...";
-    // Alert waiter
-  } else {
-    document.getElementById(drinkId).innerHTML = "Refill";
-    // Cancel Request
-  }
-}
-
 //Management search function
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
