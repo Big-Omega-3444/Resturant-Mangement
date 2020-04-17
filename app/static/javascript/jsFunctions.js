@@ -10,20 +10,20 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "")
 	//There's nothing to display
 	if (bodyText == "")
 		return;
-	
+
 	// If there's no div class sent in, revert to default: alert-primary
 	if (divclass == "")
 		divclass = "alert-primary";
-	
+
 	var AlertMessage;
-		
+
 	if (divID != "")
-	{		
+	{
 		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert">
 		${bodyText}
 		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
-		</button>	
+		</button>
 		</div>`
 	}
 	else
@@ -32,19 +32,19 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "")
 		${bodyText}
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
-		</button>	
-		</div>`		
+		</button>
+		</div>`
 	}
-	
+
 	// Tie the alert to <div id="Alerts"/>
 	$(selector).append(AlertMessage);
 
 	//Only works if there's an ID that was passed in
 	if (divID != "")
-	{		
+	{
 		//Add a function that should remove the notification after 4000 ms
 		$('.alert-messages').delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
-		
+
 		//Intentional, this will get the ID properly when splitting the string into two parts
 		$(`btnClose_${divID}`).delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
 	}
@@ -58,18 +58,18 @@ function PostNotifications(JSONObject)
 	// Don't do anything if JSONObject is empty
 	if (JSONObject == {})
 		return;
-	
+
 	//Generate XHR
 	var post = new XMLHttpRequest();
-	
+
 	// Create a notification to database
 	var url = "/api/notifications";
-	
+
 	// Open a socket to the url
 	post.open('POST', url);
-	
+
 	// Handle on load
-	post.onload = function(data) 
+	post.onload = function(data)
 	{
 		if (post.status === 200 || post.status === 201 || post.status === 204)
 		{
@@ -81,16 +81,16 @@ function PostNotifications(JSONObject)
 			return;
 		}
 	};
-	
-	// Handle on errors	
-	post.error = function() 
+
+	// Handle on errors
+	post.error = function()
 	{
 		alert("Request Failed!");
 		return;
 	};
-	
+
 	post.setRequestHeader("Content-Type", "application/json");
-	post.send(JSON.stringify(JSONObject));		
+	post.send(JSON.stringify(JSONObject));
 }
 
 
@@ -123,17 +123,17 @@ function DeleteNotifications(object, id = "")
 	}
 	else
 	{
-		url = url + id;	
+		url = url + id;
 	}
-	
+
 	//Generate XHR
 	var post = new XMLHttpRequest();
-	
+
 	// Open a socket to the url
 	post.open('DELETE', url);
-	
+
 	// Handle on load
-	post.onload = function(data) 
+	post.onload = function(data)
 	{
 		if (post.status === 200 || post.status === 201 || post.status === 204)
 		{
@@ -145,15 +145,15 @@ function DeleteNotifications(object, id = "")
 			return;
 		}
 	};
-	
-	// Handle on errors	
-	post.error = function() 
+
+	// Handle on errors
+	post.error = function()
 	{
 		alert("Request Failed!");
 		return;
 	};
-	
-	post.send();		
+
+	post.send();
 }
 
 // Request Help Function
@@ -178,20 +178,6 @@ function needRefill(drinkId) {
   }
 }
 
-<<<<<<< HEAD
-// Add to Order Function
-function addOrder(foodId) {
-  if (document.getElementById(foodId).innerHTML === "Order") {
-    document.getElementById(foodId).innerHTML = "&#9989;";
-    // Alert waiter
-  } else {
-    document.getElementById(foodId).innerHTML = "Order";
-    // Cancel Request
-  }
-}
-
-=======
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 //Management search function
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {

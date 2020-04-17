@@ -176,22 +176,13 @@ function SubmitFormMenuCategory()
 	};
 
     var formData = new FormData(document.getElementById("addMenuCategoryForm"));
-<<<<<<< HEAD
-//	var payload = {
-//		"name": formData.get('name'),
-//		"description": formData.get('description'),
-//		"image": formData.get('image')
-//	}
-
-    post.send(formData);
-=======
 	var payload = {
 		"name": formData.get('name'),
 		"description": formData.get('description'),
 		"drinks": false,
 		"timeslots": []
 	}
-	
+
 	var daysOfweek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 	var arrTimeSlots = []
 
@@ -200,7 +191,7 @@ function SubmitFormMenuCategory()
 	for (i = 0; i < daysOfweek.length; i++)
 	{
 		var timeSlot = {};
-		
+
 		if ( formData.get(daysOfweek[i]) != null )
 		{
 			timeSlot['day'] = formData.get(daysOfweek[i]);
@@ -210,7 +201,7 @@ function SubmitFormMenuCategory()
 				timeSlot.start_hour = startTime[0];
 				timeSlot.start_min = startTime[1];
 			}
-		
+
 			if ( formData.get('endTime') != null )
 			{
 				var endTime = (formData.get('endTime')).split(":");
@@ -221,21 +212,20 @@ function SubmitFormMenuCategory()
 
 		arrTimeSlots.push(timeSlot);
 	}
-	
+
 	payload['timeslots'] = arrTimeSlots;
-	
+
 	// If we got null here, then don't change the value to true
 	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
-	
+
 	if (formData.get('image') != "")
 		payload['image'] = formData.get('image');
-	
+
 	console.log(payload);
-	
-	post.setRequestHeader("Content-Type", "application/json");	
+
+	post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(payload));
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 }
 
 //On submit, post a form to the api
@@ -244,29 +234,19 @@ function SubmitFormMenuItem()
     event.preventDefault();
 
     var post = new XMLHttpRequest();
-<<<<<<< HEAD
 
-	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
-=======
-	
 	// Ingredients selection
 	// Gather all ing_update and inv_update classes, we need the ids of these to push to the API
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 	var data = document.querySelectorAll('*[class="AMI_ing_update"]');
 	var origin =  document.querySelectorAll('*[class="AMI_inv_update"]');
 
     // POST to the API
     post.open('POST', "/api/menuitems");
 
-<<<<<<< HEAD
     var formData = new FormData(document.getElementById("addMenuItem"));
-
-=======
-    var formData = new FormData(document.getElementById("addMenuItem"));	
     var formDataHealth = new FormData(document.getElementById("addMenuItem_Health"));
 //    var formDataCustomization = new FormData(document.getElementById("addMenuItem_Customization"));
-	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+
 	//Needs to be in JSON format, no other way around it
 	var payload =
 	{
@@ -287,34 +267,31 @@ function SubmitFormMenuItem()
 			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
 		}
 	}
-<<<<<<< HEAD
-=======
-	
+
 	//Here we go, here we go
 	if ( formDataHealth.get('wheat') != null )
 		payload.allergens.push(formDataHealth.get('wheat'));
 
 	if ( formDataHealth.get('peanut') != null )
 		payload.allergens.push(formDataHealth.get('peanut'));
-	
+
 	if ( formDataHealth.get('egg') != null )
 		payload.allergens.push(formDataHealth.get('egg'));
-	
+
 	if ( formDataHealth.get('soy') != null )
 		payload.allergens.push(formDataHealth.get('soy'));
-	
+
 	if ( formDataHealth.get('milk') != null )
 		payload.allergens.push(formDataHealth.get('milk'));
-	
+
 	if ( formDataHealth.get('fish') != null )
 		payload.allergens.push(formDataHealth.get('fish'));
-	
+
 	if ( formDataHealth.get('shellfish') != null )
 		payload.allergens.push(formDataHealth.get('shellfish'));
-	
+
 	if ( formDataHealth.get('treenut') != null )
 		payload.allergens.push(formDataHealth.get('treenut'));
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 
 	console.log(payload);
 
@@ -413,20 +390,7 @@ function SubmitFormMenuCategoryPUT()
 		"description": formData.get('description'),
 		"drinks": false
 	};
-<<<<<<< HEAD
 
-//	for (i = 0; i < data.length; i++)
-//	{
-//		var value = parseInt(data[i].nextSibling.value);
-//		if (value > 0)
-//		{
-//			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
-//		}
-//	}
-
-	// Handle errors
-=======
-	
 	var daysOfweek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 	var arrTimeSlots = []
 
@@ -435,7 +399,7 @@ function SubmitFormMenuCategoryPUT()
 	for (i = 0; i < daysOfweek.length; i++)
 	{
 		var timeSlot = {};
-		
+
 		if ( formData.get(daysOfweek[i]) != null )
 		{
 			timeSlot['day'] = formData.get(daysOfweek[i]);
@@ -445,7 +409,7 @@ function SubmitFormMenuCategoryPUT()
 				timeSlot.start_hour = startTime[0];
 				timeSlot.start_min = startTime[1];
 			}
-		
+
 			if ( formData.get('endTime') != null )
 			{
 				var endTime = (formData.get('endTime')).split(":");
@@ -456,18 +420,17 @@ function SubmitFormMenuCategoryPUT()
 
 		arrTimeSlots.push(timeSlot);
 	}
-	
+
 	payload['timeslots'] = arrTimeSlots;
-	
+
 	// Not sure why but this works
 	if (formData.get('drinks') != null)
 		payload['drinks'] = true;
-	
+
 	if (formData.get('image') != "")
 		payload['image'] = formData.get('image');
-	
-	// Handle errors	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+
+	// Handle errors
 	//To Do: Alert user if errors occured, even OnLoad
 	put.error = function()
 	{
@@ -492,7 +455,7 @@ function SubmitFormMenuCategoryPUT()
 			alert(`Error ${put.status}: ${error.message}`);
 		}
 	};
-	
+
 	console.log(payload);
 
 	put.setRequestHeader("Content-Type", "application/json");
@@ -558,16 +521,10 @@ function SubmitFormMenuItemPUT()
 
     // POST to the API
     put.open('PUT', url);
-<<<<<<< HEAD
 
     var formData = new FormData(document.getElementById("EditMenuItemForm"));
-
-=======
-	
-    var formData = new FormData(document.getElementById("EditMenuItemForm"));	
     var formDataHealth = new FormData(document.getElementById("editMenuItem_Health"));
-	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+
 	//Needs to be in JSON format, no other way around it
 	var payload =
 	{
@@ -588,38 +545,33 @@ function SubmitFormMenuItemPUT()
 			payload.ingredients.push( {"ingredient": data[i].id, "count": data[i].nextSibling.value} );
 		}
 	}
-<<<<<<< HEAD
 
-	// Handle errors
-=======
-	
 	//Here we go, here we go
 	if ( formDataHealth.get('wheat') != null )
 		payload.allergens.push(formDataHealth.get('wheat'));
 
 	if ( formDataHealth.get('peanut') != null )
 		payload.allergens.push(formDataHealth.get('peanut'));
-	
+
 	if ( formDataHealth.get('egg') != null )
 		payload.allergens.push(formDataHealth.get('egg'));
-	
+
 	if ( formDataHealth.get('soy') != null )
 		payload.allergens.push(formDataHealth.get('soy'));
-	
+
 	if ( formDataHealth.get('milk') != null )
 		payload.allergens.push(formDataHealth.get('milk'));
-	
+
 	if ( formDataHealth.get('fish') != null )
 		payload.allergens.push(formDataHealth.get('fish'));
-	
+
 	if ( formDataHealth.get('shellfish') != null )
 		payload.allergens.push(formDataHealth.get('shellfish'));
-	
+
 	if ( formDataHealth.get('treenut') != null )
 		payload.allergens.push(formDataHealth.get('treenut'));
-	
-	// Handle errors	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+
+	// Handle errors
 	//To Do: Alert user if errors occured, even OnLoad
 	put.error = function()
 	{
@@ -657,26 +609,26 @@ function SubmitFormInventoryUpdateAll()
 
 	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
 	var origin = document.getElementsByClassName('inv_update');
-	
+
 	// Build the table
 	for(i = 0; i < origin.length; i++) {
 		(function (i){
 			requests[i] = new XMLHttpRequest();
-			
+
 			// Inventory ID | Ingredient ID
 			var ids = origin[i].id.split("|");
 
 			var url = "/api/inventory/" + ids[0];
 
-			
+
 			//Retrieve the ingredient form
 			var object = document.getElementById(`ingQty_${ids[1]}`);
 
 			//Generate data
 			var formData = new FormData();
 			formData.append("count", parseInt(object[0].value));
-			
-			requests[i].open('PUT', url);	
+
+			requests[i].open('PUT', url);
 
 			// Handle on load
 			requests[i].onload = function()
@@ -710,82 +662,50 @@ function SubmitFormMenuUpdateAll(menuDatas)
 {
 	// Create our array of XMLHttpRequests
 	var requests = []
-<<<<<<< HEAD
 
-	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
-	var data = document.getElementsByClassName('menuSelector');
-
-	// Build requests
-	for(i = 0; i < data.length; i++) {
-		//Exit out if the selected option is none (only happens after creating the menu item for the first time and not assigning it somewhere)
-		if (menuDatas.length == 0)
-			continue;
-
-		var o = data[i];
-		(function (i, optionData){
-			requests[i] = new XMLHttpRequest();
-
-=======
-	
 	//Gather all classes, we need the ids of these to push to the API
 	var data = document.getElementsByClassName('MenuItemCategory');
-	
+
 	// Build requests
 	for(i = 0; i < menuDatas.length; i++) {
 		//Exit out if there's no data sent in
 		if (data.length == 0)
 			return;
-		
+
 		var o = menuDatas[i];
 		var p = data;
 		(function (i, menuData, MIC_data){
-			requests[i] = new XMLHttpRequest();		
-			
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+			requests[i] = new XMLHttpRequest();
+
 			var url = "";
 
 			//Generate data
 			var payload = {
 				"items": [],
 			}
-<<<<<<< HEAD
 
-			var deletion = false;
-=======
-			
 			//Use Regex to remove spaces from the name parameter
 			var findName = menuData.name;
 			findName = findName.replace(/\s/g, '_');
-			
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+
 
 			url = "/api/menus/" + menuData._id.$oid;
-			
+
 			//Go through each checkbox form and figure out our values that we're gonna send to the API
 			for (j = 0; j < MIC_data.length; j++)
 			{
 				var formData = new FormData(MIC_data[j])
-				
+
 				if (formData.get(`${findName}`) != null)
 				{
-<<<<<<< HEAD
-					url = "/api/menus/" + menuDatas[j]._id.$oid;
-					payload.items.push({"item": optionData.id});
-					j = menuDatas.length;
-				}
-
-			}
-
-=======
 					//Split the string apart to get the menu item id that we will send
-					var str = MIC_data[j].id.split("_");					
+					var str = MIC_data[j].id.split("_");
 					payload.items.push({"item": str[1]});
 				}
 			}
-						
+
 			console.log(payload)
-			
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+
 			requests[i].open('PUT', url);
 
 			// Handle on load
@@ -808,19 +728,11 @@ function SubmitFormMenuUpdateAll(menuDatas)
 			requests[i].error = function()
 			{
 				alert("Request Failed!");
-<<<<<<< HEAD
 			};
 
 			requests[i].setRequestHeader("Content-Type", "application/json");
 			requests[i].send(JSON.stringify(payload));
-		})(i, o);
-=======
-			};	
-			
-			requests[i].setRequestHeader("Content-Type", "application/json");		
-			requests[i].send(JSON.stringify(payload));	
 		})(i, o, p);
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 	}
 }
 
@@ -845,11 +757,7 @@ function requestData(url, selector)
 		}
 		else
 		{
-<<<<<<< HEAD
 //			alert(`Done, got ${request.response.length} bytes`); // responseText is the server
-=======
-//			alert(`Done, got ${request.response.length} bytes`); // responseText is the server	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 			switch(selector)
 			{
 				case '#EmployeesTable':
@@ -975,20 +883,12 @@ function requestMenuItem(object)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 	// Create the url to retrieve user
 	var url = "/api/menuitems/" + object.id;
 
 	request.open('GET', url);
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 	// Handle on load
 	request.onload = function()
 	{
@@ -1008,11 +908,7 @@ function requestMenuItem(object)
 		alert("Request Failed!");
 	};
 
-<<<<<<< HEAD
 	request.send();
-=======
-	request.send();	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 }
 
 // Function that does a GET request on the specified API
@@ -1295,7 +1191,7 @@ function populateInventoryTable(data, selector)
 					var row = $('<tr/>')
 					var ingredient = JSON.parse(requests[i].responseText);	//Ingredient
 																			//extraInfo contains Inventory stuff
-																			
+
 					//Create buttons for specific ID
 					var uid = ingredient._id.$oid;
 
@@ -1352,15 +1248,9 @@ function populateMenuCategoryTable(data, selector)
 //		if (data[i].items.length == 0)
 //		{
 			var row = $('<tr/>')
-<<<<<<< HEAD
-			var name = $(`<div class="inv_update" id=${data[i]._id.$oid}/>`).html(data[i].name);
+			var name = $(`<div class="menuCategoryTableClass" id=${data[i]._id.$oid}/>`).html(data[i].name);
 
 			row.append($('<td/>').html(name));
-=======
-			var name = $(`<div class="menuCategoryTableClass" id=${data[i]._id.$oid}/>`).html(data[i].name);
-			
-			row.append($('<td/>').html(name));	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 			row.append($('<td/>'));
 
 			//Create buttons for specific ID
@@ -1455,17 +1345,10 @@ function populateMenuItemTable(menuItemsData, selector)
 	request.onload = function(data)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
-<<<<<<< HEAD
 		{
-			menus = JSON.parse(request.responseText);
-			menuItems = data.target.extraInfo;
-
-=======
-		{	
 			menuCategory = JSON.parse(request.responseText);
 			menuItems = data.target.extraInfo;
-						
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+
 			// Build the table
 			for(i = 0; i < menuItems.length; i++)
 			{
@@ -1485,53 +1368,16 @@ function populateMenuItemTable(menuItemsData, selector)
 				//Create buttons for specific ID
 				var uid = ""
 				uid = menuItems[i]._id.$oid;
-<<<<<<< HEAD
 
-				//Build input selector with unique ID for each
-				var options = $(`<select class="menuSelector" id="${uid}"/>`);
-
-				var isNoneGenerated = false;
-
-				for (j = 0; j < menus.length; j++)
-				{
-					var isSelected = false;
-
-					if (isNoneGenerated === false)
-					{
-						options.append($(`<option id="${menus[j]._id.$oid}" value="none"/>`).html("None"));
-						isNoneGenerated = true;
-					}
-
-					if (isSelected === false)
-					{
-						//For this case, there is some existing menu items, so create a "None" fallback option
-						for (k = 0; k < menus[j].items.length; k++)
-						{
-							var str1 = (menus[j].items[k].item.$oid).toString()
-							if (str1 === uid)
-							{
-								options.append($(`<option value="${menus[j]._id.$oid}" selected/>`).html(menus[j].name));
-								k = menus[j].items[k].length;
-								isSelected = true;
-							}
-						}
-					}
-
-					if (isSelected === false)
-					{
-						options.append($(`<option value="${menus[j]._id.$oid}"/>`).html(menus[j].name));
-					}
-=======
-				
 				// Do a shallow copy of the options and tie a unique id to the elements
 				var checkboxes = $(`<form class="MenuItemCategory" id="MenuItemCat_${uid}"/>`);
-				
+
 				//Build input selector tied to the menu item's ID
 				var options = [];
-				
+
 				// We need to gather which menu categories holds our item
 				var find = [];
-				
+
 				// Build the menu items category checkboxes
 				for (j = 0; j < menuCategory.length; j++)
 				{
@@ -1540,30 +1386,21 @@ function populateMenuItemTable(menuItemsData, selector)
 					var inputName = menuCategory[j].name;
 					inputName = inputName.replace(/\s/g, '_');
 					//Tie the menu category ID to the value
-					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${inputName}_${uid}" name="${inputName}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}_${uid}">${menuCategory[j].name}</label></div>`));				
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+					options[j].append($(`<div class="form-check"><input type="checkbox" id="CAT_${inputName}_${uid}" name="${inputName}" value="${menuCategory[j]._id.$oid}"><label class="form-check-label" for="CAT_${menuCategory[j].name}_${uid}">${menuCategory[j].name}</label></div>`));
 				}
-							
+
 				// Handle case if there is no menus that exist (if we end up at this point)
 				if (menuCategory.length == 0)
 				{
 					var cosmeticOption = $(`<input type="checkbox" id="" value="none"/>`).html("None");
 					cosmeticOption.attr('disabled', true)
-<<<<<<< HEAD
-					options.append(cosmeticOption);
+					options[j].append(cosmeticOption);
 				}
 
-				row.append($('<td/>').html(options));
-
-=======
-					options[j].append(cosmeticOption);	
-				}
-				
 				checkboxes.append(options);
-			
+
 				row.append($('<td/>').html(checkboxes));
-				
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+
 				var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditMenuItem"/>`).click(function() {
 					requestMenuItem(this);
 				}).html("EDIT");
@@ -1575,7 +1412,7 @@ function populateMenuItemTable(menuItemsData, selector)
 				row.append($('<td/>').html(editButton).append(deleteButton));
 
 				$(selector).append(row);
-				
+
 				//We need to enable the checkboxes now that they exist
 				for (j = 0; j < menuCategory.length; j++)
 				{
@@ -1586,7 +1423,7 @@ function populateMenuItemTable(menuItemsData, selector)
 							//Use Regex to remove spaces from the name parameter
 							var inputName = menuCategory[j].name;
 							inputName = inputName.replace(/\s/g, '_');
-							
+
 							$(`#MenuItemCat_${uid}`).find(`#CAT_${inputName}_${uid}`).prop("checked", true);
 						}
 					}
@@ -1856,22 +1693,17 @@ function autofillEditIngredientForm(data)
 function autofillEditMenuCategoryForm(data)
 {
 	$('#editMenuCategoryForm').find('#mcID').val(data._id.$oid);
-<<<<<<< HEAD
 	$('#editMenuCategoryForm').find('#MC_name').val(data.name);
 	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);
-	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
-=======
-	$('#editMenuCategoryForm').find('#MC_name').val(data.name);	
-	$('#editMenuCategoryForm').find('#MC_desc').val(data.description);	
 	$('#editMenuCategoryForm').find('#MC_imageURL').val(data.image);
 	$('#editMenuCategoryForm').find('#checkDrinks').prop("checked", data.drinks);
 
 	var timeSet = false;
 	if (data.timeslots.length == 0)
 	{
-		$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val("--:--:--");	
+		$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val("--:--:--");
 		$('#editMenuCategoryForm').find('#MC_EDIT_endTime').val("--:--:--");
-		
+
 		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sun').prop("checked", false);
 		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Mon').prop("checked", false);
 		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Tue').prop("checked", false);
@@ -1880,7 +1712,7 @@ function autofillEditMenuCategoryForm(data)
 		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Fri').prop("checked", false);
 		$('#editMenuCategoryForm').find('#MC_EDIT_Day_Sat').prop("checked", false);
 	}
-	
+
 	for (i = 0; i < data.timeslots.length; i++)
 	{
 		if ( data.timeslots[i].day != null )
@@ -1890,7 +1722,7 @@ function autofillEditMenuCategoryForm(data)
 				var hours		= (data.timeslots[i].start_hour < 10) ? "0" + data.timeslots[i].start_hour : data.timeslots[i].start_hour;
 				var minutes		= (data.timeslots[i].start_min < 10) ? "0" + data.timeslots[i].start_min : data.timeslots[i].start_min;
 				var startTime 	= hours + ":" + minutes + ":00";
-				$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val(startTime.toString());	
+				$('#editMenuCategoryForm').find('#MC_EDIT_startTime').val(startTime.toString());
 
 				hours			= (data.timeslots[i].end_hour < 10) ? "0" + data.timeslots[i].end_hour : data.timeslots[i].end_hour;
 				minutes			= (data.timeslots[i].end_min < 10) ? "0" + data.timeslots[i].end_min : data.timeslots[i].end_min;
@@ -1928,9 +1760,8 @@ function autofillEditMenuCategoryForm(data)
 			}
 
 		}
-	}		
-	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+	}
+
 }
 
 // Same as above, but autofills the ingredient page
@@ -1938,19 +1769,13 @@ function autofillEditMenuCategoryForm(data)
 function autofillEditMenuItemForm(data)
 {
 	$('#EditMenuItemForm').find('#miID').val(data._id.$oid);
-<<<<<<< HEAD
 	$('#EditMenuItemForm').find('#MI_name').val(data.name);
 	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);
 	$('#EditMenuItemForm').find('#MI_desc').val(data.description);
 	$('#EditMenuItemForm').find('#imageURL').val(data.image);
-=======
-	$('#EditMenuItemForm').find('#MI_name').val(data.name);	
-	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);	
-	$('#EditMenuItemForm').find('#MI_desc').val(data.description);	
-	$('#EditMenuItemForm').find('#imageURL').val(data.image);	
 
-	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);	
-	
+	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);
+
 	for (i = 0; i < data.allergens.length; i++)
 	{
 		switch (data.allergens[i])
@@ -1983,9 +1808,8 @@ function autofillEditMenuItemForm(data)
 	}
 
 
-//	$('#editMenuItem_Customization').find('#imageURL').val(data.image);	
-	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
+//	$('#editMenuItem_Customization').find('#imageURL').val(data.image);
+
 	populateEditMenuItems(data, '#MGMT_EditMenuItem_InventoryTable_Body');
 }
 
@@ -1997,22 +1821,13 @@ function updateTables()
 	requestData('/api/employees', '#EmployeesTable');
 
 	$('#InventoryTable tr td').remove();
-<<<<<<< HEAD
 	requestData('/api/inventory', '#InventoryTable');
 
-=======
-	requestData('/api/inventory', '#InventoryTable');		
-	
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 	$('#MenuCategoryTable tr td').remove();
 	requestData('/api/menus', '#MenuCategoryTable');
 
 	$('#MGMT_MenuItemsTable_Body tr td').remove();
-<<<<<<< HEAD
 	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');
-=======
-	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');		
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
 }
 
 function UpdateAlerts()
@@ -2037,7 +1852,7 @@ function UpdateAlerts()
 				{
 					//Create Alert
 					GenerateAlertMessage('#MGMT_Alerts',`<strong>ALERT!</strong> Kitchen called for help!`, "alert-danger", `${notifs[i]._id.$oid}`);
-				}					
+				}
 			}
 			return;
 		}
@@ -2053,7 +1868,7 @@ function UpdateAlerts()
 		alert("Request Failed!");
 	};
 
-	request.send();	
+	request.send();
 }
 
 setInterval(UpdateAlerts, 5000)
@@ -2178,64 +1993,6 @@ $('#MGMT_EditEmployee_btnSaveChanges').click( function()
 //
 
 $('#MGMT_Reports').on('show.bs.modal', function(){
-<<<<<<< HEAD
-   //Create chart
-
-    let myChart = document.getElementById('myChart').getContext('2d');
-    // Global Options
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = '#777';
-    let massPopChart = new Chart(myChart, {
-        type: 'bar',
-        data: {
-            labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
-            datasets: [{
-                label: 'Population',
-                data: [
-                    617594,
-                    181045,
-                    153060,
-                    106519,
-                    105162,
-                    95072
-                ],
-                //backgroundColor:'green',
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(255, 99, 132, 0.6)'
-                ],
-                borderWidth: 1,
-                borderColor: '#777',
-                hoverBorderWidth: 3,
-                hoverBorderColor: '#000'
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Largest Cities In Massachusetts',
-                fontSize: 25
-            },
-            legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                    fontColor: '#000'
-                }
-            },
-            layout: {
-                padding: {
-                    left: 50,
-                    right: 0,
-                    bottom: 0,
-                    top: 0
-=======
 	//Create chart
 	createChart("Day");
     RetrieveOrders(false, true);
@@ -2283,7 +2040,7 @@ $('#chartDecade').click(function () {
 });
 
 function createChart(pick) {
-	
+
 
 	var title_text = pick;
 	var requests = new XMLHttpRequest();
@@ -2308,7 +2065,7 @@ function createChart(pick) {
 				current_date = new Date();
 				var data_arr = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 				var labels_arr = new Array("00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00");
-				
+
 				for (t = 0; t < labels_arr.length; t++) {
 
 					for (i = 0; i < orders.length; i++) {
@@ -2316,9 +2073,9 @@ function createChart(pick) {
 
 						if (date_temp.toDateString() == current_date.toDateString()) {
 							if (t == date_temp.getHours()) {
-								
+
 								data_arr[t] = data_arr[t] + orders[i].total_cost;
-			
+
 							}
 						}
 					}
@@ -2334,12 +2091,12 @@ function createChart(pick) {
 				var temp = current_date.valueOf() - (86400000 * day_temp);
 				var first_sun = new Date(temp);
 				//alert(first_sun);
-				
+
 				var data_arr = new Array(0,0,0,0,0,0,0);
 				var labels_arr = new Array('Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 
 				for (t = 0; t < labels_arr.length; t++) {
-				
+
 					for (i = 0; i < orders.length; i++) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
 						if (first_sun.toDateString() == date_temp.toDateString()) {
@@ -2350,9 +2107,9 @@ function createChart(pick) {
 					}
 					temp = first_sun.valueOf() + 86400000;
 					first_sun = new Date(temp);
-					
+
 				}
-				
+
 			}
 
 			//Calculating this Months orders
@@ -2363,7 +2120,7 @@ function createChart(pick) {
 				var month30th = new Array(3, 5, 8, 10);
 				var month31th = new Array(0, 2, 4, 6, 7, 9, 11);
 
-				//Set labels and size of data array equal to that months 
+				//Set labels and size of data array equal to that months
 				if (-1 != month30th.indexOf(month)) {
 					var labels_arr = new Array('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th');
 					var data_arr = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -2375,7 +2132,6 @@ function createChart(pick) {
 				else {
 					var labels_arr = new Array('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th', '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th');
 					var data_arr = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
->>>>>>> c9afc597e95db0548d664e29f38acf9e84d986cd
                 }
 
 				for (t = 0; t < labels_arr.length; t++) {
@@ -2387,12 +2143,12 @@ function createChart(pick) {
 
 									data_arr[t] = data_arr[t] + orders[i].total_cost;
 								}
-							}	
+							}
 						}
                     }
 
 				}
-				
+
 			}
 
 			//Calculating past Years orders
@@ -2427,7 +2183,7 @@ function createChart(pick) {
 				for (iter_arr = 0; iter_arr < 10; iter_arr++) {
 
 					labels_arr[9-iter_arr] = year_temp - iter_arr;
-					
+
                 }
 
 				var temp = current_date.valueOf() - (31556952000 * 9);
@@ -2445,11 +2201,11 @@ function createChart(pick) {
 					}
 					temp = first_year.valueOf() + 31556952000;
 					first_year = new Date(temp);
-					
+
 				}
 			}
-				
-			
+
+
 		}
 		else {
 			alert(`Error ${requests.status}: ${requests.statusText}`);
@@ -2516,6 +2272,49 @@ function createChart(pick) {
 		});
     }
 
+
+
+
+		/*// Global Options
+		Chart.defaults.global.defaultFontFamily = 'Lato';
+		Chart.defaults.global.defaultFontSize = 18;
+		Chart.defaults.global.defaultFontColor = '#777';
+		let massPopChart = new Chart(myChart, {
+			type: 'line',
+			data: {
+				labels: labels_arr,
+				datasets: [{
+					label: 'Sales', data: data_arr, borderColor: "#3e95cd", fill: false
+
+				}]
+			},
+			options: {
+
+				title: {
+					display: true,
+					text: title_text + " Sales",
+					fontSize: 25
+				},
+				legend: {
+					display: true,
+					position: 'right',
+					labels: {
+						fontColor: '#000'
+					}
+				},
+				layout: {
+					padding: {
+						left: 50,
+						right: 0,
+						bottom: 0,
+						top: 0
+					}
+				},
+				tooltips: {
+					enabled: true
+				}
+			}
+		});*/
 	requests.send()
 }
 
