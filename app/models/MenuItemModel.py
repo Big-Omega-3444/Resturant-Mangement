@@ -33,6 +33,7 @@ class MenuItemModel(Document):
     allergens = ListField(StringField(default=[],choices=['wheat','peanut','egg','soy','milk','fish','shellfish','treenut']))
     calories = IntField(min_value=0, required=True)
     out_of_stock = MyBooleanField(default=False)
+    times_ordered = IntField(default = 0)
 
 class MenuItemResource(TemplateResource):
     model = MenuItemModel
