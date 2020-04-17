@@ -34,3 +34,18 @@ body{font-family:Lato,'Helvetica Neue',Helvetica,Arial,sans-serif}h1,h2,h3,h4,h5
   width: auto;
   height: auto;  
 }
+
+.gameTitle{
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: 300;
+    font-size: 44px;
+    margin-bottom: 90px;
+    line-height: 90%;
+}
+.gameTitle small{
+    font-size: 17px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    margin: 0;
+}

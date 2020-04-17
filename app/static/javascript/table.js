@@ -1,6 +1,6 @@
 $(document).ready ( function(){
   window.table = {
-      number: 25, // This will update with a cookie
+      number: 311, // This will update with a cookie
       needs_help: "False", // This will update with the help button
       needs_refill: "False", // This will update with the refill button
       orders: [] // This updates when
@@ -39,7 +39,6 @@ function scanForTable(data) {
     if(!found)
     {
         postNewTable(); // if a table is not found with our number, create a new one!
-		scanForTable(data);
     }
 
 }
@@ -47,29 +46,25 @@ function scanForTable(data) {
 // Request Help Function
 function getHelp(helpVal) { 
   if (document.getElementById(helpVal).innerHTML === "Help?") {
-      table.needs_help = "True";
+      postNotif("help");
       document.getElementById(helpVal).innerHTML = "Your host is on the way!";
     // Alert waiter
-  } else {
-      table.needs_help = "False";
-      document.getElementById(helpVal).innerHTML = "Help?";
-    // Cancel Request
   }
-  updateTable();
+
+  setTimeout(function() { revertText(helpVal); }, 1000);
+  function revertText(helpVal){ if(document.getElementById(helpVal)) document.getElementById(helpVal).innerHTML = "Help?"; }
 }
 
 // Refill Drink Function
 function needRefill(drinkId) { 
   if (document.getElementById(drinkId).innerHTML === "Refill") {
-      table.needs_refill = "True";
+      postNotif("refill");
       document.getElementById(drinkId).innerHTML = "Please wait...";
     // Alert waiter
-  } else {
-      table.needs_refill = "False";
-      document.getElementById(drinkId).innerHTML = "Refill";
-    // Cancel Request
   }
-  updateTable();
+
+  setTimeout(function() { revertText(drinkId); }, 1000);
+  function revertText(drinkId){ if(document.getElementById(drinkId)) document.getElementById(drinkId).innerHTML = "Refill"; }
 }
 
 function requestTables() {
@@ -100,8 +95,6 @@ function requestTables() {
 }
 
 function postNewTable() {
-    //event.preventDefault();
-
     var post = new XMLHttpRequest();
 
     // POST to the API
@@ -121,6 +114,7 @@ function postNewTable() {
 		if (post.status === 200 || post.status === 201)
 		{
 		    console.log("Table Created");
+		    id = JSON.parse(post.responseText);
 		}
 		else
 		{
@@ -135,6 +129,53 @@ function postNewTable() {
     console.log(JSON.stringify(table));
     post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(table));
+}
+
+function postNotif(type) {
+	var post = new XMLHttpRequest();
+
+	var payload = {};
+	switch(type) {
+		case "refill":
+			payload = {table:table.number,
+						request_refill:"True"};
+			break;
+		case "help":
+			payload = {table:table.number,
+						request_help:"True"};
+			break;
+	}
+
+    // POST to the API
+    post.open('POST', "/api/notifications");
+
+	// Handle errors
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	// Handle on load
+	post.onload = function()
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201)
+		{
+		    console.log("Notif Sent");
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+
+    post.setRequestHeader("Content-Type", "application/json");
+    post.send(JSON.stringify(payload));
 }
 
 function updateTable() {
