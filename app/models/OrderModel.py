@@ -43,6 +43,7 @@ class OrderModel(Document):
 
     # Epoch_time
     time_ordered = IntField()
+    time_modified = IntField()
     gratuity = FloatField()
     table = IntField()
     special_notes = StringField()
