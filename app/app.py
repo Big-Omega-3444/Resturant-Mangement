@@ -93,6 +93,10 @@ def contact():
 def waitstaff():
     return render_template('waitstaff.html')
 
+@application.route('/welcome') #Added Welcome page routing
+def welcome():
+    return render_template('welcome.html')
+
 @application.route('/kitchen')
 def kitchen():
     return render_template('kitchen.html')
