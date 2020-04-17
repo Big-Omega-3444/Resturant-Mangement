@@ -1,6 +1,6 @@
 $(document).ready ( function(){
   window.table = {
-      number: 311, // This will update with a cookie
+      number: parseInt(getCookie("tablenumber")), // This will update with a cookie
       needs_help: "False", // This will update with the help button
       needs_refill: "False", // This will update with the refill button
       orders: [] // This updates when
@@ -9,6 +9,25 @@ $(document).ready ( function(){
   requestTables(); // Check if a table exists for our cookie's value
 
 });
+
+function getCookie(cname) {
+
+    var name = cname + "=";
+    var decodedCookie = document.cookie;
+
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return -1;
+
+}
 
 function scanForTable(data) {
     var found = false;
