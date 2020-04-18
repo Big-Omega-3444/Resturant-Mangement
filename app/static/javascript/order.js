@@ -58,8 +58,6 @@ function addItemToOrder(buttonID, item) {
 
   setTimeout(function() { revertText(buttonID); }, 1000);
   function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "Order"; }
-
-  console.log(JSON.stringify(localOrder));
 }
 
 // Remove from Order Function
@@ -119,7 +117,6 @@ function SubmitOrder()
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201)
 		{
-			console.log("Order Submitted");
 			var order = JSON.parse(post.responseText); // I don't know why I had to split this up
 			var orderID = {order};
 			table.orders.push(orderID);
@@ -162,9 +159,6 @@ function requestOrderedItems() {
 $('#MyCart').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
   requestOrderedItems();
-
-
-
 });
 
 $('#MyCart').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
