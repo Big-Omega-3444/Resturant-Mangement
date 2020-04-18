@@ -210,12 +210,27 @@ paypal.Buttons({
 	},
 
 	// Finalize the transaction
-	onApprove: function(data, actions) {
-		return actions.order.capture().then(function(details) {
-			// Show a success message to the buyer
-			alert('Transaction completed by ' + details.payer.name.given_name + '!');
-		});
-	}
+    onApprove: function(data, actions) {
+
+      // Authorize the transaction
+      actions.order.authorize().then(function(authorization) {
+
+        // Get the authorization id
+        var authorizationID = authorization.purchase_units[0].payments.authorizations[0].id
+
+        // Call your server to validate and capture the transaction
+        return fetch('/paypal-transaction-complete', {
+          method: 'post',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            orderID: data.orderID,
+            authorizationID: authorizationID
+          })
+        });
+      });
+    }
 
 
 }).render('#paypal-button-container');
