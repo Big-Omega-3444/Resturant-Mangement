@@ -210,7 +210,7 @@ function RetrieveOrders(BuildCards, Management, Waitstaff)
 					if (Waitstaff == true)
 					{
 						BuildOrderCardsWaitstaff(data.target.extraInfo, JSON.parse(request2.responseText))
-						BuildNotificationCards();
+						BuildNotificationCards(data.target.extraInfo);
 						return;
 					}
 				
