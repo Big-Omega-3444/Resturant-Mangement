@@ -506,8 +506,7 @@
 													<p><strong id="subtotal">$0.00</strong></p>
 													<p><strong id="tax">$0.00</strong></p>
 													<div class="input-group">
-													  <span class="input-group-addon">$</span>
-														<input type="text" id="tip" class="form-control" placeholder="0.00"/>
+														<input type="text" id="tip" class="form-control text-center" placeholder="$0.00"/>
 													</div>
 												</td>
 											</tr>
@@ -527,7 +526,7 @@
 												<div class="form-row">
 													<label for="comment">Special requests:</label>
   													<textarea class="form-control" rows="2" id="specialRequests"></textarea>
-													<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Coupon code</div>
+													<!--div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Coupon code</div-->
 														<div class="p-4">
 															<p class="font-italic mb-4">If you have a coupon code, please enter it in the box below</p>
 															<div  class="input-group mb-4 border rounded-pill p-2">
@@ -649,25 +648,23 @@
 							<div class="card card-signin my-5">
 								<div class="card-body">
 									<form class="form-signin">
-									  <div class="form-label-group">
-										<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-										<label for="inputEmail">Email address</label>
-									  </div>
-
-									  <div class="form-label-group">
-										<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-										<label for="inputPassword">Password</label>
-									  </div>
-									  
-									  <div class="text-center"><a class="small" href="#">Forgot password?</a></div>
-									  <hr class="my-4">
-									  <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-									  <hr class="my-4">
-									  <div class="text-center"><a class="label" href="#">Create Account</a></div>
-									  <hr class="my-4">
-									  
-									  <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
-									  <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
+									<div class="form-label-group">
+										<input type="email" id="emailTxtBox" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" minlength="6" placeholder="Email address" required autofocus>
+										<label for="emailTxtBox">Email address</label>
+									</div>
+									<div class="form-label-group">
+										<input type="password" id="PIN" class="form-control" placeholder="Password" required>
+										<label for="PIN">Password</label>
+									</div>
+									<!--div class="text-center"><a class="small" href="#">Forgot password?</a></div>
+									<hr class="my-4"-->
+									<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+									<hr class="my-4">
+									<div class="text-center"><a class="label" data-dismiss="modal" data-toggle="modal" href="#RewardsSignup">Create Account</a></div>
+									
+									<!--Only uncomment if we implement Facebook/Google login-->
+									<!--button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
+									<button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button-->
 									</form>
 								</div>
 							</div>
@@ -678,45 +675,50 @@
 		</div>
 	</div>
 	<!-- End Rewards Section -->
-
-	<!-- Booking Section -->
-	<div id="Booking" class="modal fade" role="dialog">
+	
+	<!--Rewards Signup-->
+		<div id="RewardsSignup" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Reservations</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h5 class="modal-title">Rewards Signup</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
 					<div class="Acontainer">
 						<form>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="First name" required>
+								  <input type="text" class="form-control" id="firstname" placeholder="First name" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="Last name" required>
+								  <input type="text" class="form-control" id="lastname" placeholder="Last name" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" placeholder="Address">
+									<input type="text" class="form-control" id="address_number" placeholder="Address Number" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-									<input type="text" class="form-control" placeholder="Apartment, studio, or floor">
+									<input type="text" class="form-control" id="address_street" placeholder="Address" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4">
-								  <input type="text" class="form-control" placeholder="City">
+									<input type="text" class="form-control" id="address_unit" placeholder="Apartment, studio, or floor">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-4">
+								  <input type="text" class="form-control" id="address_city" placeholder="City" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4 mb-3">
-									<select class="form-control">
+									<select id="address_state" class="form-control">
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
 										<option value="AZ">Arizona</option>
@@ -773,24 +775,24 @@
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-								  <input type="text" class="form-control" placeholder="Zip Code" required>
+								  <input type="text" class="form-control" id="address_zip" placeholder="Zip Code" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-4 mb-3">
-								  <input id="telNo" type="tel" class="form-control" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
+								  <input type="tel" class="form-control" id="phone_number" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
 								</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-2">
-								  <input type="email" class="form-control"  placeholder="student@my.unt.edu" minlength="6" required>
+								  <input type="email" class="form-control" id="emailTxtBox" placeholder="student@my.unt.edu" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" minlength="6" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="form-check">
 								  <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
 								  <label class="form-check-label" for="invalidCheck">
-									Agree to terms and conditions
+									Agree to <a href="termsOfUse">terms and conditions</a>
 								  </label>
 								  <div class="invalid-feedback">
 									You must agree before submitting.
@@ -799,6 +801,63 @@
 							</div>
 						  <button class="btn btn-primary" type="submit">Submit form</button>
 						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--End Rewards Signup-->
+
+	<!-- Booking Section -->
+	<div id="Booking" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Reservations</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="Acontainer">
+						<div class="col-sm-9 col-md-7 col-lg-5">
+							<div class="card card-signin my-5">
+								<div class="card-body">
+									<form class="form-signin">
+										<div class="form-label-group">
+										<input type="text" class="form-control" id="firstname" placeholder="First name" required>
+											<label for="firstname">First Name</label>
+										</div>
+										<div class="form-label-group">
+										<input type="text" class="form-control" id="lastname" placeholder="Last name" required>
+											<label for="lastname">Last Name</label>
+										</div>
+										<div class="form-label-group">
+											<input type="email" id="email" class="form-control" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+											<label for="email">Email address</label>
+										</div>
+										<div class="form-label-group">
+											<input id="phone_number" type="tel" class="form-control" name="phone_number" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
+											<label for="phone_number">Phone Number</label>
+										</div>
+										<div class="form-group">
+											<select class="custom-select" id="num_people" required>
+												<option value="">Expected Attendants</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5">5</option>
+												<option value="6">6</option>
+												<option value="7">7</option>
+												<option value="8">8</option>
+											</select>
+											<div class="invalid-feedback">You must make a valid selection</div>
+										</div>
+										<hr class="my-4">
+										<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Create Reservation</button>
+										<hr class="my-4">
+									</form>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -850,7 +909,40 @@
 	<!-- Include orders js -->
 	<script src="{{ url_for('static', filename='javascript/order.js') }}"></script>
 
+<script>
+$("input[type='tel']").each(function(){
+  $(this).on("change keyup paste", function (e) {
+    var output,
+      $this = $(this),
+      input = $this.val();
 
+    if(e.keyCode != 8) {
+      input = input.replace(/[^0-9]/g, '');
+      var area = input.substr(0, 3);
+      var pre = input.substr(3, 3);
+      var tel = input.substr(6, 4);
+      if (area.length < 3) {
+        output = "(" + area;
+      } else if (area.length == 3 && pre.length < 3) {
+        output = "(" + area + ")" + pre;
+      } else if (area.length == 3 && pre.length == 3) {
+        output = "(" + area + ")" + pre + "-" + tel;
+      }
+      $this.val(output);
+    }
+  });
+});
+
+$("input[type='tip']").each(function(){
+    $(this).on("change keyup paste", null, function () {
+        var $input = $(this),
+            value = $input.val(),
+            num = parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+
+        $input.siblings('.add-on').text('$' + num);
+    });
+});
+</script>
 
 </body>
 
