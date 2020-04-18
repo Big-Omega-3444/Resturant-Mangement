@@ -32,8 +32,22 @@ body{font-family:Lato,'Helvetica Neue',Helvetica,Arial,sans-serif}h1,h2,h3,h4,h5
   box-shadow: 4px 8px 16px rgba(0, 0, 0, .5);
   padding: 20px;
   width: auto;
-<<<<<<< HEAD
   height: auto;
+}
+
+.gameTitle{
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: 300;
+    font-size: 44px;
+    margin-bottom: 90px;
+    line-height: 90%;
+}
+.gameTitle small{
+    font-size: 17px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    margin: 0;
 }
 
 #TableMap {
@@ -52,22 +66,3 @@ body{font-family:Lato,'Helvetica Neue',Helvetica,Arial,sans-serif}h1,h2,h3,h4,h5
  color: #fff;
 }
 #draggable { width: 150px; height: 150px; padding: 0.5em; }
-=======
-  height: auto;  
-}
-
-.gameTitle{
-    color: #FFFFFF;
-    text-align: center;
-    font-weight: 300;
-    font-size: 44px;
-    margin-bottom: 90px;
-    line-height: 90%;
-}
-.gameTitle small{
-    font-size: 17px;
-    color: #FFFFFF;
-    text-transform: uppercase;
-    margin: 0;
-}
->>>>>>> 9db19865a3e89fdf04f693e2bcbc72ef1f3f2ee6

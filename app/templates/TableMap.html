@@ -84,52 +84,37 @@
 	</div>
 
 
-		<div id="TableStatus" class="modal fade" role="dialog">
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Table Status:</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<div class="container">
-							<div class="row justify-content-center">
-								<div class="col">
-									<p class="text-center">Orders:</p>
-								</div>
-							</div>
-						</div>
-					</div>
-	                <div class="modal-footer">
 
-	                </div>
+
+
+
+
+	<div id="TableStatus" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Order History</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered table-striped" id="KTCH_OrderHistoryTable">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Items</th>
+								<th>Date</th>
+								<th>Functions</th>
+							</tr>
+						</thead>
+						<tbody id="KTCH_OrderHistoryTable_Body">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="KCHN_Orders_btnSaveChanges" data-toggle="modal" data-target="#KCHN_Orders">Save and Close</button>
 				</div>
 			</div>
 		</div>
-
-		<div class="modal" tabindex="-1" role="dialog">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">Modal title</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        <p>Modal body text goes here.</p>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary">Save changes</button>
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-
-
-
-<!-- Draggable Table Map -->
-
+	</div>
 
 <!-- Bootstrap core JavaScript -->
 <script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
@@ -137,6 +122,14 @@
 <!-- Here because javascript suxs -->
 <script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>
 <script src="{{ url_for('static', filename='javascript/management.js') }}"></script>
+
+<!-- Include table js -->
+<script src="{{ url_for('static', filename='javascript/table.js') }}"></script>
+<!-- Include menu js -->
+<script src="{{ url_for('static', filename='javascript/menu.js') }}"></script>
+<!-- Include orders js -->
+<script src="{{ url_for('static', filename='javascript/order.js') }}"></script>
+
 </body>
 
 </html>

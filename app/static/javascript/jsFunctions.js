@@ -45,24 +45,19 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveA
 	if (divID != "")
 	{
 		//Add a function that should remove the notification after 4000 ms
-<<<<<<< HEAD
-		$('.alert-messages').delay(4000).slideUp(200, function() { DeleteNotifications(this); $(this).remove(); })
-
-=======
-		$('.alert-messages').delay(4000).slideUp(200, function(bRemoveAlertOnly) 
-		{ 
+		$('.alert-messages').delay(4000).slideUp(200, function(bRemoveAlertOnly)
+		{
 			if (bRemoveAlertOnly === false)
-				DeleteNotifications(this); 
-			$(this).remove(); 
+				DeleteNotifications(this);
+			$(this).remove();
 		});
-		
->>>>>>> 9db19865a3e89fdf04f693e2bcbc72ef1f3f2ee6
+
 		//Intentional, this will get the ID properly when splitting the string into two parts
-		$(`btnClose_${divID}`).delay(4000).slideUp(200, function(bRemoveAlertOnly) 
-		{ 
+		$(`btnClose_${divID}`).delay(4000).slideUp(200, function(bRemoveAlertOnly)
+		{
 			if (bRemoveAlertOnly === false)
-				DeleteNotifications(this); 
-			$(this).remove(); 
+				DeleteNotifications(this);
+			$(this).remove();
 		});
 	}
 }
@@ -173,31 +168,6 @@ function DeleteNotifications(object, id = "")
 	post.send();
 }
 
-<<<<<<< HEAD
-// Request Help Function
-function getHelp(helpVal) {
-  if (document.getElementById(helpVal).innerHTML === "Help?") {
-    document.getElementById(helpVal).innerHTML = "Your host is on the way!";
-    // Alert waiter
-  } else {
-    document.getElementById(helpVal).innerHTML = "Help?";
-    // Cancel Request
-  }
-}
-
-// Refill Drink Function
-function needRefill(drinkId) {
-  if (document.getElementById(drinkId).innerHTML === "Refill") {
-    document.getElementById(drinkId).innerHTML = "Please wait...";
-    // Alert waiter
-  } else {
-    document.getElementById(drinkId).innerHTML = "Refill";
-    // Cancel Request
-  }
-}
-
-=======
->>>>>>> 9db19865a3e89fdf04f693e2bcbc72ef1f3f2ee6
 //Management search function
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
