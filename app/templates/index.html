@@ -477,7 +477,7 @@
 									</div>
 									<div class="col-xs-12 col-sm-12 col-md-12 text-right">
 										<p><em>Date: </em></em><em id="date">29 February, 2020</em></p>
-										<p><em>Receipt #: 123456789A</em></p>
+										<p><em>Receipt #: MNB6GFE99X</em></p>
 									</div>
 								</div>
 								<div class="form-row">
@@ -522,7 +522,7 @@
 											</tr>
 										</tbody>
 									</table>
-										<div class="row py-5 p-4 bg-white rounded shadow-sm">
+										<div class="row py-5 p-4 bg-white rounded shadow-sm" style="padding-top:0;">
 												<div class="form-row">
 													<label for="comment">Special requests:</label>
   													<textarea class="form-control" rows="2" id="specialRequests"></textarea>
@@ -537,7 +537,19 @@
 															</div>
 														</div>
 												</div>
+												<div class="row lead">
+												<div class="custom-control custom-checkbox my-auto">
+												  <input type="checkbox" class="custom-control-input" id="ToGo">
+												  <label class="custom-control-label" for="ToGo"><i class="fas fa-truck-pickup"></i>To-Go?</label>
+												 </div>
+												 <div class="my-auto">&nbsp;&nbsp;</div>
+												<div class="custom-control custom-checkbox my-auto">
+													<input type="checkbox" class="custom-control-input" id="customCheckDisabled" disabled>
+												  <label class="custom-control-label" for="customCheckDisabled"><i class="fas fa-truck"></i>Delivery (Available Fall 2020!)</label>
+												</div>
+											</div>
 										</div>
+
 									<button type="button" class="btn btn-primary" id="PayNow"><i class="fas fa-dollar-sign"></i>&nbsp;Pay Now</button>&nbsp;&nbsp;
 									 <button class="btn btn-primary hidden-print" onclick="printFunction()"><i class="fas fa-print"></i>Print</button>
 								</div>

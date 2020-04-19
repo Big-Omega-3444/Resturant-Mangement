@@ -70,38 +70,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 										<div id="updateTime"></div>
 									</div>
 								</div>
-							</div>`;	
-
-				$(`#WTSForderID_${orderData[i]._id.$oid}`).replaceWith(nuCard);		
-				$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);				
-			}
-			// If the new status on the order is waitrequest, but the card says something else, then change the elements and update info
-			else if ((orderData[i].status).toString() === "waitrequest" && currsts != "Waitstaff Requested")
-			{
-				var object = card.find('#updateBody');
-
-				//This is gonna look real ugly				
-				cardTemplate = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
-									<div class="card bg-transparent border-info mb-3 w-75 text-center">
-										<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
-										<div class="card-header text-info border-info" >
-											Order #${orderData[i].order_id}
-											<hr>
-											<span>Status: <span id="status">Waitstaff Requested</span></span>
-										</div>
-										${object[0].outerHTML}
-										<div class="card-footer bg-transparent border-info">
-											<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
-											<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
-										</div>
-										<div class="card-footer bg-transparent border-info">
-											<div id="updateTime"></div>
-										</div>
-									</div>
-								</div>`;
-
-				$(`#WTSForderID_${orderData[i]._id.$oid}`).replaceWith(nuCard);		
-				$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);									
+							</div>`;					
 			}
 	
 			var elasped = (Date.now() - parseInt(card.find('#lastUpdate').html()))/(60*1000);
@@ -271,12 +240,20 @@ function BuildNotificationCards(ordersData)
 			{
 				if (notifs[i].request_refill === true)
 				{
+					//Don't build cards for neg 1s (default value of table if not set)
+					if (notifs[i].table == -1)
+						continue;
+					
 					BuildDrinkNotificationCard(notifs[i]);
 					continue;
 				}
 				
 				if (notifs[i].request_help === true)
 				{
+					//Don't build cards for neg 1s (default value of table if not set)
+					if (notifs[i].table == -1)
+						continue;
+					
 					BuildHelpNotificationCard(notifs[i]);
 					continue;
 				}
@@ -288,13 +265,20 @@ function BuildNotificationCards(ordersData)
 					BuildGenericCWCard(notifs[i]);
 					continue;
 				}
-				/*
 				else if (notifs[i].call_waitstaff === true && notifs[i].order != null)
 				{
-					BuildOrderCWAlert(notifs[i], ordersData);
+					for (j = 0; j < ordersData.length; j++)
+					{
+						var str = (ordersData[j]._id.$oid).toString()
+						if (str === notifs[i].order.$oid)
+						{
+							BuildOrderCWAlert(notifs[i], ordersData[j]);	
+						}
+					}
 					continue;
 				}
 				
+				/*
 				if (notifs[i].meal_ready)
 				{
 					BuildOrderReadyAlert(notifs[i], ordersData);
@@ -321,126 +305,251 @@ function BuildNotificationCards(ordersData)
 
 function BuildDrinkNotificationCard(notifData)
 {
-		// Update time on existing card then exit
-		if ( $(`#drinkNotifID_${notifData._id.$oid}`).length )
-		{
-			var elasped = (Date.now() - parseInt($(`#drinkNotifID_${notifData._id.$oid}`).find('#lastUpdate').html()))/(60*1000);
-			$(`#drinkNotifID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
-			return;			
-		}	
+	// Update time on existing card then exit
+	if ( $(`#drinkNotifID_${notifData._id.$oid}`).length )
+	{
+		var elasped = (Date.now() - parseInt($(`#drinkNotifID_${notifData._id.$oid}`).find('#lastUpdate').html()))/(60*1000);
+		$(`#drinkNotifID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
+		return;			
+	}	
 	
-		var cardTemplate = `<div class="SingletonOrderCard" id="drinkNotifID_${notifData._id.$oid}">
-							<div class="card bg-transparent border-primary mb-3 w-75 text-center">
-								<div style="display:none;" id="lastUpdate">${notifData.time_created}</div>
-								<div class="card-header text-dark border-warning" >
-									Table ??? Requests Refill
-								</div>
-								<div id="updateBody"></div>
-								<div class="card-footer bg-transparent border-warning">
-									Drink: drinkID
-								</div>
-								<div class="card-footer bg-transparent border-warning">
-									<div id="updateTime"></div>
-								</div>
+	// Prevent case where if no time was submitted, then returns undefined
+	var elasped;
+	
+	if (notifData.time_created != null)
+	{
+		elasped = (Date.now() - parseInt(notifData.time_created))/(60*1000);
+		timeCreated = notifData.time_created;
+	}
+	else
+	{
+		elasped = (Date.now() - (Date.now() - 60000))/(60*1000);
+		timeCreated = elasped;
+	}
+	
+	var cardTemplate = `<div class="SingletonOrderCard" id="drinkNotifID_${notifData._id.$oid}">
+						<div class="card bg-transparent border-warning mb-3 w-75 text-center">
+							<div style="display:none;" id="lastUpdate">${timeCreated}</div>
+							<div class="card-header text-dark border-warning" >
+								Table #${notifData.table} Requests Refill
 							</div>
-						</div>`;		
+							<div id="updateBody"></div>
+							<div class="card-footer bg-transparent border-warning">
+								<div id="updateTime"></div>
+							</div>
+						</div>
+					</div>`;	
+	
+	var inject = $('<div class="card-body text-left"/>');
+	inject.append($('<dt/>').html("Items"));
+	
+	//Now build and inject the bulleted list into the appended card
+	for (j = 0; j < notifData.refill_list.length; j++)
+	{
+		inject.append($('<dd/>').html(notifData.refill_list[j]));			
+	}
+	
+	$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateBody').append(inject);					
 						
 	$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
 	window.currentState.push(`drinkNotifID_${notifData._id.$oid}`);
-
-	var elasped = (Date.now() - parseInt(notifData.time_created))/(60*1000);
-
+	
+	//Edit the button to include a function
+	$(`#btnClose_${notifData._id.$oid}`).click(function() {
+		var str = ($(this).attr('id')).split("_");
+		$(`#drinkNotifID_${str[1]}`).remove()
+		DeleteNotifications(this);
+	});
+	
 	// Inject last updated text into footer
-	$(`#drinkNotifID_${notifData._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);	
-
-	GenerateAlertMessage('#WTSF_Alerts' ,"<strong>Refill Requested!<strong> Table ??? requests drink refill of ???", 'alert-warning', notifData._id.$oid, true)
+	$(`#drinkNotifID_${orderData[i]._id.$oid}`).find('#integer').html(parseInt(elasped));
+	
+	GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Refill Requested!</strong> Table #${notifData.table} requests drink refill!`, 'alert-warning', `alertID_${notifData._id.$oid}`, true)
 }
 
 function BuildHelpNotificationCard(notifData)
 {
-		// Update time on existing card then exit
-		if ( $(`#helpNotifID_${notifData._id.$oid}`).length )
-		{
-			var elasped = (Date.now() - parseInt($(`#helpNotifID_${notifData._id.$oid}`).find('#lastUpdate').html()))/(60*1000);
-			$(`#helpNotifID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
-			return;			
-		}
+	var elasped;
+	
+	// Update time on existing card then exit
+	if ( $(`#helpNotifID_${notifData._id.$oid}`).length )
+	{
+		var elasped = (Date.now() - parseInt($(`#helpNotifID_${notifData._id.$oid}`).find('#lastUpdate').html()))/(60*1000);
+		$(`#helpNotifID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
+		return;			
+	}
+
+	// Prevent case where if no time was submitted, then returns undefined
+	if (notifData.time_created != null)
+	{
+		elasped = (Date.now() - parseInt(notifData.time_created))/(60*1000);
+		timeCreated = notifData.time_created;
+	}
+	else
+	{
+		elasped = 0;
+		timeCreated = Date.now();
+	}
 		
-		var cardTemplate = `<div class="SingletonOrderCard" id="helpNotifID_${notifData._id.$oid}">
-							<div class="card bg-transparent border-danger mb-3 w-75 text-center">
-								<div style="display:none;" id="lastUpdate">${notifData.time_created}</div>
-								<div class="card-header text-danger border-danger" >
-									Table ??? Requests For Help
-								</div>
-								<div id="updateBody"></div>
-								<div class="card-footer bg-transparent border-danger">
-									Drink: drinkID
-								</div>
-								<div class="card-footer bg-transparent border-danger">
-									<div id="updateTime"></div>
-								</div>
+	var cardTemplate = `<div class="SingletonOrderCard" id="helpNotifID_${notifData._id.$oid}">
+						<div class="card bg-transparent border-danger mb-3 w-75 text-center">
+							<div style="display:none;" id="lastUpdate">${timeCreated}</div>
+							<div class="card-header text-danger border-danger" >
+								Table #${notifData.table} Requests For Help
 							</div>
-						</div>`;		
+							<div id="updateBody">
+								<div class="card-body text-left">
+									Reason: Help button was pressed
+								</div>							
+							</div>
+							<div class="card-footer bg-transparent border-danger">
+								<button type="button" class="btn btn-secondary" id="btnClose_${notifData._id.$oid}" style="z-index:2000">Dismiss</button>
+							</div>
+							<div class="card-footer bg-transparent border-danger">
+								<div id="updateTime"></div>
+							</div>
+						</div>
+					</div>`;		
 						
 	$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
 	window.currentState.push(`helpNotifID_${notifData._id.$oid}`);
 	
-	var elasped = (Date.now() - parseInt(notifData.time_created))/(60*1000);
+	//Edit the button to include a function
+	$(`#btnClose_${notifData._id.$oid}`).click(function() {
+		DeleteNotifications(this);
+		var str = ($(this).attr('id')).split("_");
+		$(`#helpNotifID_${str[1]}`).remove();
+	
+	});
 	
 	// Inject last updated text into footer
-	$(`#callwaitstaffID_${notifData._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);
+	$(`#helpNotifID_${notifData._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);
 						
-	GenerateAlertMessage('#WTSF_Alerts' ,"<strong>Waitstaff Requested!<strong> Kitchen called for Waitstaff!", 'alert-warning', notifData._id.$oid, true)	
-}
-
-function BuildCallWaitstaffOnOrderNotificationCard(notifData)
-{					
-	GenerateAlertMessage('#WTSF_Alerts' ,"<strong>Waitstaff Requested!<strong> Kitchen called Waitstaff for Order # ???", 'alert-warning')
+	GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Waitstaff Requested!</strong> Table #${notifData.table} requests for help!`, 'alert-warning', notifData._id.$oid, true);
 }
 
 function BuildGenericCWCard(notifData)
 {
-
-		// Update time on existing card then exit
-		if ( $(`#callwaitstaffID_${notifData._id.$oid}`).length )
-		{
-			var elasped = (Date.now() - parseInt($(`#callwaitstaffID_${notifData._id.$oid}`).find('#lastUpdate').html()))/(60*1000);
-			$(`#callwaitstaffID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
-			return;			
-		}
-
+	var elasped;
 	
-		var cardTemplate = `<div class="SingletonOrderCard" id="callwaitstaffID_${notifData._id.$oid}">
-							<div class="card bg-transparent border-warning mb-3 w-75 text-center">
-								<div style="display:none;" id="lastUpdate">${notifData.time_created}</div>
-								<div class="card-header text-dark border-warning" >
-									Kitchen Called for Waitstaff
-								</div>
-								<div id="updateBody"></div>
-								<div class="card-footer bg-transparent border-warning">
-									<div id="updateTime"></div>
+	// Update time on existing card then exit
+	if ( $(`#callwaitstaffID_${notifData._id.$oid}`).length )
+	{
+		var elasped = (Date.now() - parseInt($(`#callwaitstaffID_${notifData._id.$oid}`).find('#lastUpdate').html()))/(60*1000);
+		$(`#callwaitstaffID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
+		return;			
+	}
+	
+	// Prevent case where if no time was submitted, then returns undefined
+	if (notifData.time_created != null)
+	{
+		elasped = (Date.now() - parseInt(notifData.time_created))/(60*1000);
+		timeCreated = notifData.time_created;
+	}
+	else
+	{
+		elasped = 0;
+		timeCreated = Date.now();
+	}
+	
+	var cardTemplate = `<div class="SingletonOrderCard" id="callwaitstaffID_${notifData._id.$oid}">
+						<div class="card bg-transparent border-warning mb-3 w-75 text-center">
+							<div style="display:none;" id="lastUpdate">${timeCreated}</div>
+							<div class="card-header text-dark border-warning" >
+								Kitchen Called for Waitstaff
+							</div>
+							<div id="updateBody">
+								<div class="card-body text-left">
+									<strong>Reason: Call button pressed</strong>
 								</div>
 							</div>
-						</div>`;
+							<div class="card-footer bg-transparent border-primary">
+								<button type="button" class="btn btn-secondary" id="btnClose_${notifData._id.$oid}" style="z-index:2000">Dismiss</button>
+							</div>
+							<div class="card-footer bg-transparent border-warning">
+								<div id="updateTime"></div>
+							</div>
+						</div>
+					</div>`;
 						
 	$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
 	window.currentState.push(`callwaitstaffID_${notifData._id.$oid}`);
 	
-	var elasped = (Date.now() - parseInt(notifData.time_created))/(60*1000);
+	//Edit the button to include a function
+	$(`#btnClose_${notifData._id.$oid}`).click(function() {
+		DeleteNotifications(this);
+		var str = ($(this).attr('id')).split("_");
+		$(`#callwaitstaffID_${str[1]}`).remove();
+	});
 	
 	// Inject last updated text into footer
 	$(`#callwaitstaffID_${notifData._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);
 						
-	GenerateAlertMessage('#WTSF_Alerts' ,"<strong>Waitstaff Requested!<strong> Kitchen called for Waitstaff!", 'alert-warning', notifData._id.$oid, true)
+	GenerateAlertMessage('#WTSF_Alerts' ,"<strong>Waitstaff Requested!</strong> Kitchen called for Waitstaff!", 'alert-warning', notifData._id.$oid, true)
 
 }
 
-function BuildOrderCWAlert(notifData)
+function BuildOrderCWAlert(notifData, orderData)
 {
+	var elasped;
 	
+	// Update time on existing card then exit
+	if ( $(`#callwaitstaffOrderID_${notifData._id.$oid}`).length )
+	{
+		elasped = (Date.now() - parseInt($(`#callwaitstaffOrderID_${notifData._id.$oid}`).find('#lastUpdate').html()))/(60*1000);
+		$(`#callwaitstaffOrderID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
+		return;			
+	}
+	
+	// Prevent case where if no time was submitted, then returns undefined
+	if (notifData.time_created != null)
+	{
+		elasped = (Date.now() - parseInt(notifData.time_created))/(60*1000);
+		timeCreated = notifData.time_created;
+	}
+	else
+	{
+		elasped = 0;
+		timeCreated = Date.now();
+	}
+
+	var cardTemplate = `<div class="SingletonOrderCard" id="callwaitstaffOrderID_${notifData._id.$oid}">
+						<div class="card bg-transparent border-warning mb-3 w-75 text-center">
+							<div style="display:none;" id="lastUpdate">${timeCreated}</div>
+							<div class="card-header text-dark border-warning" >
+								Kitchen Called for Waitstaff
+							</div>
+							<div id="updateBody">
+								<div class="card-body text-left">
+									<strong>Reason: Input Query for Order #${orderData.order_id}</strong>
+								</div>
+							</div>
+							<div class="card-footer bg-transparent border-warning">
+								<button type="button" class="btn btn-secondary" id="btnClose_${notifData._id.$oid}" style="z-index:2000">Dismiss</button>
+							</div>
+							<div class="card-footer bg-transparent border-warning">
+								<div id="updateTime"></div>
+							</div>
+						</div>
+					</div>`;
+						
+	$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
+	window.currentState.push(`callwaitstaffOrderID_${notifData._id.$oid}`);
+
+	//Edit the button to include a function
+	$(`#btnClose_${notifData._id.$oid}`).click(function() {
+		DeleteNotifications(this);
+		var str = ($(this).attr('id')).split("_");
+		$(`#callwaitstaffOrderID_${str[1]}`).remove();
+	});	
+	
+	// Inject last updated text into footer
+	$(`#callwaitstaffOrderID_${notifData._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);
+	
+	GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Waitstaff Requested!</strong> Kitchen requests waitstaff for Order #${orderData.order_id}`, 'alert-warning', notifData._id.$oid, true)	
 }
 
-function BuildOrderReadyAlert(notifData)
+function BuildOrderReadyAlert(notifData, orderData)
 {
 	
 }
@@ -467,10 +576,14 @@ setInterval(function() {
 	//Retrieve all notification cards and clean them up if they don't exist in the API
 	for (i = 0; i < window.currentState.length; i++)
 	{
+		// Deletion does not modify the array, so check if there's a null element in the array
+		if (window.currentState[i] == null)
+			continue;
+		
 		(function (i){
 			requests[i] = new XMLHttpRequest();
-
-			var url = "/api/notifications/" + window.currentState[i];
+			
+			var url = "/api/notifications/" + ((window.currentState[i]).split("_"))[1];
 			requests[i].open('GET', url);
 
 			// Handle on load
@@ -484,6 +597,7 @@ setInterval(function() {
 				else if (requests[i].status === 404) // We're expecting to get one of these so we can delete notifications
 				{
 					$(`#${requests[i].extraInfo}`).remove();
+					delete window.currentState[i];
 				}
 				else	// Handle Other unusual errors
 				{

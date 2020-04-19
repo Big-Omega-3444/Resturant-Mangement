@@ -16,6 +16,7 @@ class NotificationModel(Document):
     call_waitstaff = MyBooleanField(default=False)
     call_management = MyBooleanField(defaul=False)
     request_refill = MyBooleanField(default=False)
+    refill_list = ListField(StringField(), default=[])
     request_help = MyBooleanField(default=False)
     time_created = IntField(required=True)
 

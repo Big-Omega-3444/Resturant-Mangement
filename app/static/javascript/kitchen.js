@@ -263,7 +263,6 @@ function RetrieveOrders(BuildCards, Management, Waitstaff)
 		{
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(request.responseText)
-			console.log(error.message)
 			
 			alert(`Error ${request.status}: ${error.message}`);
 		}
@@ -286,7 +285,6 @@ function RetrieveOrders(BuildCards, Management, Waitstaff)
 				{		
 					//TODO: Create alert in HTML instead of using this to specify error
 					var error = JSON.parse(request2.responseText)
-					console.log(error.message)
 					
 					alert(`Error ${request2.status}: ${error.message}`);			
 				}
@@ -425,7 +423,7 @@ function SendOrderReadyRequest(button)
 	$('#orderNotifications').find(`#orderID_${splitstr[1]}`).remove();
 	
 	//Create Alert
-	GenerateAlertMessage('#KTCH_Alerts', "Waitstaff will be in momentarily to pick up Order #" + orderData[i].order_id, "alert-success");
+	GenerateAlertMessage('#KTCH_Alerts', "Waitstaff will be in momentarily to pick up Order #" + splitstr[1], "alert-success");
 	
 	//Generate XHR
 	var post = new XMLHttpRequest();
@@ -471,7 +469,27 @@ function SendOrderReadyRequest(button)
 				//Check for OK or CREATED status
 				if (putOrders.status === 200 || putOrders.status === 201 || putOrders.status === 204)
 				{
-					return;
+					//Generate XHR
+					var menuPut = new XMLHttpRequest();
+					
+					// Open a socket to the url
+					menuPut.open('PUT', "/api/orders/" + splitstr[1]);
+					
+					var payload = {
+						"status": "ready",
+						"time_modified": Date.now()
+					}
+					
+					menuPut.onload = function()
+					{
+						if (post.status === 200 || post.status === 201 || post.status === 204)
+							return;
+						else
+							alert(`Error ${request.status}: ${request.statusText}`);
+					}
+					
+					menuPut.setRequestHeader("Content-Type", "application/json");
+					menuPut.send(JSON.stringify(payload));	
 				}
 				else
 				{
@@ -517,43 +535,24 @@ function SendOrderCallWaitstaffRequest(button)
 	var url = "/api/notifications";
 	
 	var payload = {
-		"order": splitstr[1],
-		"call_waitstaff": true
+		"order": (splitstr[1]).toString(),
+		"call_waitstaff": true,
+		"time_created": Date.now()
 	}
 	
 	// Open a socket to the url
 	post.open('POST', url);
 	
 	// Handle on load
-	post.onload = function(data) 
+	post.onload = function() 
 	{
 		if (post.status === 200 || post.status === 201 || post.status === 204)
 		{
-			//Generate XHR
-			var menuPut = new XMLHttpRequest();
-			
-			// Open a socket to the url
-			menuPut.open('PUT', "/api/orders/" + splitstr[1]);
-			
-			var payload = {
-				"status": "waitrequest",
-				"time_modified": Date.now()
-			}
-			
-			menuPut.onload = function()
-			{
-				if (post.status === 200 || post.status === 201 || post.status === 204)
-					return;
-				else
-					alert(`Error ${request.status}: ${request.statusText}`);
-			}
-			
-			menuPut.setRequestHeader("Content-Type", "application/json");
-			menuPut.send(JSON.stringify(payload));	
+			return;
 		}
 		else
 		{
-			alert(`Error ${request.status}: ${request.statusText}`);
+			alert(`Error ${post.status}: ${post.statusText}`);
 		}
 	};
 	
