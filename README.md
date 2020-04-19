@@ -54,3 +54,8 @@ Change the password here to whatever you set in docker-compose.yml for MONGODB_P
 
 `exit`
 
+
+# To run unit tests
+cd ./UnitTests
+python3 Tests.py
+
