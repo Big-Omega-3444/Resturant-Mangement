@@ -341,7 +341,7 @@ function SubmitLoyaltyMemberForm()
 		if (post.status === 200 || post.status === 201)
 		{
 			alert("Thanks for joining!");
-			window.location('/');
+			location.reload();
 		}
 		else
 		{
