@@ -137,6 +137,10 @@ function SubmitOrder()
 
 	localOrder.time_ordered = Date.now();
     localOrder.special_notes = document.getElementById('specialRequests').value;
+
+    if(document.getElementById('ToGo').checked)
+        localOrder.to_go = "True";
+
     post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(localOrder));
 }
