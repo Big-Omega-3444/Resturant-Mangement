@@ -21,7 +21,7 @@ def check_request_good(request):
         request.raise_for_status()
         return True
     except:
-        print(request.text)
+        # print(request.text)
         if "NotUniqueError" in request.text:
             return False
 
@@ -99,6 +99,7 @@ base_url = 'http://localhost/'
 endpoints = ['api/users','api/employees','api/ingredients','api/menuitems','api/orders','api/menus','api/inventorys','api/coupons','api/specials','api/loyaltymembers','api/timesheets','api/tables','api/notifications','api/reservations']
 # Do a GET request for every endpoint
 for endpoint in endpoints:
+    print("Testing GET {}".format(endpoint))
     num_tests += 1
     r = requests.get(base_url+endpoint)
     check_request_good(r)
@@ -110,6 +111,7 @@ for endpoint in endpoints:
 rando = Randomizer()
 for k,v in Templates.__dict__.items():
     if "template" in k:
+        print("Testing POST {}".format(k))
         for _ in range(5):
             num_tests += 1
             while True:
@@ -126,6 +128,7 @@ for k,v in Templates.__dict__.items():
 
 # Do some GET requests to see if all of the data makes it back to us intact
 for temp,dc in objs_act.items():
+    print("Testing GET {}".format(temp))
     for k,v in dc.items():
         num_tests += 1
         resp = requests.get(base_url+'api/'+temp[:-len("_template")]+'s'+'/'+k.strip("\"\n"))
@@ -142,6 +145,7 @@ for temp,dc in objs_act.items():
 
 # Try Deleting everything we created
 for temp,dc in objs_act.items():
+    print("Testing DELETE {}".format(temp))
     for k,v in dc.items():
         num_tests += 1
         resp = requests.delete(base_url+'api/'+temp[:-len("_template")]+'s'+'/'+k.strip("\"\n"))
@@ -151,6 +155,7 @@ for temp,dc in objs_act.items():
 
 # Do some GET requests to see if all of the data was deleted
 for temp,dc in objs_act.items():
+    print("Testing GET {}".format(temp))
     for k,v in dc.items():
         num_tests += 1
         resp = requests.get(base_url+'api/'+temp[:-len("_template")]+'s'+'/'+k.strip("\"\n"))
