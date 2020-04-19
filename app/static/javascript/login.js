@@ -1,35 +1,56 @@
 function checkCredentials(data, selector)
 {
     var fail = true;
-    var user = document.getElementById("eID").value.toString();
-    var pass = document.getElementById("ePass").value.toString();
+    switch(selector){
+        case '#loginForm': // staff members
+            var user = document.getElementById("eID").value.toString();
+            var pass = document.getElementById("ePass").value.toString();
+            break;
+        case '#loyLogin': // loyalty members
+            var user = document.getElementById("llemail").value.toString();
+            var pass = document.getElementById("llPass").value.toString();
+            break;
+    }
 
     for(i=0; i < data.length; i++) // step through users
     {
-        if(data[i].username.toString() === user && data[i].pin.toString() === pass) // same user, same pass
+        switch(selector)
         {
+            case '#loginForm': // staff members
+                if(data[i].username.toString() === user && data[i].pin.toString() === pass) // same user, same pass
+                {
 
-            fail = false;
-            switch(data[i].assignment) // redirect accordingly
-            {
+                    fail = false;
+                    switch(data[i].assignment) // redirect accordingly
+                    {
 
-                //Added timesheet creator for relevant employee 
-                case "manager": recordSignIn(user, data[i].assignment);  break; 
-                case "kitchen": recordSignIn(user, data[i].assignment);  break;
-                case "waitstaff": recordSignIn(user, data[i].assignment); break; //window.location = '/waitstaff'
-                default: alert("Woah... Something isn't right..."); break;
+                        //Added timesheet creator for relevant employee
+                        case "manager": recordSignIn(user, data[i].assignment);  break;
+                        case "kitchen": recordSignIn(user, data[i].assignment);  break;
+                        case "waitstaff": recordSignIn(user, data[i].assignment); break;
+                        default: alert("Uh oh. Something broke..."); break;
+                    }
+                }
+                break;
 
-       
-            }
-
+            case '#loyLogin': // loyalty members
+                if(data[i].email.toString() === user && data[i].pin.toString() === pass) // same user, same pass
+                {
+                    fail = false;
+                    alert("Welcome back, "+data[i].firstname+"!"); // this happens when a loyal customer logs in
+                }
+                break;
         }
+
     }
-    if(fail){
-        alert("Nice try, kid");
+    if(fail){ // if we fail to log in
+        alert("Invalid Login Credentials");
         user = "fail"; 
         pass = "stupid";
         document.getElementById("eID").value = "";
         document.getElementById("ePass").value = "";
+        document.getElementById("llemail").value = "";
+        document.getElementById("llPass").value = "";
     }
 
 }
@@ -281,6 +302,9 @@ function requestInputText(url, selector)
                 case '#loginForm':
                     checkCredentials(JSON.parse(request.responseText), selector);
                     break;
+                case '#loyLogin':
+                    checkCredentials(JSON.parse(request.responseText), selector);
+                    break;
 			}
 		}
 	};
@@ -292,4 +316,43 @@ function requestInputText(url, selector)
 	};
 
 	request.send();
+}
+
+function SubmitLoyaltyMemberForm()
+{
+    event.preventDefault();
+
+    var post = new XMLHttpRequest();
+
+    // POST to the API
+    post.open('POST', "/api/loyaltymembers");
+
+	// Handle errors
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	// Handle on load
+	post.onload = function()
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201)
+		{
+			alert("Thanks for joining!");
+			location.reload();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("loyaltySignup"));
+    post.send(formData);
 }
