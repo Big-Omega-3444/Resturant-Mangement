@@ -57,9 +57,9 @@
 					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Employees"><i class="fas fa-address-book"></i> Manage Employees</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Reports"><i class="fas fa-book"></i> Reports</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Menu"><i class="fas fa-bars"></i> Modify Menu</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Kitchen"><i class="fas fa-utensils"></i> View Kitchen</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" onclick="javascript:window.location='kitchen'" data-target="#MGMT_Kitchen"><i class="fas fa-utensils"></i> View Kitchen</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-warehouse"></i> Manage Inventory</a></li>
-					<li class="list-inline-item"><a href="" data-dismiss="modal" onclick="javascript:window.location='TableMap'"type="button" class="btn btn-primary" data-toggle="modal"><i class="fas fa-border-all"></i> View Tables</a></li>
+					<li class="list-inline-item"><a href="" data-dismiss="modal" onclick="javascript:window.location='TableMap'"type="button" class="btn btn-primary" ><i class="fas fa-border-all"></i> View Tables</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Tables"><i class="fas fa-ticket-alt"></i> Manage Coupons and Specials</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 				</ul>
@@ -133,7 +133,6 @@
 											<th>Cost</th>
 											<th>Gratuity</th>
 											<th>Compensated</th>
-											<th>Employee</th>
 										</tr>
 									</thead>
 									<tbody id="KTCH_OrderHistoryTable_Body">
@@ -141,8 +140,18 @@
 								</table>	
 							</div>
 							<div class="tab-pane container fade" id="Track">
-
-
+								<table class="table table-bordered table-striped table-responsive" id="KTCH_TimeTable">
+									<thead>
+										<tr>
+											<th>Employee</th>
+											<th>First</th>
+											<th>Last</th>
+											<th>Total Hours</th>
+										</tr>
+									</thead>
+									<tbody id="KTCH_TimeTable_Body">
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>

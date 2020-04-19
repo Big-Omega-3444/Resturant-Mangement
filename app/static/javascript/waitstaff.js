@@ -240,12 +240,20 @@ function BuildNotificationCards(ordersData)
 			{
 				if (notifs[i].request_refill === true)
 				{
+					//Don't build cards for neg 1s (default value of table if not set)
+					if (notifs[i].table == -1)
+						continue;
+					
 					BuildDrinkNotificationCard(notifs[i]);
 					continue;
 				}
 				
 				if (notifs[i].request_help === true)
 				{
+					//Don't build cards for neg 1s (default value of table if not set)
+					if (notifs[i].table == -1)
+						continue;
+					
 					BuildHelpNotificationCard(notifs[i]);
 					continue;
 				}
@@ -304,10 +312,10 @@ function BuildDrinkNotificationCard(notifData)
 		$(`#drinkNotifID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
 		return;			
 	}	
-
+	
 	// Prevent case where if no time was submitted, then returns undefined
 	var elasped;
-
+	
 	if (notifData.time_created != null)
 	{
 		elasped = (Date.now() - parseInt(notifData.time_created))/(60*1000);
@@ -320,25 +328,32 @@ function BuildDrinkNotificationCard(notifData)
 	}
 	
 	var cardTemplate = `<div class="SingletonOrderCard" id="drinkNotifID_${notifData._id.$oid}">
-						<div class="card bg-transparent border-primary mb-3 w-75 text-center">
+						<div class="card bg-transparent border-warning mb-3 w-75 text-center">
 							<div style="display:none;" id="lastUpdate">${timeCreated}</div>
 							<div class="card-header text-dark border-warning" >
-								Table ??? Requests Refill
+								Table #${notifData.table} Requests Refill
 							</div>
-							<div id="updateBody">
-								<div class="card-body text-left">
-									Drink: drinkID
-								</div>
-							</div>
+							<div id="updateBody"></div>
 							<div class="card-footer bg-transparent border-warning">
 								<div id="updateTime"></div>
 							</div>
 						</div>
-					</div>`;		
+					</div>`;	
+	
+	var inject = $('<div class="card-body text-left"/>');
+	inject.append($('<dt/>').html("Items"));
+	
+	//Now build and inject the bulleted list into the appended card
+	for (j = 0; j < notifData.refill_list.length; j++)
+	{
+		inject.append($('<dd/>').html(notifData.refill_list[j]));			
+	}
+	
+	$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateBody').append(inject);					
 						
 	$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
 	window.currentState.push(`drinkNotifID_${notifData._id.$oid}`);
-
+	
 	//Edit the button to include a function
 	$(`#btnClose_${notifData._id.$oid}`).click(function() {
 		var str = ($(this).attr('id')).split("_");
@@ -348,8 +363,8 @@ function BuildDrinkNotificationCard(notifData)
 	
 	// Inject last updated text into footer
 	$(`#drinkNotifID_${orderData[i]._id.$oid}`).find('#integer').html(parseInt(elasped));
-
-	GenerateAlertMessage('#WTSF_Alerts' ,"<strong>Refill Requested!<strong> Table ??? requests drink refill of ???", 'alert-warning', `alertID_${notifData._id.$oid}`, true)
+	
+	GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Refill Requested!</strong> Table #${notifData.table} requests drink refill!`, 'alert-warning', `alertID_${notifData._id.$oid}`, true)
 }
 
 function BuildHelpNotificationCard(notifData)
@@ -363,7 +378,7 @@ function BuildHelpNotificationCard(notifData)
 		$(`#helpNotifID_${notifData._id.$oid}`).find('#integer').html(parseInt(elasped));			
 		return;			
 	}
-		
+
 	// Prevent case where if no time was submitted, then returns undefined
 	if (notifData.time_created != null)
 	{
@@ -380,14 +395,14 @@ function BuildHelpNotificationCard(notifData)
 						<div class="card bg-transparent border-danger mb-3 w-75 text-center">
 							<div style="display:none;" id="lastUpdate">${timeCreated}</div>
 							<div class="card-header text-danger border-danger" >
-								Table ??? Requests For Help
+								Table #${notifData.table} Requests For Help
 							</div>
 							<div id="updateBody">
 								<div class="card-body text-left">
-									Drink: drinkID
+									Reason: Help button was pressed
 								</div>							
 							</div>
-							<div class="card-footer bg-transparent border-primary">
+							<div class="card-footer bg-transparent border-danger">
 								<button type="button" class="btn btn-secondary" id="btnClose_${notifData._id.$oid}" style="z-index:2000">Dismiss</button>
 							</div>
 							<div class="card-footer bg-transparent border-danger">
@@ -404,13 +419,13 @@ function BuildHelpNotificationCard(notifData)
 		DeleteNotifications(this);
 		var str = ($(this).attr('id')).split("_");
 		$(`#helpNotifID_${str[1]}`).remove();
-
+	
 	});
 	
 	// Inject last updated text into footer
 	$(`#helpNotifID_${notifData._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);
 						
-	GenerateAlertMessage('#WTSF_Alerts' ,"<strong>Waitstaff Requested!<strong> Kitchen called for Waitstaff!", 'alert-warning', notifData._id.$oid, true)	
+	GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Waitstaff Requested!</strong> Table #${notifData.table} requests for help!`, 'alert-warning', notifData._id.$oid, true);
 }
 
 function BuildGenericCWCard(notifData)

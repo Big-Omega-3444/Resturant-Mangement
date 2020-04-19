@@ -36,12 +36,12 @@
 			</div>
 			<div class="row">
 				<div class="col-sm h-200 text-center text-lg-center my-auto">
-					<ul class="list-inline mb-0">
+					<ul class="list-inline mb-0" id="last">
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#KCHN_Orders"><i class="fas fa-clipboard-list"></i> Manage Orders</a></li>
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-warehouse"></i> Manage Inventory</a></li>
 						<li class="list-inline-item"><button type="button" id="btn_callWaitstaff"  class="btn btn-primary"><i class="fas fa-phone"></i> Call Waitstaff</button></li>
 						<li class="list-inline-item"><button type="button" id="btn_callManagement" class="btn btn-primary"><i class="fas fa-phone"></i> Call Management</button></li>
-						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#Logout" ><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
 				</div>
 			</div>
@@ -55,6 +55,12 @@
 	</nav>
 	<!-- End Headers -->	
 	
+	<script>
+		function go() {
+			javascript: window.location = 'management';
+		}
+	</script>
+
 	<!-- Begin ALERTS -->
 	<section class="bg-light">
 		<div id="KTCH_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
@@ -224,7 +230,7 @@
                 <div class="modal-footer">
 					<a href="" data-dismiss="modal" onclick=recordOut();><button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal">Yes</button> </a>
 						<button class="btn btn-lg btn-primary text-uppercase" data-dismiss="modal">No</button>
-</div>
+				</div>
 			</div>
 		</div>
 	</div>
