@@ -205,17 +205,9 @@
 									<div class="carousel-item">
 										<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" style="width:100%">
 										<div class="card-body">
-											<h4 class="card-title">Stupid Stacker</h4>
-											<p class="card-text">Stack some stupid blocks in this classic arcade game!</p>
+											<h4 class="card-title">Super Stacker</h4>
+											<p class="card-text">Stack some epic blocks in this classic arcade game!</p>
 											<a class="btn btn-primary" onclick="startStack()" data-toggle="modal" href="#Stack">Play Now</a>
-										</div>
-									</div>
-									<div class="carousel-item">
-										<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(47).jpg" style="width:100%">
-										<div class="card-body">
-											<h4 class="card-title">Item Name</h4>
-											<p class="card-text">Item Description</p>
-											<button type="button" class="btn btn-primary">Play Now</a>
 										</div>
 									</div>
 								  </div>
@@ -526,7 +518,6 @@
 												<div class="form-row">
 													<label for="comment">Special requests:</label>
   													<textarea class="form-control" rows="2" id="specialRequests"></textarea>
-													<!--div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Coupon code</div-->
 														<div class="p-4">
 															<p class="font-italic mb-4">If you have a coupon code, please enter it in the box below</p>
 															<div  class="input-group mb-4 border rounded-pill p-2">
@@ -550,8 +541,8 @@
 											</div>
 										</div>
 
-									<button type="button" class="btn btn-primary" id="PayNow"><i class="fas fa-dollar-sign"></i>&nbsp;Pay Now</button>&nbsp;&nbsp;
-									 <button class="btn btn-primary hidden-print" onclick="printFunction()"><i class="fas fa-print"></i>Print</button>
+									<button  type="button" class="btn btn-primary col-md-3" id="PayNow"><i class="fas fa-dollar-sign"></i>&nbsp;Pay Now</button>&nbsp;&nbsp;
+									 <button class="btn btn-primary hidden-print  col-md-3" onclick="printFunction()"><i class="fas fa-print"></i>Print</button>
 								</div>
 							</div>
 						</div>
@@ -583,6 +574,9 @@
 									  <li class="nav-item">
 										<a data-toggle="pill" href="#nav-tab-paypal" class="nav-link rounded-pill"><i class="fab fa-paypal"></i> Paypal</a>
 									  </li>
+									  <li class="nav-item">
+										<a data-toggle="pill" href="#nav-tab-cash" class="nav-link rounded-pill"><i class="fas fa-dollar-sign"></i> Cash</a>
+									  </li>
 									</ul>
 									<!-- End Payment Option Tabs-->
 
@@ -594,7 +588,7 @@
 										<form role="form">
 										  <div class="form-group">
 											<label for="username">Credit Card Information</label>
-											<input type="text" name="username" placeholder="Name on Card" required class="form-control">
+											<input type="text" name="username" placeholder="Name on Card" class="form-control" required>
 										  </div>
 										  <div class="form-group">
 											<div class="input-group">
@@ -633,6 +627,13 @@
 										<div id="paypal-button-container"></div>
 									  </div>
 									  <!-- End Paypal Tab-->
+									  
+									  <!-- Cash Tab -->
+									  <div id="nav-tab-cash" class="tab-pane fade">
+											<p class="alert alert-success">Your waiter has been alerted and will be with you shortly...</p>
+											 <button type="button" data-toggle="modal" data-target="#Guess" data-dismiss="modal" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Try for a savings</button>
+									  </div>
+									  <!-- End Cash Tab-->
 
 									</div>
 									<!-- End Payment Option Tab Content-->
@@ -668,15 +669,10 @@
 										<input type="password" id="llPass" class="form-control" placeholder="Password" required>
 										<label for="PIN">Password</label>
 									</div>
-									<!--div class="text-center"><a class="small" href="#">Forgot password?</a></div>
 									<hr class="my-4"-->
 									<button class="btn btn-lg btn-primary btn-block text-uppercase" onclick=requestInputText('/api/loyaltymembers','#loyLogin'); type="submit">Sign in</button>
 									<hr class="my-4">
 									<div class="text-center"><a class="label" data-dismiss="modal" data-toggle="modal" href="#RewardsSignup">Create Account</a></div>
-									
-									<!--Only uncomment if we implement Facebook/Google login-->
-									<!--button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
-									<button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button-->
 									</form>
 								</div>
 							</div>
