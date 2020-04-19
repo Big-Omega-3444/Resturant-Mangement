@@ -91,7 +91,9 @@ function populateOrders(menuItem, selector) {
 
   $(selector).prepend(orderTemplate);
 
-  bill += menuItem.cost*count;
+  priceofItem = menuItem.cost*count;
+  bill = bill + priceofItem;
+
   updateBill();
 }
 
@@ -167,7 +169,8 @@ $('#MyCart').on('shown.bs.modal', function(event) // Create the table once the m
 
 $('#MyCart').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
-	$('#orderList tr.order').remove();
+	$('#orderList tr.order').remove()
+    bill = 0;
 });
 
 $('#PayNow').click( function()
