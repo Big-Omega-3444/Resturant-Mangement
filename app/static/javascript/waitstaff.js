@@ -240,12 +240,20 @@ function BuildNotificationCards(ordersData)
 			{
 				if (notifs[i].request_refill === true)
 				{
+					//Don't build cards for neg 1s (default value of table if not set)
+					if (notifs[i].table == -1)
+						continue;
+					
 					BuildDrinkNotificationCard(notifs[i]);
 					continue;
 				}
 				
 				if (notifs[i].request_help === true)
 				{
+					//Don't build cards for neg 1s (default value of table if not set)
+					if (notifs[i].table == -1)
+						continue;
+					
 					BuildHelpNotificationCard(notifs[i]);
 					continue;
 				}
