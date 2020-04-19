@@ -20,8 +20,6 @@
 	<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
 	<!-- Custom Javascript Functions -->
 	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
-	<!-- Include the PayPal JavaScript SDK -->
-	<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
 	<!--Charts.js javascript-->
@@ -1117,10 +1115,79 @@
 						<div class="container-fluid">
 							<div class="tab-content">
 								<div class="tab-pane container active" id="Coupons">
-									 
+									<form>
+										<div class="form-group">
+											<label for="entry_code">Entry Code</label>
+											<input type="text" class="form-control" id="entry_code" placeholder="Coupon Code" required>
+										</div>
+										<div class="form-row">
+										  <div class="form-group">
+											<label for="percent_discount">Percent Discount</label>
+											<input type="number" class="form-control" id="percent_discount" placeholder="%">
+										  </div>
+										  <div class="form-group">
+											<label for="constant_discount">Constant Discount</label>
+											<input type="number" class="form-control" id="constant_discount" placeholder="$">
+										  </div>
+										 </div>
+										<div class="form-group">
+											<label for="empComp">Employee Function</label>
+											<select id="empComp" class="form-control">
+												<option id="false">No</option>
+												<option id="true">Yes</option>
+											</select>
+										</div>
+									  <button type="submit" id="couponSubmit" onclick=requestInputText('/api/coupons','#Coupons'); class="btn btn-primary">Add Coupon</button>
+									</form>
 								</div>
 								<div class="tab-pane container fade" id="Specials">
-									
+									<form>
+										<div class="form-group">
+											<label for="specific_discounts">Specific Discounts</label>
+											<input type="text" class="form-control" id="specific_discounts" placeholder="Discount Item" required>
+										</div>
+										<div class="form-row">
+										  <div class="form-group">
+											<label for="percent_discount">Percent Discount</label>
+											<input type="number" class="form-control" id="percent_discount" placeholder="%">
+										  </div>
+										  <div class="form-group">
+											<label for="constant_discount">Constant Discount</label>
+											<input type="number" class="form-control" id="constant_discount" placeholder="$">
+										  </div>
+										 </div>
+										 <div class="form-row">
+											  <div class="form-check mb-1 mr-sm-1">
+												<input class="form-check-input" type="checkbox" id="M">
+												<label class="form-check-label" for="M">Monday</label>
+											  </div>
+											   <div class="form-check mb-1 mr-sm-1">
+												<input class="form-check-input" type="checkbox" id="Tu">
+												<label class="form-check-label" for="Tu">Tuesday</label>
+											  </div>
+											   <div class="form-check mb-1 mr-sm-1">
+												<input class="form-check-input" type="checkbox" id="W">
+												<label class="form-check-label" for="W">Wednesday</label>
+											  </div>
+											   <div class="form-check mb-1 mr-sm-1">
+												<input class="form-check-input" type="checkbox" id="Th">
+												<label class="form-check-label" for="Th">Thursday</label>
+											  </div>
+											   <div class="form-check mb-1 mr-sm-1">
+												<input class="form-check-input" type="checkbox" id="F">
+												<label class="form-check-label" for="F">Friday</label>
+											  </div>
+											   <div class="form-check mb-1 mr-sm-1">
+												<input class="form-check-input" type="checkbox" id="Sa">
+												<label class="form-check-label" for="Sa">Saturday</label>
+											  </div>
+											   <div class="form-check mb-1 mr-sm-1">
+												<input class="form-check-input" type="checkbox" id="Su">
+												<label class="form-check-label" for="Su">Sunday</label>
+											  </div>
+										  </div>
+									  <button type="submit" id="specialSubmit" onclick=requestInputText('/api/specials','#Specials'); class="btn btn-primary">Add Special</button>
+									</form>
 								</div>
 							</div>
 						</div>
