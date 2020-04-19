@@ -259,16 +259,27 @@ function emptyTimesheet(employee_id) {
 } */
 function checkCoupon(data, selector)
 {
+    var found = true;
     code = document.getElementById("couponForm").value;
 
     for(i=0; i < data.length; i++) // step through data
     {
         if(data[i].entry_code === code)
         {
+            found = true
             alert("Coupon Accepted!");
+
+            if(data[i].percent_discount > 0)
+                bill *= data[i].percent_discount;
+            if(data[i].constant_discount > 0)
+                bill -= data[i].constant_discount;
         }
     }
-    alert("Invalid Coupon");
+    if(!found)
+    {
+        alert("Invalid Coupon");
+    }
+
 }
 
 function requestInputText(url, selector)
