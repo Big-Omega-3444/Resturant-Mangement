@@ -2556,3 +2556,47 @@ function removeCookies() {
 		document.cookie = results[0] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 	}
 }
+
+
+///
+///
+///
+
+
+$('#couponSubmit').click(function () {
+	SubmitCoupon();
+});
+
+function SubmitCoupon() {
+
+	var request = new XMLHttpRequest();
+
+	request.open('POST', '/api/coupons');
+
+	//Handle errors
+	request.error = function () {
+		alert("Request Failed!");
+	};
+
+	request.onload = function () {
+
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+
+			//
+		}
+		else {
+
+
+			var error = JSON.parse(request.responseText);
+			console.log(error.message);
+			alert(`Error ${request.status}: ${request.message}`);
+
+		}
+
+
+	}
+
+	var formData = new FormData(document.getElementById("cForm"));
+	request.send(formData);	
+
+}
