@@ -46,8 +46,8 @@ api.add_resource(OrderResource, '/api/orders/<id>')
 api.add_resource(MenuResourceList, '/api/menus')
 api.add_resource(MenuResource, '/api/menus/<id>')
 
-api.add_resource(InventoryResourceList, '/api/inventory')
-api.add_resource(InventoryResource, '/api/inventory/<id>')
+api.add_resource(InventoryResourceList, '/api/inventory', '/api/inventorys')
+api.add_resource(InventoryResource, '/api/inventory/<id>', '/api/inventorys/<id>')
 
 api.add_resource(CouponResourceList,'/api/coupons')
 api.add_resource(CouponResource,'/api/coupons/<id>')
