@@ -28,10 +28,10 @@
 
 <body class="bg-light">
 
-	<!-- Begin Headers -->	
+	<!-- Begin Headers -->
 	<nav class="navbar navbar-light bg-light static-top">
 		<div class="container">
-			<div class="row">		
+			<div class="row">
 				<div class="col-9"><a class="navbar-brand" href="javascript:void(0);">Kitchen Main Menu</a></div>
 			</div>
 			<div class="row">
@@ -53,16 +53,16 @@
 			</div>
 		</div>
 	</nav>
-	<!-- End Headers -->	
-	
+	<!-- End Headers -->
+
 	<!-- Begin ALERTS -->
 	<section class="bg-light">
 		<div id="KTCH_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
 		</div>
-	</section>	
+	</section>
 	<!-- End ALERTS -->
-	
-	<!-- Begin Main Section -->		
+
+	<!-- Begin Main Section -->
 	<section class="features-icons bg-light text-center">
 		<div class="container">
 			<div class="row">
@@ -73,9 +73,9 @@
 			</div>
 		</div>
 	</section>
-	<!-- End Main Section -->	
-	
-			
+	<!-- End Main Section -->
+
+
 	<div id="KCHN_Orders" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
 			<div class="modal-content">
@@ -94,7 +94,7 @@
 						</thead>
 						<tbody id="KTCH_OrderHistoryTable_Body">
 						</tbody>
-					</table>	
+					</table>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" id="KCHN_Orders_btnSaveChanges" data-toggle="modal" data-target="#KCHN_Orders">Save and Close</button>
@@ -228,12 +228,12 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Bootstrap core JavaScript -->
 	<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>	
+	<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 	<!-- Loaded Lastly for performance reasons -->
 	<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>
 	<script src="{{ url_for('static', filename='javascript/management.js') }}"></script>
-</body>	
+</body>
 </html>
