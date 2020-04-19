@@ -153,7 +153,7 @@ function DeleteNotifications(object, id = "")
 		}
 		else
 		{
-			alert(`Error ${request.status}: ${request.statusText}`);
+			alert(`Error ${post.status}: ${post.statusText}`);
 			return;
 		}
 	};
