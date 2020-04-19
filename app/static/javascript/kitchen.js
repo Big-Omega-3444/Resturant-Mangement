@@ -569,12 +569,80 @@ function SendOrderCallWaitstaffRequest(button)
 // Outside so the script calls this function repeatedly 10 seconds
 setInterval(function() { RetrieveOrders(true, false, false); }, 10000);
 
+function getCookie(cname) {
+
+
+	var name = cname + "=";
+	var decodedCookie = document.cookie;
+
+	var ca = decodedCookie.split(';');
+	for (var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+
+}
+
+function checkRole() {
+
+	// Open a XHR request to retrieve employee database
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	user = getCookie("username")
+	// Create the url to retrieve user
+	var url = "/api/employees";
+
+	request.open('GET', url);
+
+	// Handle on load
+	request.onload = function () {
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+			employeeData = JSON.parse(request.responseText);
+
+			for (i = 0; i < employeeData.length; i++) {
+
+				if (employeeData[i]._id.$oid == user) {
+					
+					if (employeeData[i].assignment == 'manager') {
+
+						$('#last').append('<li class="list - inline - item"><a type="button" onclick="go()" class="btn btn-primary text-white"><i class="fas fa-sign-out-alt"></i>Back to Management</a></li>')
+					}
+					else {
+						break;
+					}
+                }
+
+			
+			}
+		}
+		else {
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+
+
+		// Handle on errors	
+
+	};
+	request.error = function () {
+		alert("Request Failed!");
+	}
+	request.send();
+}
+
 //
 // BEGIN Event Listeners
 //
 
 // Retrieve order cards on page load
-$( document ).ready(function() {
+$(document).ready(function () {
+	checkRole();
     RetrieveOrders(true, false, false);
 });
 
