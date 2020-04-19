@@ -224,3 +224,42 @@ function updateTable() {
 	put.setRequestHeader("Content-Type", "application/json");
     put.send(JSON.stringify(table));
 }
+
+function SubmitReservationForm()
+{
+    event.preventDefault();
+
+    var post = new XMLHttpRequest();
+
+    // POST to the API
+    post.open('POST', "/api/reservations");
+
+	// Handle errors
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	// Handle on load
+	post.onload = function()
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201)
+		{
+			alert("Reservation Created!");
+			window.location('/');
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("reservationForm"));
+    post.send(formData);
+}
