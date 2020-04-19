@@ -171,7 +171,6 @@ function RetrieveOrders(BuildCards, Management, Waitstaff)
 		{
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(request.responseText)
-			console.log(error.message)
 			
 			alert(`Error ${request.status}: ${error.message}`);
 		}
@@ -194,7 +193,6 @@ function RetrieveOrders(BuildCards, Management, Waitstaff)
 				{		
 					//TODO: Create alert in HTML instead of using this to specify error
 					var error = JSON.parse(request2.responseText)
-					console.log(error.message)
 					
 					alert(`Error ${request2.status}: ${error.message}`);			
 				}
