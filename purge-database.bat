@@ -15,23 +15,18 @@ goto :choice
 docker-compose down
 docker-compose build
 docker-compose up -d
-echo ================================================================================================================
-echo | A new shell will open up, so this is where the batch script ends.											|
-echo | You must do the following in order in the shell:																|
-echo | [*] mongo -u mongodbuser -p																					|
-echo | [*] use flaskdb																								|
-echo | [*] db.createUser({user: 'flaskuser', pwd: 'password', roles: [{role: 'readWrite', db: 'flaskdb'}]})			|
-echo | [*] exit																										|
-echo | [*] mongo -u flaskuser -p password --authenticationDatabase flaskdb											|
-echo | [*] exit																										|
-echo ================================================================================================================
+echo ^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=
+echo ^| A new shell will open up, so this is where the batch script ends.                                            ^|
+echo ^| You must do the following in order in the shell:                                                             ^|
+echo ^| [*] mongo -u mongodbuser -p                                                                                  ^|
+echo ^| [*] use flaskdb                                                                                              ^|
+echo ^| [*] db.createUser({user: 'flaskuser', pwd: 'password', roles: [{role: 'readWrite', db: 'flaskdb'}]})         ^|
+echo ^| [*] exit                                                                                                     ^|
+echo ^| [*] mongo -u flaskuser -p password --authenticationDatabase flaskdb                                          ^|
+echo ^| [*] exit                                                                                                     ^|
+echo ^| [*] exit                                                                                                     ^|
+echo ^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=
 docker exec -it mongodb bash
-
-
-
-
-
-
 exit
 
 :exit
