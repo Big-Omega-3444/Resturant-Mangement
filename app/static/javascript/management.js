@@ -2001,6 +2001,7 @@ $('#MGMT_Reports').on('show.bs.modal', function(){
 $('#MGMT_Reports').on('hide.bs.modal', function(event)
 {
 	$('#KTCH_OrderHistoryTable_Body tr td').remove();
+	$('#KTCH_TimeTable_Body tr td').remove();
 });
 
 
@@ -2090,7 +2091,6 @@ function createChart(pick) {
 				var day_temp = current_date.getDay();
 				var temp = current_date.valueOf() - (86400000 * day_temp);
 				var first_sun = new Date(temp);
-				//alert(first_sun);
 				
 				var data_arr = new Array(0,0,0,0,0,0,0);
 				var labels_arr = new Array('Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
@@ -2433,10 +2433,10 @@ function recordOut() { //Record sign out
 
 function findTime() {
 
-	console.log("In findTime");
+
 	var request = new XMLHttpRequest();
 	var employee_id = getCookie("username");
-	console.log("employee_id = " + employee_id);
+
 	var i;
 
 	request.open('GET', '/api/timesheets');
@@ -2467,7 +2467,7 @@ function findTime() {
                 }
 			}
 
-			console.log("getCookie result = " + result);
+
 
 			recordSignIn(result);
 			
@@ -2488,7 +2488,7 @@ function findTime() {
 
 function recordSignIn(res) {
 
-	console.log("In record sign in");
+
 	var post = new XMLHttpRequest();
 
 	post.open('PUT', '/api/timesheets/' + res);
@@ -2528,10 +2528,10 @@ function recordSignIn(res) {
 //Reference to w3school, decoding cookie contents, chanegd some lines to work with our code
 function getCookie(cname) {
 
-	console.log("In get cookie")
+
 	var name = cname + "=";
 	var decodedCookie = document.cookie;
-	console.log("decoded = " + decodedCookie);
+
 	var ca = decodedCookie.split(';');
 	for (var i = 0; i < ca.length; i++) {
 		var c = ca[i];
