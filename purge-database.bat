@@ -1,15 +1,22 @@
 @echo off
+:choice1
+set /P c=Are you sure you want to purge the database [y/N]? 
+if /I "%c%" EQU "Y" goto :purge
+if /I "%c%" EQU "n" goto :exit
+goto :choice1
+
+:purge
 docker-compose down
 docker container prune
 docker image prune
 docker volume prune
 echo Database Purged. Next part will re-authenticate with the Flask container again.
 
-:choice
-set /P c=Do you want to continue [Y/n]? 
+:choice2
+set /P c=Do you want to continue [y/N]? 
 if /I "%c%" EQU "Y" goto :reauth
 if /I "%c%" EQU "n" goto :exit
-goto :choice
+goto :choice2
 
 :reauth
 docker-compose down
