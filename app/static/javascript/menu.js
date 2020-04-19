@@ -355,7 +355,7 @@ function requestData(url, selector, type)
 				case'#foodPane': populateFoodPane(JSON.parse(request.responseText), selector); break;
 				case'#drinkTabs': populateDrinkTabs(JSON.parse(request.responseText), selector); break;
 				case'#drinkPane': populateDrinkPane(JSON.parse(request.responseText), selector); break;
-				case'#orderList': populateOrders(JSON.parse(request.responseText), selector); break;
+				case'#orderList': bill = 0; populateOrders(JSON.parse(request.responseText), selector); break;
 				default:
 					switch(type)
 					{

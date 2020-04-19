@@ -49,7 +49,6 @@ function scanForTable(data) {
 				table.orders.push(orderID);
 			}
 
-            console.log(table);
             found = true;
             break;
         }
@@ -132,7 +131,6 @@ function postNewTable() {
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201)
 		{
-		    console.log("Table Created");
 		    id = JSON.parse(post.responseText);
 		}
 		else
@@ -145,7 +143,6 @@ function postNewTable() {
 		}
 	};
 
-    console.log(JSON.stringify(table));
     post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(table));
 }
@@ -181,11 +178,7 @@ function postNotif(type) {
 	post.onload = function()
 	{
 		//Check for OK or CREATED status
-		if (post.status === 200 || post.status === 201)
-		{
-		    console.log("Notif Sent");
-		}
-		else
+		if (!(post.status === 200 || post.status === 201))
 		{
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(post.responseText)
@@ -218,11 +211,7 @@ function updateTable() {
 	put.onload = function()
 	{
 		//Check for OK or CREATED status
-		if (put.status === 200 || put.status === 201 || put.status === 204)
-		{
-			console.log("Table Updated");
-		}
-		else
+		if (!(put.status === 200 || put.status === 201 || put.status === 204))
 		{
 			//TODO: Create alert in HTML instead of using this to specify error
 			var error = JSON.parse(put.responseText)
