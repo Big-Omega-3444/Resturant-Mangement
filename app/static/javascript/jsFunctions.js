@@ -21,9 +21,10 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveA
 		
 	if (divID != "")
 	{		
-		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert">
-		${bodyText}
-		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close">
+		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert" data-remove="${bRemoveAlertOnly}">
+		<span>${bodyText}
+		
+		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close" data-remove="${bRemoveAlertOnly}">
 			<span aria-hidden="true">&times;</span>
 		</button>	
 		</div>`
@@ -43,18 +44,20 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveA
 
 	//Only works if there's an ID that was passed in
 	if (divID != "")
-	{		
-		//Add a function that should remove the notification after 4000 ms
-		$('.alert-messages').delay(4000).slideUp(200, function(bRemoveAlertOnly) 
+	{	
+		//Add a function that should remove the notification after 4000 ms	
+		$('.alert-messages').delay(4000).slideUp(200, function() 
 		{ 
+			bRemoveAlertOnly = $(this).data('remove');;
 			if (bRemoveAlertOnly === false)
 				DeleteNotifications(this); 
 			$(this).remove(); 
 		});
 		
 		//Intentional, this will get the ID properly when splitting the string into two parts
-		$(`btnClose_${divID}`).delay(4000).slideUp(200, function(bRemoveAlertOnly) 
-		{ 
+		$(`btnClose_${divID}`).delay(4000).slideUp(200, function() 
+		{
+			bRemoveAlertOnly = $(this).data('remove');;
 			if (bRemoveAlertOnly === false)
 				DeleteNotifications(this); 
 			$(this).remove(); 
