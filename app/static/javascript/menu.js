@@ -137,7 +137,7 @@ function populateFoodCards(menuItem, selector)
 											<div class="main">
 												<img class="card-img-top" src=${menuItem.image} style="width:50%">
 												<div class="card-body">
-													<h4 class="card-title">${menuItem.name}</h4>
+													<h4 class="card-title">${menuItem.name} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
 													<p class="card-text">${menuItem.description}</p>
 													<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="addItemToOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
 												</div>
@@ -269,7 +269,7 @@ function populateDrinkCards(menuItem, selector)
 											<div class="main">
 												<img class="card-img-top" src=${menuItem.image} style="width:50%">
 												<div class="card-body">
-													<h4 class="card-title">${menuItem.name}</h4>
+													<h4 class="card-title">${menuItem.name} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
 													<p class="card-text">${menuItem.description}</p>
 													<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="addItemToOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
 													<button type="button" id='${menuItem.name+"refill"}' onclick="needRefill('${menuItem.name+"refill"}')" class="btn btn-primary">Refill</button>
