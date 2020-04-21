@@ -128,6 +128,23 @@ function populateFoodCards(menuItem, selector)
 {
 	//populate food pane with items
 
+	var allergenTemplate = "";
+
+	if(menuItem.allergens.length > 0) // create our allergens list, if need be
+	{
+		allergenTemplate = 	`<div class="container">
+									  <ul class="list-group">
+										<li class="list-group-item list-group-item-danger">Allergens</li>`;
+
+		for(i = 0; i < menuItem.allergens.length; i++)
+		{
+			allergenTemplate += `<li class="list-group-item list-group-item-warning">${menuItem.allergens[i]}</li>`
+		}
+
+		allergenTemplate += `</ul>
+						</div>`;
+	}
+
 	//Card Template
 	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
 							<div class="card-container manual-flip">
@@ -154,9 +171,9 @@ function populateFoodCards(menuItem, selector)
 											<h5 class="card-title">${menuItem.name}</h5>
 										</div>
 										<div class="content">
-											<div class="main">
-												<h4 class="text-center">${menuItem.allergens}</h4>
-												<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
+											<div class="main">`
+												+ allergenTemplate +
+												`<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
 												<div class="stats-container">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
