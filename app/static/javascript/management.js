@@ -2237,7 +2237,10 @@ function createChart(pick) {
 							type: 'linear',
 							display: true,
 							position: 'left',
+							
 							ticks: {
+								precision: 0,
+								min:0,
 								beginAtZero: true
 							}
 						}
@@ -2265,11 +2268,7 @@ function createChart(pick) {
 				}
 			}
 		});
-		Chart.scaleService.updateScaleDefaults('linear', {
-			ticks: {
-				min: 0
-			}
-		});
+
     }
 
 	requests.send()
