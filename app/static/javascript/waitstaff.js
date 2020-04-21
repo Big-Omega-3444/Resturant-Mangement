@@ -137,27 +137,6 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 								</div>
 							</div>`;
 		}
-		else if ((orderData[i].status).toString() === "waitrequest" && orderData[i].time_modified != null)
-		{
-			cardTemplate = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
-								<div class="card bg-transparent border-info mb-3 w-75 text-center">
-									<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
-									<div class="card-header text-info border-info" >
-										Order #${orderData[i].order_id}
-										<hr>
-										<span>Status: <span id="status">Waitstaff Requested</span></span>
-									</div>
-									<div id="updateBody"></div>
-									<div class="card-footer bg-transparent border-info">
-										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
-										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
-									</div>
-									<div class="card-footer bg-transparent border-info">
-										<div id="updateTime"></div>
-									</div>
-								</div>
-							</div>`;
-		}
 		else
 		{
 			cardTemplate = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
@@ -183,6 +162,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
 		
 		var inject = $('<div class="card-body text-left"/>');
+		inject.append($('<h6 class="card-subtitle mb-2 text-muted"/>').html(`Table #${orderData[i].table}`));
 		inject.append($('<dt/>').html("Items"));
 		
 		//Now build and inject the bulleted list into the appended card
