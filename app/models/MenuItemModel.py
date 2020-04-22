@@ -34,6 +34,7 @@ class MenuItemModel(Document):
     calories = IntField(min_value=0, required=True)
     out_of_stock = MyBooleanField(default=False)
     times_ordered = IntField(default = 0)
+    loyalty_exclusive = MyBooleanField(default=False)
 
 class MenuItemResource(TemplateResource):
     model = MenuItemModel
