@@ -134,11 +134,11 @@ function populateFoodCards(menuItem, selector)
 	{
 		allergenTemplate = 	`<div class="container">
 									  <ul class="list-group">
-										<li class="list-group-item list-group-item-danger">Allergens</li>`;
+										<li class="list-group-item list-group-item-danger" style="padding-top: 0.25rem;padding-bottom: 0.25rem">Allergens</li>`;
 
 		for(i = 0; i < menuItem.allergens.length; i++)
 		{
-			allergenTemplate += `<li class="list-group-item list-group-item-warning">${menuItem.allergens[i]}</li>`
+			allergenTemplate += `<li class="list-group-item list-group-item-warning" style="padding-top: 0.0rem;padding-bottom: 0.0rem">${menuItem.allergens[i]}</li>`
 		}
 
 		allergenTemplate += `</ul>
@@ -174,7 +174,7 @@ function populateFoodCards(menuItem, selector)
 											<div class="main">`
 												+ allergenTemplate +
 												`<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
-												<div class="stats-container">
+												<div class="stats-container" style="margin-top: 0px">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
 													<div class="stats"><h4></h4><p></p></div>
@@ -282,11 +282,11 @@ function populateDrinkCards(menuItem, selector)
 	{
 		allergenTemplate = 	`<div class="container">
 									  <ul class="list-group">
-										<li class="list-group-item list-group-item-danger">Allergens</li>`;
+										<li class="list-group-item list-group-item-danger" style="padding-top: 0.25rem;padding-bottom: 0.25rem">Allergens</li>`;
 
 		for(i = 0; i < menuItem.allergens.length; i++)
 		{
-			allergenTemplate += `<li class="list-group-item list-group-item-warning">${menuItem.allergens[i]}</li>`
+			allergenTemplate += `<li class="list-group-item list-group-item-warning" style="padding-top: 0.0rem;padding-bottom: 0.0rem">${menuItem.allergens[i]}</li>`
 		}
 
 		allergenTemplate += `</ul>
@@ -325,7 +325,7 @@ function populateDrinkCards(menuItem, selector)
 											<div class="main">`
 												+ allergenTemplate +
 												`<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
-												<div class="stats-container">
+												<div class="stats-container" style="margin-top: 0px">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
 													<div class="stats"><h4></h4><p></p></div>
@@ -362,10 +362,9 @@ function populateIngredients(ingredient, selector)
 	if($(selector).html() === "")
 		ingList = ingredient.name;
 	else
-		ingList = ingredient.name + ", " + $(selector).html(); // concatenate; // concatenate ingredients
+		ingList = $(selector).html().substr(12) + ", " + ingredient.name; // concatenate; // concatenate ingredients
 
-	$(selector).html(ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
-	//$(selector).find('div div div.back div.content div.main p.text-center').replaceWith($(`<p class="text-center"/>`).html(ingList.substring(0,ingList.length-2))); // replace the ingredients with the added ingredient (comma is to remove the last comma)
+	$(selector).html("Ingredients: " + ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
 }
 
 function requestData(url, selector, type)
@@ -398,7 +397,6 @@ function requestData(url, selector, type)
 						case'drinkitem': populateDrinkCards(JSON.parse(request.responseText), selector); break;
 						case'ingredient': populateIngredients(JSON.parse(request.responseText), selector); break;
 					} break;
-
 			}
 		}
 	};
