@@ -23,6 +23,17 @@
 		});
 	}
 
+	function startTetris() {
+		unityInstanceTETRIS = UnityLoader.instantiate("unityContainerTETRIS", "../static/games/Tetris_final_webgl/Build/Tetris_final_webgl.json", {onProgress: UnityProgress,
+			Module:{
+				onQuit : function(){
+					console.log("Closing Tetris")
+					//$("#Tetris").modal("hide");
+				}
+			}
+		});
+	}
+
 	function savePass(){
     	if(document.getElementById('regPassword').value) {
     		var parentPass = document.getElementById('regPassword').value; // save the given value

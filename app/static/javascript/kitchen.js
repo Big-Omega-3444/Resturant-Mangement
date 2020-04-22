@@ -116,6 +116,7 @@ function populateTimeTable(employeeData) {
 					}
 				}
 
+				//Append row for timesheets username | first | Last | total hours
 				var row = $('<tr id="tbl_employeeID_${employeeData[i]._id.$oid}"/>');
 
 				row.append($('<td/>').html(employeeData[i].username));
