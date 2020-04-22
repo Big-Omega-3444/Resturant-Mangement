@@ -259,14 +259,14 @@ function emptyTimesheet(employee_id) {
 } */
 function checkCoupon(data, selector)
 {
-    var found = true;
+    var found = false;
     code = document.getElementById("couponForm").value;
 
     for(i=0; i < data.length; i++) // step through data
     {
         if(data[i].entry_code === code)
         {
-            found = true
+            found = true;
             alert("Coupon Accepted!");
 
             if(data[i].percent_discount > 0)
@@ -279,7 +279,6 @@ function checkCoupon(data, selector)
     {
         alert("Invalid Coupon");
     }
-
 }
 
 function requestInputText(url, selector)

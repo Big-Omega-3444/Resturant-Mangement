@@ -89,7 +89,7 @@
 			<div class="row">
 				<!-- Food Div -->
 				<div class="col-lg-4">
-					<div id="rcorners2" data-toggle="modal" data-target="#Food" class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+					<div id="rcorners2" data-toggle="modal" data-target="#_Food_" class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
 						<div class="features-icons-icon d-flex">
 							<i class="fas fa-pizza-slice m-auto text-primary"></i>
 						</div>
@@ -99,7 +99,7 @@
 				<!-- End Food Div -->
 
 				<!-- Food Modal -->
-				<div id="Food" class="modal fade" role="dialog">
+				<div id="_Food_" class="modal fade" role="dialog">
 					<div class="modal-dialog modal-xl">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -131,7 +131,7 @@
 
 				<!-- Drinks Div -->
 				<div class="col-lg-4">
-					<div id="rcorners2" data-toggle="modal" data-target="#Drinks" class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+					<div id="rcorners2" data-toggle="modal" data-target="#_Drinks_" class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
 						<div class="features-icons-icon d-flex">
 							<i class="fas fa-beer m-auto text-primary"></i>
 						</div>
@@ -141,7 +141,7 @@
 				<!-- End Drinks Div -->
 
 				<!-- Drinks Modal -->
-				<div id="Drinks" class="modal fade" role="dialog">
+				<div id="_Drinks_" class="modal fade" role="dialog">
 					<div class="modal-dialog modal-xl">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -610,7 +610,7 @@
 										<a data-toggle="pill" href="#nav-tab-paypal" class="nav-link rounded-pill"><i class="fab fa-paypal"></i> Paypal</a>
 									  </li>
 									  <li class="nav-item">
-										<a data-toggle="pill" href="#nav-tab-cash" class="nav-link rounded-pill"><i class="fas fa-dollar-sign"></i> Cash</a>
+										<a data-toggle="pill" onclick=postNotif("cash"); href="#nav-tab-cash" class="nav-link rounded-pill"><i class="fas fa-dollar-sign"></i> Cash</a>
 									  </li>
 									</ul>
 									<!-- End Payment Option Tabs-->

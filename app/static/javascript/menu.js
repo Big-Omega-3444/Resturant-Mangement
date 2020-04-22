@@ -415,26 +415,26 @@ function requestData(url, selector, type)
 //--- LISTENERS -----------------------------------------------------------------------------------------//
 
 //--- Food -----------------------------------------------------------//
-$('#Food').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
+$('#_Food_').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
 	requestData('/api/menus', '#foodTabs', "UI");
 	requestData('/api/menus', '#foodPane', "UI");
 });
 
-$('#Food').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
+$('#_Food_').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
 	$('#foodTabs li').remove();
 	$('#foodPane div').remove();
 });
 
 //--- Drinks ----------------------------------------------------------//
-$('#Drinks').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
+$('#_Drinks_').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
 	requestData('/api/menus', '#drinkTabs', "UI");
 	requestData('/api/menus', '#drinkPane', "UI");
 });
 
-$('#Drinks').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
+$('#_Drinks_').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
 	$('#drinkTabs li').remove();
 	$('#drinkPane div').remove();

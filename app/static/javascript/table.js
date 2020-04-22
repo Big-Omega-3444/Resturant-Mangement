@@ -162,6 +162,10 @@ function postNotif(type) {
 						time_created: Date.now(),
 						request_help:"True"};
 			break;
+		case "cash":
+			payload = {table:table.number,
+						time_created: Date.now(),
+						request_cash:"True"};
 	}
 
     // POST to the API
