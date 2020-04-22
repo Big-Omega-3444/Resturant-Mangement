@@ -315,6 +315,9 @@ function BuildDrinkNotificationCard(notifData)
 							</div>
 							<div id="updateBody"></div>
 							<div class="card-footer bg-transparent border-warning">
+								<button type="button" class="btn btn-secondary" id="btnClose_${notifData._id.$oid}" style="z-index:2000">Dismiss</button>
+							</div>
+							<div class="card-footer bg-transparent border-warning">
 								<div id="updateTime"></div>
 							</div>
 						</div>
