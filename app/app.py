@@ -17,6 +17,7 @@ from models.TimeSheetModel import TimeSheetResource, TimeSheetResourceList
 from models.TableModel import TableResource, TableResourceList
 from models.NotificationModel import NotificationResource, NotificationResourceList
 from models.ReservationModel import ReservationResource, ReservationResourceList
+from models.FeedbackModel import FeedbackResource, FeedbackResourceList
 from database import Database as db
 
 
@@ -70,7 +71,8 @@ api.add_resource(NotificationResource, '/api/notifications/<id>')
 api.add_resource(ReservationResourceList, '/api/reservations')
 api.add_resource(ReservationResource, '/api/reservations/<id>')
 
-
+api.add_resource(FeedbackResourceList, '/api/feedback')
+api.add_resource(FeedbackResource, '/api/feedback/<id>')
 
 
 with application.app_context():
