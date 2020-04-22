@@ -1057,7 +1057,7 @@ function deleteInventory(OID)
 
 }
 
-// Same as above function but deletes an ingredient from the API
+// Same as above function but deletes an menu category from the API
 function deleteMenuCategory(object)
 {
 	// Create our XMLHttpRequest variable
@@ -1093,7 +1093,7 @@ function deleteMenuCategory(object)
 	
 }
 
-// Same as above function but deletes an ingredient from the API
+// Same as above function but deletes an menu item from the API
 function deleteMenuItem(object)
 {
 	// Create our XMLHttpRequest variable
