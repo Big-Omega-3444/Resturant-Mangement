@@ -27,7 +27,7 @@
 <body>
 	<nav class="navbar navbar-light bg-light static-top">
 		<div class="container">
-			<div class="row">		
+			<div class="row">
 				<div class="col-9"><a class="navbar-brand" href="javascript:void(0);">Waitstaff Main Menu</a></div>
 			</div>
 			<div class="row">
@@ -45,29 +45,30 @@
 			</div>
 		</div>
 	</nav>
-	
+
 	<!-- Begin ALERTS -->
 	<section class="bg-light">
-		<div id="WTSF_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
+		<div id="WTSF_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">
+			<!-- This gets injected via Javascript -->
 		</div>
-	</section>	
+	</section>
 	<!-- End ALERTS -->
-
-	<!-- Begin Main Section -->		
+	<!-- Begin Main Section -->
 	<section class="features-icons bg-light text-center">
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<div class="card-columns" id="WTSF_orderNotifications"> <!-- Will be injected via Javascript -->
+					<div class="card-columns" id="WTSF_orderNotifications">
+						<!-- Will be injected via Javascript -->
 						<div id="WTSF_orderNotifications_reverse"></div>
 					</div>
 				</div>
-				</div class="col">
-				</div>
 			</div>
 		</div>
+		</div>
+		</div>
 	</section>
-	<!-- End Main Section -->	
+	<!-- End Main Section -->
 
 	<div id="Logout" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">
@@ -84,18 +85,20 @@
 						</div>
 					</div>
 				</div>
-                <div class="modal-footer">
-					<button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal" id="signOut" onclick="javascript:window.location='/'">Yes</button>
+				<div class="modal-footer">
+					<button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal" id="signOut" onclick=recordOut();>Yes</button>
 					<button class="btn btn-lg btn-primary text-uppercase" data-dismiss="modal">No</button>
-                </div>
+				</div>
 			</div>
 		</div>
 	</div>
-	
-		<!-- Bootstrap core JavaScript -->
-		<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>	
-		<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>		
-		<script src="{{ url_for('static', filename='javascript/waitstaff.js') }}"></script>		
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- Javascript function files-->
+	<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>
+	<script src="{{ url_for('static', filename='javascript/waitstaff.js') }}"></script>
+	<script src="{{ url_for('static', filename='javascript/waitstaff_redirect.js') }}"></script> <!--comment this out to access page without a login-->
 </body>	
 </html>

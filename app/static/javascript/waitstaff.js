@@ -349,7 +349,7 @@ function BuildDrinkNotificationCard(notifData)
 		inject.append($('<dd/>').html(notifData.refill_list[j]));			
 	}
 	
-	$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateBody').append(inject);					
+	$(`#drinkNotifID_${notifData._id.$oid}`).find('#updateBody').append(inject);					
 						
 	$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
 	window.currentState.push(`drinkNotifID_${notifData._id.$oid}`);
@@ -362,7 +362,7 @@ function BuildDrinkNotificationCard(notifData)
 	});
 	
 	// Inject last updated text into footer
-	$(`#drinkNotifID_${orderData[i]._id.$oid}`).find('#integer').html(parseInt(elasped));
+	$(`#drinkNotifID_${notifData._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);
 	
 	GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Refill Requested!</strong> Table #${notifData.table} requests drink refill!`, 'alert-warning', `alertID_${notifData._id.$oid}`, true)
 }

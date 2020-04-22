@@ -210,6 +210,14 @@
 											<a class="btn btn-primary" onclick="startStack()" data-toggle="modal" href="#Stack">Play Now</a>
 										</div>
 									</div>
+									<div class="carousel-item">
+										<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" style="width:100%">
+										<div class="card-body">
+											<h4 class="card-title">Tetris</h4>
+											<p class="card-text">Stack some cool Russian bricks in this classic game!</p>
+											<a class="btn btn-primary" onclick="startTetris()" data-toggle="modal" href="#Tetris">Play Now</a>
+										</div>
+									</div>
 								  </div>
 								  <a class="carousel-control-prev" href="#GamesControls" role="button" data-slide="prev">
 									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -278,6 +286,33 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" onclick=javascript:unityInstanceHEX.Quit(); data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Stack Modal -->
+
+				<!-- Stack Modal -->
+				 <div id="Tetris" class="modal fade" role="dialog">
+						<div class="modal-dialog modal-xl" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Tetris</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+							<div class="modal-body">
+								<div class="container-fluid" style="width: 960px; height: 700px">
+									<div class="webgl-content">
+									  <div id="unityContainerTETRIS" style="width: 960px; height: 600px"></div>
+									  <div class="footer">
+										<div class="webgl-logo"></div>
+										<div class="fullscreen" onclick="unityInstanceTETRIS.SetFullscreen(1)"></div>
+										<div class="title">Tetris</div>
+									  </div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" onclick=javascript:unityInstanceTETRIS.Quit(); data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>

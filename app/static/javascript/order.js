@@ -1,8 +1,9 @@
-$(document).ready ( function(){
+ $(document).ready ( function(){
   window.localOrder = {
     time_ordered: 0, // updated on submission
-    table: 1, // updates on given cookie
-    special_notes: "This hasn't been implemented", // updates at checkout
+    table: 0, // updates on given cookie
+    gratuity: 0,
+    special_notes: "", // updates at checkout
     items: [], // updates when item is added to cart
     to_go: "False", // I don't know when this changes
     status: 'ordered', // This will be ordered when ordered and changed by kitchen
@@ -91,7 +92,9 @@ function populateOrders(menuItem, selector) {
 
   $(selector).prepend(orderTemplate);
 
-  bill += menuItem.cost*count;
+  priceofItem = menuItem.cost*count;
+  bill = bill + priceofItem;
+
   updateBill();
 }
 
@@ -137,6 +140,8 @@ function SubmitOrder()
 
 	localOrder.time_ordered = Date.now();
     localOrder.special_notes = document.getElementById('specialRequests').value;
+    localOrder.gratuity = parseFloat(document.getElementById("tip").value);
+    localOrder.table = table.number;
 
     if(document.getElementById('ToGo').checked)
         localOrder.to_go = "True";
@@ -167,7 +172,8 @@ $('#MyCart').on('shown.bs.modal', function(event) // Create the table once the m
 
 $('#MyCart').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
-	$('#orderList tr.order').remove();
+	$('#orderList tr.order').remove()
+    bill = 0;
 });
 
 $('#PayNow').click( function()
