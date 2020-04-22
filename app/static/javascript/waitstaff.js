@@ -323,6 +323,9 @@ function BuildDrinkNotificationCard(notifData)
 						</div>
 					</div>`;	
 	
+	$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
+	window.currentState.push(`drinkNotifID_${notifData._id.$oid}`);
+
 	var inject = $('<div class="card-body text-left"/>');
 	inject.append($('<dt/>').html("Items"));
 	
@@ -334,8 +337,7 @@ function BuildDrinkNotificationCard(notifData)
 	
 	$(`#drinkNotifID_${notifData._id.$oid}`).find('#updateBody').append(inject);					
 						
-	$('#WTSF_orderNotifications_reverse').prepend(cardTemplate);
-	window.currentState.push(`drinkNotifID_${notifData._id.$oid}`);
+	
 	
 	//Edit the button to include a function
 	$(`#btnClose_${notifData._id.$oid}`).click(function() {
