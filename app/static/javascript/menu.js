@@ -129,13 +129,13 @@ function populateFoodCards(menuItem, selector)
 	//populate food pane with items
 
 	//Card Template
-	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
+	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4 d-flex align-items-stretch">
 							<div class="card-container manual-flip">
 								<div class="card">
 									<div class="front">
 										<div class="content">
 											<div class="main">
-												<img class="card-img-top" src=${menuItem.image} style="width:50%">
+												<img class="card-img-top img-fluid" src=${menuItem.image} style="width:50%">
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name}</h4>
 													<p class="card-text">${menuItem.description}</p>
@@ -261,13 +261,13 @@ function populateDrinkCards(menuItem, selector)
 	//populate drinks pane with items
 
 	//Card Template
-	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
+	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4 d-flex align-items-stretch">
 							<div class="card-container manual-flip">
 								<div class="card">
 									<div class="front">
 										<div class="content">
 											<div class="main">
-												<img class="card-img-top" src=${menuItem.image} style="width:50%">
+												<img class="card-img-top img-fluid" src=${menuItem.image} style="width:50%">
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name}</h4>
 													<p class="card-text">${menuItem.description}</p>
