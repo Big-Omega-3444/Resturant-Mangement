@@ -1,24 +1,59 @@
-<!DOCTYPE html>
+<html lang="en">
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="description" content="CSCE 3444 Project">
+	<title>Contact Us</title>
+	<!-- Bootstrap core CSS -->
+	<link href="{{ url_for('static', filename='bootstrap/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+	<!-- Collapse Menu -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<!-- Custom icons for section cards -->
+	<script src="https://kit.fontawesome.com/acaa606056.js"></script>
+	<!-- Custom Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+	<!-- Custom styles for this template -->
+	<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+	<!-- Custom Javascript Functions -->
+	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
 
-<!-- Custom styles for this template -->
-<link href="{{ url_for('static', filename='css/contact.css') }}" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ url_for('static', filename='css/contact.css') }}" rel="stylesheet">
 </head>
 <body>
+	<nav class="navbar navbar-light static-top">
+		<div class="container">
+			<div class="row">
+				<div class="col-9"><a class="navbar-brand" href="javascript:void(0);">Contact Us</a></div>
+			</div>
+			<div class="row">
+				<div class="w-100"></div>
+				<div class="col"><a id="time"></a></div>
+				<div class="w-100"></div>
+				<div class="col"><a id="date"></a></div>
+			</div>
+		</div>
+	</nav>
 
-<h3>Contact Us</h3>
-
-<div class="container">
-  <form action="/action_page.php">
-    <input type="text" id="fname" name="firstname" placeholder="First Name">
-    <input type="text" id="lname" name="lastname" placeholder="Last Name">
-    <label for="subject">Subject</label>
-    <textarea id="subject" name="subject" placeholder="Let us know.." style="height:200px"></textarea>
-    <input type="submit" value="Submit">
-  </form>
-</div>
-
+	<div class="container">
+		<form id="ContactFeedback">
+			<input type="text" id="fname" name="firstname" placeholder="First Name">
+			<input type="text" id="lname" name="lastname" placeholder="Last Name">
+			<input type="text" id="email" name="email_response" placeholder="Email" required>
+			<label for="subject">Subject</label>
+			<textarea id="subject" name="feedback" placeholder="Let us know what you think..." style="height:200px"></textarea>
+		</form>
+		<a type="button" class="btn btn-primary text-white" onclick="PostMessageForm();">Submit</a>
+	</div>
+	
+	<!-- Bootstrap core JavaScript -->
+	<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	
 </body>
 </html>

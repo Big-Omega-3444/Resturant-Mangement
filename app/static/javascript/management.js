@@ -788,10 +788,13 @@ function requestData(url, selector)
 					break;
 				}
 				case '#MGMT_MenuItemsTable_Body':
-					populateMenuItemTable(JSON.parse(request.responseText), selector)
+					populateMenuItemTable(JSON.parse(request.responseText), selector);
 					break;
 				case '#MGMT_DummySelector_MenuItemUpdate':
 					SubmitFormMenuUpdateAll(JSON.parse(request.responseText));
+					break;
+				case '#MGMT_MessagesTable_Body':
+					populateFeedbackTable(JSON.parse(request.responseText), selector);
 					break;
 				default:
 					break;
@@ -1057,7 +1060,7 @@ function deleteInventory(OID)
 
 }
 
-// Same as above function but deletes an ingredient from the API
+// Same as above function but deletes an menu category from the API
 function deleteMenuCategory(object)
 {
 	// Create our XMLHttpRequest variable
@@ -1093,8 +1096,44 @@ function deleteMenuCategory(object)
 	
 }
 
-// Same as above function but deletes an ingredient from the API
+// Same as above function but deletes an menu item from the API
 function deleteMenuItem(object)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	// Create the deletion url for user
+	var url = "/api/menuitems/" + object.id;
+	
+	// Open a socket to the url
+	request.open('DELETE', url);
+	
+	// Handle on load
+	request.onload = function(data) 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			alert("Deletion Successful!");
+			updateTables();
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+	
+}
+
+// Same as above function but deletes feedback from the API
+function deleteFeedback(object)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
@@ -1660,6 +1699,43 @@ function populateEditMenuIngredientSelectorItems(data, selector)
 	populateAddMenuIngredientSelectorItems(data, selector, true)	
 }
 
+
+// Function that builds the table in #MGMT_Employees
+// data argument requires an JSON-ified data (Use JSON.Parse() before passing it in!)
+function populateFeedbackTable(data, selector)
+{
+	// Build the table
+	for(i = 0; i < data.length; i++)
+	{
+		var row = $('<tr/>')
+
+		// Append first and last name into one variable
+		var fullname = data[i].firstname + " " + data[i].lastname;
+		row.append($('<td/>').html(fullname));
+
+		// Append assignment
+		row.append($('<td/>').html(`${data[i].email_response}`));
+		
+		row.append($('<td/>').html(`${data[i].feedback}`));
+
+		//Create buttons for specific ID
+		var uid = data[i]._id.$oid;
+
+		var sendButton = $(`<button class="btn btn-secondary" id=${uid} data-email="${data[i].email_response}"/>`).click(function() {
+			var email = $(this).data("email");
+			window.open(`mailto:${email}`, '_blank');
+		}).html("EMAIL");
+
+		var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
+			deleteFeedback(this);
+		}).html("DEL");
+
+		row.append($('<td/>').html(sendButton).append(deleteButton));
+
+		$(selector).append(row);
+	}
+}
+
 // Simple function that autofills a selected form
 // data must be in JSON format
 function autofillEditEmployeeForm(data)
@@ -1996,12 +2072,15 @@ $('#MGMT_Reports').on('show.bs.modal', function(){
 	//Create chart
 	createChart("Day");
     RetrieveOrders(false, true, false);
+	requestData("api/feedback", '#MGMT_MessagesTable_Body');
+	
 });
 
 $('#MGMT_Reports').on('hide.bs.modal', function(event)
 {
 	$('#KTCH_OrderHistoryTable_Body tr td').remove();
 	$('#KTCH_TimeTable_Body tr td').remove();
+	$('#MGMT_MessagesTable_Body tr td').remove();
 });
 
 

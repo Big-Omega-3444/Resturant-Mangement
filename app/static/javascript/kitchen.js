@@ -386,6 +386,7 @@ function BuildOrderCards(orderData, menuItemsData)
 		$('#orderNotifications').append(cardTemplate);
 		
 		var inject = $('<div class="card-body text-left"/>');
+		inject.append($('<h6 class="card-subtitle mb-2 text-muted"/>').html(`Table #${orderData[i].table}`));
 		inject.append($('<dt/>').html("Items"));
 		
 		//Now build and inject the bulleted list into the appended card
