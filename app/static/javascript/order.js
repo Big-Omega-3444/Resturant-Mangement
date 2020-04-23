@@ -10,6 +10,8 @@
     comped: "False" // Waitstaff modify this
   };
   window.bill = 0;
+  window.constDisc = 0;
+  window.percDisc = 1.0;
 });
 
 Array.prototype.unique = function() {
@@ -35,7 +37,7 @@ setInterval(function(){
         tip = parseFloat(0);
 
 
-    document.getElementById("totalBill").innerHTML = "$"+((bill * 1.0625) + tip ).toFixed(2)
+    document.getElementById("totalBill").innerHTML = "$"+(((bill * 1.0625) - constDisc)*percDisc + tip).toFixed(2)
 }, 1000);
 
 function countNumInOrder(itemID) {

@@ -314,9 +314,11 @@ function checkCoupon(data, selector)
             alert("Coupon Accepted!");
 
             if(data[i].percent_discount > 0)
-                bill *= 1-data[i].percent_discount*.01;
+                percDisc = 1-data[i].percent_discount*.01;
             if(data[i].constant_discount > 0)
-                bill -= data[i].constant_discount;
+                constDisc = data[i].constant_discount;
+
+            document.getElementById("button-addon3").disabled = true;
         }
     }
     if(!found)
