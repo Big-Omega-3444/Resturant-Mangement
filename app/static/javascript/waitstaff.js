@@ -127,6 +127,14 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 					$('#WTSF_PayBill').find('#Meal_cost').val(cost);
 				});
 			}
+			
+			if (orderData[i].amount_paid == null)
+				$('#Amount').html(`Amount Owed: $${orderData[i].total_cost}`);	
+			else
+			{
+				var left = orderData[i].total_cost - orderData[i].amount_paid;
+				$('#Amount').html(`Amount Owed: $${left}`);	
+			}
 	
 			var elasped = (Date.now() - parseInt(card.find('#lastUpdate').html()))/(60*1000);
 			
@@ -249,6 +257,16 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		inject.append($('<hr/>'));		
 		inject.append($('<dt/>').html("Special Notes"));
 		inject.append($('<dd/>').html(orderData[i].special_notes));	
+		
+		inject.append($('<hr/>'));		
+		
+		if (orderData[i].amount_paid == null)
+			inject.append($('<p id="Amount"/>').html(`Amount Owed: $${orderData[i].total_cost}`));	
+		else
+		{
+			var left = orderData[i].total_cost - orderData[i].amount_paid;
+			inject.append($('<p id="Amount"/>').html(`Amount Owed: $${left}`));	
+		}
 		
 		$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateBody').append(inject);
 		
