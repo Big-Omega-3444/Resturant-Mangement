@@ -1,6 +1,10 @@
+$(document).ready ( function(){
+  window.loyal = false;
+});
+
 function checkCredentials(data, selector)
 {
-    var fail = true;
+    var found = false;
     switch(selector){
         case '#loginForm': // staff members
             var user = document.getElementById("eID").value.toString();
@@ -20,7 +24,7 @@ function checkCredentials(data, selector)
                 if(data[i].username.toString() === user && data[i].pin.toString() === pass) // same user, same pass
                 {
 
-                    fail = false;
+                    found = true;
                     switch(data[i].assignment) // redirect accordingly
                     {
 
@@ -36,14 +40,16 @@ function checkCredentials(data, selector)
             case '#loyLogin': // loyalty members
                 if(data[i].email.toString() === user && data[i].pin.toString() === pass) // same user, same pass
                 {
-                    fail = false;
+                    found = true;
+                    loyal = true;
                     alert("Welcome back, "+data[i].firstname+"!"); // this happens when a loyal customer logs in
+                    enterLoyaltyMode(data[i]);
                 }
                 break;
         }
 
     }
-    if(fail){ // if we fail to log in
+    if(!found){ // if we fail to log in
         alert("Invalid Login Credentials");
         user = "fail"; 
         pass = "stupid";
@@ -53,6 +59,16 @@ function checkCredentials(data, selector)
         document.getElementById("llPass").value = "";
     }
 
+}
+
+function enterLoyaltyMode(data) {
+    document.getElementById("rewardSignIn").style.display = "none";
+    document.getElementById("rewardSignOut").style.display = "";
+
+    document.getElementById("greetings").innerText = "Welcome back, "+data.firstname+"!";
+
+    $("#Rewards").modal('hide');
+    $(".modal-backdrop").remove();
 }
 
 //From w3school, decode cookie
@@ -351,7 +367,6 @@ function SubmitLoyaltyMemberForm()
 		if (post.status === 200 || post.status === 201)
 		{
 			alert("Thanks for joining!");
-			location.reload();
 		}
 		else
 		{

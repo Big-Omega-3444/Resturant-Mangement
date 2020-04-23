@@ -127,6 +127,9 @@ function populateFoodPane(data, selector)
 function populateFoodCards(menuItem, selector)
 {
 	//populate food pane with items
+	if(menuItem.loyalty_exclusive) // if this item is exclusive
+		if(!loyal) // if the user is not loyal
+			return; // don't print the card
 
 	var allergenTemplate = "";
 
@@ -276,6 +279,10 @@ function populateDrinkPane(data, selector)
 function populateDrinkCards(menuItem, selector)
 {
 	//populate drinks pane with items
+	if(menuItem.loyalty_exclusive) // if this item is exclusive
+		if(!loyal) // if the user is not loyal
+			return; // don't print the card
+
 	var allergenTemplate = "";
 
 	if(menuItem.allergens.length > 0) // create our allergens list, if need be

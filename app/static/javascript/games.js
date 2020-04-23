@@ -6,7 +6,6 @@
 			Module:{
 				onQuit : function(){
 					console.log("Closing Hex")
-					//$("#Hex").modal("hide");
 				}
 			}
 		});
@@ -17,7 +16,6 @@
 			Module:{
 				onQuit : function(){
 					console.log("Closing Stack")
-					//$("#Stack").modal("hide");
 				}
 			}
 		});
@@ -28,7 +26,6 @@
 			Module:{
 				onQuit : function(){
 					console.log("Closing Tetris")
-					//$("#Tetris").modal("hide");
 				}
 			}
 		});

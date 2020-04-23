@@ -41,7 +41,7 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-light bg-light static-top">
 		<div class="container">
-			<a class="navbar-brand" href="javascript:void(0);">Big Omega Ω</a>
+			<a id="greetings" class="navbar-brand" href="javascript:void(0);">Big Omega Ω</a>
 		</div>
 		<!-- Employee Login -->
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#EmpLogin"><i class="fa fa-cog fa-2x"></i></button>
@@ -230,7 +230,7 @@
 								</div>
 								<!-- End Carousel -->
 								<div class="modal-footer">
-								  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								  <button type="button" class="btn btn-default" onclick=javascript:$(".modal-backdrop").remove(); data-dismiss="modal">Close</button>
 								</div>
 							</div>
 						</div>
@@ -477,7 +477,8 @@
 				<ul class="list-inline mb-0">
 					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#MyCart"><i class="fas fa-shopping-bag"></i>&nbsp;My Order</a></li>
 					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#Booking"><i class="fas fa-book"></i>&nbsp;Reservations</a></li>
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#Rewards"><i class="fas fa-gift"></i>&nbsp;Rewards Sign-in</a></li>
+					<li class="list-inline-item" id="rewardSignIn"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#Rewards"><i class="fas fa-gift"></i>&nbsp;Rewards Sign-in</a></li>
+					<li class="list-inline-item" id="rewardSignOut" style="display:none"><a type="button" class="btn btn-primary" data-toggle="modal" onclick=javascript:location.reload(); ><i class="fas fa-gift"></i>&nbsp;Rewards Sign-out</a></li>
 				</ul>
 			</div>
 	</section>
@@ -695,17 +696,17 @@
 						<div class="col-sm-9 col-md-7 col-lg-5">
 							<div class="card card-signin my-5">
 								<div class="card-body">
-									<form class="form-signin" id="loylogin">
+									<form class="form-signin" id="loyLogin">
 									<div class="form-label-group">
-										<input type="email" id=llemail class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" minlength="6" placeholder="Email address" required autofocus>
-										<label for="emailTxtBox">Email address</label>
+										<input type="email" id="llemail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" minlength="6" placeholder="Emailaddr" required autofocus>
+										<label for="llemail">Email address</label>
 									</div>
 									<div class="form-label-group">
 										<input type="password" id="llPass" class="form-control" placeholder="Password" required>
-										<label for="PIN">Password</label>
+										<label for="llPass">Password</label>
 									</div>
-									<hr class="my-4"-->
-									<button class="btn btn-lg btn-primary btn-block text-uppercase" onclick=requestInputText('/api/loyaltymembers','#loyLogin'); type="submit">Sign in</button>
+									<hr class="my-4">
+									<button class="btn btn-lg btn-primary btn-block text-uppercase" onclick=requestInputText('/api/loyaltymembers','#loyLogin'); type="button">Sign in</button>
 									<hr class="my-4">
 									<div class="text-center"><a class="label" data-dismiss="modal" data-toggle="modal" href="#RewardsSignup">Create Account</a></div>
 									</form>
@@ -979,20 +980,20 @@
 								<div class="card-body">
 									<form class="form-signin" id="reservationForm">
 										<div class="form-label-group">
-										<input type="text" class="form-control" name="firstname" placeholder="First name" required>
-											<label for="firstname">First Name</label>
+										<input type="text" class="form-control" id="lrfirst" name="firstname" placeholder="First name" required>
+											<label for="lrfirst">First Name</label>
 										</div>
 										<div class="form-label-group">
-										<input type="text" class="form-control" name="lastname" placeholder="Last name" required>
-											<label for="lastname">Last Name</label>
+										<input type="text" class="form-control" id="lrlast" name="lastname" placeholder="Last name" required>
+											<label for="lrlast">Last Name</label>
 										</div>
 										<div class="form-label-group">
-											<input type="email" name="email" class="form-control" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
-											<label for="email">Email address</label>
+											<input type="email" name="email" class="form-control" id="lremail" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+											<label for="lremail">Email address</label>
 										</div>
 										<div class="form-label-group">
-											<input name="phone_number" type="tel" class="form-control" name="phone_number" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
-											<label for="phone_number">Phone Number</label>
+											<input name="phone_number" type="tel" class="form-control" id="lrphone_number" name="phone_number" placeholder="(XXX)XXX-XXXX" pattern="^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$" required>
+											<label for="lrphone_number">Phone Number</label>
 										</div>
 										<div class="form-group">
 											<select class="custom-select" name="num_people" required>
@@ -1009,7 +1010,7 @@
 											<div class="invalid-feedback">You must make a valid selection</div>
 										</div>
 										<hr class="my-4">
-										<button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Create Reservation</button>
+										<button type='button' onclick=submitReservationForm(); class="btn btn-lg btn-primary btn-block text-uppercase">Create Reservation</button>
 										<hr class="my-4">
 									</form>
 								</div>
