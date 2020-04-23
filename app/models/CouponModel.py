@@ -28,11 +28,11 @@ class ItemDiscount(EmbeddedDocument):
             raise ValidationError(msg)
 
 class CouponModel(Document):
-    entry_code = StringField(required=True)
+    entry_code = StringField(required=True, unique=True)
     specific_discounts = EmbeddedDocumentListField(ItemDiscount, default=[])
     percent_discount = FloatField(min_value=0, max_value=100)
     constant_discount = FloatField(min_value=0)
-    employee_comped = StringField(default="False")
+    employee_comped = MyBooleanField(default="False")
 
     def clean(self):
         if self.specific_discounts is None and self.percent_discount == 0 and self.constant_discount == 0:

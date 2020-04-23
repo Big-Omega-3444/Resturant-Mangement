@@ -33,7 +33,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									</div>
 									${object[0].outerHTML}
 									<div class="card-footer bg-transparent border-success">
-										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
+										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
 										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-success">
@@ -45,32 +45,95 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 				$(`#WTSForderID_${orderData[i]._id.$oid}`).replaceWith(nuCard);
 				$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);	
 				
-//				GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Order Ready!</strong> Order #${ordersData.order_id} is ready to serve to Table #${ordersData.table}!`, 'alert-success')	
+				//Edit the button to include a function
+				$(`#btnPayOrder_${orderData[i]._id.$oid}`).click(function() {
+					var str = (this.id).split("_");
+					$('#WTSF_PayBill').find('#OrderID').html(str[1]);
+					
+					var cost = $(this).data("cost");
+					$('#WTSF_PayBill').find('#Meal_cost').val(cost);
+				});
 			}
 			// If the new status on the order is changed, but the card says something else, then change the elements and update info			
 			else if ((orderData[i].status).toString() === "changed" && currsts != "Order Changed")
 			{
-					var object = card.find('#updateBody');
-					
-					//This is gonna look real ugly
-					const nuCard = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
-								<div class="card bg-transparent border-info mb-3 w-75 text-center">
-									<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
-									<div class="card-header text-info border-info" >
-										Order #${orderData[i].order_id}
-										<hr>
-										<span>Status: <span id="status">Order Changed</span></span>
-									</div>
-									${object[0].outerHTML}
-									<div class="card-footer bg-transparent border-info">
-										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
-										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
-									</div>
-									<div class="card-footer bg-transparent border-info">
-										<div id="updateTime"></div>
-									</div>
+				var object = card.find('#updateBody');
+				
+				//This is gonna look real ugly
+				const nuCard = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
+							<div class="card bg-transparent border-info mb-3 w-75 text-center">
+								<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
+								<div class="card-header text-info border-info" >
+									Order #${orderData[i].order_id}
+									<hr>
+									<span>Status: <span id="status">Order Changed</span></span>
 								</div>
-							</div>`;					
+								${object[0].outerHTML}
+								<div class="card-footer bg-transparent border-info">
+									<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
+									<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+								</div>
+								<div class="card-footer bg-transparent border-info">
+									<div id="updateTime"></div>
+								</div>
+							</div>
+						</div>`;		
+
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).replaceWith(nuCard);
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);								
+			
+				//Edit the button to include a function
+				$(`#btnPayOrder_${orderData[i]._id.$oid}`).click(function() {
+					var str = (this.id).split("_");
+					$('#WTSF_PayBill').find('#OrderID').html(str[1]);
+					
+					var cost = $(this).data("cost");
+					$('#WTSF_PayBill').find('#Meal_cost').val(cost);
+				});
+			}
+			else if ((orderData[i].status).toString() === "payment_recieved" && currsts != "Payment Received")
+			{
+				var object = card.find('#updateBody');
+				
+				//This is gonna look real ugly
+				const nuCard = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
+							<div class="card bg-transparent border-info mb-3 w-75 text-center">
+								<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
+								<div class="card-header text-info border-info" >
+									Order #${orderData[i].order_id}
+									<hr>
+									<span>Status: <span id="status">Payment Received</span></span>
+								</div>
+								${object[0].outerHTML}
+								<div class="card-footer bg-transparent border-info">
+									<button type="button" class="btn btn-success" disabled id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
+									<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+								</div>
+								<div class="card-footer bg-transparent border-info">
+									<div id="updateTime"></div>
+								</div>
+							</div>
+						</div>`;		
+
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).replaceWith(nuCard);
+				$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);								
+			
+				//Edit the button to include a function
+				$(`#btnPayOrder_${orderData[i]._id.$oid}`).click(function() {
+					var str = (this.id).split("_");
+					$('#WTSF_PayBill').find('#OrderID').html(str[1]);
+					
+					var cost = $(this).data("cost");
+					$('#WTSF_PayBill').find('#Meal_cost').val(cost);
+				});
+			}
+			
+			if (orderData[i].amount_paid == null)
+				$('#Amount').html(`Amount Owed: $${orderData[i].total_cost}`);	
+			else
+			{
+				var left = orderData[i].total_cost - orderData[i].amount_paid;
+				$('#Amount').html(`Amount Owed: $${left}`);	
 			}
 	
 			var elasped = (Date.now() - parseInt(card.find('#lastUpdate').html()))/(60*1000);
@@ -107,7 +170,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									</div>
 									<div id="updateBody"></div>
 									<div class="card-footer bg-transparent border-success">
-										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
+										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
 										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-success">
@@ -128,7 +191,28 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									</div>
 									<div id="updateBody"></div>
 									<div class="card-footer bg-transparent border-info">
-										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
+										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
+										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+									</div>
+									<div class="card-footer bg-transparent border-info">
+										<div id="updateTime"></div>
+									</div>
+								</div>
+							</div>`;
+		}
+		else if ((orderData[i].status).toString() === "payment_recieved" && orderData[i].time_modified != null)
+		{
+			cardTemplate = `<div class="SingletonOrderCard" id="WTSForderID_${orderData[i]._id.$oid}">
+								<div class="card bg-transparent border-info mb-3 w-75 text-center">
+									<div style="display:none;" id="lastUpdate">${orderData[i].time_modified}</div>
+									<div class="card-header text-info border-info" >
+										Order #${orderData[i].order_id}
+										<hr>
+										<span>Status: <span id="status">Payment Received</span></span>
+									</div>
+									<div id="updateBody"></div>
+									<div class="card-footer bg-transparent border-info">
+										<button type="button" class="btn btn-success" disabled id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
 										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-info">
@@ -149,7 +233,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									</div>
 									<div id="updateBody"></div>
 									<div class="card-footer bg-transparent border-primary">
-										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}">Pay</button>
+										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
 										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-primary">
@@ -174,6 +258,16 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		inject.append($('<dt/>').html("Special Notes"));
 		inject.append($('<dd/>').html(orderData[i].special_notes));	
 		
+		inject.append($('<hr/>'));		
+		
+		if (orderData[i].amount_paid == null)
+			inject.append($('<p id="Amount"/>').html(`Amount Owed: $${orderData[i].total_cost}`));	
+		else
+		{
+			var left = orderData[i].total_cost - orderData[i].amount_paid;
+			inject.append($('<p id="Amount"/>').html(`Amount Owed: $${left}`));	
+		}
+		
 		$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateBody').append(inject);
 		
 		var elasped;
@@ -187,9 +281,13 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);
 		
 		//Edit the button to include a function
-//		$(`#btnReady_${orderData[i]._id.$oid}`).click(function() {
-//			SendOrderReadyRequest(this);
-//		});
+		$(`#btnPayOrder_${orderData[i]._id.$oid}`).click(function() {
+			var str = (this.id).split("_");
+			$('#WTSF_PayBill').find('#OrderID').html(str[1]);
+			
+			var cost = $(this).data("cost");
+			$('#WTSF_PayBill').find('#Meal_cost').val(cost);
+		});
 			
 		//Edit the button to include a function
 //		$(`#btnWaitstaff_${orderData[i]._id.$oid}_${orderData[i].order_id}`).click(function() {
@@ -534,10 +632,64 @@ function BuildOrderCWAlert(notifData, orderData)
 	GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Waitstaff Requested!</strong> Kitchen requests waitstaff for Order #${orderData.order_id}`, 'alert-warning', notifData._id.$oid, true)	
 }
 
-function BuildOrderReadyAlert(notifData, orderData)
+function PayOrder(id)
 {
+    var put = new XMLHttpRequest();
 	
+	var url = "/api/orders/" + id;
+
+    // POST to the API
+    put.open('PUT', url);
+	
+	//Needs to be in JSON format, no other way around it
+	var payload =
+	{ 
+		"amount_paid": $('#WTSF_PayBill').find('#Meal_cost').val(),
+		"paid_off":	false,
+		"time_modified": Date.now()
+	};
+	
+	var cost = 	$(`#btnPayOrder_${id}`).data('cost');
+	
+	// Check if the amount paid is greater than or equal to the amount owed
+	if (payload['amount_paid'] >= cost)
+	{
+		payload['paid_off'] = true;
+		payload['status'] = "payment_recieved";
+	}
+
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	put.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	put.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (put.status === 200 || put.status === 201 || put.status === 204)
+		{
+			alert("Payment Successful!");
+			RetrieveOrders(true, false, true);
+			return;
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(put.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${put.status}: ${error.message}`);
+		}
+	};
+
+	put.setRequestHeader("Content-Type", "application/json");	
+    put.send(JSON.stringify(payload));	
 }
+
+
 
 //
 // BEGIN Event Listeners
@@ -548,6 +700,14 @@ $( document ).ready(function() {
 	window.currentState = []
 
     RetrieveOrders(true, false, true);
+});
+
+$('#WTSF_PayBill_btn_PayBill').click( function()
+{
+	 //Pay the Bill
+	 var id = $('#WTSF_PayBill').find('#OrderID').html();
+	
+	 PayOrder(id);
 });
 
 // Update Orders and Notification Cards
