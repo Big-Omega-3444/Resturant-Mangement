@@ -796,6 +796,12 @@ function requestData(url, selector)
 				case '#MGMT_MessagesTable_Body':
 					populateFeedbackTable(JSON.parse(request.responseText), selector);
 					break;
+				case '#MGMT_CouponTable_Body':
+					populateCouponTable();
+					break;
+				case '#MGMT_SpecialTable_Body':
+					populateSpecialTable();
+					break;
 				default:
 					break;
 			}
@@ -1841,7 +1847,13 @@ function updateTables()
 	requestData('/api/menus', '#MenuCategoryTable');		
 	
 	$('#MGMT_MenuItemsTable_Body tr td').remove();
-	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');		
+	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');	
+
+	$('#KTCH_CouponTable_Body tr td').remove();
+	requestData('/api/coupons', '#MGMT_CouponTable_Body');
+
+	$('#KTCH_SpecialTable_Body tr td').remove();
+	requestData('/api/specials', '#MGMT_SpecialTable_Body');
 }
 
 function UpdateAlerts()
@@ -2616,3 +2628,61 @@ function SubmitCoupon() {
 	request.send(formData);	
 
 }
+
+///
+///Specials submit
+///
+
+$('#specialSubmit').click(function () {
+	SubmitSpecial();
+});
+
+function SubmitSpecial() {
+
+	var request = new XMLHttpRequest();
+
+	request.open('POST', '/api/specials');
+
+	//Handle errors
+	request.error = function () {
+		alert("Request Failed!");
+	};
+
+	request.onload = function () {
+
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+
+			//
+		}
+		else {
+
+
+			var error = JSON.parse(request.responseText);
+			console.log(error.message);
+			alert(`Error ${request.status}: ${request.message}`);
+
+		}
+
+
+	}
+
+	var formData = new FormData(document.getElementById("sForm"));
+	request.send(formdata);
+
+}
+
+///
+///Specials listener
+///
+$('#MGMT_Tables').on('show.bs.modal', function () {
+
+	RetrieveOrders(false, true, false);
+
+});
+
+$('#MGMT_Tables').on('hide.bs.modal', function (event) {
+
+	$('#KTCH_SpecialTable_Body tr td').remove();
+	$('#KTCH_CouponTable_Body tr td').remove();
+
+});

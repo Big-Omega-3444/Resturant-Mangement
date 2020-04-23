@@ -1125,6 +1125,12 @@
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#Specials">Specials</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#CouponTable">Current Coupons</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#SpecialTable">Current Specials</a>
+							</li>
 						</ul>
 					</div>
 					<br>
@@ -1154,60 +1160,90 @@
 												<option id="True">True</option>
 											</select>
 										</div>
-									  <button type="submit" id="couponSubmit" class="btn btn-primary">Add Coupon</button>
+										<button type="submit" id="couponSubmit" class="btn btn-primary">Add Coupon</button>
 									</form>
 								</div>
 								<div class="tab-pane container fade" id="Specials">
-									<form>
+									<form class="form-signin" id="cForm">
 										<div class="form-group">
 											<label for="specific_discounts">Specific Discounts</label>
 											<input type="text" class="form-control" id="specific_discounts" placeholder="Discount Item" required>
 										</div>
 										<div class="form-row">
-										  <div class="form-group">
-											<label for="percent_discount">Percent Discount</label>
-											<input type="number" class="form-control" id="percent_discount" placeholder="%">
-										  </div>
-										  <div class="form-group">
-											<label for="constant_discount">Constant Discount</label>
-											<input type="number" class="form-control" id="constant_discount" placeholder="$">
-										  </div>
-										 </div>
-										 <div class="form-row">
-											  <div class="form-check mb-1 mr-sm-1">
+											<div class="form-group">
+												<label for="percent_discount">Percent Discount</label>
+												<input type="number" class="form-control" id="percent_discount" placeholder="%">
+											</div>
+											<div class="form-group">
+												<label for="constant_discount">Constant Discount</label>
+												<input type="number" class="form-control" id="constant_discount" placeholder="$">
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="form-check mb-1 mr-sm-1">
 												<input class="form-check-input" type="checkbox" id="M">
 												<label class="form-check-label" for="M">Monday</label>
-											  </div>
-											   <div class="form-check mb-1 mr-sm-1">
+											</div>
+											<div class="form-check mb-1 mr-sm-1">
 												<input class="form-check-input" type="checkbox" id="Tu">
 												<label class="form-check-label" for="Tu">Tuesday</label>
-											  </div>
-											   <div class="form-check mb-1 mr-sm-1">
+											</div>
+											<div class="form-check mb-1 mr-sm-1">
 												<input class="form-check-input" type="checkbox" id="W">
 												<label class="form-check-label" for="W">Wednesday</label>
-											  </div>
-											   <div class="form-check mb-1 mr-sm-1">
+											</div>
+											<div class="form-check mb-1 mr-sm-1">
 												<input class="form-check-input" type="checkbox" id="Th">
 												<label class="form-check-label" for="Th">Thursday</label>
-											  </div>
-											   <div class="form-check mb-1 mr-sm-1">
+											</div>
+											<div class="form-check mb-1 mr-sm-1">
 												<input class="form-check-input" type="checkbox" id="F">
 												<label class="form-check-label" for="F">Friday</label>
-											  </div>
-											   <div class="form-check mb-1 mr-sm-1">
+											</div>
+											<div class="form-check mb-1 mr-sm-1">
 												<input class="form-check-input" type="checkbox" id="Sa">
 												<label class="form-check-label" for="Sa">Saturday</label>
-											  </div>
-											   <div class="form-check mb-1 mr-sm-1">
+											</div>
+											<div class="form-check mb-1 mr-sm-1">
 												<input class="form-check-input" type="checkbox" id="Su">
 												<label class="form-check-label" for="Su">Sunday</label>
-											  </div>
-										  </div>
-									  <button type="submit" id="specialSubmit" onclick=requestInputText('/api/specials','#Specials'); class="btn btn-primary">Add Special</button>
+											</div>
+										</div>
+										<button type="submit" id="specialSubmit" class="btn btn-primary">Add Special</button>
 									</form>
 								</div>
+								<div class="tab-pane container fade" id="CouponTable">
+									<table class="table table-bordered table-striped table-responsive" id="KTCH_CouponTable">
+										<thead>
+											<tr>
+												<th>Entry Code</th>
+												<th>Specific item discounts<br />( Item , Percent Discount (%) or Constant Discount (-) )</th>
+												<th>Percent Discount</th>
+												<th>Constant Discount</th>
+												<th>Edit</th>
+											</tr>
+										</thead>
+										<tbody id="KTCH_CouponTable_Body">
+										</tbody>
+									</table>
+								</div>
+								<div class="tab-pane container fade" id="SpecialTable">
+									<table class="table table-bordered table-striped table-responsive" id="KTCH_SpecialTable">
+										<thead>
+											<tr>
+												<th>Specific item discounts<br />( Item , Percent Discount (%) or Constant Discount (-) )</th>
+												<th>Percent Discount</th>
+												<th>Constant Discount</th>
+												<th>Days</th>
+												<th>Edit</th>
+											</tr>
+										</thead>
+										<tbody id="KTCH_SpecialTable_Body">
+										</tbody>
+									</table>
+								</div>
 							</div>
-						</div>
+							</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1349,6 +1385,6 @@
 		<!-- Here because javascript suxs -->
 		<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>
 		<script src="{{ url_for('static', filename='javascript/management.js') }}"></script>
-		<!-- src="{{ url_for('static', filename='javascript/management_redirect.js') }}"> -->
+		<script src="{{ url_for('static', filename='javascript/management_redirect.js') }}"> </script>
 </body>
 </html>

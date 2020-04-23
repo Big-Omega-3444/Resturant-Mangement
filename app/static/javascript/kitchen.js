@@ -146,6 +146,228 @@ function populateTimeTable(employeeData) {
 	request.send();
 }
 
+//Coupon table 
+function populateCouponTable(menuItemsData) {
+	// Open a XHR request to retrieve employee database
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the url to retrieve user
+	var url = "/api/coupons";
+
+	request.open('GET', url);
+
+	// Handle on load
+	request.onload = function () {
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+			//Append row for coupons
+			couponData = JSON.parse(request.responseText);
+			// Build the table
+			for (i = 0; i < couponData.length; i++) {
+				var row = $('<tr id="tbl_couponID_${couponData[i]._id.$oid}"/>');
+
+				row.append($('<td/>').html(couponData[i].entry_code));
+
+				//Search through all specific
+				if (couponData[i].specific_discounts.length != 0) {
+					var final = ``;
+					for (j = 0; j < couponData[i].specific_discounts.length; j++) {
+						for (y = 0; y < menuItemsData.length; y++) {
+
+							if (menuItemsData[y]._id.$oid == couponData[i].specific_discounts[j].item.$oid) {
+								temp1 = menuItemsData[y].name;
+							}
+						}
+
+						if (couponData[i].specific_discounts[j].percent_discount == undefined) {
+							final = final + temp1 + " , -" + couponData[i].specific_discounts[j].constant_discount + "<br/>";
+						}
+						if (couponData[i].specific_discounts[j].constant_discount == undefined) {
+							final = final + temp1 + " , " + couponData[i].specific_discounts[j].percent_discount + `%` + "<br/>";
+						}
+						else {
+							final = final + temp1 + " , -" + couponData[i].specific_discounts[j].constant_discount + " , " + couponData[i].specific_discounts[j].percent_discount + "%" + "<br/>";
+						}
+                        
+						
+					}
+					row.append($('<td/>').html(final));
+				}
+				else {
+					row.append($('<td/>').html("none"));
+                }
+				
+				row.append($('<td/>').html(couponData[i].percent_discount + "%"));
+
+				row.append($('<td/>').html("-" + couponData[i].constant_discount));
+
+
+				var uid = ""
+				uid = couponData[i]._id.$oid;
+				var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function () {
+					deleteCoupon(this);
+				}).html("DEL");
+
+				row.append($('<td/>').html(deleteButton));
+
+				$('#KTCH_CouponTable_Body').append(row);
+			}
+			return;
+		}
+		else {
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+
+	// Handle on errors	
+	request.error = function () {
+		alert("Request Failed!");
+	};
+
+	request.send();
+}
+
+function deleteCoupon(object) {
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the deletion url for user
+	var url = "/api/coupons/" + object.id;
+
+	// Open a socket to the url
+	request.open('DELETE', url);
+
+	// Handle on load
+	request.onload = function (data) {
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+			alert("Deletion Successful!");
+			updateTables();
+		}
+		else {
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+
+	// Handle on errors	
+	request.error = function () {
+		alert("Request Failed!");
+	};
+
+	request.send();
+
+}
+
+//Specials table 
+function populateSpecialTable(menuItemsData) {
+	// Open a XHR request to retrieve employee database
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the url to retrieve user
+	var url = "/api/specials";
+
+	request.open('GET', url);
+
+	// Handle on load
+	request.onload = function () {
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+			//Append row for specials
+			
+			specialData = JSON.parse(request.responseText);
+			// Build the table
+			for (i = 0; i < specialData.length; i++) {
+				var row = $('<tr id="tbl_specialID_${specialData[i]._id.$oid}"/>');
+
+				//Search through all specific
+				if (specialData[i].specific_discounts.length != 0) {
+					var final = ``;
+					for (j = 0; j < specialData[i].specific_discounts.length; j++) {
+						for (y = 0; y < menuItemsData.length; y++) {
+
+							if (menuItemsData[y]._id.$oid == specialData[i].specific_discounts[j].item.$oid) {
+								temp1 = menuItemsData[y].name;
+							}
+						}
+
+						if (specialData[i].specific_discounts[j].percent_discount == undefined) {
+							final = final + temp1 + " , -" + specialData[i].specific_discounts[j].constant_discount + "<br/>";
+						}
+						else if (specialData[i].specific_discounts[j].constant_discount == undefined) {
+							final = final + temp1 + " , " + specialData[i].specific_discounts[j].percent_discount + '%'+ "<br/>";
+						}
+						else {
+							final = final + temp1 + " , -" + specialData[i].specific_discounts[j].constant_discount + " , " + specialData[i].specific_discounts[j].percent_discount + `%` + "<br/>";
+						}
+                        
+
+					}
+					row.append($('<td/>').html(final));
+				}
+				else
+				{
+					row.append($('<td/>').html("none"));
+				}
+
+				row.append($('<td/>').html(specialData[i].percent_discount + "%"));
+
+				row.append($('<td/>').html("-" + specialData[i].constant_discount));
+
+				row.append($('<td/>').html(specialData[i].days));
+				var uid = ""
+				uid = specialData[i]._id.$oid;
+				var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function () {
+					deleteSpecial(this);
+				}).html("DEL");
+
+				row.append($('<td/>').html(deleteButton));
+
+				$('#KTCH_SpecialTable_Body').append(row);
+			}
+			return;
+		}
+		else {
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+
+	// Handle on errors	
+	request.error = function () {
+		alert("Request Failed!");
+	};
+
+	request.send();
+}
+
+function deleteSpecial(object) {
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the deletion url for user
+	var url = "/api/Specials/" + object.id;
+
+	// Open a socket to the url
+	request.open('DELETE', url);
+
+	// Handle on load
+	request.onload = function (data) {
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+			alert("Deletion Successful!");
+			updateTables();
+		}
+		else {
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+
+	// Handle on errors	
+	request.error = function () {
+		alert("Request Failed!");
+	};
+
+	request.send();
+
+}
+
 function populateOrdersHistoryTable(orderData, menuItemsData)
 {
 	// Open a XHR request to retrieve employee database
@@ -295,6 +517,8 @@ function RetrieveOrders(BuildCards, Management, Waitstaff)
 					if (Management === true)
 					{						
 						TimeTable();
+						populateSpecialTable(JSON.parse(request2.responseText));
+						populateCouponTable(JSON.parse(request2.responseText));
 						populateOrdersHistoryTable(data.target.extraInfo, JSON.parse(request2.responseText))
 						return;
 					}

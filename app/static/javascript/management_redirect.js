@@ -29,7 +29,7 @@ function getCookieEmployee() {
 
 		if (requests.status === 200 || requests.status === 201 || requests.status === 204) {
 			var employee_data = JSON.parse(requests.responseText);
-			console.log(employee_data);
+
 			var id = getCookie("username");
 
 			for (var i = 0; i < employee_data.length; i++) {
@@ -50,7 +50,7 @@ function getCookieEmployee() {
 	}
 
 	requests.send()
-	console.log(check);
+
 	return check;
 }
 
