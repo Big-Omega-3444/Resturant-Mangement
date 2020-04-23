@@ -28,7 +28,7 @@ class ItemDiscount(EmbeddedDocument):
             raise ValidationError(msg)
 
 class CouponModel(Document):
-    entry_code = StringField(required=True)
+    entry_code = StringField(required=True, unique=True)
     specific_discounts = EmbeddedDocumentListField(ItemDiscount, default=[])
     percent_discount = FloatField(min_value=0, max_value=100)
     constant_discount = FloatField(min_value=0)
