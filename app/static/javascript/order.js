@@ -49,16 +49,59 @@ function countNumInOrder(itemID) {
 }
 
 // Add to Order Function
-function addItemToOrder(buttonID, item) {
-  // add item foodId to an array
-  var item = {item};
-  localOrder.items.push(item);
+function modifyOrder(buttonID, item, action) {
 
-  if (document.getElementById(buttonID).innerHTML === "Order")
-    document.getElementById(buttonID).innerHTML = "Item Added!";
+    switch(action)
+    {
+        case "add":
+            var item = {item};
+            var quantity = parseInt(document.getElementById(buttonID.substring(0,buttonID.length-3)+'qty').value);
 
-  setTimeout(function() { revertText(buttonID); }, 1000);
-  function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "Order"; }
+            var totalInOrder = countNumInOrder(item.item) + quantity;
+
+            document.getElementById(buttonID).innerHTML = totalInOrder + " in Cart";
+
+            // add item foodId to an array
+            for(i = 0; i < quantity; i++)
+                localOrder.items.push(item);
+
+        break;
+        case "remove":
+
+            var quantity = parseInt(document.getElementById(buttonID.substring(0,buttonID.length-6)+'qty').value);
+
+            if(countNumInOrder(item) < quantity) // if we're trying to delete more items than there are
+                quantity = countNumInOrder(item);
+
+            for(i = 0; i < quantity; i++)
+            {
+                for(j = 0; j < localOrder.items.length; j++) // scan through our cart
+                {
+                    if(localOrder.items[j].item === item) // if we find a matching item and still have items to delete
+                    {
+                        localOrder.items.splice(j,1); // remove it
+                        break;
+                    }
+                }
+            }
+
+            var totalInOrder = countNumInOrder(item);
+            if(totalInOrder > 0)
+                document.getElementById(buttonID.substring(0,buttonID.length-6)+'btn').innerHTML = totalInOrder + " in Cart";
+            else
+                document.getElementById(buttonID.substring(0,buttonID.length-6)+'btn').innerHTML = "Order";
+
+            if(document.getElementById(buttonID).innerHTML === "Remove")
+            {
+                document.getElementById(buttonID).innerHTML = "Removed " + quantity;
+            }
+
+            setTimeout(function() { revertText(buttonID); }, 1000);
+            function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "Remove"; }
+
+        break;
+    }
+
 }
 
 // Remove from Order Function

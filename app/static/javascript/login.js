@@ -62,13 +62,41 @@ function checkCredentials(data, selector)
 }
 
 function enterLoyaltyMode(data) {
-    document.getElementById("rewardSignIn").style.display = "none";
+    document.getElementById("rewardSignIn").style.display = "none"; // swap buttons
     document.getElementById("rewardSignOut").style.display = "";
 
-    document.getElementById("greetings").innerText = "Welcome back, "+data.firstname+"!";
+    document.getElementById("greetings").innerText = "Welcome back, "+data.firstname+"!"; // Set greeting
+
+    // check for birthday
+
+
+    changePageColors();
 
     $("#Rewards").modal('hide');
     $(".modal-backdrop").remove();
+}
+
+function changePageColors() {
+    var elements = document.querySelectorAll('#rcorners2');
+    for(i = 0; i < elements.length; i++)
+    {
+        elements[i].style.borderColor = "#15ae62";
+    }
+
+    elements = document.querySelectorAll('.btn-primary');
+    for(i = 0; i < elements.length; i++)
+    {
+        elements[i].style.borderColor = "#07984c";
+        elements[i].style.backgroundColor = "#15ae62";
+    }
+
+    elements = document.querySelectorAll('.text-primary');
+    for(i = 0; i < elements.length; i++)
+    {
+        elements[i].style.cssText = 'color:#15ae62 !important';
+    }
+
+    document.body.style.cssText = 'background-image: linear-gradient(to right, #07984c, #15ae62)';
 }
 
 //From w3school, decode cookie
