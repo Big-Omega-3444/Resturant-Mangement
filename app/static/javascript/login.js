@@ -314,7 +314,7 @@ function checkCoupon(data, selector)
             alert("Coupon Accepted!");
 
             if(data[i].percent_discount > 0)
-                bill *= data[i].percent_discount;
+                bill *= data[i].percent_discount*.01;
             if(data[i].constant_discount > 0)
                 bill -= data[i].constant_discount;
         }

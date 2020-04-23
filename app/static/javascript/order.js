@@ -91,13 +91,13 @@ function modifyOrder(buttonID, item, action) {
             else
                 document.getElementById(buttonID.substring(0,buttonID.length-6)+'btn').innerHTML = "Order";
 
-            if(document.getElementById(buttonID).innerHTML === "Remove")
+            if(document.getElementById(buttonID).innerHTML === "<i class=\"fas fa-trash-alt\"></i>")
             {
                 document.getElementById(buttonID).innerHTML = "Removed " + quantity;
             }
 
             setTimeout(function() { revertText(buttonID); }, 1000);
-            function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "Remove"; }
+            function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "<i class=\"fas fa-trash-alt\"></i>"; }
 
         break;
     }

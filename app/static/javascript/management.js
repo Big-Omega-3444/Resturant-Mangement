@@ -2660,7 +2660,7 @@ function SubmitCoupon() {
 
 		if (request.status === 200 || request.status === 201 || request.status === 204) {
 
-			//
+			alert("Coupon Submitted!");
 		}
 		else {
 

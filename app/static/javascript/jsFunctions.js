@@ -248,10 +248,11 @@ paypal.Buttons({
 
 	// Set up the transaction
 	createOrder: function(data, actions) {
+		var finalBill = parseFloat($("#totalBill").html().substring(1));
 		return actions.order.create({
 			purchase_units: [{
 				amount: {
-					value: '0.01'
+					value: finalBill
 				}
 			}]
 		});
