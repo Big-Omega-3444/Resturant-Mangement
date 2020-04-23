@@ -69,6 +69,112 @@
 		</div>
 	</section>
 	<!-- End Main Section -->
+	
+	<!-- Pay Bill -->
+	<div id="WTSF_PayBill" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form id="amountPayment">
+						<h5> Amount to Pay </h5>
+						<div class="form-group row">
+							<div class="input-group col">
+								<div class="input-group-prepend">
+									<span class="input-group-text">$</span>
+								</div>
+								<input type="number" class="form-control" id="Meal_cost" name="cost" placeholder="Cost" min=0 step="0.01" aria-label="Amount to Pay" required>
+							</div>
+						</div>
+					</form>
+					<div class="Acontainer">
+						<div style="display:none;" id="OrderID"></div>
+						<div class="col-sm-9 col-md-7 col-lg-5">
+							<div class="card card-signin my-5">
+								<div class="card-body">
+								<!-- Begin Payment Section -->
+									<!-- Payment Option Tabs -->
+									<ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3">
+									  <li class="nav-item">
+										<a data-toggle="pill" href="#nav-tab-card" class="nav-link active rounded-pill"><i class="fas fa-credit-card"></i> Credit Card</a>
+									  </li>
+									  <li class="nav-item">
+										<a data-toggle="pill" href="#nav-tab-paypal" class="nav-link rounded-pill"><i class="fab fa-paypal"></i> Paypal</a>
+									  </li>
+									  <li class="nav-item">
+										<a data-toggle="pill" href="#nav-tab-cash" class="nav-link rounded-pill"><i class="fas fa-dollar-sign"></i> Cash</a>
+									  </li>
+									</ul>
+									<!-- End Payment Option Tabs-->
+
+									<!-- Payment Option Tab Content -->
+									<div class="tab-content">
+									  <!-- Credit Card Tab -->
+									  <div id="nav-tab-card" class="tab-pane fade show active">
+										<p class="alert alert-success">Secure Card Payment Portal</p>
+										<form role="form">
+										  <div class="form-group">
+											<label for="username">Credit Card Information</label>
+											<input type="text" name="username" placeholder="Name on Card" class="form-control" required>
+										  </div>
+										  <div class="form-group">
+											<div class="input-group">
+											  <input type="text" name="cardNumber" placeholder="Card Number" class="form-control" required>
+											  <div class="input-group-append">
+												<span class="input-group-text text-muted">
+													<i class="fab fa-cc-visa mx-1"></i>
+													<i class="fab fa-cc-amex mx-1"></i>
+													<i class="fab fa-cc-mastercard mx-1"></i>
+												</span>
+											  </div>
+											</div>
+										  </div>
+										  <div class="row">
+											<div class="col-sm-8">
+											  <div class="form-group">
+												<div class="input-group">
+												  <input type="number" placeholder="Month" name="" class="form-control" required>
+												  <input type="number" placeholder="Year" name="" class="form-control" required>
+												</div>
+											  </div>
+											</div>
+											<div class="col-sm-4">
+											  <div class="form-group mb-4">
+												<input type="text" placeholder="CVV" required class="form-control">
+											  </div>
+											</div>
+										  </div>
+										  <button type="button" data-toggle="modal" data-dismiss="modal" id="WTSF_PayBill_btn_PayBill" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Pay</button>
+										</form>
+									  </div>
+									  <!-- End Credit Card Tab-->
+
+									  <!-- Paypal Tab -->
+									  <div id="nav-tab-paypal" class="tab-pane fade">
+										<div id="paypal-button-container"></div>
+									  </div>
+									  <!-- End Paypal Tab-->
+									  
+									  <!-- Cash Tab -->
+									  <div id="nav-tab-cash" class="tab-pane fade">
+										  <button type="button" data-toggle="modal" data-dismiss="modal" id="WTSF_PayBill_btn_MarkAsPaid" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Mark as Paid</button>
+									  </div>
+									  <!-- End Cash Tab-->
+
+									</div>
+									<!-- End Payment Option Tab Content-->
+								<!-- End Payment Section -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Pay Bill -->
 
 	<div id="Logout" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">
