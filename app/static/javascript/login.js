@@ -306,24 +306,35 @@ function checkCoupon(data, selector)
     var found = false;
     code = document.getElementById("couponForm").value;
 
-    for(i=0; i < data.length; i++) // step through data
+    if(document.getElementById("button-addon3").innerHTML === `<i class="fa fa-gift mr-2" aria-hidden="true"></i>Apply coupon`)
     {
-        if(data[i].entry_code === code)
+        for(i=0; i < data.length; i++) // step through data
         {
-            found = true;
-            alert("Coupon Accepted!");
+            if(data[i].entry_code === code)
+            {
+                found = true;
+                alert("Coupon Accepted!");
 
-            if(data[i].percent_discount > 0)
-                percDisc = 1-data[i].percent_discount*.01;
-            if(data[i].constant_discount > 0)
-                constDisc = data[i].constant_discount;
+                if(data[i].percent_discount > 0)
+                    percDisc = 1-data[i].percent_discount*.01;
+                if(data[i].constant_discount > 0)
+                    constDisc = data[i].constant_discount;
 
-            document.getElementById("button-addon3").disabled = true;
+                document.getElementById("button-addon3").style.backgroundColor = "#c82333";
+                document.getElementById("button-addon3").innerHTML = `<i class="fa fa-gift mr-2" aria-hidden="true"></i>Remove coupon`;
+            }
+        }
+        if(!found)
+        {
+            alert("Invalid Coupon");
         }
     }
-    if(!found)
+    else
     {
-        alert("Invalid Coupon");
+        percDisc = 1.0;
+        constDisc = 0;
+        document.getElementById("button-addon3").style.backgroundColor = "#23272b";
+        document.getElementById("button-addon3").innerHTML = "<i class=\"fa fa-gift mr-2\"></i>Apply coupon";
     }
 }
 
