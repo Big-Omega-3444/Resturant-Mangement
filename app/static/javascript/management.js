@@ -256,7 +256,8 @@ function SubmitFormMenuItem()
 		"image": formData.get('image'),
 		"ingredients": [],
 		"calories": parseInt(formDataHealth.get('calories')),
-		"allergens": []
+		"allergens": [],
+		"loyalty_exclusive": false
 	};
 	
 	for (i = 0; i < data.length; i++)
@@ -269,6 +270,9 @@ function SubmitFormMenuItem()
 	}
 	
 	//Here we go, here we go
+	if ( formData.get('loyalty_exclusive') != null )
+		payload['loyalty_exclusive'] = true;	
+	
 	if ( formDataHealth.get('wheat') != null )
 		payload.allergens.push(formDataHealth.get('wheat'));
 
@@ -534,7 +538,8 @@ function SubmitFormMenuItemPUT()
 		"image": formData.get('image'),
 		"ingredients": [],
 		"calories": parseInt(formDataHealth.get('calories')),
-		"allergens": []
+		"allergens": [],
+		"loyalty_exclusive": false
 	};
 	
 	for (i = 0; i < data.length; i++)
@@ -547,6 +552,9 @@ function SubmitFormMenuItemPUT()
 	}
 	
 	//Here we go, here we go
+	if ( formData.get('loyalty_exclusive') != null )
+		payload['loyalty_exclusive'] = true;
+	
 	if ( formDataHealth.get('wheat') != null )
 		payload.allergens.push(formDataHealth.get('wheat'));
 
@@ -1787,7 +1795,7 @@ function autofillEditMenuItemForm(data)
 	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);	
 	$('#EditMenuItemForm').find('#MI_desc').val(data.description);	
 	$('#EditMenuItemForm').find('#imageURL').val(data.image);	
-
+	$('#EditMenuItemForm').find('#loyalityEx').prop("checked", data.loyalty_exclusive);
 	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);	
 	
 	for (i = 0; i < data.allergens.length; i++)
