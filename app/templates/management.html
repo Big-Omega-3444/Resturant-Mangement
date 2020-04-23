@@ -1144,20 +1144,20 @@
 											<input type="text" class="form-control" name="entry_code" placeholder="Coupon Code" required>
 										</div>
 										<div class="form-row">
-											<div class="form-group">
-												<label for="percent_discount">Percent Discount</label>
-												<input type="number" class="form-control" name="percent_discount" placeholder="%">
-											</div>
-											<div class="form-group">
-												<label for="constant_discount">Constant Discount</label>
-												<input type="number" class="form-control" name="constant_discount" placeholder="$">
-											</div>
-										</div>
+										  <div class="form-group">
+											<label for="percent_discount">Percent Discount</label>
+											<input type="number" class="form-control" name="percent_discount" value="0" placeholder="%">
+										  </div>
+										  <div class="form-group">
+											<label for="constant_discount">Constant Discount</label>
+											<input type="number" class="form-control" name="constant_discount" value="0" placeholder="$">
+										  </div>
+										 </div>
 										<div class="form-group">
 											<label for="empComp">Employee Function</label>
 											<select id="empComp" name="employee_comped" class="form-control">
-												<option id="False">No</option>
-												<option id="True">Yes</option>
+												<option id="False">False</option>
+												<option id="True">True</option>
 											</select>
 										</div>
 										<button type="submit" id="couponSubmit" class="btn btn-primary">Add Coupon</button>
