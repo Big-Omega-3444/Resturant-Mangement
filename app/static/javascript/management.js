@@ -2031,7 +2031,6 @@ $('#MGMT_Reports').on('show.bs.modal', function(){
 	createChart("Day");
     RetrieveOrders(false, true, false);
 	requestData("api/feedback", '#MGMT_MessagesTable_Body');
-	
 });
 
 $('#MGMT_Reports').on('hide.bs.modal', function(event)
@@ -2077,6 +2076,7 @@ $('#chartDecade').click(function () {
 	createChart(time);
 });
 
+
 function createChart(pick) {
 	
 
@@ -2096,10 +2096,10 @@ function createChart(pick) {
 			var orders = JSON.parse(requests.responseText);
 			var date_temp = new Date();
 			var current_date;
-
+			var total_tips = 0;
 			//Calculating this Days orders
 			if (pick == "Day") {
-
+				
 				current_date = new Date();
 				var data_arr = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 				var labels_arr = new Array("00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00");
@@ -2111,7 +2111,7 @@ function createChart(pick) {
 
 						if (date_temp.toDateString() == current_date.toDateString()) {
 							if (t == date_temp.getHours()) {
-								
+								total_tips = total_tips + orders[i].gratuity
 								data_arr[t] = data_arr[t] + orders[i].total_cost;
 			
 							}
@@ -2138,6 +2138,7 @@ function createChart(pick) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
 						if (first_sun.toDateString() == date_temp.toDateString()) {
 							data_arr[t] = data_arr[t] + orders[i].total_cost;
+							total_tips = total_tips + orders[i].gratuity
 
 						}
 
@@ -2177,7 +2178,7 @@ function createChart(pick) {
 						if (date_temp.getFullYear() == current_date.getFullYear()) {
 							if (date_temp.getMonth() == current_date.getMonth()) {
 								if ((t + 1) == date_temp.getDate()) {
-
+									total_tips = total_tips + orders[i].gratuity
 									data_arr[t] = data_arr[t] + orders[i].total_cost;
 								}
 							}	
@@ -2199,6 +2200,7 @@ function createChart(pick) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
 						if (date_temp.getFullYear() == current_date.getFullYear()) {
 							if (t == date_temp.getMonth()) {
+								total_tips = total_tips + orders[i].gratuity
 								data_arr[t] = data_arr[t] + orders[i].total_cost;
 							}
 						}
@@ -2231,6 +2233,7 @@ function createChart(pick) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
 
 						if (first_year.getFullYear() == date_temp.getFullYear()) {
+							total_tips = total_tips + orders[i].gratuity
 							data_arr[t] = data_arr[t] + orders[i].total_cost;
 
 						}
@@ -2247,6 +2250,15 @@ function createChart(pick) {
 		else {
 			alert(`Error ${requests.status}: ${requests.statusText}`);
 		}
+		if (document.getElementById("tip") != null) {
+			document.getElementById("tip").remove("tip")
+		};
+		var newDiv = document.createElement("div");
+		var newContent = document.createTextNode("$" + total_tips);
+		newDiv.appendChild(newContent);
+		$('#total_tips').append('<div id="tip">');
+		$('#tip').append("$" + total_tips)
+		
 
 		Chart.defaults.global.defaultFontFamily = 'Lato';
 		Chart.defaults.global.defaultFontSize = 18;
@@ -2675,7 +2687,10 @@ function SubmitSpecial() {
 	}
 
 	var formData = new FormData(document.getElementById("sForm"));
-	request.send(formdata);
+	for (var pair of formData.entries()) {
+		console.log(pair[0] + ', ' + pair[1]);
+	}
+	//request.send(formdata);
 
 }
 
