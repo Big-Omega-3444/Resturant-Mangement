@@ -12,6 +12,23 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		
 		var card = $(`#WTSForderID_${orderData[i]._id.$oid}`);
 		
+		//Search for menu items
+		var arrMenuNames = [];
+		var arrQty = [];
+
+		for (j = 0; j < menuItemsData.length; j++)
+		{
+			for (k = 0; k < orderData[i].items.length; k++)
+			{
+				var str1 = (orderData[i].items[k].item.$oid).toString();
+				if (str1 === menuItemsData[j]._id.$oid)
+				{
+					arrMenuNames.push(menuItemsData[j].name);
+					arrQty.push(orderData[i].items[k].count);
+				}
+			}
+		}
+		
 		// Update time on existing card then exit
 		if ( card.length )
 		{	
@@ -34,7 +51,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									${object[0].outerHTML}
 									<div class="card-footer bg-transparent border-success">
 										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
-										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}" data-toggle="modal" href="#WTSF_EditOrder">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-success">
 										<div id="updateTime"></div>
@@ -55,7 +72,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 				});
 			}
 			// If the new status on the order is changed, but the card says something else, then change the elements and update info			
-			else if ((orderData[i].status).toString() === "changed" && currsts != "Order Changed")
+			else if ((orderData[i].status).toString() === "changed")
 			{
 				var object = card.find('#updateBody');
 				
@@ -71,7 +88,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 								${object[0].outerHTML}
 								<div class="card-footer bg-transparent border-info">
 									<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
-									<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+									<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}" data-toggle="modal" href="#WTSF_EditOrder">Edit</button>
 								</div>
 								<div class="card-footer bg-transparent border-info">
 									<div id="updateTime"></div>
@@ -107,7 +124,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 								${object[0].outerHTML}
 								<div class="card-footer bg-transparent border-info">
 									<button type="button" class="btn btn-success" disabled id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
-									<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+									<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}" data-toggle="modal" href="#WTSF_EditOrder">Edit</button>
 								</div>
 								<div class="card-footer bg-transparent border-info">
 									<div id="updateTime"></div>
@@ -128,12 +145,22 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 				});
 			}
 			
+			//Update quanitity of items in menu and push it to the card
+			for (j = 0; j < arrMenuNames.length; j++)
+			{
+				$(`#updateQty_${arrMenuNames[j]}`).html(arrQty[j]);			
+			}
+			
 			if (orderData[i].amount_paid == null)
 				$('#Amount').html(`Amount Owed: $${orderData[i].total_cost}`);	
 			else
 			{
 				var left = orderData[i].total_cost - orderData[i].amount_paid;
 				$('#Amount').html(`Amount Owed: $${left}`);	
+				if (left <= 0)
+				{
+					$(`#btnPayOrder_${orderData[i]._id.$oid}`).attr("disabled", true);
+				}
 			}
 	
 			var elasped = (Date.now() - parseInt(card.find('#lastUpdate').html()))/(60*1000);
@@ -143,19 +170,6 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 			continue;
 		}
 
-		//Search for menu items
-		var arrMenuNames = [];
-
-		for (j = 0; j < menuItemsData.length; j++)
-		{
-			for (k = 0; k < orderData[i].items.length; k++)
-			{
-				var str1 = (orderData[i].items[k].item.$oid).toString();
-				if (str1 === menuItemsData[j]._id.$oid)
-					arrMenuNames.push(menuItemsData[j].name);
-			}
-		}
-		
 		var cardTemplate;
 		
 		if ((orderData[i].status).toString() === "ready")
@@ -171,7 +185,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									<div id="updateBody"></div>
 									<div class="card-footer bg-transparent border-success">
 										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
-										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}" data-toggle="modal" href="#WTSF_EditOrder">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-success">
 										<div id="updateTime"></div>
@@ -192,7 +206,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									<div id="updateBody"></div>
 									<div class="card-footer bg-transparent border-info">
 										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
-										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}" data-toggle="modal" href="#WTSF_EditOrder">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-info">
 										<div id="updateTime"></div>
@@ -213,7 +227,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									<div id="updateBody"></div>
 									<div class="card-footer bg-transparent border-info">
 										<button type="button" class="btn btn-success" disabled id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
-										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}" data-toggle="modal" href="#WTSF_EditOrder">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-info">
 										<div id="updateTime"></div>
@@ -234,7 +248,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 									<div id="updateBody"></div>
 									<div class="card-footer bg-transparent border-primary">
 										<button type="button" class="btn btn-success" id="btnPayOrder_${orderData[i]._id.$oid}" data-cost="${orderData[i].total_cost}" data-toggle="modal" href="#WTSF_PayBill">Pay</button>
-										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}">Edit</button>
+										<button type="button" class="btn btn-secondary" id="btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}" data-toggle="modal" href="#WTSF_EditOrder">Edit</button>
 									</div>
 									<div class="card-footer bg-transparent border-primary">
 										<div id="updateTime"></div>
@@ -252,7 +266,7 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		//Now build and inject the bulleted list into the appended card
 		for (j = 0; j < arrMenuNames.length; j++)
 		{
-			inject.append($('<dd/>').html(arrMenuNames[j]));			
+			inject.append($(`<dd>${arrMenuNames[j]} | <span id="updateQty_${arrMenuNames[j]}">${arrQty[j]}</span>`));			
 		}
 		inject.append($('<hr/>'));		
 		inject.append($('<dt/>').html("Special Notes"));
@@ -266,6 +280,10 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		{
 			var left = orderData[i].total_cost - orderData[i].amount_paid;
 			inject.append($('<p id="Amount"/>').html(`Amount Owed: $${left}`));	
+			if (left <= 0)
+			{
+				$(`#btnPayOrder_${orderData[i]._id.$oid}`).attr("disabled", true);
+			}
 		}
 		
 		$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateBody').append(inject);
@@ -290,9 +308,11 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 		});
 			
 		//Edit the button to include a function
-//		$(`#btnWaitstaff_${orderData[i]._id.$oid}_${orderData[i].order_id}`).click(function() {
-//			SendOrderCallWaitstaffRequest(this);
-//		});		
+		$(`#btnEditOrder_${orderData[i]._id.$oid}_${orderData[i].order_id}`).click(function() {
+			var str = (this.id).split("_");
+			
+			$('#EditMenuItemForm').find('#orderID').val(str[1]);
+		});		
 	}
 }
 
@@ -689,7 +709,244 @@ function PayOrder(id)
     put.send(JSON.stringify(payload));	
 }
 
+function RequestOrder(id)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
 
+	// Create the url to retrieve user
+	var url = "/api/orders/" + id;
+
+	request.open('GET', url);
+
+	// Handle on load
+	request.onload = function()
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			AutofillEditCategoryFields(JSON.parse(request.responseText))
+			PopulateEditOrderTable(JSON.parse(request.responseText), false)
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+
+	// Handle on errors
+	request.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+}
+
+function PopulateEditOrderTable(orderData, newRow)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+
+	// Create the url to retrieve user
+	var url = "/api/menuitems";
+
+	request.open('GET', url);
+
+	// Handle on load
+	request.onload = function(data)
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			var menusData = JSON.parse(request.responseText);
+			
+			if (newRow === false)
+			{
+				var orderData = data.target.extraInfo;
+				
+				// Build the table next
+				for (i = 0; i < orderData.items.length; i++)
+				{
+					var row = $('<tr/>')
+					var options = $(`<form class="EO_item_name" id="form_${orderData.items[i].item.$oid}">`);
+					var optionsDelta = $(`<select class="form-control" id="orderoptions_${orderData._id.$oid}_${i}" name="menu_item" required>`)
+					
+					// Build the options array
+					for (j = 0; j < menusData.length; j++)
+					{
+						optionsDelta.append(`<option value="${menusData[j]._id.$oid}" data-cost="${menusData[j].cost}" data-qtyid="qty_${orderData.items[i].item.$oid}">${menusData[j].name}</option>`);
+					}
+					options.append(optionsDelta);
+					
+					row.append($('<td/>').html(options));		
+	
+					var count;
+					if (orderData.items[i].count != null)
+						count = orderData.items[i].count;
+					else
+						count = 1;
+					
+					quantity = $(`<form class="EO_item_qty" id="qty_${orderData.items[i].item.$oid}"><input type="number" min=0 step=1 maxlength="4" class="form-control" name="count" value="${count}">`);
+	
+					row.append($('<td/>').html(quantity));				
+					
+					$('#WTSF_EditOrder_Table').append(row);
+					
+					$(`#orderoptions_${orderData._id.$oid}_${i} option[value=${orderData.items[i].item.$oid}]`).attr("selected","selected");
+				}
+			}
+			else
+			{
+				var row = $('<tr/>')
+				var options = $(`<form class="EO_item_name">`);
+				var optionsDelta = $(`<select class="form-control" id="orderoptions_new_${window.extraRow}" name="menu_item" required>`)
+				
+				// Build the options array
+				for (j = 0; j < menusData.length; j++)
+				{
+					if (j == 0)
+						optionsDelta.append(`<option value="${menusData[j]._id.$oid}" data-cost="${menusData[j].cost}" data-qtyid="qty_new_${window.extraRow}" selected>${menusData[j].name}</option>`);							
+					else
+						optionsDelta.append(`<option value="${menusData[j]._id.$oid}" data-cost="${menusData[j].cost}" data-qtyid="qty_new_${window.extraRow}">${menusData[j].name}</option>`);
+				}
+				options.append(optionsDelta);
+				
+				row.append($('<td/>').html(options));		
+	
+				var count = 1;
+				
+				quantity = $(`<form class="EO_item_qty" id="qty_new_${window.extraRow}"><input type="number" min=0 step=1 maxlength="4" class="form-control" name="count" value="${count}">`);
+	
+				row.append($('<td/>').html(quantity));				
+				
+				$('#WTSF_EditOrder_Table').append(row);	
+				window.extraRow += 1;
+			}
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+
+	// Handle on errors
+	request.error = function()
+	{
+		alert("Request Failed!");
+	};
+	
+	request.extraInfo = orderData;
+	request.send();		
+}
+
+function SubmitOrderChangesPUT()
+{
+    event.preventDefault();
+	
+    var put = new XMLHttpRequest();
+	
+	var url = "/api/orders/" + $('#EditMenuItemForm').find('#orderID').val();
+	
+	//Gather all ing_update and inv_update classes, we need the ids of these to push to the API
+	var data = document.querySelectorAll('*[class="EO_item_name"]');
+
+    // POST to the API
+    put.open('PUT', url);
+	
+    var formData = new FormData(document.getElementById("EditMenuItemForm"));	
+	
+	//Needs to be in JSON format, no other way around it
+	var payload =
+	{ 
+		"gratuity": parseFloat(formData.get('gratuity')),
+		"special_notes": formData.get('special_notes'),
+		"to_go": false,
+		"status": "changed",
+		"time_modified": Date.now(),
+		"total_cost": 0,
+		"items": [],
+		"amount_paid": parseFloat(formData.get('amount_paid')),
+		"paid_off":	false
+	};
+	
+	var realCost = 0;
+	
+	// Iterate through the data we've gotten from the query
+	for (i = 0; i < data.length; i++)
+	{
+		var value = data[i].elements[0].selectedOptions[0].value;
+		if (value != null)
+		{
+			var count = $(`#${data[i].elements[0].selectedOptions[0].dataset.qtyid}`)[0].elements[0].value;
+			payload.items.push( {"item": value, "count": count } );
+			//Update the cost
+			var cost = parseFloat(data[i].elements[0].selectedOptions[0].dataset.cost);
+			realCost += (cost * count);
+		}
+	}
+	
+	//Update the amount payed and paid_off
+	var paidoff = realCost - payload['amount_paid'];
+	
+	if (paidoff <= 0)
+		payload['paid_off'] = true;
+	
+	//Here we go, here we go
+	if ( formData.get('to_go') != null )
+		payload['to_go'] = true;
+	
+	//Here we go, here we go
+	if ( formData.get('comped') != null )
+	{
+		payload['comped'] = true;
+		payload['staff_comped'] = getCookie("username");
+	}
+	
+	// Handle errors	
+	//To Do: Alert user if errors occured, even OnLoad
+	put.error = function() 
+	{
+		alert("Request Failed!");
+	};	
+	
+	// Handle on load
+	put.onload = function() 
+	{
+		//Check for OK or CREATED status
+		if (put.status === 200 || put.status === 201 || put.status === 204)
+		{
+			RetrieveOrders(true, false, true); 
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(put.responseText)
+			console.log(error.message)
+			
+			alert(`Error ${put.status}: ${error.message}`);
+		}
+	};
+
+	put.setRequestHeader("Content-Type", "application/json");	
+    put.send(JSON.stringify(payload));	
+}
+
+function AutofillEditCategoryFields(orderData)
+{
+	if (orderData.gratuity != null)
+		$('#EditMenuItemForm').find('#EO_gratuity').val(orderData.gratuity);
+	else
+		$('#EditMenuItemForm').find('#EO_gratuity').val(0.00);
+	
+	if (orderData.amount_paid != null)
+		$('#EditMenuItemForm').find('#amountPayed').val(orderData.amount_paid);
+	else
+		$('#EditMenuItemForm').find('#amountPayed').val(0.00);
+	
+	$('#EditMenuItemForm').find('#orderNo').val(orderData.order_id);
+	$('#EditMenuItemForm').find('#EO_specialnotes').val(orderData.special_notes);
+	$('#EditMenuItemForm').find('#EO_togo').prop("checked", orderData.to_go);
+	$('#EditMenuItemForm').find('#EO_comped').prop("checked", orderData.comped);
+}
 
 //
 // BEGIN Event Listeners
@@ -702,6 +959,13 @@ $( document ).ready(function() {
     RetrieveOrders(true, false, true);
 });
 
+$('#WTSF_EditOrder').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
+{
+	var id = $('#EditMenuItemForm').find('#orderID').val();
+	RequestOrder(id);
+	window.extraRow = 1;
+});
+
 $('#WTSF_PayBill_btn_PayBill').click( function()
 {
 	 //Pay the Bill
@@ -709,6 +973,23 @@ $('#WTSF_PayBill_btn_PayBill').click( function()
 	
 	 PayOrder(id);
 });
+
+$('#WTSF_EditOrder_btnAddMenuItem').click( function()
+{
+	PopulateEditOrderTable(null, true);
+});
+
+$('#WTSF_EditOrder_btnSaveChanges').click( function()
+{
+	SubmitOrderChangesPUT();
+	
+	var orderNo = $('#EditMenuItemForm').find('#orderNo').val();
+	
+	GenerateAlertMessage('#WTSF_Alerts' ,`<strong>Order Updated!</strong> Order #${orderNo} was recently updated!`, 'alert-info')	
+	$('#WTSF_EditOrder_Table tr td').remove();
+	window.extraRow = 1;
+});
+
 
 // Update Orders and Notification Cards
 setInterval(function() { 
