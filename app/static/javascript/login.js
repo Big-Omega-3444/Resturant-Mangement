@@ -62,10 +62,13 @@ function checkCredentials(data, selector)
 }
 
 function enterLoyaltyMode(data) {
-    document.getElementById("rewardSignIn").style.display = "none";
+    document.getElementById("rewardSignIn").style.display = "none"; // swap buttons
     document.getElementById("rewardSignOut").style.display = "";
 
-    document.getElementById("greetings").innerText = "Welcome back, "+data.firstname+"!";
+    document.getElementById("greetings").innerText = "Welcome back, "+data.firstname+"!"; // Set greeting
+
+    // check for birthday
+
 
     changePageColors();
 

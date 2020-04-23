@@ -49,16 +49,16 @@ function countNumInOrder(itemID) {
 }
 
 // Add to Order Function
-function addItemToOrder(buttonID, item) {
-  // add item foodId to an array
+function modifyOrder(buttonID, item) {
   var item = {item};
-  localOrder.items.push(item);
+  var quantity = document.getElementById(buttonID.substring(0,buttonID.length-3)+'qty').value;
 
   if (document.getElementById(buttonID).innerHTML === "Order")
-    document.getElementById(buttonID).innerHTML = "Item Added!";
+      document.getElementById(buttonID).innerHTML = quantity + " in Cart";
 
-  setTimeout(function() { revertText(buttonID); }, 1000);
-  function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "Order"; }
+  // add item foodId to an array
+  for(i = 0; i < quantity; i++)
+      localOrder.items.push(item);
 }
 
 // Remove from Order Function
