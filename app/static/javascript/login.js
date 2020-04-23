@@ -320,6 +320,7 @@ function checkCoupon(data, selector)
                 if(data[i].constant_discount > 0)
                     constDisc = data[i].constant_discount;
 
+                document.getElementById("couponForm").disabled = true;
                 document.getElementById("button-addon3").style.backgroundColor = "#c82333";
                 document.getElementById("button-addon3").innerHTML = `<i class="fa fa-gift mr-2" aria-hidden="true"></i>Remove coupon`;
             }
@@ -327,12 +328,15 @@ function checkCoupon(data, selector)
         if(!found)
         {
             alert("Invalid Coupon");
+            document.getElementById("couponForm").value = "";
         }
     }
     else
     {
         percDisc = 1.0;
         constDisc = 0;
+        document.getElementById("couponForm").value = "";
+        document.getElementById("couponForm").disabled = false;
         document.getElementById("button-addon3").style.backgroundColor = "#23272b";
         document.getElementById("button-addon3").innerHTML = "<i class=\"fa fa-gift mr-2\"></i>Apply coupon";
     }
