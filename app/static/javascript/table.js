@@ -163,6 +163,10 @@ function postNotif(type, data) {
 						time_created: Date.now(),
 						request_help:"True"};
 			break;
+		case "cash":
+			payload = {table:table.number,
+						time_created: Date.now(),
+						request_cash_payment:"True"};
 	}
 
     // POST to the API
@@ -226,7 +230,7 @@ function updateTable() {
     put.send(JSON.stringify(table));
 }
 
-function SubmitReservationForm()
+function submitReservationForm()
 {
     event.preventDefault();
 
@@ -248,8 +252,8 @@ function SubmitReservationForm()
 		//Check for OK or CREATED status
 		if (post.status === 200 || post.status === 201)
 		{
-			alert("Reservation Created!");
-			window.location('/');
+			alert("Reservation Created!"); // TODO: create waitstaff notification
+			location.reload();
 		}
 		else
 		{

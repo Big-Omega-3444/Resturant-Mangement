@@ -18,11 +18,11 @@ class NotificationModel(Document):
     request_refill = MyBooleanField(default=False)
     refill_list = ListField(StringField(), default=[])
     request_help = MyBooleanField(default=False)
-    request_cash_payment = BooleanField(default=False)
+    request_cash_payment = MyBooleanField(default=False)
     time_created = IntField(required=True)
 
     def clean(self):
-        if not (self.meal_ready or self.call_waitstaff or self.call_management or self.request_refill or self.request_help):
+        if not (self.meal_ready or self.request_cash or self.call_waitstaff or self.call_management or self.request_refill or self.request_help):
             msg = 'At least one of the bools must be set'
             raise ValidationError(msg)
 

@@ -98,8 +98,7 @@ function populateOrders(menuItem, selector) {
   updateBill();
 }
 
-function SubmitOrder()
-{
+function SubmitOrder() {
     event.preventDefault();
 
     var post = new XMLHttpRequest();
@@ -127,6 +126,10 @@ function SubmitOrder()
 			var orders = table.orders;
 			var thisIsSoStupid = {orders};
 			updateTable();
+
+			// apply gratuities to waitstaff
+            scanTimesheets("tip");
+
 		}
 		else
 		{
@@ -163,6 +166,61 @@ function requestOrderedItems() {
   {
 	requestData('/api/menuitems/'+ unique[i], '#orderList');
   }
+}
+
+function scanTimesheets(cmd) {
+    // Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	request.open('GET', "/api/timesheets");
+
+	// Handle on load
+	request.onload = function()
+	{
+		if (request.status != 200)
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+		else
+		{
+			switch(cmd) {
+                case "tip": tipWaitstaff(JSON.parse(request.responseText));
+            }
+		}
+	};
+
+	// Handle on errors
+	request.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();
+}
+
+function tipWaitstaff(data) {
+
+    var count = 0;
+    var employeesFound = [];
+
+    // scan through all timesheets
+    for(i = 0; i < data.length; i++)
+    {
+        if(data[i].ongoing) {
+            count++;
+            employeesFound.push(i);
+        }
+    }
+
+    if (count > 0) {
+        var splitTip = table.gratuity / count;
+
+        for(i = 0; i < employeesFound; i++)
+        {
+            data[employeesFound[i]].accrued_tips += splitTip;
+        }
+    }
+
+
 }
 
 $('#MyCart').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
