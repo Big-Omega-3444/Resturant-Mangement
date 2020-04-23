@@ -97,7 +97,6 @@ function populateFoodPane(data, selector)
 		if(!checkIfActive(data)) // returns true if active
 			continue;
 
-
 		var pane;
 		var tabName = data[i].name;
 		var refName = tabName.replace(/ /g, "_")
@@ -131,6 +130,16 @@ function populateFoodCards(menuItem, selector)
 		if(!loyal) // if the user is not loyal
 			return; // don't print the card
 
+	// count how many of item is in order
+	var orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary">Order</button>`;
+	var removeButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}','${menuItem._id.$oid}','remove')" class="btn btn-danger">Remove</button>`;
+
+	var itemCount = countNumInOrder(menuItem._id.$oid);
+	if(itemCount > 0)
+	{
+		orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary">${itemCount + " in Cart"}</button>`;
+	}
+
 	var allergenTemplate = "";
 
 	if(menuItem.allergens.length > 0) // create our allergens list, if need be
@@ -159,9 +168,9 @@ function populateFoodCards(menuItem, selector)
 												<div class="card-body">
 													<h4 class="card-title">${menuItem.name} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
 													<p class="card-text">${menuItem.description}</p>
-													<td class="col-md-5">
-														<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
-														<div class="form-group col-md-5 mx-auto">
+													<td class="col-md-5">`
+														+ orderButtonTemplate + removeButtonTemplate +
+														`<div class="form-group col-md-5 mx-auto">
 															<select id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"qty"}' name="qty" class="form-control">
 																<option value="1" selected="selected">1</option>
 																<option value="2">2</option>
