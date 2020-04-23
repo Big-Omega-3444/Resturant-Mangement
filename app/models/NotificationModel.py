@@ -18,7 +18,7 @@ class NotificationModel(Document):
     request_refill = MyBooleanField(default=False)
     refill_list = ListField(StringField(), default=[])
     request_help = MyBooleanField(default=False)
-    request_cash = MyBooleanField(default=False)
+    request_cash_payment = MyBooleanField(default=False)
     time_created = IntField(required=True)
 
     def clean(self):

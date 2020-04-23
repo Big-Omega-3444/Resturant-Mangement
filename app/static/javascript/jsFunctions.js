@@ -171,6 +171,51 @@ function DeleteNotifications(object, id = "")
 	post.send();		
 }
 
+function PostMessageForm()
+{
+	//Generate XHR
+	var post = new XMLHttpRequest();
+	
+	// Create a notification to database
+	var url = "/api/feedback";
+	
+	// Open a socket to the url
+	post.open('POST', url);
+	
+	// Handle on load
+	post.onload = function(data) 
+	{
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			alert( "Feedback submitted" );
+			window.location = '/';
+			return;
+		}
+		else
+		{
+			var error = JSON.parse(post.responseText);
+			console.log(error.message);
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+	
+	// Handle on errors	
+	post.error = function() 
+	{
+		alert("Request Failed!");
+		return;
+	};
+	
+    var formData = new FormData(document.getElementById("ContactFeedback"));
+	post.send(formData);		
+}
+
+
+$('#btn_ContactFeedback_submitFeedback').click( function()
+{
+	PostMessageForm()
+});
+
 //Management search function
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
