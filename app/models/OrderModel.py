@@ -14,6 +14,7 @@ from models.MyBooleanField import MyBooleanField
 # Dumb solution to a weird bug
 class ItemList(EmbeddedDocument):
     item = ReferenceField('MenuItemModel', required=True)
+    count = IntField(default=1)
 
     def clean(self):
         try:
