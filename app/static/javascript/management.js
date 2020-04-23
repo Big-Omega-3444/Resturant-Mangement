@@ -1283,9 +1283,6 @@ function populateMenuCategoryTable(data, selector)
 	
 	// Build the table
 	for(i = 0; i < data.length; i++) {
-		
-//		if (data[i].items.length == 0)
-//		{
 			var row = $('<tr/>')
 			var name = $(`<div class="menuCategoryTableClass" id=${data[i]._id.$oid}/>`).html(data[i].name);
 			
@@ -1306,65 +1303,6 @@ function populateMenuCategoryTable(data, selector)
 			row.append($('<td/>').html(editButton).append(deleteButton));
 			
 			$(selector).append(row);	
-			
-			continue;
-//		}		
-//		(function (i){
-//			requests[i] = new XMLHttpRequest();		
-//			
-//			// We don't have any items to request just yet, so just skip
-//
-//			var url = "/api/menuitems/" + data[i].items.$oid;
-//			requests[i].open('GET', url);
-//	
-//			// Handle on load
-//			requests[i].onload = function(data)
-//			{
-//				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
-//				{
-//					var row = $('<tr/>')
-//					var ingredient = JSON.parse(requests[i].responseText);
-//					
-//					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
-//					
-//					row.append($('<td/>').html(name));
-//					
-//					//Create buttons for specific ID
-//					var uid = ingredient._id.$oid;
-//					
-//					// Append assignment
-//					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
-//					row.append($('<td/>').html(quantity));
-//					
-//					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
-//						requestIngredient(this);
-//					}).html("EDIT");
-//			
-//					var deleteButton = $(`<button class="btn btn-danger" id=${uid}|${data.target.extraInfo._id.$oid}/>`).click(function() {
-//						deleteIngredient(this);
-//					}).html("DEL");
-//					
-//					row.append($('<td/>').html(editButton).append(deleteButton));
-//					
-//					$(selector).append(row);
-//		
-//					return;
-//				}
-//				else 
-//				{	
-//					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
-//				}
-//			};
-//		
-//			// Handle on errors	
-//			requests[i].error = function() 
-//			{
-//				alert("Request Failed!");
-//			};	
-//		
-//			requests[i].send();	
-//			requests[i].extraInfo = data[i];	
-//		})(i);
 	}
 }
 
