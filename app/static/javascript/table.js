@@ -76,7 +76,7 @@ function getHelp(helpVal) {
 // Refill Drink Function
 function needRefill(drinkId) { 
   if (document.getElementById(drinkId).innerHTML === "Refill") {
-      postNotif("refill");
+      postNotif("refill", drinkId);
       document.getElementById(drinkId).innerHTML = "Please wait...";
     // Alert waiter
   }
@@ -147,7 +147,7 @@ function postNewTable() {
     post.send(JSON.stringify(table));
 }
 
-function postNotif(type) {
+function postNotif(type, data) {
 	var post = new XMLHttpRequest();
 
 	var payload = {};
@@ -155,7 +155,8 @@ function postNotif(type) {
 		case "refill":
 			payload = {table:table.number,
 						time_created: Date.now(),
-						request_refill:"True"};
+						request_refill:"True",
+						refill_list:[data.replace("refill","")]};
 			break;
 		case "help":
 			payload = {table:table.number,

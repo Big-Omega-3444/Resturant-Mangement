@@ -15,6 +15,7 @@ class TimeSheetModel(Document):
     utc_start_time = IntField(required=True)
     utc_end_time = IntField()
     ongoing = MyBooleanField(default=True)
+    accrued_tips = FloatField(default=0)
 
     def clean(self):
         try:

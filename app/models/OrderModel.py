@@ -55,6 +55,8 @@ class OrderModel(Document):
     # Who comped the meal
     staff_comped = ReferenceField('EmployeeModel')
     total_cost = FloatField(default=0)
+    amount_paid = FloatField(default=0)
+    paid_off = MyBooleanField(default=False)
     # This is a numerical identifier for the staff (they could potentially be duplicated)
     order_id = IntField(default=-1)
 
