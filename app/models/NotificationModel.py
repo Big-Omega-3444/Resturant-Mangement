@@ -22,7 +22,7 @@ class NotificationModel(Document):
     time_created = IntField(required=True)
 
     def clean(self):
-        if not (self.meal_ready or self.request_cash or self.call_waitstaff or self.call_management or self.request_refill or self.request_help):
+        if not (self.meal_ready or self.request_cash_payment or self.call_waitstaff or self.call_management or self.request_refill or self.request_help):
             msg = 'At least one of the bools must be set'
             raise ValidationError(msg)
 
