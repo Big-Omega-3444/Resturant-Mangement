@@ -298,10 +298,11 @@ $('#PayNow').click( function()
 
 $('#cardPay').click( function()
 {
-	  SubmitOrder();
+	SubmitOrder();
 });
 
 $('#cashPay').click( function()
 {
-	  SubmitOrder();
+    localOrder.status = 'ordered';
+	SubmitOrder();
 });
