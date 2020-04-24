@@ -15,6 +15,7 @@ class FeedbackModel(Document):
     email_response = EmailField()
     firstname = StringField()
     lastname = StringField()
+    rating = IntField()
 
 class FeedbackResource(TemplateResource):
     model = FeedbackModel
