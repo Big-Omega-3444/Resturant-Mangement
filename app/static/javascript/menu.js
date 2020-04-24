@@ -1,6 +1,19 @@
 /*TODO:
    Substitutions?
 */
+$(document).ready ( function(){
+  hotness = 0;
+  requestData('/api/menuitems','hotness','hotness');
+});
+
+function getAvgHotness(data) {
+	var sum = 0;
+	for (i = 0; i < data.length; i++)
+	{
+		sum += data[i].times_ordered;
+	}
+	return (sum / data.length);
+}
 
 function checkIfActive(data)
 {
@@ -136,7 +149,7 @@ function populateFoodCards(menuItem, selector)
 			return; // don't print the card
 	}
 
-	if(menuItem.times_ordered > 0)
+	if(menuItem.times_ordered > hotness)
 		cardName = String.fromCodePoint(0x1f336) + " " + cardName;
 
 	// count how many of item is in order
@@ -327,7 +340,7 @@ function populateDrinkCards(menuItem, selector)
 			return; // don't print the card
 	}
 
-	if(menuItem.times_ordered > 5)
+	if(menuItem.times_ordered > hotness)
 		cardName = String.fromCodePoint(0x1f336) + " " + cardName;
 
 	// count how many of item is in order
@@ -485,6 +498,7 @@ function requestData(url, selector, type)
 						case'fooditem': populateFoodCards(JSON.parse(request.responseText), selector); break;
 						case'drinkitem': populateDrinkCards(JSON.parse(request.responseText), selector); break;
 						case'ingredient': populateIngredients(JSON.parse(request.responseText), selector); break;
+						case'hotness': hotness = getAvgHotness(JSON.parse(request.responseText));
 					} break;
 			}
 		}
