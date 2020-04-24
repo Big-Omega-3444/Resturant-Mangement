@@ -37,8 +37,7 @@ setInterval(function(){
     if (isNaN(tip))
         tip = parseFloat(0);
 
-
-    document.getElementById("totalBill").innerHTML = "$"+(((bill * 1.0625) - constDisc)*percDisc + tip).toFixed(2)
+    document.getElementById("totalBill").innerHTML = "$"+Math.max(0.0, (((bill * 1.0625) - constDisc)*percDisc + tip).toFixed(2));
 }, 1000);
 
 function countNumInOrder(itemID) {
