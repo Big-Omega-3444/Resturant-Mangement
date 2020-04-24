@@ -370,7 +370,8 @@ function checkCoupon(data, selector)
                 document.getElementById("button-addon3").innerHTML = `<i class="fa fa-gift mr-2" aria-hidden="true"></i>Remove coupon`;
             }
         }
-        else if(!bday || !found)
+
+        if(!found)
         {
             for(i=0; i < data.length; i++) // step through data
             {
