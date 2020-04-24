@@ -97,7 +97,6 @@ function populateFoodPane(data, selector)
 		if(!checkIfActive(data)) // returns true if active
 			continue;
 
-
 		var pane;
 		var tabName = data[i].name;
 		var refName = tabName.replace(/ /g, "_")
@@ -127,19 +126,70 @@ function populateFoodPane(data, selector)
 function populateFoodCards(menuItem, selector)
 {
 	//populate food pane with items
+	if(menuItem.loyalty_exclusive) // if this item is exclusive
+		if(!loyal) // if the user is not loyal
+			return; // don't print the card
+
+	// count how many of item is in order
+	var orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary col px-md-6">Order</button>`;
+	var removeButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}','${menuItem._id.$oid}','remove')" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>`;
+
+	var itemCount = countNumInOrder(menuItem._id.$oid);
+	if(itemCount > 0)
+	{
+		orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary col px-md-6">${itemCount + " in Cart"}</button>`;
+	}
+
+	var allergenTemplate = "";
+
+	if(menuItem.allergens.length > 0) // create our allergens list, if need be
+	{
+		allergenTemplate = 	`<div class="container">
+									  <ul class="list-group">
+										<li class="list-group-item list-group-item-danger" style="padding-top: 0.25rem;padding-bottom: 0.25rem">Allergens</li>`;
+
+		for(i = 0; i < menuItem.allergens.length; i++)
+		{
+			allergenTemplate += `<li class="list-group-item list-group-item-warning" style="padding-top: 0.0rem;padding-bottom: 0.0rem">${menuItem.allergens[i]}</li>`
+		}
+
+		allergenTemplate += `</ul>
+						</div>`;
+	}
 
 	//Card Template
-	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
+	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4 d-flex align-items-stretch">
 							<div class="card-container manual-flip">
 								<div class="card">
-									<div class="front">
+									<div class="front overflow-auto">
 										<div class="content">
 											<div class="main">
-												<img class="card-img-top" src=${menuItem.image} style="width:50%">
+												<img class="card-img-top img-fluid" src=${menuItem.image}>
 												<div class="card-body">
-													<h4 class="card-title">${menuItem.name}</h4>
+													<h4 class="card-title">${menuItem.name} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
 													<p class="card-text">${menuItem.description}</p>
-													<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="addItemToOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
+													<div class="form-row">
+														<div class="form-group col px-md-6">
+															<select id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"qty"}' name="qty" class="form-control">
+																<option value="1" selected="selected">1</option>
+																<option value="2">2</option>
+																<option value="3">3</option>
+																<option value="4">4</option>
+																<option value="5">5</option>
+																<option value="6">6</option>
+																<option value="7">7</option>
+																<option value="8">8</option>
+																<option value="9">9</option>
+																<option value="10">10</option>
+															</select>
+														</div>
+														<div class="form-group col-md-5">`
+															+ orderButtonTemplate +
+														`</div>
+														<div class="form-group col-md-1">`
+															+ removeButtonTemplate +
+														`</div>												
+													</div>
 												</div>
 											</div>
 											<div class="footer">
@@ -149,15 +199,15 @@ function populateFoodCards(menuItem, selector)
 											</div>
 										</div>
 									</div>
-									<div class="back">
+									<div class="back overflow-auto">
 										<div class="header">
 											<h5 class="card-title">${menuItem.name}</h5>
 										</div>
 										<div class="content">
-											<div class="main">
-												<h4 class="text-center">${menuItem.allergens}</h4>
-												<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
-												<div class="stats-container">
+											<div class="main">`
+												+ allergenTemplate +
+												`<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
+												<div class="stats-container" style="margin-top: 0px">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
 													<div class="stats"><h4></h4><p></p></div>
@@ -259,20 +309,77 @@ function populateDrinkPane(data, selector)
 function populateDrinkCards(menuItem, selector)
 {
 	//populate drinks pane with items
+	if(menuItem.loyalty_exclusive) // if this item is exclusive
+		if(!loyal) // if the user is not loyal
+			return; // don't print the card
+
+	// count how many of item is in order
+	var orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary px-md-6">Order</button>`;
+	var removeButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}','${menuItem._id.$oid}','remove')" class="btn btn-danger px-md-3"><i class="fas fa-trash-alt"></i></button>`;
+
+	var itemCount = countNumInOrder(menuItem._id.$oid);
+	if(itemCount > 0)
+	{
+		orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary px-md-6">${itemCount + " in Cart"}</button>`;
+	}
+
+	var allergenTemplate = "";
+
+	if(menuItem.allergens.length > 0) // create our allergens list, if need be
+	{
+		allergenTemplate = 	`<div class="container">
+									  <ul class="list-group">
+										<li class="list-group-item list-group-item-danger" style="padding-top: 0.25rem;padding-bottom: 0.25rem">Allergens</li>`;
+
+		for(i = 0; i < menuItem.allergens.length; i++)
+		{
+			allergenTemplate += `<li class="list-group-item list-group-item-warning" style="padding-top: 0.0rem;padding-bottom: 0.0rem">${menuItem.allergens[i]}</li>`
+		}
+
+		allergenTemplate += `</ul>
+						</div>`;
+	}
+
+
 
 	//Card Template
-	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4">
+	const cardTemplate = `<div id=${menuItem.name.replace(/ |\!|\?/g,"_")} class="col-sm-4 d-flex align-items-stretch">
 							<div class="card-container manual-flip">
 								<div class="card">
-									<div class="front">
+									<div class="front overflow-auto">
 										<div class="content">
 											<div class="main">
-												<img class="card-img-top" src=${menuItem.image} style="width:50%">
+												<img class="card-img-top img-fluid" src=${menuItem.image}>
 												<div class="card-body">
-													<h4 class="card-title">${menuItem.name}</h4>
+													<h4 class="card-title">${menuItem.name} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
 													<p class="card-text">${menuItem.description}</p>
-													<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="addItemToOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}')" class="btn btn-primary">Order</button>
-													<button type="button" id='${menuItem.name+"refill"}' onclick="needRefill('${menuItem.name+"refill"}')" class="btn btn-primary">Refill</button>
+												</div>
+												<div class="form-row">
+													<div class="form-group col px-md-6">
+														<select id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"qty"}' name="qty" class="form-control">
+															<option value="1" selected="selected">1</option>
+															<option value="2">2</option>
+															<option value="3">3</option>
+															<option value="4">4</option>
+															<option value="5">5</option>
+															<option value="6">6</option>
+															<option value="7">7</option>
+															<option value="8">8</option>
+															<option value="9">9</option>
+															<option value="10">10</option>
+														</select>
+													</div>
+													<div class="form-group col-md-4">`
+														+ orderButtonTemplate +
+													`</div>
+													<div class="form-group col-xs-1">`
+														+ removeButtonTemplate +
+													`</div>												
+												</div>
+												<div class="form-row">
+													<div class="form-group mx-auto">
+														<button type="button" id='${menuItem.name+"refill"}' onclick="needRefill('${menuItem.name+"refill"}')" class="btn btn-info">Refill</button>
+													</div>													
 												</div>
 											</div>
 											<div class="footer">
@@ -282,15 +389,15 @@ function populateDrinkCards(menuItem, selector)
 											</div>
 										</div>
 									</div>
-									<div class="back">
+									<div class="back overflow-auto">
 										<div class="header">
 											<h5 class="card-title">${menuItem.name}</h5>
 										</div>
 										<div class="content">
-											<div class="main">
-												<h4 class="text-center">${menuItem.allergens}</h4>
-												<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
-												<div class="stats-container">
+											<div class="main">`
+												+ allergenTemplate +
+												`<p class="text-center" id=${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"ing"}></p>
+												<div class="stats-container" style="margin-top: 0px">
 													<div class="stats"><h4></h4><p></p></div>
 													<div class="stats"><h4>Calories</h4><p>${menuItem.calories}</p></div>
 													<div class="stats"><h4></h4><p></p></div>
@@ -327,10 +434,9 @@ function populateIngredients(ingredient, selector)
 	if($(selector).html() === "")
 		ingList = ingredient.name;
 	else
-		ingList = ingredient.name + ", " + $(selector).html(); // concatenate; // concatenate ingredients
+		ingList = $(selector).html().substr(12) + ", " + ingredient.name; // concatenate; // concatenate ingredients
 
-	$(selector).html(ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
-	//$(selector).find('div div div.back div.content div.main p.text-center').replaceWith($(`<p class="text-center"/>`).html(ingList.substring(0,ingList.length-2))); // replace the ingredients with the added ingredient (comma is to remove the last comma)
+	$(selector).html("Ingredients: " + ingList); // replace the ingredients with the added ingredient (comma is to remove the last comma)
 }
 
 function requestData(url, selector, type)
@@ -355,7 +461,7 @@ function requestData(url, selector, type)
 				case'#foodPane': populateFoodPane(JSON.parse(request.responseText), selector); break;
 				case'#drinkTabs': populateDrinkTabs(JSON.parse(request.responseText), selector); break;
 				case'#drinkPane': populateDrinkPane(JSON.parse(request.responseText), selector); break;
-				case'#orderList': bill = 0; populateOrders(JSON.parse(request.responseText), selector); break;
+				case'#orderList': populateOrders(JSON.parse(request.responseText), selector); break;
 				default:
 					switch(type)
 					{
@@ -363,7 +469,6 @@ function requestData(url, selector, type)
 						case'drinkitem': populateDrinkCards(JSON.parse(request.responseText), selector); break;
 						case'ingredient': populateIngredients(JSON.parse(request.responseText), selector); break;
 					} break;
-
 			}
 		}
 	};
@@ -380,26 +485,26 @@ function requestData(url, selector, type)
 //--- LISTENERS -----------------------------------------------------------------------------------------//
 
 //--- Food -----------------------------------------------------------//
-$('#Food').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
+$('#_Food_').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
 	requestData('/api/menus', '#foodTabs', "UI");
 	requestData('/api/menus', '#foodPane', "UI");
 });
 
-$('#Food').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
+$('#_Food_').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
 	$('#foodTabs li').remove();
 	$('#foodPane div').remove();
 });
 
 //--- Drinks ----------------------------------------------------------//
-$('#Drinks').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
+$('#_Drinks_').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
 	requestData('/api/menus', '#drinkTabs', "UI");
 	requestData('/api/menus', '#drinkPane', "UI");
 });
 
-$('#Drinks').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
+$('#_Drinks_').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
 	$('#drinkTabs li').remove();
 	$('#drinkPane div').remove();

@@ -6,7 +6,6 @@
 			Module:{
 				onQuit : function(){
 					console.log("Closing Hex")
-					//$("#Hex").modal("hide");
 				}
 			}
 		});
@@ -17,7 +16,16 @@
 			Module:{
 				onQuit : function(){
 					console.log("Closing Stack")
-					//$("#Stack").modal("hide");
+				}
+			}
+		});
+	}
+
+	function startTetris() {
+		unityInstanceTETRIS = UnityLoader.instantiate("unityContainerTETRIS", "../static/games/Tetris_final_webgl/Build/Tetris_final_webgl.json", {onProgress: UnityProgress,
+			Module:{
+				onQuit : function(){
+					console.log("Closing Tetris")
 				}
 			}
 		});

@@ -14,6 +14,7 @@ from models.MyBooleanField import MyBooleanField
 # Dumb solution to a weird bug
 class ItemList(EmbeddedDocument):
     item = ReferenceField('MenuItemModel', required=True)
+    count = IntField(default=1)
 
     def clean(self):
         try:
@@ -32,11 +33,13 @@ class OrderModel(Document):
             if self.staff_comped is None:
                 msg = 'comped flag set so staff_comped must reference an employee'
                 raise ValidationError(msg)
+
+        
         
         # Calculate the total cost for this meal
         self.total_cost=0
         for item in self.items:
-            self.total_cost += item.item.cost
+            self.total_cost += item.item.cost * item.count
         # Set a random id for the order
         if (self.order_id == -1):
             self.order_id = randint(0,10000)
@@ -55,6 +58,8 @@ class OrderModel(Document):
     # Who comped the meal
     staff_comped = ReferenceField('EmployeeModel')
     total_cost = FloatField(default=0)
+    amount_paid = FloatField(default=0)
+    paid_off = MyBooleanField(default=False)
     # This is a numerical identifier for the staff (they could potentially be duplicated)
     order_id = IntField(default=-1)
 

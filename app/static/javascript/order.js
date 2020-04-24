@@ -1,14 +1,17 @@
-$(document).ready ( function(){
+ $(document).ready ( function(){
   window.localOrder = {
     time_ordered: 0, // updated on submission
-    table: 1, // updates on given cookie
-    special_notes: "This hasn't been implemented", // updates at checkout
+    table: 0, // updates on given cookie
+    gratuity: 0,
+    special_notes: "", // updates at checkout
     items: [], // updates when item is added to cart
     to_go: "False", // I don't know when this changes
     status: 'ordered', // This will be ordered when ordered and changed by kitchen
     comped: "False" // Waitstaff modify this
   };
   window.bill = 0;
+  window.constDisc = 0;
+  window.percDisc = 1.0;
 });
 
 Array.prototype.unique = function() {
@@ -34,7 +37,7 @@ setInterval(function(){
         tip = parseFloat(0);
 
 
-    document.getElementById("totalBill").innerHTML = "$"+((bill * 1.0625) + tip ).toFixed(2)
+    document.getElementById("totalBill").innerHTML = "$"+(((bill * 1.0625) - constDisc)*percDisc + tip).toFixed(2)
 }, 1000);
 
 function countNumInOrder(itemID) {
@@ -48,16 +51,59 @@ function countNumInOrder(itemID) {
 }
 
 // Add to Order Function
-function addItemToOrder(buttonID, item) {
-  // add item foodId to an array
-  var item = {item};
-  localOrder.items.push(item);
+function modifyOrder(buttonID, item, action) {
 
-  if (document.getElementById(buttonID).innerHTML === "Order")
-    document.getElementById(buttonID).innerHTML = "Item Added!";
+    switch(action)
+    {
+        case "add":
+            var item = {item};
+            var quantity = parseInt(document.getElementById(buttonID.substring(0,buttonID.length-3)+'qty').value);
 
-  setTimeout(function() { revertText(buttonID); }, 1000);
-  function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "Order"; }
+            var totalInOrder = countNumInOrder(item.item) + quantity;
+
+            document.getElementById(buttonID).innerHTML = totalInOrder + " in Cart";
+
+            // add item foodId to an array
+            for(i = 0; i < quantity; i++)
+                localOrder.items.push(item);
+
+        break;
+        case "remove":
+
+            var quantity = parseInt(document.getElementById(buttonID.substring(0,buttonID.length-6)+'qty').value);
+
+            if(countNumInOrder(item) < quantity) // if we're trying to delete more items than there are
+                quantity = countNumInOrder(item);
+
+            for(i = 0; i < quantity; i++)
+            {
+                for(j = 0; j < localOrder.items.length; j++) // scan through our cart
+                {
+                    if(localOrder.items[j].item === item) // if we find a matching item and still have items to delete
+                    {
+                        localOrder.items.splice(j,1); // remove it
+                        break;
+                    }
+                }
+            }
+
+            var totalInOrder = countNumInOrder(item);
+            if(totalInOrder > 0)
+                document.getElementById(buttonID.substring(0,buttonID.length-6)+'btn').innerHTML = totalInOrder + " in Cart";
+            else
+                document.getElementById(buttonID.substring(0,buttonID.length-6)+'btn').innerHTML = "Order";
+
+            if(document.getElementById(buttonID).innerHTML === "<i class=\"fas fa-trash-alt\"></i>")
+            {
+                document.getElementById(buttonID).innerHTML = "Removed " + quantity;
+            }
+
+            setTimeout(function() { revertText(buttonID); }, 1000);
+            function revertText(buttonID){ if(document.getElementById(buttonID)) document.getElementById(buttonID).innerHTML = "<i class=\"fas fa-trash-alt\"></i>"; }
+
+        break;
+    }
+
 }
 
 // Remove from Order Function
@@ -91,12 +137,13 @@ function populateOrders(menuItem, selector) {
 
   $(selector).prepend(orderTemplate);
 
-  bill += menuItem.cost*count;
+  priceofItem = menuItem.cost*count;
+  bill = bill + priceofItem;
+
   updateBill();
 }
 
-function SubmitOrder()
-{
+function SubmitOrder() {
     event.preventDefault();
 
     var post = new XMLHttpRequest();
@@ -124,6 +171,10 @@ function SubmitOrder()
 			var orders = table.orders;
 			var thisIsSoStupid = {orders};
 			updateTable();
+
+			// apply gratuities to waitstaff
+            scanTimesheets("tip");
+
 		}
 		else
 		{
@@ -137,6 +188,12 @@ function SubmitOrder()
 
 	localOrder.time_ordered = Date.now();
     localOrder.special_notes = document.getElementById('specialRequests').value;
+    localOrder.gratuity = parseFloat(document.getElementById("tip").value);
+    localOrder.table = table.number;
+
+    if(document.getElementById('ToGo').checked)
+        localOrder.to_go = "True";
+
     post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(localOrder));
 }
@@ -156,6 +213,61 @@ function requestOrderedItems() {
   }
 }
 
+function scanTimesheets(cmd) {
+    // Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	request.open('GET', "/api/timesheets");
+
+	// Handle on load
+	request.onload = function()
+	{
+		if (request.status != 200)
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+		else
+		{
+			switch(cmd) {
+                case "tip": tipWaitstaff(JSON.parse(request.responseText));
+            }
+		}
+	};
+
+	// Handle on errors
+	request.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();
+}
+
+function tipWaitstaff(data) {
+
+    var count = 0;
+    var employeesFound = [];
+
+    // scan through all timesheets
+    for(i = 0; i < data.length; i++)
+    {
+        if(data[i].ongoing) {
+            count++;
+            employeesFound.push(i);
+        }
+    }
+
+    if (count > 0) {
+        var splitTip = table.gratuity / count;
+
+        for(i = 0; i < employeesFound; i++)
+        {
+            data[employeesFound[i]].accrued_tips += splitTip;
+        }
+    }
+
+
+}
+
 $('#MyCart').on('shown.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
 {
   requestOrderedItems();
@@ -163,7 +275,8 @@ $('#MyCart').on('shown.bs.modal', function(event) // Create the table once the m
 
 $('#MyCart').on('hide.bs.modal', function(event) // Remove the table's elements after the model is hidden
 {
-	$('#orderList tr.order').remove();
+	$('#orderList tr.order').remove()
+    bill = 0;
 });
 
 $('#PayNow').click( function()

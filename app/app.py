@@ -17,6 +17,8 @@ from models.TimeSheetModel import TimeSheetResource, TimeSheetResourceList
 from models.TableModel import TableResource, TableResourceList
 from models.NotificationModel import NotificationResource, NotificationResourceList
 from models.ReservationModel import ReservationResource, ReservationResourceList
+from models.FeedbackModel import FeedbackResource, FeedbackResourceList
+from models.MealModel import MealResource, MealResourceList
 from database import Database as db
 
 
@@ -46,8 +48,8 @@ api.add_resource(OrderResource, '/api/orders/<id>')
 api.add_resource(MenuResourceList, '/api/menus')
 api.add_resource(MenuResource, '/api/menus/<id>')
 
-api.add_resource(InventoryResourceList, '/api/inventory')
-api.add_resource(InventoryResource, '/api/inventory/<id>')
+api.add_resource(InventoryResourceList, '/api/inventory', '/api/inventorys')
+api.add_resource(InventoryResource, '/api/inventory/<id>', '/api/inventorys/<id>')
 
 api.add_resource(CouponResourceList,'/api/coupons')
 api.add_resource(CouponResource,'/api/coupons/<id>')
@@ -70,7 +72,11 @@ api.add_resource(NotificationResource, '/api/notifications/<id>')
 api.add_resource(ReservationResourceList, '/api/reservations')
 api.add_resource(ReservationResource, '/api/reservations/<id>')
 
+api.add_resource(FeedbackResourceList, '/api/feedback')
+api.add_resource(FeedbackResource, '/api/feedback/<id>')
 
+api.add_resource(MealResourceList, '/api/meals')
+api.add_resource(MealResource, '/api/meals/<id>')
 
 
 with application.app_context():

@@ -4,7 +4,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="description" content="CSCE 3444 Project">
-	<title>Management</title>
+	<title>Waitstaff</title>
 	<!-- Bootstrap core CSS -->
 	<link href="{{ url_for('static', filename='bootstrap/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 	<!-- Collapse Menu -->
@@ -16,10 +16,10 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 	<!-- Custom styles for this template -->
 	<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-	<!-- Custom Javascript Functions -->
-	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
 	<!-- Include the PayPal JavaScript SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
+	<!-- Custom Javascript Functions -->
+	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
 </head>
@@ -27,7 +27,7 @@
 <body>
 	<nav class="navbar navbar-light bg-light static-top">
 		<div class="container">
-			<div class="row">		
+			<div class="row">
 				<div class="col-9"><a class="navbar-brand" href="javascript:void(0);">Waitstaff Main Menu</a></div>
 			</div>
 			<div class="row">
@@ -45,29 +45,199 @@
 			</div>
 		</div>
 	</nav>
-	
+
 	<!-- Begin ALERTS -->
 	<section class="bg-light">
-		<div id="WTSF_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
+		<div id="WTSF_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">
+			<!-- This gets injected via Javascript -->
 		</div>
-	</section>	
+	</section>
 	<!-- End ALERTS -->
-
-	<!-- Begin Main Section -->		
+	<!-- Begin Main Section -->
 	<section class="features-icons bg-light text-center">
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<div class="card-columns" id="WTSF_orderNotifications"> <!-- Will be injected via Javascript -->
+					<div class="card-columns" id="WTSF_orderNotifications">
+						<!-- Will be injected via Javascript -->
 						<div id="WTSF_orderNotifications_reverse"></div>
 					</div>
 				</div>
-				</div class="col">
+			</div>
+		</div>
+		</div>
+		</div>
+	</section>
+	<!-- End Main Section -->
+	
+	<!-- Pay Bill -->
+	<div id="WTSF_PayBill" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form id="amountPayment">
+						<h5> Amount to Pay </h5>
+						<div class="form-group row">
+							<div class="input-group col">
+								<div class="input-group-prepend">
+									<span class="input-group-text">$</span>
+								</div>
+								<input type="number" class="form-control" id="Meal_cost" name="cost" placeholder="Cost" min=0 step="0.01" aria-label="Amount to Pay" required>
+							</div>
+						</div>
+					</form>
+					<div class="Acontainer">
+						<div style="display:none;" id="OrderID"></div>
+						<div class="col-sm-9 col-md-7 col-lg-5">
+							<div class="card card-signin my-5">
+								<div class="card-body">
+								<!-- Begin Payment Section -->
+									<!-- Payment Option Tabs -->
+									<ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3">
+									  <li class="nav-item">
+										<a data-toggle="pill" href="#nav-tab-card" class="nav-link active rounded-pill"><i class="fas fa-credit-card"></i> Credit Card</a>
+									  </li>
+									  <li class="nav-item">
+										<a data-toggle="pill" href="#nav-tab-paypal" class="nav-link rounded-pill"><i class="fab fa-paypal"></i> Paypal</a>
+									  </li>
+									  <li class="nav-item">
+										<a data-toggle="pill" href="#nav-tab-cash" class="nav-link rounded-pill"><i class="fas fa-dollar-sign"></i> Cash</a>
+									  </li>
+									</ul>
+									<!-- End Payment Option Tabs-->
+
+									<!-- Payment Option Tab Content -->
+									<div class="tab-content">
+									  <!-- Credit Card Tab -->
+									  <div id="nav-tab-card" class="tab-pane fade show active">
+										<p class="alert alert-success">Secure Card Payment Portal</p>
+										<form role="form">
+										  <div class="form-group">
+											<label for="username">Credit Card Information</label>
+											<input type="text" name="username" placeholder="Name on Card" class="form-control" required>
+										  </div>
+										  <div class="form-group">
+											<div class="input-group">
+											  <input type="text" name="cardNumber" placeholder="Card Number" class="form-control" required>
+											  <div class="input-group-append">
+												<span class="input-group-text text-muted">
+													<i class="fab fa-cc-visa mx-1"></i>
+													<i class="fab fa-cc-amex mx-1"></i>
+													<i class="fab fa-cc-mastercard mx-1"></i>
+												</span>
+											  </div>
+											</div>
+										  </div>
+										  <div class="row">
+											<div class="col-sm-8">
+											  <div class="form-group">
+												<div class="input-group">
+												  <input type="number" placeholder="Month" name="" class="form-control" required>
+												  <input type="number" placeholder="Year" name="" class="form-control" required>
+												</div>
+											  </div>
+											</div>
+											<div class="col-sm-4">
+											  <div class="form-group mb-4">
+												<input type="text" placeholder="CVV" required class="form-control">
+											  </div>
+											</div>
+										  </div>
+										  <button type="button" data-toggle="modal" data-dismiss="modal" id="WTSF_PayBill_btn_PayBill" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Pay</button>
+										</form>
+									  </div>
+									  <!-- End Credit Card Tab-->
+
+									  <!-- Paypal Tab -->
+									  <div id="nav-tab-paypal" class="tab-pane fade">
+										<div id="paypal-button-container"></div>
+									  </div>
+									  <!-- End Paypal Tab-->
+									  
+									  <!-- Cash Tab -->
+									  <div id="nav-tab-cash" class="tab-pane fade">
+										  <button type="button" data-toggle="modal" data-dismiss="modal" id="WTSF_PayBill_btn_MarkAsPaid" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm">Mark as Paid</button>
+									  </div>
+									  <!-- End Cash Tab-->
+
+									</div>
+									<!-- End Payment Option Tab Content-->
+								<!-- End Payment Section -->
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-	<!-- End Main Section -->	
+	</div>
+	<!-- End Pay Bill -->
+	
+	<!-- Begin INVENTORY PAGE -->
+	<div id="WTSF_EditOrder" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1049">
+		<div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Order</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<form id="EditMenuItemForm">
+							<input type="hidden" id="orderID" name="uid">
+							<input type="hidden" id="amountPayed" name="amount_paid">
+							<input type="hidden" id="orderNo" name="order_id">
+							<div class="form-inline row">
+								<div class="input-group col">
+									<label for="EO_gratuity">Gratuity&nbsp;&nbsp;</label>
+									<div class="input-group-prepend">
+										<span class="input-group-text">$</span>
+									</div>
+									<input type="number" class="form-control" id="EO_gratuity" name="gratuity" placeholder="Grautuity" min=0 step="0.01" aria-label="Gratuity" required>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="input-group col">
+									<textarea class="form-control" id="EO_specialnotes" name="special_notes" placeholder="Special Notes" rows="5"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="form-check">
+									<input type="checkbox" id="EO_togo" name="to_go" value="True">
+									<label class="form-check-label" for="EO_togo">
+										To Go?
+									</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" id="EO_comped" name="comped" value="True">
+									<label class="form-check-label" for="EO_comped">
+										Compensate Meal?
+									</label>
+								</div>
+							</div>
+						</form>
+					</div>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+							<th style="width: 50%;">Name</th>
+							<th style="width: 25%;">Qty</th>
+							</tr>
+						</thead>
+						<tbody id="WTSF_EditOrder_Table">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="WTSF_EditOrder_btnAddMenuItem">Add Menu Item</button>
+					<button type="button" class="btn btn-secondary" id="WTSF_EditOrder_btnSaveChanges" data-toggle="modal" data-target="#WTSF_EditOrder">Save and Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End INVENTORY PAGE -->
 
 	<div id="Logout" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">
@@ -84,18 +254,20 @@
 						</div>
 					</div>
 				</div>
-                <div class="modal-footer">
-					<button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal" id="signOut" onclick="javascript:window.location='/'">Yes</button>
+				<div class="modal-footer">
+					<button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal" id="signOut" onclick=recordOut();>Yes</button>
 					<button class="btn btn-lg btn-primary text-uppercase" data-dismiss="modal">No</button>
-                </div>
+				</div>
 			</div>
 		</div>
 	</div>
-	
-		<!-- Bootstrap core JavaScript -->
-		<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>	
-		<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>		
-		<script src="{{ url_for('static', filename='javascript/waitstaff.js') }}"></script>		
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="{{ url_for('static', filename='bootstrap/jquery/jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='bootstrap/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- Javascript function files-->
+	<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>
+	<script src="{{ url_for('static', filename='javascript/waitstaff.js') }}"></script>
+	<script src="{{ url_for('static', filename='javascript/waitstaff_redirect.js') }}"></script> <!--comment this out to access page without a login-->
 </body>	
 </html>

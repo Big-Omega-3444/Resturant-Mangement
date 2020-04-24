@@ -10,8 +10,9 @@ class ReservationModel(Document):
     firstname = StringField(required=True)
     lastname = StringField()
     email = EmailField(required=True)
-    phone_number = IntField(required=True)
+    phone_number = StringField(required=True)
     num_people = IntField(required=True)
+    reservation_utc = IntField(required=True)
 
 
 class ReservationResource(TemplateResource):

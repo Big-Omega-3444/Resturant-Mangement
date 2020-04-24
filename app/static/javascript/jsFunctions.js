@@ -20,10 +20,18 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveA
 	var AlertMessage;
 
 	if (divID != "")
+<<<<<<< HEAD
 	{
 		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert">
 		${bodyText}
 		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close">
+=======
+	{		
+		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert" data-remove="${bRemoveAlertOnly}">
+		<span>${bodyText}
+		
+		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close" data-remove="${bRemoveAlertOnly}">
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 			<span aria-hidden="true">&times;</span>
 		</button>
 		</div>`
@@ -43,18 +51,32 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveA
 
 	//Only works if there's an ID that was passed in
 	if (divID != "")
+<<<<<<< HEAD
 	{
 		//Add a function that should remove the notification after 4000 ms
 		$('.alert-messages').delay(4000).slideUp(200, function(bRemoveAlertOnly)
 		{
+=======
+	{	
+		//Add a function that should remove the notification after 4000 ms	
+		$('.alert-messages').delay(4000).slideUp(200, function() 
+		{ 
+			bRemoveAlertOnly = $(this).data('remove');;
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 			if (bRemoveAlertOnly === false)
 				DeleteNotifications(this);
 			$(this).remove();
 		});
 
 		//Intentional, this will get the ID properly when splitting the string into two parts
+<<<<<<< HEAD
 		$(`btnClose_${divID}`).delay(4000).slideUp(200, function(bRemoveAlertOnly)
 		{
+=======
+		$(`btnClose_${divID}`).delay(4000).slideUp(200, function() 
+		{
+			bRemoveAlertOnly = $(this).data('remove');;
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 			if (bRemoveAlertOnly === false)
 				DeleteNotifications(this);
 			$(this).remove();
@@ -153,7 +175,7 @@ function DeleteNotifications(object, id = "")
 		}
 		else
 		{
-			alert(`Error ${request.status}: ${request.statusText}`);
+			alert(`Error ${post.status}: ${post.statusText}`);
 			return;
 		}
 	};
@@ -167,6 +189,51 @@ function DeleteNotifications(object, id = "")
 
 	post.send();
 }
+
+function PostMessageForm()
+{
+	//Generate XHR
+	var post = new XMLHttpRequest();
+	
+	// Create a notification to database
+	var url = "/api/feedback";
+	
+	// Open a socket to the url
+	post.open('POST', url);
+	
+	// Handle on load
+	post.onload = function(data) 
+	{
+		if (post.status === 200 || post.status === 201 || post.status === 204)
+		{
+			alert( "Feedback submitted" );
+			window.location = '/';
+			return;
+		}
+		else
+		{
+			var error = JSON.parse(post.responseText);
+			console.log(error.message);
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+	
+	// Handle on errors	
+	post.error = function() 
+	{
+		alert("Request Failed!");
+		return;
+	};
+	
+    var formData = new FormData(document.getElementById("ContactFeedback"));
+	post.send(formData);		
+}
+
+
+$('#btn_ContactFeedback_submitFeedback').click( function()
+{
+	PostMessageForm()
+});
 
 //Management search function
 $(document).ready(function(){
@@ -200,10 +267,11 @@ paypal.Buttons({
 
 	// Set up the transaction
 	createOrder: function(data, actions) {
+		var finalBill = parseFloat($("#Meal_cost").val());
 		return actions.order.create({
 			purchase_units: [{
 				amount: {
-					value: '0.01'
+					value: finalBill
 				}
 			}]
 		});

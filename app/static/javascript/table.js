@@ -76,7 +76,7 @@ function getHelp(helpVal) {
 // Refill Drink Function
 function needRefill(drinkId) { 
   if (document.getElementById(drinkId).innerHTML === "Refill") {
-      postNotif("refill");
+      postNotif("refill", drinkId);
       document.getElementById(drinkId).innerHTML = "Please wait...";
     // Alert waiter
   }
@@ -147,7 +147,7 @@ function postNewTable() {
     post.send(JSON.stringify(table));
 }
 
-function postNotif(type) {
+function postNotif(type, data) {
 	var post = new XMLHttpRequest();
 
 	var payload = {};
@@ -155,13 +155,18 @@ function postNotif(type) {
 		case "refill":
 			payload = {table:table.number,
 						time_created: Date.now(),
-						request_refill:"True"};
+						request_refill:"True",
+						refill_list:[data.replace("refill","")]};
 			break;
 		case "help":
 			payload = {table:table.number,
 						time_created: Date.now(),
 						request_help:"True"};
 			break;
+		case "cash":
+			payload = {table:table.number,
+						time_created: Date.now(),
+						request_cash_payment:"True"};
 	}
 
     // POST to the API
@@ -223,4 +228,43 @@ function updateTable() {
 
 	put.setRequestHeader("Content-Type", "application/json");
     put.send(JSON.stringify(table));
+}
+
+function submitReservationForm()
+{
+    event.preventDefault();
+
+    var post = new XMLHttpRequest();
+
+    // POST to the API
+    post.open('POST', "/api/reservations");
+
+	// Handle errors
+	//To Do: Alert user if errors occured, even OnLoad
+	post.error = function()
+	{
+		alert("Request Failed!");
+	};
+
+	// Handle on load
+	post.onload = function()
+	{
+		//Check for OK or CREATED status
+		if (post.status === 200 || post.status === 201)
+		{
+			alert("Reservation Created!"); // TODO: create waitstaff notification
+			location.reload();
+		}
+		else
+		{
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+
+			alert(`Error ${post.status}: ${error.message}`);
+		}
+	};
+
+    var formData = new FormData(document.getElementById("reservationForm"));
+    post.send(formData);
 }

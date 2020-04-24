@@ -36,10 +36,10 @@
 			</div>
 			<div class="row">
 				<div class="col-sm h-200 text-center text-lg-center my-auto">
-					<ul class="list-inline mb-0">
+					<ul class="list-inline mb-0" id="last">
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#KCHN_Orders"><i class="fas fa-clipboard-list"></i> Manage Orders</a></li>
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#MGMT_Inventory"><i class="fas fa-warehouse"></i> Manage Inventory</a></li>
-						<li class="list-inline-item"><button type="button" id="btn_callWaitstaff"  class="btn btn-primary"><i class="fas fa-phone"></i> Call Waitstaff</button></li>
+						<li class="list-inline-item"><button type="button" id="btn_callWaitstaff" class="btn btn-primary"><i class="fas fa-phone"></i> Call Waitstaff</button></li>
 						<li class="list-inline-item"><button type="button" id="btn_callManagement" class="btn btn-primary"><i class="fas fa-phone"></i> Call Management</button></li>
 						<li class="list-inline-item"><a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
@@ -55,19 +55,33 @@
 	</nav>
 	<!-- End Headers -->
 
+<<<<<<< HEAD
+=======
+	<script>
+		function go() {
+			javascript: window.location = 'management';
+		}
+	</script>
+
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 	<!-- Begin ALERTS -->
 	<section class="bg-light">
-		<div id="KTCH_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">	<!-- This gets injected via Javascript -->
+		<div id="KTCH_Alerts" class="position-absolute" style="margin-left: auto; margin-right: auto; left: 0; right: 0;">
+			<!-- This gets injected via Javascript -->
 		</div>
 	</section>
 	<!-- End ALERTS -->
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 	<!-- Begin Main Section -->
 	<section class="features-icons bg-light text-center">
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<div class="card-columns" id="orderNotifications"> <!-- Will be injected via Javascript -->
+					<div class="card-columns" id="orderNotifications">
+						<!-- Will be injected via Javascript -->
 					</div>
 				</div>
 			</div>
@@ -117,9 +131,9 @@
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
-							<th width="5px">Name</th>
-							<th width="3px">Qty</th>
-							<th>Edit</th>
+								<th width="5px">Name</th>
+								<th width="3px">Qty</th>
+								<th>Edit</th>
 							</tr>
 						</thead>
 						<tbody id="InventoryTable">
@@ -134,9 +148,9 @@
 		</div>
 	</div>
 	<!-- End INVENTORY PAGE -->
-
 	<!-- Begin ADD INGREDIENTS PAGE -->
-	<div id="MGMT_AddIngredient" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
+	<div id="MGMT_AddIngredient" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">
+		>
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -153,25 +167,25 @@
 							<div class="form-group">
 								<div class="form-check">
 									<input type="checkbox" class="form-check-input" id="ingredientAllergenField" name="allergen" value="false">
-								  <label class="form-check-label" for="ingredientAllergenField">
-									Allergen?
-								  </label>
+									<label class="form-check-label" for="ingredientAllergenField">
+										Allergen?
+									</label>
 								</div>
 							</div>
 						</form>
 					</div>
 				</div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="MGMT_AddIngredient_btnSaveChanges" data-toggle="modal" data-target="#MGMT_AddIngredient">Create</button>
-                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddIngredient">Exit without Saving</button>
-                </div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="MGMT_AddIngredient_btnSaveChanges" data-toggle="modal" data-target="#MGMT_AddIngredient">Create</button>
+					<button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_AddIngredient">Exit without Saving</button>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- End ADD INGREDIENTS PAGE -->
-
 	<!-- Begin EDIT INGREDIENTS PAGE -->
-	<div id="MGMT_EditIngredient" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">>
+	<div id="MGMT_EditIngredient" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1054">
+		>
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -189,18 +203,18 @@
 							<div class="form-group">
 								<div class="form-check">
 									<input type="checkbox" class="form-check-input" id="ingredientAllergenField" name="allergen" required>
-								  <label class="form-check-label" for="ingredientAllergenField">
-									Allergen?
-								  </label>
+									<label class="form-check-label" for="ingredientAllergenField">
+										Allergen?
+									</label>
 								</div>
 							</div>
 						</form>
 					</div>
 				</div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="MGMT_EditIngredient_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditIngredient">Save Changes</button>
-                    <button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditIngredient">Exit without Saving</button>
-                </div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="MGMT_EditIngredient_btnSaveChanges" data-toggle="modal" data-target="#MGMT_EditIngredient">Save Changes</button>
+					<button class="btn btn-danger active" data-toggle="modal" data-target="#MGMT_EditIngredient">Exit without Saving</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -221,10 +235,10 @@
 						</div>
 					</div>
 				</div>
-                <div class="modal-footer">
+				<div class="modal-footer">
 					<a href="" data-dismiss="modal" onclick=recordOut();><button class="btn btn-lg btn-danger mr-auto text-uppercase" data-dismiss="modal">Yes</button> </a>
-						<button class="btn btn-lg btn-primary text-uppercase" data-dismiss="modal">No</button>
-</div>
+					<button class="btn btn-lg btn-primary text-uppercase" data-dismiss="modal">No</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -235,5 +249,11 @@
 	<!-- Loaded Lastly for performance reasons -->
 	<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>
 	<script src="{{ url_for('static', filename='javascript/management.js') }}"></script>
+<<<<<<< HEAD
 </body>
 </html>
+=======
+	<script src="{{ url_for('static', filename='javascript/kitchen_redirect.js') }}"></script> <!--comment this out to access page without a login-->
+</body>	
+</html>
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28

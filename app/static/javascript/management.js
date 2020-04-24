@@ -256,7 +256,8 @@ function SubmitFormMenuItem()
 		"image": formData.get('image'),
 		"ingredients": [],
 		"calories": parseInt(formDataHealth.get('calories')),
-		"allergens": []
+		"allergens": [],
+		"loyalty_exclusive": false
 	};
 
 	for (i = 0; i < data.length; i++)
@@ -269,6 +270,9 @@ function SubmitFormMenuItem()
 	}
 
 	//Here we go, here we go
+	if ( formData.get('loyalty_exclusive') != null )
+		payload['loyalty_exclusive'] = true;	
+	
 	if ( formDataHealth.get('wheat') != null )
 		payload.allergens.push(formDataHealth.get('wheat'));
 
@@ -534,7 +538,8 @@ function SubmitFormMenuItemPUT()
 		"image": formData.get('image'),
 		"ingredients": [],
 		"calories": parseInt(formDataHealth.get('calories')),
-		"allergens": []
+		"allergens": [],
+		"loyalty_exclusive": false
 	};
 
 	for (i = 0; i < data.length; i++)
@@ -547,6 +552,9 @@ function SubmitFormMenuItemPUT()
 	}
 
 	//Here we go, here we go
+	if ( formData.get('loyalty_exclusive') != null )
+		payload['loyalty_exclusive'] = true;
+	
 	if ( formDataHealth.get('wheat') != null )
 		payload.allergens.push(formDataHealth.get('wheat'));
 
@@ -788,10 +796,19 @@ function requestData(url, selector)
 					break;
 				}
 				case '#MGMT_MenuItemsTable_Body':
-					populateMenuItemTable(JSON.parse(request.responseText), selector)
+					populateMenuItemTable(JSON.parse(request.responseText), selector);
 					break;
 				case '#MGMT_DummySelector_MenuItemUpdate':
 					SubmitFormMenuUpdateAll(JSON.parse(request.responseText));
+					break;
+				case '#MGMT_MessagesTable_Body':
+					populateFeedbackTable(JSON.parse(request.responseText), selector);
+					break;
+				case '#MGMT_CouponTable_Body':
+					populateCouponTable();
+					break;
+				case '#MGMT_SpecialTable_Body':
+					populateSpecialTable();
 					break;
 				default:
 					break;
@@ -1057,7 +1074,7 @@ function deleteInventory(OID)
 
 }
 
-// Same as above function but deletes an ingredient from the API
+// Same as above function but deletes an menu category from the API
 function deleteMenuCategory(object)
 {
 	// Create our XMLHttpRequest variable
@@ -1093,7 +1110,7 @@ function deleteMenuCategory(object)
 
 }
 
-// Same as above function but deletes an ingredient from the API
+// Same as above function but deletes an menu item from the API
 function deleteMenuItem(object)
 {
 	// Create our XMLHttpRequest variable
@@ -1127,6 +1144,42 @@ function deleteMenuItem(object)
 
 	request.send();
 
+}
+
+// Same as above function but deletes feedback from the API
+function deleteFeedback(object)
+{
+	// Create our XMLHttpRequest variable
+	var request = new XMLHttpRequest();
+	
+	// Create the deletion url for user
+	var url = "/api/menuitems/" + object.id;
+	
+	// Open a socket to the url
+	request.open('DELETE', url);
+	
+	// Handle on load
+	request.onload = function(data) 
+	{
+		if (request.status === 200 || request.status === 201 || request.status === 204)
+		{
+			alert("Deletion Successful!");
+			updateTables();
+		}
+		else
+		{
+			alert(`Error ${request.status}: ${request.statusText}`);
+		}
+	};
+	
+	// Handle on errors	
+	request.error = function() 
+	{
+		alert("Request Failed!");
+	};
+
+	request.send();	
+	
 }
 
 // Function that builds the table in #MGMT_Employees
@@ -1244,9 +1297,12 @@ function populateMenuCategoryTable(data, selector)
 
 	// Build the table
 	for(i = 0; i < data.length; i++) {
+<<<<<<< HEAD
 
 //		if (data[i].items.length == 0)
 //		{
+=======
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 			var row = $('<tr/>')
 			var name = $(`<div class="menuCategoryTableClass" id=${data[i]._id.$oid}/>`).html(data[i].name);
 
@@ -1265,6 +1321,7 @@ function populateMenuCategoryTable(data, selector)
 			}).html("DEL");
 
 			row.append($('<td/>').html(editButton).append(deleteButton));
+<<<<<<< HEAD
 
 			$(selector).append(row);
 
@@ -1326,6 +1383,10 @@ function populateMenuCategoryTable(data, selector)
 //			requests[i].send();
 //			requests[i].extraInfo = data[i];
 //		})(i);
+=======
+			
+			$(selector).append(row);	
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 	}
 }
 
@@ -1660,6 +1721,43 @@ function populateEditMenuIngredientSelectorItems(data, selector)
 	populateAddMenuIngredientSelectorItems(data, selector, true)
 }
 
+
+// Function that builds the table in #MGMT_Employees
+// data argument requires an JSON-ified data (Use JSON.Parse() before passing it in!)
+function populateFeedbackTable(data, selector)
+{
+	// Build the table
+	for(i = 0; i < data.length; i++)
+	{
+		var row = $('<tr/>')
+
+		// Append first and last name into one variable
+		var fullname = data[i].firstname + " " + data[i].lastname;
+		row.append($('<td/>').html(fullname));
+
+		// Append assignment
+		row.append($('<td/>').html(`${data[i].email_response}`));
+		
+		row.append($('<td/>').html(`${data[i].feedback}`));
+
+		//Create buttons for specific ID
+		var uid = data[i]._id.$oid;
+
+		var sendButton = $(`<button class="btn btn-secondary" id=${uid} data-email="${data[i].email_response}"/>`).click(function() {
+			var email = $(this).data("email");
+			window.open(`mailto:${email}`, '_blank');
+		}).html("EMAIL");
+
+		var deleteButton = $(`<button class="btn btn-danger" id=${uid}/>`).click(function() {
+			deleteFeedback(this);
+		}).html("DEL");
+
+		row.append($('<td/>').html(sendButton).append(deleteButton));
+
+		$(selector).append(row);
+	}
+}
+
 // Simple function that autofills a selected form
 // data must be in JSON format
 function autofillEditEmployeeForm(data)
@@ -1769,6 +1867,7 @@ function autofillEditMenuCategoryForm(data)
 function autofillEditMenuItemForm(data)
 {
 	$('#EditMenuItemForm').find('#miID').val(data._id.$oid);
+<<<<<<< HEAD
 	$('#EditMenuItemForm').find('#MI_name').val(data.name);
 	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);
 	$('#EditMenuItemForm').find('#MI_desc').val(data.description);
@@ -1776,6 +1875,15 @@ function autofillEditMenuItemForm(data)
 
 	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);
 
+=======
+	$('#EditMenuItemForm').find('#MI_name').val(data.name);	
+	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);	
+	$('#EditMenuItemForm').find('#MI_desc').val(data.description);	
+	$('#EditMenuItemForm').find('#imageURL').val(data.image);	
+	$('#EditMenuItemForm').find('#loyalityEx').prop("checked", data.loyalty_exclusive);
+	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);	
+	
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 	for (i = 0; i < data.allergens.length; i++)
 	{
 		switch (data.allergens[i])
@@ -1827,7 +1935,17 @@ function updateTables()
 	requestData('/api/menus', '#MenuCategoryTable');
 
 	$('#MGMT_MenuItemsTable_Body tr td').remove();
+<<<<<<< HEAD
 	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');
+=======
+	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');	
+
+	$('#KTCH_CouponTable_Body tr td').remove();
+	requestData('/api/coupons', '#MGMT_CouponTable_Body');
+
+	$('#KTCH_SpecialTable_Body tr td').remove();
+	requestData('/api/specials', '#MGMT_SpecialTable_Body');
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 }
 
 function UpdateAlerts()
@@ -1996,11 +2114,14 @@ $('#MGMT_Reports').on('show.bs.modal', function(){
 	//Create chart
 	createChart("Day");
     RetrieveOrders(false, true, false);
+	requestData("api/feedback", '#MGMT_MessagesTable_Body');
 });
 
 $('#MGMT_Reports').on('hide.bs.modal', function(event)
 {
 	$('#KTCH_OrderHistoryTable_Body tr td').remove();
+	$('#KTCH_TimeTable_Body tr td').remove();
+	$('#MGMT_MessagesTable_Body tr td').remove();
 });
 
 
@@ -2039,6 +2160,7 @@ $('#chartDecade').click(function () {
 	createChart(time);
 });
 
+
 function createChart(pick) {
 
 
@@ -2058,10 +2180,10 @@ function createChart(pick) {
 			var orders = JSON.parse(requests.responseText);
 			var date_temp = new Date();
 			var current_date;
-
+			var total_tips = 0;
 			//Calculating this Days orders
 			if (pick == "Day") {
-
+				
 				current_date = new Date();
 				var data_arr = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 				var labels_arr = new Array("00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00");
@@ -2073,7 +2195,11 @@ function createChart(pick) {
 
 						if (date_temp.toDateString() == current_date.toDateString()) {
 							if (t == date_temp.getHours()) {
+<<<<<<< HEAD
 
+=======
+								total_tips = total_tips + orders[i].gratuity
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 								data_arr[t] = data_arr[t] + orders[i].total_cost;
 
 							}
@@ -2090,8 +2216,12 @@ function createChart(pick) {
 				var day_temp = current_date.getDay();
 				var temp = current_date.valueOf() - (86400000 * day_temp);
 				var first_sun = new Date(temp);
+<<<<<<< HEAD
 				//alert(first_sun);
 
+=======
+				
+>>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 				var data_arr = new Array(0,0,0,0,0,0,0);
 				var labels_arr = new Array('Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 
@@ -2101,6 +2231,7 @@ function createChart(pick) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
 						if (first_sun.toDateString() == date_temp.toDateString()) {
 							data_arr[t] = data_arr[t] + orders[i].total_cost;
+							total_tips = total_tips + orders[i].gratuity
 
 						}
 
@@ -2140,7 +2271,7 @@ function createChart(pick) {
 						if (date_temp.getFullYear() == current_date.getFullYear()) {
 							if (date_temp.getMonth() == current_date.getMonth()) {
 								if ((t + 1) == date_temp.getDate()) {
-
+									total_tips = total_tips + orders[i].gratuity
 									data_arr[t] = data_arr[t] + orders[i].total_cost;
 								}
 							}
@@ -2162,6 +2293,7 @@ function createChart(pick) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
 						if (date_temp.getFullYear() == current_date.getFullYear()) {
 							if (t == date_temp.getMonth()) {
+								total_tips = total_tips + orders[i].gratuity
 								data_arr[t] = data_arr[t] + orders[i].total_cost;
 							}
 						}
@@ -2194,6 +2326,7 @@ function createChart(pick) {
 						date_temp = new Date(orders[i].time_ordered * 1000);
 
 						if (first_year.getFullYear() == date_temp.getFullYear()) {
+							total_tips = total_tips + orders[i].gratuity
 							data_arr[t] = data_arr[t] + orders[i].total_cost;
 
 						}
@@ -2210,6 +2343,15 @@ function createChart(pick) {
 		else {
 			alert(`Error ${requests.status}: ${requests.statusText}`);
 		}
+		if (document.getElementById("tip") != null) {
+			document.getElementById("tip").remove("tip")
+		};
+		var newDiv = document.createElement("div");
+		var newContent = document.createTextNode("$" + total_tips);
+		newDiv.appendChild(newContent);
+		$('#total_tips').append('<div id="tip">');
+		$('#tip').append("$" + total_tips)
+		
 
 		Chart.defaults.global.defaultFontFamily = 'Lato';
 		Chart.defaults.global.defaultFontSize = 18;
@@ -2237,7 +2379,10 @@ function createChart(pick) {
 							type: 'linear',
 							display: true,
 							position: 'left',
+							
 							ticks: {
+								precision: 0,
+								min:0,
 								beginAtZero: true
 							}
 						}
@@ -2265,11 +2410,7 @@ function createChart(pick) {
 				}
 			}
 		});
-		Chart.scaleService.updateScaleDefaults('linear', {
-			ticks: {
-				min: 0
-			}
-		});
+
     }
 
 
@@ -2476,10 +2617,10 @@ function recordOut() { //Record sign out
 
 function findTime() {
 
-	console.log("In findTime");
+
 	var request = new XMLHttpRequest();
 	var employee_id = getCookie("username");
-	console.log("employee_id = " + employee_id);
+
 	var i;
 
 	request.open('GET', '/api/timesheets');
@@ -2510,7 +2651,7 @@ function findTime() {
                 }
 			}
 
-			console.log("getCookie result = " + result);
+
 
 			recordSignIn(result);
 			
@@ -2531,7 +2672,7 @@ function findTime() {
 
 function recordSignIn(res) {
 
-	console.log("In record sign in");
+
 	var post = new XMLHttpRequest();
 
 	post.open('PUT', '/api/timesheets/' + res);
@@ -2571,10 +2712,10 @@ function recordSignIn(res) {
 //Reference to w3school, decoding cookie contents, chanegd some lines to work with our code
 function getCookie(cname) {
 
-	console.log("In get cookie")
+
 	var name = cname + "=";
 	var decodedCookie = document.cookie;
-	console.log("decoded = " + decodedCookie);
+
 	var ca = decodedCookie.split(';');
 	for (var i = 0; i < ca.length; i++) {
 		var c = ca[i];
@@ -2599,3 +2740,108 @@ function removeCookies() {
 		document.cookie = results[0] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 	}
 }
+
+
+///
+///
+///
+
+
+$('#couponSubmit').click(function () {
+	SubmitCoupon();
+});
+
+function SubmitCoupon() {
+
+	var request = new XMLHttpRequest();
+
+	request.open('POST', '/api/coupons');
+
+	//Handle errors
+	request.error = function () {
+		alert("Request Failed!");
+	};
+
+	request.onload = function () {
+
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+
+			alert("Coupon Submitted!");
+		}
+		else {
+
+
+			var error = JSON.parse(request.responseText);
+			console.log(error.message);
+			alert(`Error ${request.status}: ${request.message}`);
+
+		}
+
+
+	}
+
+	var formData = new FormData(document.getElementById("cForm"));
+	request.send(formData);	
+
+}
+
+///
+///Specials submit
+///
+
+$('#specialSubmit').click(function () {
+	SubmitSpecial();
+});
+
+function SubmitSpecial() {
+
+	var request = new XMLHttpRequest();
+
+	request.open('POST', '/api/specials');
+
+	//Handle errors
+	request.error = function () {
+		alert("Request Failed!");
+	};
+
+	request.onload = function () {
+
+		if (request.status === 200 || request.status === 201 || request.status === 204) {
+
+			//
+		}
+		else {
+
+
+			var error = JSON.parse(request.responseText);
+			console.log(error.message);
+			alert(`Error ${request.status}: ${request.message}`);
+
+		}
+
+
+	}
+
+	var formData = new FormData(document.getElementById("sForm"));
+	for (var pair of formData.entries()) {
+		console.log(pair[0] + ', ' + pair[1]);
+	}
+	//request.send(formdata);
+
+}
+
+///
+///Specials listener
+///
+$('#MGMT_Tables').on('show.bs.modal', function () {
+
+	RetrieveOrders(false, true, false);
+
+});
+
+$('#MGMT_Tables').on('hide.bs.modal', function (event) {
+
+	$('#KTCH_SpecialTable_Body tr td').remove();
+	$('#KTCH_CouponTable_Body tr td').remove();
+
+});

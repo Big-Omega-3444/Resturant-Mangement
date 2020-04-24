@@ -162,17 +162,17 @@
 					</div>
 				</div>
 				<!-- End Stack Div -->
-				
-				<!-- Three Div -->
+
+				<!-- Tetris Div -->
 				<div class="col-lg-4">
-					<div data-toggle="modal" data-target="#Three" class="features-icons-item mx-auto mb-0 mb-lg-3">
+					<div data-toggle="modal" onclick="startTetris()" data-target="#Tetris" class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
 						<div class="features-icons-icon d-flex">
-							<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(47).jpg" style="width:100%">
+							<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" style="width:100%">
 						</div>
-						<h3 style="color: lavender">Third Game</h3>
+						<h3 style="color: lavender">Tetris</h3>
 					</div>
 				</div>
-				<!-- End Three Div -->
+				<!-- End Stack Div -->
 
 				<!-- Hex Modal -->
 				 <div id="Hex" class="modal fade" role="dialog">
@@ -228,32 +228,32 @@
 				</div>
 				<!-- End Stack Modal -->
 
-				<!-- Three Modal -->
-				 <div id="Three" class="modal fade" role="dialog">
+				<!-- Tetris Modal -->
+				 <div id="Tetris" class="modal fade" role="dialog">
 						<div class="modal-dialog modal-xl" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title">Half Life 3</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h5 class="modal-title">Tetris</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
 								</div>
 							<div class="modal-body">
 								<div class="container-fluid" style="width: 960px; height: 700px">
 									<div class="webgl-content">
-									  <div id="unityContainerThree" style="width: 960px; height: 600px"></div>
+									  <div id="unityContainerTETRIS" style="width: 960px; height: 600px"></div>
 									  <div class="footer">
 										<div class="webgl-logo"></div>
-										<div class="fullscreen" onclick="unityInstanceThree.SetFullscreen(1)"></div>
-										<div class="title">Half Life 3</div>
+										<div class="fullscreen" onclick="unityInstanceTETRIS.SetFullscreen(1)"></div>
+										<div class="title">Tetris</div>
 									  </div>
 									</div>
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-secondary" onclick=javascript:unityInstanceTETRIS.Quit(); data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- End Three Modal -->
+				<!-- End Tetris Modal -->
 			</div>
 		</div>
 	</section>

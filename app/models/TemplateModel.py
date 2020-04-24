@@ -66,6 +66,7 @@ class TemplateResourceList(Resource):
         self.model = model
 
     def get(self):
+        # current_app.logger.debug("TYPE TEMP: {}".format(type(self)))
         query = request.args.to_dict()
         return json.loads(self.model.objects(**query).to_json())
 
