@@ -14,6 +14,7 @@
   window.percDisc = 1.0;
 });
 
+
 Array.prototype.unique = function() {
   return this.filter(function (value, index, self) {
     return self.indexOf(value) === index;
@@ -22,7 +23,7 @@ Array.prototype.unique = function() {
 
 function updateBill() {
 	if (document.getElementById("subtotal"))
-	    document.getElementById("subtotal").innerHTML = "$"+bill.toFixed(2);
+	    document.getElementById("subtotal").innerHTML = "$" + bill.toFixed(2);
 	if (document.getElementById("tax"))
 	    document.getElementById("tax").innerHTML = "$"+(bill * .0625).toFixed(2);
 
@@ -185,13 +186,19 @@ function SubmitOrder() {
 		}
 	};
 
-	localOrder.time_ordered = Date.now();
+    localOrder.time_ordered = Date.now();
+
     localOrder.special_notes = document.getElementById('specialRequests').value;
+
     localOrder.gratuity = parseFloat(document.getElementById("tip").value);
+
     localOrder.table = table.number;
 
-    if(document.getElementById('ToGo').checked)
+
+    if (document.getElementById('ToGo').checked) {
         localOrder.to_go = "True";
+
+    }
 
     post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(localOrder));
@@ -200,6 +207,7 @@ function SubmitOrder() {
 function requestOrderedItems() {
 
   var orders = [];
+
   for(i=0; i < localOrder.items.length; i++)
   {
     orders.push(localOrder.items[i].item);
