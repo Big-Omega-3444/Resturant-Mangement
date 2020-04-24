@@ -175,7 +175,7 @@ function populateCouponTable(menuItemsData) {
 						for (y = 0; y < menuItemsData.length; y++) {
 
 							if (menuItemsData[y]._id.$oid == couponData[i].specific_discounts[j].item.$oid) {
-								temp1 = menuItemsData[y].name;
+								var temp1 = menuItemsData[y].name;
 							}
 						}
 
@@ -285,7 +285,7 @@ function populateSpecialTable(menuItemsData) {
 						for (y = 0; y < menuItemsData.length; y++) {
 
 							if (menuItemsData[y]._id.$oid == specialData[i].specific_discounts[j].item.$oid) {
-								temp1 = menuItemsData[y].name;
+								var temp1 = menuItemsData[y].name;
 							}
 						}
 
@@ -437,12 +437,12 @@ function populateOrdersHistoryTable(orderData, menuItemsData)
 				else
 					row.append($('<td/>').html('$0.00'));
 				
-				if (orderData[i].comped)
+				if (orderData[i].comped == true)
 				{
 					for (j = 0; j < employeeData.length; j++)
 					{
-						var str = (employeeData[j]._id.$oid).toString();
-						if (str === orderData[i].staff_comped._id.$oid) {
+						
+						if (employeeData[j]._id.$oid == orderData[i].staff_comped.$oid) {
 							row.append($('<td/>').html(`${employeeData[j].firstname} ${employeeData[j].lastname}`));
 							j = employeeData.length;
 							
