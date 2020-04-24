@@ -598,7 +598,7 @@ function BuildOrderCards(orderData, menuItemsData)
 								</div>
 								<div id="updateBody"></div>
 								<div class="card-footer bg-transparent border-primary">
-									<button type="button" class="btn btn-success" id="btnReady_${orderData[i]._id.$oid}">Ready</button>
+									<button type="button" class="btn btn-success" id="btnReady_${orderData[i]._id.$oid}_${orderData[i].order_id}">Ready</button>
 									<button type="button" class="btn btn-secondary" id="btnWaitstaff_${orderData[i]._id.$oid}_${orderData[i].order_id}">Call Waitstaff</button>
 								</div>
 								<div class="card-footer bg-transparent border-primary">
@@ -630,7 +630,7 @@ function BuildOrderCards(orderData, menuItemsData)
 		$(`#orderID_${orderData[i]._id.$oid}`).find('#updateTime').append(`<small>Last updated <span id="integer">${parseInt(elasped)}</span> mins ago</small>`);
 		
 		//Edit the button to include a function
-		$(`#btnReady_${orderData[i]._id.$oid}`).click(function() {
+		$(`#btnReady_${orderData[i]._id.$oid}_${orderData[i].order_id}`).click(function() {
 			SendOrderReadyRequest(this);
 		});
 			
@@ -649,7 +649,7 @@ function SendOrderReadyRequest(button)
 	$('#orderNotifications').find(`#orderID_${splitstr[1]}`).remove();
 	
 	//Create Alert
-	GenerateAlertMessage('#KTCH_Alerts', "Waitstaff will be in momentarily to pick up Order #" + splitstr[1], "alert-success");
+	GenerateAlertMessage('#KTCH_Alerts', "Waitstaff will be in momentarily to pick up Order #" + splitstr[2], "alert-success");
 	
 	//Generate XHR
 	var post = new XMLHttpRequest();
@@ -659,7 +659,8 @@ function SendOrderReadyRequest(button)
 	
 	var payload = {
 		"order": splitstr[1],
-		"meal_ready": true
+		"meal_ready": true,
+		"time_created": Date.now()
 	}
 	
 	// Open a socket to the url
@@ -676,7 +677,8 @@ function SendOrderReadyRequest(button)
 			var url = "/api/orders/" + splitstr[1];
 			
 			var payloadOrders = {
-				"status": "ready"
+				"status": "ready",
+				"time_modified": Date.now()
 			}
 		
 			// POST to the API
@@ -690,32 +692,12 @@ function SendOrderReadyRequest(button)
 			};
 		
 			// Handle on load
-			putOrders.onload = function()
+			putOrders.onload = function(data)
 			{
 				//Check for OK or CREATED status
 				if (putOrders.status === 200 || putOrders.status === 201 || putOrders.status === 204)
 				{
-					//Generate XHR
-					var menuPut = new XMLHttpRequest();
-					
-					// Open a socket to the url
-					menuPut.open('PUT', "/api/orders/" + splitstr[1]);
-					
-					var payload = {
-						"status": "ready",
-						"time_modified": Date.now()
-					}
-					
-					menuPut.onload = function()
-					{
-						if (post.status === 200 || post.status === 201 || post.status === 204)
-							return;
-						else
-							alert(`Error ${request.status}: ${request.statusText}`);
-					}
-					
-					menuPut.setRequestHeader("Content-Type", "application/json");
-					menuPut.send(JSON.stringify(payload));	
+					return
 				}
 				else
 				{
@@ -732,7 +714,10 @@ function SendOrderReadyRequest(button)
 		}
 		else
 		{
-			alert(`Error ${request.status}: ${request.statusText}`);
+			var error = JSON.parse(post.responseText)
+			console.log(error.message)
+		
+			alert(`Error ${post.status}: ${error.message}`);
 		}
 	};
 	
