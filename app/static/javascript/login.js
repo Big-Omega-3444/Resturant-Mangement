@@ -73,12 +73,12 @@ function enterLoyaltyMode(data) {
     if(bday)
     {
         document.getElementById("greetings").innerText = "Happy Birthday, "+data.firstname+"!"; // Set greeting
-        alert("Happy Birthday, "+data[i].firstname+"! Use coupon code 'happybirthdaytome' for a $10 discount!");
+        alert("Happy Birthday, "+data.firstname+"! Use coupon code 'happybirthdaytome' for a $10 discount!");
     }
     else
     {
         document.getElementById("greetings").innerText = "Welcome back, "+data.firstname+"!"; // Set greeting
-        alert("Welcome back, "+data[i].firstname+"!"); // this happens when a loyal customer logs in
+        alert("Welcome back, "+data.firstname+"!"); // this happens when a loyal customer logs in
     }
 
 
@@ -89,26 +89,54 @@ function enterLoyaltyMode(data) {
 }
 
 function changePageColors() {
-    var elements = document.querySelectorAll('#rcorners2');
-    for(i = 0; i < elements.length; i++)
+
+    if(bday)
     {
-        elements[i].style.borderColor = "#15ae62";
+        var elements = document.querySelectorAll('#rcorners2');
+        for(i = 0; i < elements.length; i++)
+        {
+            elements[i].style.borderColor = "#ff8e3c";
+        }
+
+        elements = document.querySelectorAll('.btn-primary');
+        for(i = 0; i < elements.length; i++)
+        {
+            elements[i].style.borderColor = "#ca6025";
+            elements[i].style.backgroundColor = "#ff8e3c";
+        }
+
+        elements = document.querySelectorAll('.text-primary');
+        for(i = 0; i < elements.length; i++)
+        {
+            elements[i].style.cssText = 'color:#f5bd3d !important';
+        }
+
+        document.body.style.cssText = 'background-image: linear-gradient(to right, #ca6025, #ff8e3c)';
+    }
+    else
+    {
+        var elements = document.querySelectorAll('#rcorners2');
+        for(i = 0; i < elements.length; i++)
+        {
+            elements[i].style.borderColor = "#15ae62";
+        }
+
+        elements = document.querySelectorAll('.btn-primary');
+        for(i = 0; i < elements.length; i++)
+        {
+            elements[i].style.borderColor = "#07984c";
+            elements[i].style.backgroundColor = "#15ae62";
+        }
+
+        elements = document.querySelectorAll('.text-primary');
+        for(i = 0; i < elements.length; i++)
+        {
+            elements[i].style.cssText = 'color:#15ae62 !important';
+        }
+
+        document.body.style.cssText = 'background-image: linear-gradient(to right, #07984c, #15ae62)';
     }
 
-    elements = document.querySelectorAll('.btn-primary');
-    for(i = 0; i < elements.length; i++)
-    {
-        elements[i].style.borderColor = "#07984c";
-        elements[i].style.backgroundColor = "#15ae62";
-    }
-
-    elements = document.querySelectorAll('.text-primary');
-    for(i = 0; i < elements.length; i++)
-    {
-        elements[i].style.cssText = 'color:#15ae62 !important';
-    }
-
-    document.body.style.cssText = 'background-image: linear-gradient(to right, #07984c, #15ae62)';
 }
 
 function checkBirthday(day, month)
