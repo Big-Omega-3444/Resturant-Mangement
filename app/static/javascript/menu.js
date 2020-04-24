@@ -1,6 +1,19 @@
 /*TODO:
    Substitutions?
 */
+$(document).ready ( function(){
+  hotness = 0;
+  requestData('/api/menuitems','hotness','hotness');
+});
+
+function getAvgHotness(data) {
+	var sum = 0;
+	for (i = 0; i < data.length; i++)
+	{
+		sum += data[i].times_ordered;
+	}
+	return (sum / data.length);
+}
 
 function checkIfActive(data)
 {
@@ -125,10 +138,19 @@ function populateFoodPane(data, selector)
 //Creates the Cards for our menu items
 function populateFoodCards(menuItem, selector)
 {
+
+	var cardName = menuItem.name;
+
 	//populate food pane with items
 	if(menuItem.loyalty_exclusive) // if this item is exclusive
+	{
+		cardName = String.fromCodePoint(0x1f31f) + " " + cardName;
 		if(!loyal) // if the user is not loyal
 			return; // don't print the card
+	}
+
+	if(menuItem.times_ordered > hotness)
+		cardName = String.fromCodePoint(0x1f336) + " " + cardName;
 
 	// count how many of item is in order
 	var orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary col px-md-6">Order</button>`;
@@ -166,7 +188,7 @@ function populateFoodCards(menuItem, selector)
 											<div class="main">
 												<img class="card-img-top img-fluid" src=${menuItem.image}>
 												<div class="card-body">
-													<h4 class="card-title">${menuItem.name} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
+													<h4 class="card-title">${cardName} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
 													<p class="card-text">${menuItem.description}</p>
 													<div class="form-row">
 														<div class="form-group col px-md-6">
@@ -309,9 +331,17 @@ function populateDrinkPane(data, selector)
 function populateDrinkCards(menuItem, selector)
 {
 	//populate drinks pane with items
+	var cardName = menuItem.name;
+
 	if(menuItem.loyalty_exclusive) // if this item is exclusive
+	{
+		cardName = String.fromCodePoint(0x1f31f) + " " + cardName;
 		if(!loyal) // if the user is not loyal
 			return; // don't print the card
+	}
+
+	if(menuItem.times_ordered > hotness)
+		cardName = String.fromCodePoint(0x1f336) + " " + cardName;
 
 	// count how many of item is in order
 	var orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary px-md-6">Order</button>`;
@@ -351,7 +381,7 @@ function populateDrinkCards(menuItem, selector)
 											<div class="main">
 												<img class="card-img-top img-fluid" src=${menuItem.image}>
 												<div class="card-body">
-													<h4 class="card-title">${menuItem.name} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
+													<h4 class="card-title">${cardName} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
 													<p class="card-text">${menuItem.description}</p>
 												</div>
 												<div class="form-row">
@@ -468,6 +498,7 @@ function requestData(url, selector, type)
 						case'fooditem': populateFoodCards(JSON.parse(request.responseText), selector); break;
 						case'drinkitem': populateDrinkCards(JSON.parse(request.responseText), selector); break;
 						case'ingredient': populateIngredients(JSON.parse(request.responseText), selector); break;
+						case'hotness': hotness = getAvgHotness(JSON.parse(request.responseText));
 					} break;
 			}
 		}

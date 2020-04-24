@@ -70,7 +70,7 @@ class OrderModel(Document):
     paid_off = MyBooleanField(default=False)
     # This is a numerical identifier for the staff (they could potentially be duplicated)
     order_id = IntField(default=-1)
-    item_counts_updated = MyBooleanField(required=False)
+    item_counts_updated = MyBooleanField(default=False, required=False)
 
 
 
