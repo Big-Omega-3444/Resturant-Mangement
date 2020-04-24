@@ -6,6 +6,10 @@ $(document).ready ( function(){
       orders: [] // This updates when
   };
   id = "test";
+
+  if(table.number < 0)
+  	window.location = ('/welcome');
+
   requestTables(); // Check if a table exists for our cookie's value
 
 });
