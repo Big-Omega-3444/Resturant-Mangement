@@ -175,7 +175,7 @@ function populateCouponTable(menuItemsData) {
 						for (y = 0; y < menuItemsData.length; y++) {
 
 							if (menuItemsData[y]._id.$oid == couponData[i].specific_discounts[j].item.$oid) {
-								temp1 = menuItemsData[y].name;
+								var temp1 = menuItemsData[y].name;
 							}
 						}
 
