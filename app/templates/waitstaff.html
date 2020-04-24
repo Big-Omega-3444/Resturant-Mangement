@@ -16,10 +16,10 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 	<!-- Custom styles for this template -->
 	<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-	<!-- Custom Javascript Functions -->
-	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
 	<!-- Include the PayPal JavaScript SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
+	<!-- Custom Javascript Functions -->
+	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}"></script>
 	<!-- Rotating Card Function -->
 	<link href=" {{ url_for('static', filename='css/rotating-card.css') }}" rel="stylesheet">
 </head>
@@ -175,6 +175,69 @@
 		</div>
 	</div>
 	<!-- End Pay Bill -->
+	
+	<!-- Begin INVENTORY PAGE -->
+	<div id="WTSF_EditOrder" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index:1049">
+		<div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Order</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<form id="EditMenuItemForm">
+							<input type="hidden" id="orderID" name="uid">
+							<input type="hidden" id="amountPayed" name="amount_paid">
+							<input type="hidden" id="orderNo" name="order_id">
+							<div class="form-inline row">
+								<div class="input-group col">
+									<label for="EO_gratuity">Gratuity&nbsp;&nbsp;</label>
+									<div class="input-group-prepend">
+										<span class="input-group-text">$</span>
+									</div>
+									<input type="number" class="form-control" id="EO_gratuity" name="gratuity" placeholder="Grautuity" min=0 step="0.01" aria-label="Gratuity" required>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="input-group col">
+									<textarea class="form-control" id="EO_specialnotes" name="special_notes" placeholder="Special Notes" rows="5"></textarea>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="form-check">
+									<input type="checkbox" id="EO_togo" name="to_go" value="True">
+									<label class="form-check-label" for="EO_togo">
+										To Go?
+									</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" id="EO_comped" name="comped" value="True">
+									<label class="form-check-label" for="EO_comped">
+										Compensate Meal?
+									</label>
+								</div>
+							</div>
+						</form>
+					</div>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+							<th style="width: 50%;">Name</th>
+							<th style="width: 25%;">Qty</th>
+							</tr>
+						</thead>
+						<tbody id="WTSF_EditOrder_Table">
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="WTSF_EditOrder_btnAddMenuItem">Add Menu Item</button>
+					<button type="button" class="btn btn-secondary" id="WTSF_EditOrder_btnSaveChanges" data-toggle="modal" data-target="#WTSF_EditOrder">Save and Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End INVENTORY PAGE -->
 
 	<div id="Logout" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">

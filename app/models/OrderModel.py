@@ -33,11 +33,13 @@ class OrderModel(Document):
             if self.staff_comped is None:
                 msg = 'comped flag set so staff_comped must reference an employee'
                 raise ValidationError(msg)
+
+        
         
         # Calculate the total cost for this meal
         self.total_cost=0
         for item in self.items:
-            self.total_cost += item.item.cost
+            self.total_cost += item.item.cost * item.count
         # Set a random id for the order
         if (self.order_id == -1):
             self.order_id = randint(0,10000)
