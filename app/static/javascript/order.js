@@ -6,7 +6,7 @@
     special_notes: "", // updates at checkout
     items: [], // updates when item is added to cart
     to_go: "False", // I don't know when this changes
-    status: 'ordered', // This will be ordered when ordered and changed by kitchen
+    status: 'payment_recieved', // This will be ordered when ordered and changed by kitchen
     comped: "False" // Waitstaff modify this
   };
   window.bill = 0;
@@ -174,7 +174,6 @@ function SubmitOrder() {
 
 			// apply gratuities to waitstaff
             scanTimesheets("tip");
-
 		}
 		else
 		{
@@ -284,8 +283,18 @@ $('#PayNow').click( function()
     if(localOrder.items.length == 0) {
       alert("Please order something before giving us your money");
     } else {
-	  SubmitOrder();
+//	  SubmitOrder();
 	  $("#PayBill").modal();
     }
 
+});
+
+$('#cardPay').click( function()
+{
+	  SubmitOrder();
+});
+
+$('#cashPay').click( function()
+{
+	  SubmitOrder();
 });
