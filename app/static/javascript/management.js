@@ -1667,6 +1667,14 @@ function populateFeedbackTable(data, selector)
 
 		// Append assignment
 		row.append($('<td/>').html(`${data[i].email_response}`));
+
+		row.append($('<td/>').html(`${data[i].answer1}`));
+
+		row.append($('<td/>').html(`${data[i].answer2}`));
+
+		row.append($('<td/>').html(`${data[i].answer3}`));
+
+		row.append($('<td/>').html(`${data[i].rating} Stars`));
 		
 		row.append($('<td/>').html(`${data[i].feedback}`));
 
