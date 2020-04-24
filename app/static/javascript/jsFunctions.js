@@ -20,18 +20,11 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveA
 	var AlertMessage;
 
 	if (divID != "")
-<<<<<<< HEAD
 	{
-		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert">
-		${bodyText}
-		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close">
-=======
-	{		
 		AlertMessage = `<div class="alert ${divclass} alert-dismissible fade show alert-messages" id="alert_${divID}" role="alert" data-remove="${bRemoveAlertOnly}">
 		<span>${bodyText}
-		
+
 		<button type="button" id="btnClose_${divID}" class="close" data-dismiss="alert" aria-label="Close" data-remove="${bRemoveAlertOnly}">
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 			<span aria-hidden="true">&times;</span>
 		</button>
 		</div>`
@@ -51,32 +44,20 @@ function GenerateAlertMessage(selector, bodyText, divclass, divID = "", bRemoveA
 
 	//Only works if there's an ID that was passed in
 	if (divID != "")
-<<<<<<< HEAD
 	{
 		//Add a function that should remove the notification after 4000 ms
-		$('.alert-messages').delay(4000).slideUp(200, function(bRemoveAlertOnly)
+		$('.alert-messages').delay(4000).slideUp(200, function()
 		{
-=======
-	{	
-		//Add a function that should remove the notification after 4000 ms	
-		$('.alert-messages').delay(4000).slideUp(200, function() 
-		{ 
 			bRemoveAlertOnly = $(this).data('remove');;
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 			if (bRemoveAlertOnly === false)
 				DeleteNotifications(this);
 			$(this).remove();
 		});
 
 		//Intentional, this will get the ID properly when splitting the string into two parts
-<<<<<<< HEAD
-		$(`btnClose_${divID}`).delay(4000).slideUp(200, function(bRemoveAlertOnly)
-		{
-=======
-		$(`btnClose_${divID}`).delay(4000).slideUp(200, function() 
+		$(`btnClose_${divID}`).delay(4000).slideUp(200, function()
 		{
 			bRemoveAlertOnly = $(this).data('remove');;
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 			if (bRemoveAlertOnly === false)
 				DeleteNotifications(this);
 			$(this).remove();
@@ -194,15 +175,15 @@ function PostMessageForm()
 {
 	//Generate XHR
 	var post = new XMLHttpRequest();
-	
+
 	// Create a notification to database
 	var url = "/api/feedback";
-	
+
 	// Open a socket to the url
 	post.open('POST', url);
-	
+
 	// Handle on load
-	post.onload = function(data) 
+	post.onload = function(data)
 	{
 		if (post.status === 200 || post.status === 201 || post.status === 204)
 		{
@@ -217,16 +198,16 @@ function PostMessageForm()
 			alert(`Error ${post.status}: ${error.message}`);
 		}
 	};
-	
-	// Handle on errors	
-	post.error = function() 
+
+	// Handle on errors
+	post.error = function()
 	{
 		alert("Request Failed!");
 		return;
 	};
-	
+
     var formData = new FormData(document.getElementById("ContactFeedback"));
-	post.send(formData);		
+	post.send(formData);
 }
 
 

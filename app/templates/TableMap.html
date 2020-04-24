@@ -18,9 +18,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 	<!-- Custom styles for this template -->
 	<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
-	<!-- Custom Javascript Functions -->
-	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}" type="type/javascript"></script>
-	<script src="{{ url_for('static', filename='javascript/TableMap.js') }}" type="type/javascript"></script>
+	<script src="{{ url_for('static', filename='javascript/kitchen.js') }}" type="type/javascript"></script>
 	<!-- Include the PayPal JavaScript SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AcZqMWdKuS0Us2Z_zhjF2qoD9Ll9KNG6YrEhHPFcMkYTrm7sJRr2gwNTaucmAimqI5ycSwyQwgVHcypf&currency=USD"></script>
 	<!-- Rotating Card Function -->
@@ -56,7 +54,7 @@
 			</div>
 			<div class="col-sm h-75 text-center text-lg-center my-auto">
 
-					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" onclick="TableStatus"><i class="fas fa-utensils"></i> Table 01</a></li>
+					<li class="list-inline-item"><a type="button" class="btn btn-primary" data-toggle="modal" data-target="#KCHN_Orders"><i class="fas fa-utensils"></i> Table Orders</a></li>
 
 			</div>
 
@@ -88,12 +86,7 @@
 	</div>
 
 
-
-
-
-
-
-	<div id="TableStatus" class="modal fade" role="dialog">
+	<div id="KCHN_Orders" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -120,17 +113,85 @@
 		</div>
 	</div>
 
-
 	<!-- Here because javascript suxs -->
-	<script src="{{ url_for('static', filename='javascript/kitchen.js') }}"></script>
+
 	<script src="{{ url_for('static', filename='javascript/management.js') }}"></script>
 
 	<!-- Include table js -->
 	<script src="{{ url_for('static', filename='javascript/table.js') }}"></script>
 	<!-- Include menu js -->
 	<script src="{{ url_for('static', filename='javascript/menu.js') }}"></script>
-	<!-- Include orders js -->
-	<script src="{{ url_for('static', filename='javascript/order.js') }}"></script>
+	<!-- Custom Javascript Functions -->
+	<script src="{{ url_for('static', filename='javascript/jsFunctions.js') }}" type="type/javascript"></script>
+	<script src="{{ url_for('static', filename='javascript/TableMap.js') }}" type="type/javascript"></script>
+
 </body>
 
 </html>
+
+<script>
+function RequestTableOrder(){
+
+  var request = new XMLHttpRequest();
+  request.open('GET', '/api/tables');
+
+  //get number of tables
+
+	//Check for OK or CREATED status
+
+request.onload = function(){
+
+	if (request.status === 200 || request.status === 201 || request.status === 204)
+	{
+
+			console.log("yo")
+			CountTables(JSON.parse(request.responseText)) // Look through our tables
+
+	}
+	else
+	{
+			console.log("error")
+			//TODO: Create alert in HTML instead of using this to specify error
+			var error = JSON.parse(request.responseText)
+			console.log(error.message)
+
+			alert(`Error ${request.status}: ${error.message}`);
+	}
+};
+
+
+}
+
+function CountTables(data) {
+
+    var found = false;
+		console.log("data.length is")
+		console.log(data.length)
+    for(i = 0; i < data.length; i++) // iterate through table list
+    {
+        if(data[i].number == table.number) // if we find an entry corresponding to our cookie
+        {
+            table.needs_help = data[i].needs_help; // set our local table object equal to the database object
+			table.needs_refill = data[i].needs_refill;
+
+			id = data[i]._id.$oid;
+
+			for(j = 0; j < data[i].orders.length; j++) // step through orders
+			{
+
+				var order = data[i].orders[j].order.$oid;
+				var orderID = {order};
+				table.orders.push(orderID);
+			}
+
+            found = true;
+            break;
+        }
+    }
+}
+$('#TableOrder').on('shown.bs.modal', function(event)
+{
+
+  RequestTableOrder();
+})
+</script>

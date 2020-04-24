@@ -271,8 +271,8 @@ function SubmitFormMenuItem()
 
 	//Here we go, here we go
 	if ( formData.get('loyalty_exclusive') != null )
-		payload['loyalty_exclusive'] = true;	
-	
+		payload['loyalty_exclusive'] = true;
+
 	if ( formDataHealth.get('wheat') != null )
 		payload.allergens.push(formDataHealth.get('wheat'));
 
@@ -554,7 +554,7 @@ function SubmitFormMenuItemPUT()
 	//Here we go, here we go
 	if ( formData.get('loyalty_exclusive') != null )
 		payload['loyalty_exclusive'] = true;
-	
+
 	if ( formDataHealth.get('wheat') != null )
 		payload.allergens.push(formDataHealth.get('wheat'));
 
@@ -1151,15 +1151,15 @@ function deleteFeedback(object)
 {
 	// Create our XMLHttpRequest variable
 	var request = new XMLHttpRequest();
-	
+
 	// Create the deletion url for user
 	var url = "/api/menuitems/" + object.id;
-	
+
 	// Open a socket to the url
 	request.open('DELETE', url);
-	
+
 	// Handle on load
-	request.onload = function(data) 
+	request.onload = function(data)
 	{
 		if (request.status === 200 || request.status === 201 || request.status === 204)
 		{
@@ -1171,15 +1171,15 @@ function deleteFeedback(object)
 			alert(`Error ${request.status}: ${request.statusText}`);
 		}
 	};
-	
-	// Handle on errors	
-	request.error = function() 
+
+	// Handle on errors
+	request.error = function()
 	{
 		alert("Request Failed!");
 	};
 
-	request.send();	
-	
+	request.send();
+
 }
 
 // Function that builds the table in #MGMT_Employees
@@ -1297,12 +1297,6 @@ function populateMenuCategoryTable(data, selector)
 
 	// Build the table
 	for(i = 0; i < data.length; i++) {
-<<<<<<< HEAD
-
-//		if (data[i].items.length == 0)
-//		{
-=======
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 			var row = $('<tr/>')
 			var name = $(`<div class="menuCategoryTableClass" id=${data[i]._id.$oid}/>`).html(data[i].name);
 
@@ -1321,72 +1315,8 @@ function populateMenuCategoryTable(data, selector)
 			}).html("DEL");
 
 			row.append($('<td/>').html(editButton).append(deleteButton));
-<<<<<<< HEAD
 
 			$(selector).append(row);
-
-			continue;
-//		}
-//		(function (i){
-//			requests[i] = new XMLHttpRequest();
-//
-//			// We don't have any items to request just yet, so just skip
-//
-//			var url = "/api/menuitems/" + data[i].items.$oid;
-//			requests[i].open('GET', url);
-//
-//			// Handle on load
-//			requests[i].onload = function(data)
-//			{
-//				if (requests[i].status === 200 || requests[i].status === 201 || requests[i].status === 204)
-//				{
-//					var row = $('<tr/>')
-//					var ingredient = JSON.parse(requests[i].responseText);
-//
-//					var name = $(`<div class="inv_update" id=${data.target.extraInfo._id.$oid}/>`).html(ingredient.name);
-//
-//					row.append($('<td/>').html(name));
-//
-//					//Create buttons for specific ID
-//					var uid = ingredient._id.$oid;
-//
-//					// Append assignment
-//					var quantity = $(`<form class="ing_update" id=${uid}/><input type="text" maxlength="4" class="form-control" id="ingredientQtyField" name="count" value="${data.target.extraInfo.count}" required>`);
-//					row.append($('<td/>').html(quantity));
-//
-//					var editButton = $(`<button class="btn btn-secondary" id=${uid} data-toggle="modal" href="#MGMT_EditIngredient"/>`).click(function() {
-//						requestIngredient(this);
-//					}).html("EDIT");
-//
-//					var deleteButton = $(`<button class="btn btn-danger" id=${uid}|${data.target.extraInfo._id.$oid}/>`).click(function() {
-//						deleteIngredient(this);
-//					}).html("DEL");
-//
-//					row.append($('<td/>').html(editButton).append(deleteButton));
-//
-//					$(selector).append(row);
-//
-//					return;
-//				}
-//				else
-//				{
-//					alert(`Error ${requests[i].status}: ${requests[i].statusText}`);
-//				}
-//			};
-//
-//			// Handle on errors
-//			requests[i].error = function()
-//			{
-//				alert("Request Failed!");
-//			};
-//
-//			requests[i].send();
-//			requests[i].extraInfo = data[i];
-//		})(i);
-=======
-			
-			$(selector).append(row);	
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 	}
 }
 
@@ -1737,7 +1667,7 @@ function populateFeedbackTable(data, selector)
 
 		// Append assignment
 		row.append($('<td/>').html(`${data[i].email_response}`));
-		
+
 		row.append($('<td/>').html(`${data[i].feedback}`));
 
 		//Create buttons for specific ID
@@ -1867,23 +1797,13 @@ function autofillEditMenuCategoryForm(data)
 function autofillEditMenuItemForm(data)
 {
 	$('#EditMenuItemForm').find('#miID').val(data._id.$oid);
-<<<<<<< HEAD
 	$('#EditMenuItemForm').find('#MI_name').val(data.name);
 	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);
 	$('#EditMenuItemForm').find('#MI_desc').val(data.description);
 	$('#EditMenuItemForm').find('#imageURL').val(data.image);
-
+	$('#EditMenuItemForm').find('#loyalityEx').prop("checked", data.loyalty_exclusive);
 	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);
 
-=======
-	$('#EditMenuItemForm').find('#MI_name').val(data.name);	
-	$('#EditMenuItemForm').find('#MI_cost').val(data.cost);	
-	$('#EditMenuItemForm').find('#MI_desc').val(data.description);	
-	$('#EditMenuItemForm').find('#imageURL').val(data.image);	
-	$('#EditMenuItemForm').find('#loyalityEx').prop("checked", data.loyalty_exclusive);
-	$('#editMenuItem_Health').find('#MI_calories').val(data.calories);	
-	
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 	for (i = 0; i < data.allergens.length; i++)
 	{
 		switch (data.allergens[i])
@@ -1935,17 +1855,13 @@ function updateTables()
 	requestData('/api/menus', '#MenuCategoryTable');
 
 	$('#MGMT_MenuItemsTable_Body tr td').remove();
-<<<<<<< HEAD
 	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');
-=======
-	requestData('/api/menuitems', '#MGMT_MenuItemsTable_Body');	
 
 	$('#KTCH_CouponTable_Body tr td').remove();
 	requestData('/api/coupons', '#MGMT_CouponTable_Body');
 
 	$('#KTCH_SpecialTable_Body tr td').remove();
 	requestData('/api/specials', '#MGMT_SpecialTable_Body');
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 }
 
 function UpdateAlerts()
@@ -2183,7 +2099,7 @@ function createChart(pick) {
 			var total_tips = 0;
 			//Calculating this Days orders
 			if (pick == "Day") {
-				
+
 				current_date = new Date();
 				var data_arr = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 				var labels_arr = new Array("00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00");
@@ -2195,11 +2111,7 @@ function createChart(pick) {
 
 						if (date_temp.toDateString() == current_date.toDateString()) {
 							if (t == date_temp.getHours()) {
-<<<<<<< HEAD
-
-=======
 								total_tips = total_tips + orders[i].gratuity
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 								data_arr[t] = data_arr[t] + orders[i].total_cost;
 
 							}
@@ -2216,12 +2128,7 @@ function createChart(pick) {
 				var day_temp = current_date.getDay();
 				var temp = current_date.valueOf() - (86400000 * day_temp);
 				var first_sun = new Date(temp);
-<<<<<<< HEAD
-				//alert(first_sun);
 
-=======
-				
->>>>>>> 9ddf3e23297763a66b6d9f40a53d0bc03eb16a28
 				var data_arr = new Array(0,0,0,0,0,0,0);
 				var labels_arr = new Array('Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 
@@ -2351,7 +2258,7 @@ function createChart(pick) {
 		newDiv.appendChild(newContent);
 		$('#total_tips').append('<div id="tip">');
 		$('#tip').append("$" + total_tips)
-		
+
 
 		Chart.defaults.global.defaultFontFamily = 'Lato';
 		Chart.defaults.global.defaultFontSize = 18;
@@ -2379,7 +2286,7 @@ function createChart(pick) {
 							type: 'linear',
 							display: true,
 							position: 'left',
-							
+
 							ticks: {
 								precision: 0,
 								min:0,
@@ -2654,7 +2561,7 @@ function findTime() {
 
 
 			recordSignIn(result);
-			
+
 		}
 		else {
 
@@ -2781,7 +2688,7 @@ function SubmitCoupon() {
 	}
 
 	var formData = new FormData(document.getElementById("cForm"));
-	request.send(formData);	
+	request.send(formData);
 
 }
 
