@@ -8,6 +8,9 @@ from models.TemplateModel import TemplateResource, TemplateResourceList
 
 class FeedbackModel(Document):
     feedback = StringField(required=True)
+    answer1 = StringField()
+    answer2 = StringField()
+    answer3 = StringField()
     # A way to get back to the customer
     email_response = EmailField()
     firstname = StringField()
