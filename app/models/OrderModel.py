@@ -35,6 +35,7 @@ class OrderModel(Document):
                 raise ValidationError(msg)
 
         
+        # Increment times ordered for each item in the order
         
         # Calculate the total cost for this meal
         self.total_cost=0
@@ -43,6 +44,13 @@ class OrderModel(Document):
         # Set a random id for the order
         if (self.order_id == -1):
             self.order_id = randint(0,10000)
+
+        # Update counts of all items
+        if not self.item_counts_updated and self.status == 'payment_recieved':
+            self.item_counts_updated = True
+            for item in self.items:
+                item.item.times_ordered += item.count
+                item.item.save()
 
     # Epoch_time
     time_ordered = IntField()
@@ -62,6 +70,7 @@ class OrderModel(Document):
     paid_off = MyBooleanField(default=False)
     # This is a numerical identifier for the staff (they could potentially be duplicated)
     order_id = IntField(default=-1)
+    item_counts_updated = MyBooleanField(default=False, required=False)
 
 
 

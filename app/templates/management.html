@@ -164,12 +164,16 @@
 							<div class="tab-pane container fade" id="Messages">
 								<table class="table table-bordered table-striped table-responsive" id="MGMT_MessagesTable">
 									<thead>
-										<tr>
-											<th style="width:5px">Name</th>
-											<th>Email</th>
-											<th style="width:100px">Message</th>
-											<th>Manage</th>
-										</tr>
+                                        <tr>
+                                            <th style="width:5px">Name</th>
+                                            <th>Email</th>
+                                            <th>Answer 1</th>
+                                            <th>Answer 2</th>
+                                            <th>Answer 3</th>
+                                            <th>Rating</th>
+                                            <th style="width:100px">Message</th>
+                                            <th>Manage</th>
+                                        </tr>
 									</thead>
 									<tbody id="MGMT_MessagesTable_Body">
 									</tbody>
@@ -561,66 +565,69 @@
 								</label>
 							</div>
 						</div>
-						<div class="container">
-							<div class="form-row">
-								<div class="form-group col-md-3">
-									<input type="time" id="MC_ADD_startTime" name="startTime" min="00:00" max="23:59" required>
-									<label class="col-md-1 checkbox-inline" for="MC_ADD_startTime">
-										Start Time
-									</label>
-								</div>
-								<div class="form-group col-md-3">
-									<input type="time" id="MC_ADD_endTime" name="endTime" min="00:00" max="23:59" required>
-									<label class="col-md-1 checkbox-inline" for="MC_ADD_endTime">
-										End Time
-									</label>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="form-group col-md-1">
-									<input type="checkbox" class="form-check-input" id="MC_ADD_Day_Sun" name="sunday" value="Su" required>
-									<label class="checkbox" for="MC_ADD_Day_Sun">
-										SU
-									</label>
-								</div>
-								<div class="form-group col-md-1">
-									<input type="checkbox" class="form-check-input" id="MC_ADD_Day_Mon" name="monday" value="M" required>
-									<label class="checkbox" for="MC_ADD_Day_Mon">
-										M
-									</label>
-								</div>
-								<div class="form-group col-md-1">
-									<input type="checkbox" class="form-check-input" id="MC_ADD_Day_Tue" name="tuesday" value="Tu" required>
-									<label class="checkbox" for="MC_ADD_Day_Tue">
-										TU
-									</label>
-								</div>
-								<div class="form-group col-md-1">
-									<input type="checkbox" class="form-check-input" id="MC_ADD_Day_Wed" name="wednesday" value="W" required>
-									<label class="checkbox" for="MC_ADD_Day_Wed">
-										W
-									</label>
-								</div>
-								<div class="form-group col-md-1">
-									<input type="checkbox" class="form-check-input" id="MC_ADD_Day_Thu" name="thursday" value="Th" required>
-									<label class="checkbox" for="MC_ADD_Day_Thu">
-										TH
-									</label>
-								</div>
-								<div class="form-group col-md-1">
-									<input type="checkbox" class="form-check-input" id="MC_ADD_Day_Fri" name="friday" value="F" required>
-									<label class="checkbox" for="MC_ADD_Day_Fri">
-										F
-									</label>
-								</div>
-								<div class="form-group col-md-1">
-									<input type="checkbox" class="form-check-input" id="MC_ADD_Day_Sat" name="saturday" value="Sa" required>
-									<label class="checkbox" for="MC_ADD_Day_Sat">
-										SA
-									</label>
-								</div>
-							</div>
-						</div>
+                        <div class="container">
+                            <b>Enter Time For Start and End Ex:</b> 12:05 AM
+                            <br />
+							<br />
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <input type="time" id="MC_ADD_startTime" name="startTime" min="00:00" max="23:59" required>
+                                    <label class="col-md-1 checkbox-inline" for="MC_ADD_startTime">
+                                        Start Time
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <input type="time" id="MC_ADD_endTime" name="endTime" min="00:00" max="23:59" required>
+                                    <label class="col-md-1 checkbox-inline" for="MC_ADD_endTime">
+                                        End Time
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-1">
+                                    <input type="checkbox" class="form-check-input" id="MC_ADD_Day_Sun" name="sunday" value="Su" required>
+                                    <label class="checkbox" for="MC_ADD_Day_Sun">
+                                        SU
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <input type="checkbox" class="form-check-input" id="MC_ADD_Day_Mon" name="monday" value="M" required>
+                                    <label class="checkbox" for="MC_ADD_Day_Mon">
+                                        M
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <input type="checkbox" class="form-check-input" id="MC_ADD_Day_Tue" name="tuesday" value="Tu" required>
+                                    <label class="checkbox" for="MC_ADD_Day_Tue">
+                                        TU
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <input type="checkbox" class="form-check-input" id="MC_ADD_Day_Wed" name="wednesday" value="W" required>
+                                    <label class="checkbox" for="MC_ADD_Day_Wed">
+                                        W
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <input type="checkbox" class="form-check-input" id="MC_ADD_Day_Thu" name="thursday" value="Th" required>
+                                    <label class="checkbox" for="MC_ADD_Day_Thu">
+                                        TH
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <input type="checkbox" class="form-check-input" id="MC_ADD_Day_Fri" name="friday" value="F" required>
+                                    <label class="checkbox" for="MC_ADD_Day_Fri">
+                                        F
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <input type="checkbox" class="form-check-input" id="MC_ADD_Day_Sat" name="saturday" value="Sa" required>
+                                    <label class="checkbox" for="MC_ADD_Day_Sat">
+                                        SA
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -660,17 +667,20 @@
 							</div>
 						</div>
 						<div class="container">
+							<b>Enter Time For Start and End Ex:</b> 12:05 AM
+							<br />
+							<br />
 							<div class="form-row">
 								<div class="form-group col-md-3">
 									<input type="time" id="MC_EDIT_startTime" name="startTime" min="00:00" max="23:59" required>
 									<label class="col-md-1 checkbox-inline" for="MC_EDIT_startTime">
-										Start Time
+									Start Time
 									</label>
 								</div>
 								<div class="form-group col-md-3">
 									<input type="time" id="MC_EDIT_endTime" name="endTime" min="00:00" max="23:59" required>
 									<label class="col-md-1 checkbox-inline" for="MC_EDIT_endTime">
-										End Time
+									End Time
 									</label>
 								</div>
 							</div>

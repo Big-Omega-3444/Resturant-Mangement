@@ -1668,6 +1668,14 @@ function populateFeedbackTable(data, selector)
 		// Append assignment
 		row.append($('<td/>').html(`${data[i].email_response}`));
 
+		row.append($('<td/>').html(`${data[i].answer1}`));
+
+		row.append($('<td/>').html(`${data[i].answer2}`));
+
+		row.append($('<td/>').html(`${data[i].answer3}`));
+
+		row.append($('<td/>').html(`${data[i].rating} Stars`));
+
 		row.append($('<td/>').html(`${data[i].feedback}`));
 
 		//Create buttons for specific ID
@@ -2094,6 +2102,7 @@ function createChart(pick) {
 			var myChart = document.getElementById('myChart').getContext('2d'); //was let instead of var
 
 			var orders = JSON.parse(requests.responseText);
+			console.log(orders);
 			var date_temp = new Date();
 			var current_date;
 			var total_tips = 0;
@@ -2107,8 +2116,9 @@ function createChart(pick) {
 				for (t = 0; t < labels_arr.length; t++) {
 
 					for (i = 0; i < orders.length; i++) {
-						date_temp = new Date(orders[i].time_ordered * 1000);
-
+						date_temp = new Date(orders[i].time_ordered);
+						console.log(date_temp.toDateString())
+						console.log(current_date.toDateString())
 						if (date_temp.toDateString() == current_date.toDateString()) {
 							if (t == date_temp.getHours()) {
 								total_tips = total_tips + orders[i].gratuity
@@ -2135,7 +2145,7 @@ function createChart(pick) {
 				for (t = 0; t < labels_arr.length; t++) {
 
 					for (i = 0; i < orders.length; i++) {
-						date_temp = new Date(orders[i].time_ordered * 1000);
+						date_temp = new Date(orders[i].time_ordered);
 						if (first_sun.toDateString() == date_temp.toDateString()) {
 							data_arr[t] = data_arr[t] + orders[i].total_cost;
 							total_tips = total_tips + orders[i].gratuity
@@ -2174,7 +2184,7 @@ function createChart(pick) {
 
 				for (t = 0; t < labels_arr.length; t++) {
 					for (i = 0; i < orders.length; i++) {
-						date_temp = new Date(orders[i].time_ordered * 1000);
+						date_temp = new Date(orders[i].time_ordered);
 						if (date_temp.getFullYear() == current_date.getFullYear()) {
 							if (date_temp.getMonth() == current_date.getMonth()) {
 								if ((t + 1) == date_temp.getDate()) {
@@ -2197,7 +2207,7 @@ function createChart(pick) {
 
 				for (t = 0; t < labels_arr.length; t++) {
 					for (i = 0; i < orders.length; i++) {
-						date_temp = new Date(orders[i].time_ordered * 1000);
+						date_temp = new Date(orders[i].time_ordered);
 						if (date_temp.getFullYear() == current_date.getFullYear()) {
 							if (t == date_temp.getMonth()) {
 								total_tips = total_tips + orders[i].gratuity
@@ -2230,7 +2240,7 @@ function createChart(pick) {
 
 				for (t = 0; t < labels_arr.length; t++) {
 					for (i = 0; i < orders.length; i++) {
-						date_temp = new Date(orders[i].time_ordered * 1000);
+						date_temp = new Date(orders[i].time_ordered);
 
 						if (first_year.getFullYear() == date_temp.getFullYear()) {
 							total_tips = total_tips + orders[i].gratuity

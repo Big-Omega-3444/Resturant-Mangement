@@ -6,13 +6,14 @@
     special_notes: "", // updates at checkout
     items: [], // updates when item is added to cart
     to_go: "False", // I don't know when this changes
-    status: 'ordered', // This will be ordered when ordered and changed by kitchen
+    status: 'payment_recieved', // This will be ordered when ordered and changed by kitchen
     comped: "False" // Waitstaff modify this
   };
   window.bill = 0;
   window.constDisc = 0;
   window.percDisc = 1.0;
 });
+
 
 Array.prototype.unique = function() {
   return this.filter(function (value, index, self) {
@@ -22,7 +23,7 @@ Array.prototype.unique = function() {
 
 function updateBill() {
 	if (document.getElementById("subtotal"))
-	    document.getElementById("subtotal").innerHTML = "$"+bill.toFixed(2);
+	    document.getElementById("subtotal").innerHTML = "$" + bill.toFixed(2);
 	if (document.getElementById("tax"))
 	    document.getElementById("tax").innerHTML = "$"+(bill * .0625).toFixed(2);
 
@@ -36,8 +37,7 @@ setInterval(function(){
     if (isNaN(tip))
         tip = parseFloat(0);
 
-
-    document.getElementById("totalBill").innerHTML = "$"+(((bill * 1.0625) - constDisc)*percDisc + tip).toFixed(2)
+    document.getElementById("totalBill").innerHTML = "$"+Math.max(0.0, (((bill * 1.0625) - constDisc)*percDisc + tip).toFixed(2));
 }, 1000);
 
 function countNumInOrder(itemID) {
@@ -174,7 +174,6 @@ function SubmitOrder() {
 
 			// apply gratuities to waitstaff
             scanTimesheets("tip");
-
 		}
 		else
 		{
@@ -186,13 +185,19 @@ function SubmitOrder() {
 		}
 	};
 
-	localOrder.time_ordered = Date.now();
+    localOrder.time_ordered = Date.now();
+
     localOrder.special_notes = document.getElementById('specialRequests').value;
+
     localOrder.gratuity = parseFloat(document.getElementById("tip").value);
+
     localOrder.table = table.number;
 
-    if(document.getElementById('ToGo').checked)
+
+    if (document.getElementById('ToGo').checked) {
         localOrder.to_go = "True";
+
+    }
 
     post.setRequestHeader("Content-Type", "application/json");
     post.send(JSON.stringify(localOrder));
@@ -201,6 +206,7 @@ function SubmitOrder() {
 function requestOrderedItems() {
 
   var orders = [];
+
   for(i=0; i < localOrder.items.length; i++)
   {
     orders.push(localOrder.items[i].item);
@@ -284,8 +290,18 @@ $('#PayNow').click( function()
     if(localOrder.items.length == 0) {
       alert("Please order something before giving us your money");
     } else {
-	  SubmitOrder();
+//	  SubmitOrder();
 	  $("#PayBill").modal();
     }
 
+});
+
+$('#cardPay').click( function()
+{
+	  SubmitOrder();
+});
+
+$('#cashPay').click( function()
+{
+	  SubmitOrder();
 });

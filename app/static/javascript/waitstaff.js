@@ -148,20 +148,22 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 			//Update quanitity of items in menu and push it to the card
 			for (j = 0; j < arrMenuNames.length; j++)
 			{
-				$(`#updateQty_${arrMenuNames[j]}`).html(arrQty[j]);			
+				card.find(`#updateQty_${arrMenuNames[j]}`).html(arrQty[j]);			
 			}
 			
 			if (orderData[i].amount_paid == null)
-				$('#Amount').html(`Amount Owed: $${orderData[i].total_cost}`);	
+				card.find('#Amount').html(`Amount Owed: $${orderData[i].total_cost}`);	
 			else
 			{
 				var left = orderData[i].total_cost - orderData[i].amount_paid;
-				$('#Amount').html(`Amount Owed: $${left}`);	
+				card.find('#Amount').html(`Amount Owed: $${left}`);	
 				if (left <= 0)
 				{
-					$(`#btnPayOrder_${orderData[i]._id.$oid}`).attr("disabled", true);
+					card.find(`#btnPayOrder_${orderData[i]._id.$oid}`).attr("disabled", true);
 				}
 			}
+			
+			$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#ToGo').html(`To Go: ${orderData[i].to_go}`);	
 	
 			var elasped = (Date.now() - parseInt(card.find('#lastUpdate').html()))/(60*1000);
 			
@@ -286,6 +288,9 @@ function BuildOrderCardsWaitstaff(orderData, menuItemsData)
 			}
 		}
 		
+		inject.append($('<hr/>'));		
+		inject.append($('<span id="ToGo"/>').html(`To Go: ${orderData[i].to_go}`));
+			
 		$(`#WTSForderID_${orderData[i]._id.$oid}`).find('#updateBody').append(inject);
 		
 		var elasped;
