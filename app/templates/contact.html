@@ -42,10 +42,10 @@
 	    
 	$(".btnrating").on('click',(function(e) {
 	
-	var previous_value = $("#selected_rating").val();
+	var previous_value = $("#rating").val();
 	
 	var selected_value = $(this).attr("data-attr");
-	$("#selected_rating").val(selected_value);
+	$("#rating").val(selected_value);
 	
 	$(".selected-rating").empty();
 	$(".selected-rating").html(selected_value);
@@ -97,7 +97,7 @@
 	    <label class="control-label" for="rating">
 			<span class="field-label-header">How would you rate your service today?</span><br>
 			<span class="field-label-info"></span>
-			<input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
+			<input type="hidden" id="rating" name="rating" value="" required="required">
 	    </label>
 	    <button type="button" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
 	        <i class="fa fa-star" aria-hidden="true"></i>
