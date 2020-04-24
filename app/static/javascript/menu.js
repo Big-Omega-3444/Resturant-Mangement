@@ -169,27 +169,27 @@ function populateFoodCards(menuItem, selector)
 													<h4 class="card-title">${menuItem.name} | <strong style="color:darkgreen; font-style:oblique"> $${menuItem.cost.toFixed(2)}</strong></h4>
 													<p class="card-text">${menuItem.description}</p>
 													<div class="form-row">
-													<div class="form-group col px-md-6">
-														<select id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"qty"}' name="qty" class="form-control">
-															<option value="1" selected="selected">1</option>
-															<option value="2">2</option>
-															<option value="3">3</option>
-															<option value="4">4</option>
-															<option value="5">5</option>
-															<option value="6">6</option>
-															<option value="7">7</option>
-															<option value="8">8</option>
-															<option value="9">9</option>
-															<option value="10">10</option>
-														</select>
+														<div class="form-group col px-md-6">
+															<select id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"qty"}' name="qty" class="form-control">
+																<option value="1" selected="selected">1</option>
+																<option value="2">2</option>
+																<option value="3">3</option>
+																<option value="4">4</option>
+																<option value="5">5</option>
+																<option value="6">6</option>
+																<option value="7">7</option>
+																<option value="8">8</option>
+																<option value="9">9</option>
+																<option value="10">10</option>
+															</select>
+														</div>
+														<div class="form-group col-md-5">`
+															+ orderButtonTemplate +
+														`</div>
+														<div class="form-group col-md-1">`
+															+ removeButtonTemplate +
+														`</div>												
 													</div>
-													<div class="form-group col-md-5">`
-														+ orderButtonTemplate +
-													`</div>
-													<div class="form-group col-md-1">`
-														+ removeButtonTemplate +
-													`</div>												
-												</div>
 												</div>
 											</div>
 											<div class="footer">
@@ -314,13 +314,13 @@ function populateDrinkCards(menuItem, selector)
 			return; // don't print the card
 
 	// count how many of item is in order
-	var orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary">Order</button>`;
-	var removeButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}','${menuItem._id.$oid}','remove')" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>`;
+	var orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary px-md-6">Order</button>`;
+	var removeButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"rembtn"}','${menuItem._id.$oid}','remove')" class="btn btn-danger px-md-3"><i class="fas fa-trash-alt"></i></button>`;
 
 	var itemCount = countNumInOrder(menuItem._id.$oid);
 	if(itemCount > 0)
 	{
-		orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary">${itemCount + " in Cart"}</button>`;
+		orderButtonTemplate = `<button type="button" id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}' onclick="modifyOrder('${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"btn"}','${menuItem._id.$oid}','add')" class="btn btn-primary px-md-6">${itemCount + " in Cart"}</button>`;
 	}
 
 	var allergenTemplate = "";
@@ -355,7 +355,7 @@ function populateDrinkCards(menuItem, selector)
 													<p class="card-text">${menuItem.description}</p>
 												</div>
 												<div class="form-row">
-													<div class="form-group col-xs-3">
+													<div class="form-group col px-md-6">
 														<select id='${selector.replace("#","")+menuItem.name.replace(/ |\!|\?/g,"_")+"qty"}' name="qty" class="form-control">
 															<option value="1" selected="selected">1</option>
 															<option value="2">2</option>
@@ -369,13 +369,15 @@ function populateDrinkCards(menuItem, selector)
 															<option value="10">10</option>
 														</select>
 													</div>
-													<div class="form-group col-xs-3">`
+													<div class="form-group col-md-4">`
 														+ orderButtonTemplate +
 													`</div>
-													<div class="form-group col-xs-3">`
+													<div class="form-group col-xs-1">`
 														+ removeButtonTemplate +
-													`</div>
-													<div class="form-group col-xs-3">
+													`</div>												
+												</div>
+												<div class="form-row">
+													<div class="form-group mx-auto">
 														<button type="button" id='${menuItem.name+"refill"}' onclick="needRefill('${menuItem.name+"refill"}')" class="btn btn-info">Refill</button>
 													</div>													
 												</div>
