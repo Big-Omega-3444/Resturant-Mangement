@@ -6,9 +6,10 @@ import json
 import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.IngredientModel import IngredientModel
+from models.MyReferenceField import MyReferenceField
 
 class InventoryModel(Document):
-    ingredient = ReferenceField('IngredientModel', required=True, unique=True)
+    ingredient = MyReferenceField('IngredientModel', required=True, unique=True)
     count = IntField(required=True)
 
     def clean(self):

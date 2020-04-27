@@ -8,9 +8,10 @@ import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.EmployeeModel import EmployeeModel
 from models.MyBooleanField import MyBooleanField
+from models.MyReferenceField import MyReferenceField
 
 class TimeSheetModel(Document):
-    employee = ReferenceField('EmployeeModel')
+    employee = MyReferenceField('EmployeeModel')
     # Stores times in utc format (milliseconds since epoch)
     utc_start_time = IntField(required=True)
     utc_end_time = IntField()

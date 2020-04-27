@@ -7,9 +7,10 @@ import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.OrderModel import OrderModel
 from models.MyBooleanField import MyBooleanField
+from models.MyReferenceField import MyReferenceField
 
 class OrderObj(EmbeddedDocument):
-    order = ReferenceField('OrderModel')
+    order = MyReferenceField('OrderModel')
 
     def clean(self):
         try:

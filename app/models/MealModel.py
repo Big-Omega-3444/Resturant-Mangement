@@ -7,10 +7,11 @@ import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.MyBooleanField import MyBooleanField
 from models.MenuItemModel import MenuItemModel
+from models.MyReferenceField import MyReferenceField
 
 # Dumb solution to a weird bug
 class ItemList(EmbeddedDocument):
-    item = ReferenceField('MenuItemModel', required=True)
+    item = MyReferenceField('MenuItemModel', required=True)
 
     def clean(self):
         try:
