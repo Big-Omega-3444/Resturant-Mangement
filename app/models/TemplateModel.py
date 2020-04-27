@@ -43,8 +43,8 @@ class TemplateResource(Resource):
 
         try:
             obj = self.model.objects.get(id=id)
-            current_app.logger.info("Update: " + str(data))
-            current_app.logger.info(obj.to_json())
+            current_app.logger.debug("Update: " + str(data))
+            current_app.logger.debug(obj.to_json())
             obj.update(**data)
             obj.save()
         except ValidationError as err:

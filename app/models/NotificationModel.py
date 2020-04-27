@@ -8,10 +8,11 @@ from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.OrderModel import OrderModel
 from models.MyBooleanField import MyBooleanField
 from models.TableModel import TableModel
+from models.MyReferenceField import MyReferenceField
 
 class NotificationModel(Document):
-    order = ReferenceField('OrderModel')
-    table = ReferenceField('TableModel')
+    order = MyReferenceField('OrderModel')
+    table = MyReferenceField('TableModel')
     meal_ready = MyBooleanField(default=False)
     call_waitstaff = MyBooleanField(default=False)
     call_management = MyBooleanField(defaul=False)

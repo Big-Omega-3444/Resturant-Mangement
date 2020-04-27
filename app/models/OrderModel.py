@@ -9,11 +9,12 @@ from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.MenuItemModel import MenuItemModel
 from models.EmployeeModel import EmployeeModel
 from models.MyBooleanField import MyBooleanField
+from models.MyReferenceField import MyReferenceField
 
 
 # Dumb solution to a weird bug
 class ItemList(EmbeddedDocument):
-    item = ReferenceField('MenuItemModel', required=True)
+    item = MyReferenceField('MenuItemModel', required=True)
     count = IntField(default=1)
 
     def clean(self):
@@ -64,7 +65,7 @@ class OrderModel(Document):
     # If the meal was given away for free
     comped = MyBooleanField(default=False)
     # Who comped the meal
-    staff_comped = ReferenceField('EmployeeModel')
+    staff_comped = MyReferenceField('EmployeeModel')
     total_cost = FloatField(default=0)
     amount_paid = FloatField(default=0)
     paid_off = MyBooleanField(default=False)

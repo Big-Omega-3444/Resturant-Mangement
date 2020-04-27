@@ -6,9 +6,10 @@ import json
 import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.MenuItemModel import MenuItemModel
+from models.MyReferenceField import MyReferenceField
 
 class ItemDiscount(EmbeddedDocument):
-    item = ReferenceField('MenuItemModel', required=True)
+    item = MyReferenceField('MenuItemModel', required=True)
     percent_discount = FloatField(min_value=0, max_value=100)
     constant_discount = FloatField(min_value=0)
 

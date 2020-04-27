@@ -7,10 +7,11 @@ import logging
 from models.TemplateModel import TemplateResource, TemplateResourceList
 from models.IngredientModel import IngredientModel
 from models.MyBooleanField import MyBooleanField
+from models.MyReferenceField import MyReferenceField
 
 class IngredientAmount(EmbeddedDocument):
 
-    ingredient = ReferenceField('IngredientModel', required=True)
+    ingredient = MyReferenceField('IngredientModel', required=True)
     count = IntField(required=True)
 
     def clean(self):

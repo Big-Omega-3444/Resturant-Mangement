@@ -6,9 +6,10 @@ import json
 import logging
 
 from models.UserModel import UserModel, UserResource, UserResourceList
+from models.MyReferenceField import MyReferenceField
 
 class CouponObj(EmbeddedDocument):
-    coupon = ReferenceField('CouponModel', required=True)
+    coupon = MyReferenceField('CouponModel', required=True)
 
 class LoyaltyMemberModel(UserModel):
     address_street = StringField(required=True)
