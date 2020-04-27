@@ -971,6 +971,14 @@ $('#WTSF_EditOrder').on('shown.bs.modal', function(event) // Create the table on
 	window.extraRow = 1;
 });
 
+
+$('#WTSF_EditOrder').on('hidden.bs.modal', function(event) // Create the table once the modal is shown (after it pops up)
+{
+	//Clear the form
+	$('#EditMenuItemForm').trigger("reset");
+	$('#WTSF_EditOrder_Table tr td').remove();	
+});
+
 $('#WTSF_PayBill_btn_PayBill').click( function()
 {
 	 //Pay the Bill
