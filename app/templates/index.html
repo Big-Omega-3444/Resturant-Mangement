@@ -254,7 +254,7 @@
 						<div class="modal-dialog modal-xl" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title">Hexagon: The Game</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h5 class="modal-title">Hexagon: The Game</h5><button type="button" onclick=javascript:unityInstanceHEX.Quit(); class="close" data-dismiss="modal">&times;</button>
 								</div>
 							<div class="modal-body">
 								<div class="container-fluid" style="width: 960px; height: 700px">
@@ -281,7 +281,7 @@
 						<div class="modal-dialog modal-xl" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title">Stupid Stacker</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h5 class="modal-title">Stupid Stacker</h5><button type="button" onclick=javascript:unityInstanceSTACK.Quit(); class="close" data-dismiss="modal">&times;</button>
 								</div>
 							<div class="modal-body">
 								<div class="container-fluid" style="width: 960px; height: 700px">
@@ -296,19 +296,19 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" onclick=javascript:unityInstanceHEX.Quit(); data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-secondary" onclick=javascript:unityInstanceSTACK.Quit(); data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- End Stack Modal -->
 
-				<!-- Stack Modal -->
+				<!-- Tetris Modal -->
 				 <div id="Tetris" class="modal fade" role="dialog">
 						<div class="modal-dialog modal-xl" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title">Tetris</h5><button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h5 class="modal-title">Tetris</h5><button type="button" onclick=javascript:unityInstanceTETRIS.Quit(); class="close" data-dismiss="modal">&times;</button>
 								</div>
 							<div class="modal-body">
 								<div class="container-fluid" style="width: 960px; height: 700px">
@@ -328,7 +328,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- End Stack Modal -->
+				<!-- End Tetris Modal -->
 
 				<div id="Guess" class="modal fade" role="dialog" style="z-index: 99999999;">
 						<div class="modal-dialog modal-xl" role="document">

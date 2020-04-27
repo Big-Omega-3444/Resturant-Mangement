@@ -1,3 +1,5 @@
+![Docker Image CI](https://github.com/Big-Omega-3444/Resturant-Mangement/workflows/Docker%20Image%20CI/badge.svg?branch=master)
+
 # Resturant-Mangement
 CSCE 3444 Big Omega
 
