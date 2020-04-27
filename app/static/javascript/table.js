@@ -269,6 +269,13 @@ function submitReservationForm()
 		}
 	};
 
-    var formData = new FormData(document.getElementById("reservationForm"));
+	var formData = new FormData(document.getElementById("reservationForm"));
+	// tms = new Date(formData.get("reservation_utc"))
+	tms = Date.UTC(Date.now())
+
+	// arr = tms.split(':')
+	// tmn = new Date(Date.now())
+	// tma = tmn.setHours(parseInt(arr[0])).setMinutes(parseInt(arr[1]))
+	formData.set("reservation_utc",1588002933000)
     post.send(formData);
 }

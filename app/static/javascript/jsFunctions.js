@@ -248,7 +248,7 @@ paypal.Buttons({
 
 	// Set up the transaction
 	createOrder: function(data, actions) {
-		var finalBill = parseFloat($("#Meal_cost").val());
+		var finalBill = JSON.stringify(parseFloat($("#Meal_cost").val()));
 		return actions.order.create({
 			purchase_units: [{
 				amount: {
